@@ -1,0 +1,207 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  HOST
+  ADMIN
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+}
+
+enum TermType {
+  LONG
+  SHORT
+  BOTH
+}
+
+model Banner {
+  id          String   @id @default(uuid())
+  iamgeUrl    String
+  title       String
+  description String
+  fromDate    DateTime
+  toDate      DateTime
+  isAvailable Boolean
+  isActive    Boolean
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id          String  @id @default(uuid())
+  username    String  @unique
+  email       String  @unique
+  phoneNumber String  @default("")
+  password    String
+  avatarUrl   String  @default("https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=")
+  address     String  @default("")
+  role        Role    @default(USER)
+  isPremium   Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Listing   Listing[]
+  Message   Message[]
+
+  conversationsInitiated Conversation[] @relation("userOne")
+  conversationsReceived  Conversation[] @relation("userTwo")
+  Review                 Review[]
+  Favorite               Favorite[]
+  reporterInitiated      Report[]       @relation("reporterUser")
+  reportedReceived       Report[]       @relation("reportedUser")
+  Banner                 Banner[]
+}
+
+model Location {
+  id        String    @id @default(uuid())
+  name      String
+  country   String
+  city      String
+  latitude  Decimal
+  longitude Decimal
+  Listing   Listing[]
+}
+
+model Amenitie {
+  id          String   @id @default(uuid())
+  name        String
+  description String   @default("")
+  iconUrl     String
+  Listing     Listing? @relation(fields: [listingId], references: [id])
+  listingId   String?
+}
+
+model Tag {
+  id           String       @id @default(uuid())
+  name         String
+  descriptiopn String
+  ListingTag   ListingTag[]
+}
+
+model ListingTag {
+  id        String  @id @default(uuid())
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tagId     String
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+}
+
+model Image {
+  id        String  @id @default(uuid())
+  url       String
+  caption   String  @default("")
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
+
+model Listing {
+  id          String     @id @default(uuid())
+  title       String
+  description String
+  address     String
+  latitude    Decimal
+  longitude   Decimal
+  price       Decimal
+  area        Decimal
+  amenities   Amenitie[]
+  term        TermType   @default(BOTH)
+
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  ListingTag ListingTag[]
+  Image      Image[]
+  Review     Review[]
+  Favorite   Favorite[]
+
+  @@index([userId])
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  userOneId String
+  userOne   User   @relation("userOne", fields: [userOneId], references: [id], onDelete: Cascade)
+
+  userTwoId String
+  userTwo   User   @relation("userTwo", fields: [userTwoId], references: [id], onDelete: Cascade)
+
+  messages Message[]
+
+  @@index([userTwoId])
+}
+
+model Message {
+  id      String @id @default(uuid())
+  content String @db.Text
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  deleted        Boolean      @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([conversationId])
+}
+
+model Review {
+  id      String @id @default(uuid())
+  rating  Int
+  content String @default("")
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, listingId])
+}
+
+model Favorite {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  listingId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+}
+
+model Report {
+  id           String @id @default(uuid())
+  reporterId   String
+  reporterUser User   @relation("reporterUser", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  reportedId   String
+  reportedUser User   @relation("reportedUser", fields: [reportedId], references: [id], onDelete: Cascade)
+
+  @@index([reporterId, reportedId])
+}
