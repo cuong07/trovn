@@ -32,8 +32,21 @@ const User = {
     async getUserById(userId) {
       return await db.user.findUnique({
         where: { id: userId },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          phoneNumber: true,
+          address: true,
+          avatarUrl: true,
+          role: true,
+          isPremium: true,
+          createdAt: true,
+          updatedAt: true,
+        },
       });
     },
+
     async createUser(userData) {
       return await db.user.create({
         data: userData,
