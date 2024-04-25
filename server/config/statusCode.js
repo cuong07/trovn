@@ -1,4 +1,4 @@
-const StatusCode = {
+const statusCode = {
   // SUCCESS
   OK: 200,
   CREATED: 201,
@@ -15,4 +15,4 @@ const StatusCode = {
   INTERNAL_SERVER_ERROR: 500,
   BAD_GATEWAY: 502,
 };
-export { StatusCode };
+export { statusCode };

@@ -1,4 +1,4 @@
-import { StatusCode } from "../config/StatusCode.js";
+import { statusCode } from "../config/statusCode.js";
 import UserService from "../services/user.service.js";
 
 const UserController = {
@@ -8,13 +8,13 @@ const UserController = {
       const user = await UserService.getUserById(userId);
       if (!user) {
         return res
-          .status(StatusCode.NOT_FOUND)
+          .status(statusCode.NOT_FOUND)
           .json({ error: "User not found" });
       }
-      return res.status(StatusCode.OK).json(user);
+      return res.status(statusCode.OK).json(user);
     } catch (error) {
       return res
-        .status(StatusCode.INTERNAL_SERVER_ERROR)
+        .status(statusCode.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
   },
@@ -25,13 +25,13 @@ const UserController = {
       const user = await UserService.getUserById(userId);
       if (!user) {
         return res
-          .status(StatusCode.NOT_FOUND)
+          .status(statusCode.NOT_FOUND)
           .json({ error: "User not found" });
       }
-      return res.status(StatusCode.OK).json(user);
+      return res.status(statusCode.OK).json(user);
     } catch (error) {
       return res
-        .status(StatusCode.INTERNAL_SERVER_ERROR)
+        .status(statusCode.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
   },
@@ -40,10 +40,10 @@ const UserController = {
     const userData = req.body;
     try {
       const newUser = await UserService.createUser(userData);
-      return res.status(StatusCode.CREATED).json(newUser);
+      return res.status(statusCode.CREATED).json(newUser);
     } catch (error) {
       console.log(error);
-      return res.status(StatusCode.INTERNAL_SERVER_ERROR).json({
+      return res.status(statusCode.INTERNAL_SERVER_ERROR).json({
         error: error.message,
       });
     }
@@ -55,10 +55,10 @@ const UserController = {
 
     try {
       const updatedUser = await UserService.updateUser(userId, updatedData);
-      return res.status(StatusCode.OK).json(updatedUser);
+      return res.status(statusCode.OK).json(updatedUser);
     } catch (error) {
       return res
-        .status(StatusCode.INTERNAL_SERVER_ERROR)
+        .status(statusCode.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
   },
@@ -68,10 +68,10 @@ const UserController = {
 
     try {
       await UserService.deleteUser(userId);
-      return res.status(StatusCode.NO_CONTENT).send();
+      return res.status(statusCode.NO_CONTENT).send();
     } catch (error) {
       return res
-        .status(StatusCode.INTERNAL_SERVER_ERROR)
+        .status(statusCode.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
     }
   },

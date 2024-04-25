@@ -1,4 +1,4 @@
-import { StatusCode } from "../config/StatusCode.js";
+import { statusCode } from "../config/statusCode.js";
 import jwt from "jsonwebtoken";
 
 export const verifyToken = async (req, res, next) => {
@@ -10,11 +10,11 @@ export const verifyToken = async (req, res, next) => {
         if (err) {
           if (err.name === "TokenExpiredError") {
             return res
-              .status(StatusCode.UNAUTHORIZED)
+              .status(statusCode.UNAUTHORIZED)
               .json({ message: "Token has expired" });
           }
           return res
-            .status(StatusCode.UNAUTHORIZED)
+            .status(statusCode.UNAUTHORIZED)
             .json({ message: "Invalid token" });
         }
         req.user = user;
@@ -22,12 +22,12 @@ export const verifyToken = async (req, res, next) => {
       });
     } else {
       return res
-        .status(StatusCode.BAD_REQUEST)
+        .status(statusCode.BAD_REQUEST)
         .json({ message: "No token provided" });
     }
   } catch (error) {
     return res
-      .status(StatusCode.BAD_REQUEST)
+      .status(statusCode.BAD_REQUEST)
       .json({ message: "No token provided" });
   }
 };
