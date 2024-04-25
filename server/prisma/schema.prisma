@@ -56,16 +56,16 @@ model User {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Listing   Listing[]
-  Message   Message[]
+  listings  Listing[]
+  messages  Message[]
 
   conversationsInitiated Conversation[] @relation("userOne")
   conversationsReceived  Conversation[] @relation("userTwo")
-  Review                 Review[]
-  Favorite               Favorite[]
+  reviews                Review[]
+  favorites              Favorite[]
   reporterInitiated      Report[]       @relation("reporterUser")
   reportedReceived       Report[]       @relation("reportedUser")
-  Banner                 Banner[]
+  banners                Banner[]
 }
 
 model Location {
@@ -75,7 +75,7 @@ model Location {
   city      String
   latitude  Decimal
   longitude Decimal
-  Listing   Listing[]
+  listings  Listing[]
 }
 
 model Amenitie {
@@ -83,7 +83,7 @@ model Amenitie {
   name        String
   description String   @default("")
   iconUrl     String
-  Listing     Listing? @relation(fields: [listingId], references: [id])
+  listings    Listing? @relation(fields: [listingId], references: [id])
   listingId   String?
 }
 
@@ -91,13 +91,13 @@ model Tag {
   id           String       @id @default(uuid())
   name         String
   descriptiopn String
-  ListingTag   ListingTag[]
+  listingTags  ListingTag[]
 }
 
 model ListingTag {
   id        String  @id @default(uuid())
   listingId String
-  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listings  Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
   tagId     String
   tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
 }
@@ -127,12 +127,12 @@ model Listing {
   locationId String
   location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  ListingTag ListingTag[]
-  Image      Image[]
-  Review     Review[]
-  Favorite   Favorite[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  listingTags ListingTag[]
+  images      Image[]
+  reviews     Review[]
+  favorites   Favorite[]
 
   @@index([userId])
 }
