@@ -18,6 +18,7 @@ const AmenitieService = {
       const { path } = file;
       const newPath = await uploader(path);
       fs.unlinkSync(path);
+      console.log(newPath);
       const newAmenitie = {
         name,
         description,
@@ -39,7 +40,7 @@ const AmenitieService = {
         const newAmenitie = {
           name,
           description,
-          imageUrl: newPath,
+          iconUrl: newPath.id,
         };
         return await AmenitieModel.methods.updateAmenitie(
           amenitieId,
