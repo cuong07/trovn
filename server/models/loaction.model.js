@@ -2,12 +2,6 @@ import db from "../lib/db.js";
 
 const LocationModel = {
   methods: {
-    async insertLocation(locationData) {
-      return await db.location.create({
-        data: locationData,
-      });
-    },
-
     async getLocations() {
       return await db.location.findMany();
     },
@@ -20,7 +14,22 @@ const LocationModel = {
       });
     },
 
-    async deleteLocationById(locationId) {
+    async updateLocation(locationId, locationData) {
+      return await db.location.update({
+        where: {
+          id: locationId,
+        },
+        data: locationData,
+      });
+    },
+
+    async insertLocation(locationData) {
+      return await db.location.create({
+        data: locationData,
+      });
+    },
+
+    async deleteLocation(locationId) {
       return await db.image.delete({
         where: {
           id: locationId,

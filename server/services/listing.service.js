@@ -17,21 +17,55 @@ const ListingService = {
       if (!listing) {
         throw new Error("Có lỗi khi thêm listing");
       }
-      for (const file of files) {
-        const { path } = file;
-        const newPath = await uploader(path);
-        imageUrls.push({
-          url: newPath.url,
-          caption: listing.name,
-          listingId: listing.id,
-        });
-        fs.unlinkSync(path);
-      }
-      const images = await ImageService.createManyImage(imageUrls);
+      const images = await ImageService.createManyImage(files);
       return {
         ...listing,
         images,
       };
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
+    }
+  },
+
+  async getListingById(listingId) {
+    try {
+      return await ListingModel.methods.getListingById(listingId);
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
+    }
+  },
+
+  async updateListing(listingId, listingData) {
+    try {
+      let imageUrls = [];
+      const existingUser = UserService.getUserById(listingData.userId);
+      if (!existingUser) {
+        throw Error("Không tim thấy người dùng có id = ", listingData.userId);
+      }
+      const listingUpdate = await ListingModel.methods.updateListing(
+        listingId,
+        listingData
+      );
+      if (!listingUpdate) {
+        throw new Error("Có lỗi khi sửa listing");
+      }
+      return listingUpdate;
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
+    }
+  },
+
+  async getListingByUserId(userId) {
+    try {
+      return await ListingModel.methods.getLsitingByUserId(userId);
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
+    }
+  },
+
+  async deleteListing(listingId) {
+    try {
+      return await ListingModel.methods.deleteListing(listingId);
     } catch (error) {
       throw new Error(`Error: ${error.message}`);
     }
