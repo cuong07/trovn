@@ -42,15 +42,33 @@ const ListingModel = {
     },
 
     async getListingById(listingId) {
-      return await prisma.listing.findUnique({
+      return await db.listing.findUnique({
         where: {
           id: listingId,
+        },
+        include: {
+          images: true,
+          location: true,
+          reviews: true,
+        },
+      });
+    },
+
+    async getLsitingByUserId(userId) {
+      return await db.listing.findMany({
+        where: {
+          userId: userId,
+        },
+        include: {
+          images: true,
+          location: true,
+          reviews: true,
         },
       });
     },
 
     async updateListing(listingId, listingUpdate) {
-      return await prisma.listing.update({
+      return await db.listing.update({
         where: {
           id: listingId,
         },
@@ -59,7 +77,7 @@ const ListingModel = {
     },
 
     async deleteListing(listingId) {
-      return await prisma.listing.delete({
+      return await db.listing.delete({
         where: {
           id: listingId,
         },
