@@ -5,28 +5,23 @@ import LocaionService from "../services/location.service.js";
 const LocaionController = {
   async getAllLocation(req, res) {
     try {
-      const amenities = await LocaionService.getAllLocation();
+      const locations = await LocaionService.getAllLocation();
       return res
         .status(statusCode.OK)
-        .json(BaseResponse.success("Thành công", amenities));
+        .json(BaseResponse.success("Thành công", locations));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
         .json(BaseResponse.error(error.message, error));
     }
   },
-  async createAmenitie(req, res) {
-    const file = req.file;
-    const amenitieData = req.body;
+  async createLocation(req, res) {
+    const locationData = req.body;
     try {
-      const newData = {
-        ...amenitieData,
-        file,
-      };
-      const amenitie = await LocaionService.createAmenitie(newData);
+      const location = await LocaionService.createLoaction(locationData);
       return res
         .status(statusCode.CREATED)
-        .json(BaseResponse.success("Thành công", amenitie));
+        .json(BaseResponse.success("Thành công", location));
     } catch (error) {
       return res
         .status(statusCode.BAD_REQUEST)

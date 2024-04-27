@@ -1,4 +1,9 @@
-import { UserRoutes, AmenitieRoutes, ListingRoutes } from "./routes/index.js";
+import {
+  UserRoutes,
+  AmenitieRoutes,
+  ListingRoutes,
+  LoactionRoutes,
+} from "./routes/index.js";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -12,6 +17,7 @@ app.use(cors({ origin: "*", credentials: true }));
 app.use("/api/v1", UserRoutes);
 app.use("/api/v1", AmenitieRoutes);
 app.use("/api/v1", ListingRoutes);
+app.use("/api/v1", LoactionRoutes);
 
 app.get((req, res) => {
   res.status(404).send("Sorry, resource not found");
