@@ -1,4 +1,5 @@
 import { statusCode } from "../config/statusCode.js";
+import { BaseResponse } from "../responses/BaseResponse.js";
 import UserService from "../services/user.service.js";
 
 const UserController = {
@@ -11,11 +12,33 @@ const UserController = {
           .status(statusCode.NOT_FOUND)
           .json({ error: "User not found" });
       }
-      return res.status(statusCode.OK).json(user);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", user));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
         .json({ message: "Internal server error" });
+    }
+  },
+
+  async login(req, res) {
+    const { email, password } = req.body;
+    try {
+      const { token, refreshToken } = await UserService.login(email, password);
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        scure: true,
+        path: "/",
+        sameSite: "strict",
+      });
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", token));
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
     }
   },
 
@@ -28,11 +51,13 @@ const UserController = {
           .status(statusCode.NOT_FOUND)
           .json({ error: "User not found" });
       }
-      return res.status(statusCode.OK).json(user);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", user));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+        .json(BaseResponse.error(error.message, error));
     }
   },
 
@@ -43,9 +68,9 @@ const UserController = {
       return res.status(statusCode.CREATED).json(newUser);
     } catch (error) {
       console.log(error);
-      return res.status(statusCode.INTERNAL_SERVER_ERROR).json({
-        error: error.message,
-      });
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
     }
   },
 
@@ -55,11 +80,13 @@ const UserController = {
 
     try {
       const updatedUser = await UserService.updateUser(userId, updatedData);
-      return res.status(statusCode.OK).json(updatedUser);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", updatedUser));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+        .json(BaseResponse.error(error.message, error));
     }
   },
 
@@ -72,7 +99,7 @@ const UserController = {
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
-        .json({ message: "Internal server error" });
+        .json(BaseResponse.error(error.message, error));
     }
   },
 };
