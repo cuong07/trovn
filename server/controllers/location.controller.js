@@ -5,7 +5,7 @@ import LocaionService from "../services/location.service.js";
 const LocaionController = {
   async getAllLocation(req, res) {
     try {
-      const amenities = await LocaionService.get();
+      const amenities = await LocaionService.getAllLocation();
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", amenities));
