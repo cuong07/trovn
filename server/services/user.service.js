@@ -1,13 +1,31 @@
 import UserModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import { generateToken } from "../utils/tokenUtils.js";
+import { generateRefreshToken, generateToken } from "../utils/tokenUtils.js";
 
 const UserService = {
   async getUserById(userId) {
     try {
       return await UserModel.methods.getUserById(userId);
     } catch (error) {
-      throw new Error(`Error while getting user by ID: ${error.message}`);
+      throw new Error(`Error: ${error.message}`);
+    }
+  },
+
+  async login(email, password) {
+    try {
+      const existingUser = await UserModel.methods.getUserByEmail(email);
+      if (!existingUser) {
+        throw Error("Không tìm thấy người dùng có email: ", email);
+      }
+      const isMatch = await bcrypt.compare(password, existingUser.password);
+      if (!isMatch) {
+        throw Error("Mật khẩu không chính xác");
+      }
+      const token = generateToken(existingUser);
+      const refreshToken = generateRefreshToken(existingUser);
+      return { token, refreshToken };
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
     }
   },
 
@@ -20,9 +38,9 @@ const UserService = {
       };
       const user = await UserModel.methods.createUser(newUser);
       const token = generateToken(user);
-      return { message: "Thành Công", token };
+      return token;
     } catch (error) {
-      throw new Error(`Error while creating user: ${error.message}`);
+      throw new Error(`Error: ${error.message}`);
     }
   },
 
@@ -30,7 +48,7 @@ const UserService = {
     try {
       return await UserModel.methods.updateUser(userId, updatedData);
     } catch (error) {
-      throw new Error(`Error while updating user: ${error.message}`);
+      throw new Error(`Error: ${error.message}`);
     }
   },
 
@@ -38,7 +56,7 @@ const UserService = {
     try {
       return await UserModel.methods.deleteUser(userId);
     } catch (error) {
-      throw new Error(`Error while deleting user: ${error.message}`);
+      throw new Error(`Error: ${error.message}`);
     }
   },
 };
