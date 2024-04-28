@@ -8,7 +8,8 @@ const AmenitieService = {
     try {
       return await AmenitieModel.methods.findAlllAmenitie();
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      console.log(error);
+      throw error;
     }
   },
 
@@ -24,9 +25,11 @@ const AmenitieService = {
         description,
         iconUrl: newPath.id,
       };
+      new QRc();
       return await AmenitieModel.methods.createAmenitie(newAmenitie);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      console.log(error);
+      throw error;
     }
   },
 
@@ -53,7 +56,8 @@ const AmenitieService = {
         });
       }
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      console.log(error);
+      throw error;
     }
   },
 
@@ -61,7 +65,8 @@ const AmenitieService = {
     try {
       return await AmenitieModel.methods.deleteAmenitie(amenitieId);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      console.log(error);
+      throw error;
     }
   },
 };
