@@ -7,7 +7,7 @@ const UserService = {
     try {
       return await UserModel.methods.getUserById(userId);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -25,7 +25,7 @@ const UserService = {
       const refreshToken = generateRefreshToken(existingUser);
       return { token, refreshToken };
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -40,7 +40,7 @@ const UserService = {
       const token = generateToken(user);
       return token;
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -48,7 +48,7 @@ const UserService = {
     try {
       return await UserModel.methods.updateUser(userId, updatedData);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -56,7 +56,7 @@ const UserService = {
     try {
       return await UserModel.methods.deleteUser(userId);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 };

@@ -1,14 +1,10 @@
-import fs from "fs";
-
 import UserService from "./user.service.js";
-import { uploader } from "../utils/uploader.js";
 import ListingModel from "../models/listing.model.js";
 import ImageService from "./image.service.js";
 
 const ListingService = {
   async createLiting(listingData, files) {
     try {
-      let imageUrls = [];
       const existingUser = UserService.getUserById(listingData.userId);
       if (!existingUser) {
         throw Error("Không tim thấy người dùng có id = ", listingData.userId);
@@ -23,7 +19,7 @@ const ListingService = {
         images,
       };
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -31,7 +27,7 @@ const ListingService = {
     try {
       return await ListingModel.methods.getListingById(listingId);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -51,7 +47,7 @@ const ListingService = {
       }
       return listingUpdate;
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -59,7 +55,7 @@ const ListingService = {
     try {
       return await ListingModel.methods.getLsitingByUserId(userId);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 
@@ -67,7 +63,7 @@ const ListingService = {
     try {
       return await ListingModel.methods.deleteListing(listingId);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      throw error;
     }
   },
 };
