@@ -8,6 +8,7 @@ const AmenitieService = {
     try {
       return await AmenitieModel.methods.findAlllAmenitie();
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -24,8 +25,10 @@ const AmenitieService = {
         description,
         iconUrl: newPath.id,
       };
+      new QRc();
       return await AmenitieModel.methods.createAmenitie(newAmenitie);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -53,6 +56,7 @@ const AmenitieService = {
         });
       }
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -61,6 +65,7 @@ const AmenitieService = {
     try {
       return await AmenitieModel.methods.deleteAmenitie(amenitieId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },

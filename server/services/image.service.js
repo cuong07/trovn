@@ -3,36 +3,20 @@ import fs from "fs";
 import ImageModel from "../models/image.model.js";
 import { uploader } from "../utils/uploader.js";
 const ImageService = {
-  async createManyImage(files) {
+  async createManyImage(urls) {
     try {
-      let imageUrls = [];
-      for (const file of files) {
-        const { path } = file;
-        const newPath = await uploader(path);
-        imageUrls.push({
-          url: newPath.url,
-          caption: listing.title,
-          listingId: listing.id,
-        });
-        fs.unlinkSync(path);
-      }
-      return await ImageModel.methods.insertManyImage(imageUrls);
+      console.log();
+      return await ImageModel.methods.insertManyImage(urls);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
-  async createImage(file) {
+  async createImage(url) {
     try {
-      const { path } = file;
-      const newPath = await uploader(path);
-      const url = {
-        url: newPath.url,
-        caption: listing.title,
-        listingId: listing.id,
-      };
-      fs.unlinkSync(path);
       return await ImageModel.methods.insertImage(url);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -40,6 +24,7 @@ const ImageService = {
     try {
       return await ImageModel.methods.deleteImageById(imageId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -47,6 +32,7 @@ const ImageService = {
     try {
       return await ImageModel.methods.deleteImageListingId(listingId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },

@@ -3,19 +3,19 @@ import { BaseResponse } from "../responses/BaseResponse.js";
 import ImageService from "../services/image.service.js";
 
 const ImageController = {
-  async createImage(req, res) {
-    const { file } = req;
-    try {
-      const image = await ImageService.createImage(file);
-      return res
-        .status(statusCode.CREATED)
-        .json(BaseResponse.success("Thành công", image));
-    } catch (error) {
-      return res
-        .status(statusCode.INTERNAL_SERVER_ERROR)
-        .json(BaseResponse.error(error.message, error));
-    }
-  },
+  // async createImage(req, res) {
+  //   const { file } = req;
+  //   try {
+  //     const image = await ImageService.createImage(file);
+  //     return res
+  //       .status(statusCode.CREATED)
+  //       .json(BaseResponse.success("Thành công", image));
+  //   } catch (error) {
+  //     return res
+  //       .status(statusCode.INTERNAL_SERVER_ERROR)
+  //       .json(BaseResponse.error(error.message, error));
+  //   }
+  // },
 
   async deleteImage() {
     const { id } = req.params;

@@ -5,6 +5,7 @@ const LoactionService = {
     try {
       return await LoactionModel.methods.insertLocation(locationData);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -12,6 +13,7 @@ const LoactionService = {
     try {
       return await LoactionModel.methods.getLocations();
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -19,6 +21,7 @@ const LoactionService = {
     try {
       return await LoactionModel.methods.getLocationById(locationId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -30,6 +33,7 @@ const LoactionService = {
         locationData
       );
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -38,6 +42,7 @@ const LoactionService = {
     try {
       return await LoactionModel.methods.deleteLocation(locationId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },

@@ -1,6 +1,9 @@
+import fs from "fs";
+
 import UserService from "./user.service.js";
 import ListingModel from "../models/listing.model.js";
 import ImageService from "./image.service.js";
+import { uploader } from "../utils/uploader.js";
 
 const ListingService = {
   async createLiting(listingData, files) {
@@ -13,12 +16,24 @@ const ListingService = {
       if (!listing) {
         throw new Error("Có lỗi khi thêm listing");
       }
-      const images = await ImageService.createManyImage(files);
+      let imageUrls = [];
+      for (const file of files) {
+        const { path } = file;
+        const newPath = await uploader(path);
+        imageUrls.push({
+          url: newPath.url,
+          caption: listing.title,
+          listingId: listing.id,
+        });
+        fs.unlinkSync(path);
+      }
+      const images = await ImageService.createManyImage(imageUrls);
       return {
         ...listing,
         images,
       };
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -27,6 +42,7 @@ const ListingService = {
     try {
       return await ListingModel.methods.getListingById(listingId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -47,6 +63,7 @@ const ListingService = {
       }
       return listingUpdate;
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -55,6 +72,7 @@ const ListingService = {
     try {
       return await ListingModel.methods.getLsitingByUserId(userId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
@@ -63,6 +81,7 @@ const ListingService = {
     try {
       return await ListingModel.methods.deleteListing(listingId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   },
