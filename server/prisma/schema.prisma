@@ -121,6 +121,7 @@ model Listing {
   area        Decimal
   amenities   Amenitie[]
   term        TermType   @default(BOTH)
+  isPublish   Boolean    @default(false)
 
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -197,6 +198,7 @@ model Favorite {
 
 model Report {
   id           String @id @default(uuid())
+  content      String
   reporterId   String
   reporterUser User   @relation("reporterUser", fields: [reporterId], references: [id], onDelete: Cascade)
 

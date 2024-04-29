@@ -9,6 +9,12 @@ const ImageModel = {
       });
     },
 
+    async insertImage(image) {
+      return await db.image.create({
+        data: image,
+      });
+    },
+
     async getImageById(imageId) {
       return await db.image.findUnique({
         where: {

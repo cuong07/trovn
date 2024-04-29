@@ -1,15 +1,39 @@
 import fs from "fs";
 
-import UserService from "./user.service.js";
-import { uploader } from "../utils/uploader.js";
 import ImageModel from "../models/image.model.js";
-
+import { uploader } from "../utils/uploader.js";
 const ImageService = {
-  async createManyImage(listUrl) {
+  async createManyImage(urls) {
     try {
-      return await ImageModel.methods.insertManyImage(listUrl);
+      console.log();
+      return await ImageModel.methods.insertManyImage(urls);
     } catch (error) {
-      throw new Error(`Error: ${error.message}`);
+      console.log(error);
+      throw error;
+    }
+  },
+  async createImage(url) {
+    try {
+      return await ImageModel.methods.insertImage(url);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  async deleteImage(imageId) {
+    try {
+      return await ImageModel.methods.deleteImageById(imageId);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+  async deleteImageByListingId(listingId) {
+    try {
+      return await ImageModel.methods.deleteImageListingId(listingId);
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
   },
 };
