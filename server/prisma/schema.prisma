@@ -53,6 +53,8 @@ model User {
   address     String  @default("")
   role        Role    @default(USER)
   isPremium   Boolean @default(false)
+  latitude    String? @default("")
+  longitude   String? @default("")
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -73,8 +75,8 @@ model Location {
   name      String
   country   String
   city      String
-  latitude  Decimal
-  longitude Decimal
+  latitude  String
+  longitude String
   listings  Listing[]
 }
 
@@ -115,8 +117,8 @@ model Listing {
   title       String
   description String
   address     String
-  latitude    Decimal
-  longitude   Decimal
+  latitude    String
+  longitude   String
   price       Decimal
   area        Decimal
   amenities   Amenitie[]
