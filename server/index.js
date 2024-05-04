@@ -9,6 +9,8 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
+import 'dotenv/config';
+
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
