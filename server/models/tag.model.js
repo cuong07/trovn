@@ -26,6 +26,16 @@ const Tag ={
                 }
             });
         },
+        async getTagById(tagId){
+            return await db.tag.findFirst({
+                where: {id: tagId},
+                select: {
+                    id: true,
+                    name: true,
+                    description: true
+                }
+            });
+        },
         async getTags(){
             return await db.tag.findMany({
                 select: {

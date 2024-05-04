@@ -20,6 +20,18 @@ const TagService = {
             console.log(error);
             throw error;
         }
+    },
+    async deleteTag(tagId){
+        try {
+            const existingTag = await TagModel.methods.getTagById(tagId);
+            if(existingTag){
+                await TagModel.methods.deleteTag(tagId);
+            }else
+                throw `Tag with id: ${tagId} does not exist`;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
     }
 }
 

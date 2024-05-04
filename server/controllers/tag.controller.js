@@ -24,10 +24,21 @@ const TagController ={
         const tagData = req.body;
         try{
             const newTag = await TagService.createTag(tagData);
-            console.log(newTag);
             return res.status(statusCode.CREATED).json(newTag);
         }catch(error){
             console.log(error);
+            return res
+                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+    async deleteTag(req, res){
+        const tagId = req.params.id;
+        console.log(tagId);
+        try {
+            await TagService.deleteTag(tagId);
+            return res.status(statusCode.NO_CONTENT).send();
+        } catch (error) {
             return res
                 .status(statusCode.INTERNAL_SERVER_ERROR)
                 .json(BaseResponse.error(error.message, error));
