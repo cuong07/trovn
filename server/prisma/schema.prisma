@@ -92,7 +92,7 @@ model Amenitie {
 model Tag {
   id           String       @id @default(uuid())
   name         String
-  descriptiopn String
+  description String
   listingTags  ListingTag[]
 }
 
