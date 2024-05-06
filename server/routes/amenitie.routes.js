@@ -1,6 +1,6 @@
 import express from "express";
 
-import { verifyTokenWidthAdmin } from "../middlewares/auth.js";
+import { verifyTokenWidthAdmin } from "../middlewares/auth.middleware.js";
 import AmenitieController from "../controllers/amenitie.controller.js";
 import { upload } from "../config/multer.js";
 

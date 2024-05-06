@@ -37,8 +37,8 @@ model Banner {
   description String
   fromDate    DateTime
   toDate      DateTime
-  isAvailable Boolean
-  isActive    Boolean
+  isAvailable Boolean  @default(true)
+  isActive    Boolean  @default(true)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

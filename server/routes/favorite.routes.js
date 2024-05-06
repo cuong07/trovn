@@ -1,16 +1,20 @@
 import express from "express";
 
-import { verifyToken } from "../middlewares/auth.js";
+import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
 import FavoriteController from "../controllers/favorite.contriller.js";
 
 const router = express.Router();
 
-router.post("/favorite", verifyToken, FavoriteController.createFavorite);
+router.post("/favorite", verifyTokenAllRole, FavoriteController.createFavorite);
 router.get(
   "/favorite/user/:id",
-  verifyToken,
+  verifyTokenAllRole,
   FavoriteController.getFavoriteByUserId
 );
-router.delete("/favorite/:id", verifyToken, FavoriteController.deleteFavorite);
+router.delete(
+  "/favorite/:id",
+  verifyTokenAllRole,
+  FavoriteController.deleteFavorite
+);
 
 export default router;

@@ -1,6 +1,6 @@
 import express from "express";
 
-import { verifyTokenWidthAdmin } from "../middlewares/auth.js";
+import { verifyTokenWidthAdmin } from "../middlewares/auth.middleware.js";
 import LocationController from "../controllers/location.controller.js";
 
 const router = express.Router();
