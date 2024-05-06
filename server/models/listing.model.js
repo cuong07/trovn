@@ -83,6 +83,31 @@ const ListingModel = {
         },
       });
     },
+    async getListings(page, limit, keyword, sort) {
+      const skip = Math.max(0, (page - 1) * limit);
+      const currentPage = +page ?? 1;
+      const take = +limit || 10;
+      console.log(take);
+      const [totalElement, contents] = await db.$transaction([
+        db.listing.count(),
+        db.listing.findMany({
+          take,
+          skip,
+          orderBy: {
+            createdAt: sort,
+          },
+          where: {
+            OR: [
+              { title: { contains: keyword } },
+              { description: { contains: keyword } },
+            ],
+            NOT: [{ isPublish: true }],
+          },
+        }),
+      ]);
+      let totalPage = Math.ceil(totalElement / take);
+      return { totalElement, currentPage, totalPage, contents };
+    },
   },
 };
 

@@ -85,5 +85,14 @@ const ListingService = {
       throw error;
     }
   },
+
+  async getListings(page, limit, keyword) {
+    try {
+      return await ListingModel.methods.getListings(page, limit, keyword);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
 };
 export default ListingService;

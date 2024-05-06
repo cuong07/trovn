@@ -67,6 +67,20 @@ const ListingController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
+
+  async getListings(req, res) {
+    const { page, limit, keyword } = req.query;
+    try {
+      const listings = await ListingService.getListings(page, limit, keyword);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", listings));
+    } catch (error) {
+      return res
+        .status(statusCode.BAD_GATEWAY)
+        .json(BaseResponse.error(error.message, error));
+    }
+  },
 };
 
 export default ListingController;

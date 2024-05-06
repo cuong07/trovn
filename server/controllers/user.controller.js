@@ -65,7 +65,9 @@ const UserController = {
     const userData = req.body;
     try {
       const newUser = await UserService.createUser(userData);
-      return res.status(statusCode.CREATED).json(newUser);
+      return res
+        .status(statusCode.CREATED)
+        .json(BaseResponse.success("Thành công", newUser));
     } catch (error) {
       console.log(error);
       return res
