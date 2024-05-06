@@ -14,6 +14,7 @@ router.post(
 );
 
 router.get("/listing/:id", ListingController.getListingById);
+router.get("/listings", ListingController.getListings);
 router.get("/listing/user/:id", ListingController.getListingByUserId);
 
 export default router;
