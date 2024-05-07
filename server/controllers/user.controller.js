@@ -10,7 +10,7 @@ const UserController = {
       if (!user) {
         return res
           .status(statusCode.NOT_FOUND)
-          .json({ error: "User not found" });
+          .json(BaseResponse.error("Không tìm thấy người dùng", null));
       }
       return res
         .status(statusCode.OK)
@@ -49,7 +49,7 @@ const UserController = {
       if (!user) {
         return res
           .status(statusCode.NOT_FOUND)
-          .json({ error: "User not found" });
+          .json(BaseResponse.error("Không tìm thấy người dùng", null));
       }
       return res
         .status(statusCode.OK)
@@ -98,6 +98,20 @@ const UserController = {
     try {
       await UserService.deleteUser(userId);
       return res.status(statusCode.NO_CONTENT).send();
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
+    }
+  },
+
+  async getUserOtp(req, res) {
+    const { user } = req;
+    try {
+      await UserService.sendEmailVerify(user);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", null));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)

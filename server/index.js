@@ -9,6 +9,7 @@ import {
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { otpGenerator } from "./utils/otp.utils.js";
 
 const app = express();
 app.use(express.json());

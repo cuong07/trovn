@@ -54,7 +54,7 @@ const ListingModel = {
       });
     },
 
-    async getLsitingByUserId(userId) {
+    async getListingByUserId(userId) {
       return await db.listing.findMany({
         where: {
           userId: userId,
@@ -84,6 +84,7 @@ const ListingModel = {
       });
     },
     async getListings(page, limit, keyword, sort) {
+      // * bỏ qua các phần tử đã lấy ở page trước
       const skip = Math.max(0, (page - 1) * limit);
       const currentPage = +page || 1;
       const take = +limit || 10;

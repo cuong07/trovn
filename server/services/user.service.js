@@ -1,6 +1,9 @@
 import UserModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { generateRefreshToken, generateToken } from "../utils/tokenUtils.js";
+import { sendMail } from "../utils/mailer.utils.js";
+import { otpGenerator } from "../utils/otp.utils.js";
+import UserOtpModel from "../models/user.otp.config.js";
 
 const UserService = {
   async getUserById(userId) {
@@ -59,6 +62,31 @@ const UserService = {
   async deleteUser(userId) {
     try {
       return await UserModel.methods.deleteUser(userId);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async verifyEmail(email) {
+    try {
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async sendEmailVerify(user) {
+    try {
+      const otp = otpGenerator(6);
+      const { email, id } = user;
+      let subject = "Xác minh mã OTP";
+      const newUserOpt = {
+        userId: id,
+        otp,
+      };
+      await UserOtpModel.methods.createUserOtp(newUserOpt);
+      sendMail(email, subject, otp);
     } catch (error) {
       console.log(error);
       throw error;

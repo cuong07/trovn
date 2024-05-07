@@ -64,9 +64,21 @@ const User = {
         data: updatedData,
       });
     },
+
     async deleteUser(userId) {
       return await db.user.delete({
         where: { id: userId },
+      });
+    },
+
+    async updateVerify(userId) {
+      return await db.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          isVerify: true,
+        },
       });
     },
   },
