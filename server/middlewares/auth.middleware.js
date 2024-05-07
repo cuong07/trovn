@@ -66,3 +66,28 @@ export const verifyTokenWithAdmin = async (req, res, next) => {
       .json(BaseResponse.error(errorMessage.UNAUTHORIZED_ACCESS, null));
   }
 };
+
+export const verifyTokenWithUserPremium = async (req, res, next) => {
+  const { authorization } = req.headers;
+  try {
+    const user = await verifyToken(authorization);
+    console.log(user);
+    if (user.isPremium) {
+      req.user = user;
+      next();
+    } else {
+      return res
+        .status(statusCode.UNAUTHORIZED)
+        .json(BaseResponse.error(errorMessage.UNAUTHORIZED_ACCESS, null));
+    }
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res
+        .status(statusCode.UNAUTHORIZED)
+        .json(BaseResponse.error(errorMessage.EXPIRED_TOKEN, null));
+    }
+    return res
+      .status(statusCode.UNAUTHORIZED)
+      .json(BaseResponse.error(errorMessage.UNAUTHORIZED_ACCESS, null));
+  }
+};

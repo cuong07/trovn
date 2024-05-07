@@ -85,9 +85,8 @@ const ListingModel = {
     },
     async getListings(page, limit, keyword, sort) {
       const skip = Math.max(0, (page - 1) * limit);
-      const currentPage = +page ?? 1;
+      const currentPage = +page || 1;
       const take = +limit || 10;
-      console.log(take);
       const [totalElement, contents] = await db.$transaction([
         db.listing.count(),
         db.listing.findMany({

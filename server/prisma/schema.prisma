@@ -32,7 +32,7 @@ enum TermType {
 
 model Banner {
   id          String   @id @default(uuid())
-  iamgeUrl    String
+  imageUrl    String
   title       String
   description String
   fromDate    DateTime

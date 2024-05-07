@@ -25,7 +25,6 @@ const AmenitieService = {
         description,
         iconUrl: newPath.id,
       };
-      new QRc();
       return await AmenitieModel.methods.createAmenitie(newAmenitie);
     } catch (error) {
       console.log(error);

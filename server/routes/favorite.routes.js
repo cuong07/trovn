@@ -1,7 +1,7 @@
 import express from "express";
 
 import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
-import FavoriteController from "../controllers/favorite.contriller.js";
+import FavoriteController from "../controllers/favorite.controller.js";
 
 const router = express.Router();
 
