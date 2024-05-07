@@ -22,7 +22,7 @@ const ListingController = {
           ...listingData,
           userId: user.id,
         };
-        const listing = await ListingService.createLiting(
+        const listing = await ListingService.createListing(
           newListingData,
           files
         );
@@ -31,11 +31,11 @@ const ListingController = {
           .json(BaseResponse.success("Thành công", listing));
       }
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error("Vui lòng thêm hình cho listing", null));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },
@@ -49,7 +49,7 @@ const ListingController = {
         .json(BaseResponse.success("Thành công", listing));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },
@@ -63,7 +63,7 @@ const ListingController = {
         .json(BaseResponse.success("Thành công", listings));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },
@@ -77,7 +77,7 @@ const ListingController = {
         .json(BaseResponse.success("Thành công", listings));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },

@@ -32,13 +32,13 @@ enum TermType {
 
 model Banner {
   id          String   @id @default(uuid())
-  iamgeUrl    String
+  imageUrl    String
   title       String
   description String
   fromDate    DateTime
   toDate      DateTime
-  isAvailable Boolean
-  isActive    Boolean
+  isAvailable Boolean  @default(true)
+  isActive    Boolean  @default(true)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -55,6 +55,7 @@ model User {
   isPremium   Boolean @default(false)
   latitude    String? @default("")
   longitude   String? @default("")
+  isVerify    Boolean @default(false)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -68,6 +69,7 @@ model User {
   reporterInitiated      Report[]       @relation("reporterUser")
   reportedReceived       Report[]       @relation("reportedUser")
   banners                Banner[]
+  userOtps               UserOtp[]
 }
 
 model Location {
@@ -208,4 +210,13 @@ model Report {
   reportedUser User   @relation("reportedUser", fields: [reportedId], references: [id], onDelete: Cascade)
 
   @@index([reporterId, reportedId])
+}
+
+model UserOtp {
+  id       String  @id @default(uuid())
+  otp      String?
+  isActive Boolean @default(true)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

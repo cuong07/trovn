@@ -1,6 +1,6 @@
 import express from "express";
 
-import { verifyToken } from "../middlewares/auth.js";
+import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
 import { upload } from "../config/multer.js";
 import ListingController from "../controllers/listing.controller.js";
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post(
   "/listing",
   upload.array("files"),
-  verifyToken,
+  verifyTokenAllRole,
   ListingController.createListing
 );
 

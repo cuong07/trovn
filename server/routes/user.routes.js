@@ -1,13 +1,15 @@
 import express from "express";
 import UserController from "../controllers/user.controller.js";
-import { verifyToken } from "../middlewares/auth.js";
-
+import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
+import { accessLogger } from "../middlewares/logger.middleware.js";
 const router = express.Router();
 
+router.get("/user/otp", verifyTokenAllRole, UserController.getUserOtp);
 router.get("/user/:id", UserController.getUser);
-router.get("/user", verifyToken, UserController.getCurrentUser);
+router.get("/user", verifyTokenAllRole, UserController.getCurrentUser);
+
 router.post("/user", UserController.createUser);
-router.post("/user/login", UserController.login);
+router.post("/user/login", accessLogger, UserController.login);
 router.put("/user/:id", UserController.updateUser);
 router.delete("/user/:id", UserController.deleteUser);
 

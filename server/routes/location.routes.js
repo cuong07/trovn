@@ -1,25 +1,25 @@
 import express from "express";
 
-import { verifyTokenWidthAdmin } from "../middlewares/auth.js";
+import { verifyTokenWithAdmin } from "../middlewares/auth.middleware.js";
 import LocationController from "../controllers/location.controller.js";
 
 const router = express.Router();
 
 router.post(
   "/location",
-  verifyTokenWidthAdmin,
+  verifyTokenWithAdmin,
   LocationController.createLocation
 );
 router.get("/locations", LocationController.getAllLocation);
 router.get("/location/:id", LocationController.getLocationById);
 router.put(
   "/location/:id",
-  verifyTokenWidthAdmin,
+  verifyTokenWithAdmin,
   LocationController.udpateLocation
 );
 router.delete(
   "/location/:id",
-  verifyTokenWidthAdmin,
+  verifyTokenWithAdmin,
   LocationController.deleteLocation
 );
 export default router;
