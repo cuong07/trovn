@@ -82,7 +82,7 @@ model Location {
   listings  Listing[]
 }
 
-model Amenitie {
+model Amenity {
   id          String   @id @default(uuid())
   name        String
   description String   @default("")
@@ -92,10 +92,10 @@ model Amenitie {
 }
 
 model Tag {
-  id           String       @id @default(uuid())
-  name         String
+  id          String       @id @default(uuid())
+  name        String
   description String
-  listingTags  ListingTag[]
+  listingTags ListingTag[]
 }
 
 model ListingTag {
@@ -115,7 +115,7 @@ model Image {
 }
 
 model Listing {
-  id          String     @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   address     String
@@ -123,9 +123,9 @@ model Listing {
   longitude   String
   price       Decimal
   area        Decimal
-  amenities   Amenitie[]
-  term        TermType   @default(BOTH)
-  isPublish   Boolean    @default(false)
+  amenities   Amenity[]
+  term        TermType  @default(BOTH)
+  isPublish   Boolean   @default(false)
 
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)

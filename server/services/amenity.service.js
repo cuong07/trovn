@@ -1,55 +1,52 @@
 import fs from "fs";
 
-import AmenitieModel from "../models/amenitie.model.js";
+import AmenityModel from "../models/amenity.model.js";
 import { uploader } from "../utils/uploader.js";
 
-const AmenitieService = {
-  async getAllAmenitie() {
+const AmenityService = {
+  async getAllAmenity() {
     try {
-      return await AmenitieModel.methods.findAlllAmenitie();
+      return await AmenityModel.methods.findAllAmenity();
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
 
-  async createAmenitie(amenitieData) {
+  async createAmenity(AmenityData) {
     try {
-      const { name, description, file } = amenitieData;
+      const { name, description, file } = AmenityData;
       const { path } = file;
       const newPath = await uploader(path);
       fs.unlinkSync(path);
       console.log(newPath);
-      const newAmenitie = {
+      const newAmenity = {
         name,
         description,
         iconUrl: newPath.id,
       };
-      return await AmenitieModel.methods.createAmenitie(newAmenitie);
+      return await AmenityModel.methods.createAmenity(newAmenity);
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
 
-  async udpateAmenitie(amenitieId, updatedData) {
+  async udpateAmenity(AmenityId, updatedData) {
     try {
       const { name, description, file } = updatedData;
       if (file) {
         const { path } = file;
         const newPath = await uploader(path);
         fs.unlinkSync(path);
-        const newAmenitie = {
+        const newAmenity = {
           name,
           description,
           iconUrl: newPath.id,
         };
-        return await AmenitieModel.methods.updateAmenitie(
-          amenitieId,
-          newAmenitie
-        );
+        return await AmenityModel.methods.updateAmenity(AmenityId, newAmenity);
       } else {
-        return await AmenitieModel.methods.updateAmenitie(amenitieId, {
+        return await AmenityModel.methods.updateAmenity(AmenityId, {
           name,
           description,
         });
@@ -60,22 +57,22 @@ const AmenitieService = {
     }
   },
 
-  async deleteAmenitie(amenitieId) {
+  async deleteAmenity(AmenityId) {
     try {
-      return await AmenitieModel.methods.deleteAmenitie(amenitieId);
+      return await AmenityModel.methods.deleteAmenity(AmenityId);
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
 };
-export default AmenitieService;
+export default AmenityService;
 
 // const updatedListing = await prisma.listing.update({
 //     where: { id: listingId },
 //     data: {
-//       amenities: {
-//         connect: amenitieIds.map(id => ({ id })),
+//       Amenitys: {
+//         connect: AmenityIds.map(id => ({ id })),
 //       },
 //     },
 //   });
