@@ -1,11 +1,6 @@
 import express from "express";
 
-import {
-  verifyTokenAllRole,
-  verifyTokenWidthAdmin,
-} from "../middlewares/auth.middleware.js";
-import AmenitieController from "../controllers/amenitie.controller.js";
-import { upload } from "../config/multer.js";
+import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
 import ImageController from "../controllers/image.controller.js";
 
 const router = express.Router();
