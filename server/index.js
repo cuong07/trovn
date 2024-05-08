@@ -1,4 +1,12 @@
-import { UserRoutes, AmenitieRoutes } from "./routes/index.js";
+import {
+  UserRoutes,
+  AmenityRoutes,
+  ListingRoutes,
+  LocationRoutes,
+  FavoriteRoutes,
+  BannerRoutes,
+  TagRoutes,
+} from "./routes/index.js";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -10,7 +18,12 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({ origin: "*", credentials: true }));
 
 app.use("/api/v1", UserRoutes);
-app.use("/api/v1", AmenitieRoutes);
+app.use("/api/v1", AmenityRoutes);
+app.use("/api/v1", ListingRoutes);
+app.use("/api/v1", LocationRoutes);
+app.use("/api/v1", FavoriteRoutes);
+app.use("/api/v1", BannerRoutes);
+app.use("/api/v1", TagRoutes);
 
 app.get((req, res) => {
   res.status(404).send("Sorry, resource not found");

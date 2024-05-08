@@ -32,13 +32,13 @@ enum TermType {
 
 model Banner {
   id          String   @id @default(uuid())
-  iamgeUrl    String
+  imageUrl    String
   title       String
   description String
   fromDate    DateTime
   toDate      DateTime
-  isAvailable Boolean
-  isActive    Boolean
+  isAvailable Boolean  @default(true)
+  isActive    Boolean  @default(true)
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -53,6 +53,9 @@ model User {
   address     String  @default("")
   role        Role    @default(USER)
   isPremium   Boolean @default(false)
+  latitude    String? @default("")
+  longitude   String? @default("")
+  isVerify    Boolean @default(false)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -66,6 +69,7 @@ model User {
   reporterInitiated      Report[]       @relation("reporterUser")
   reportedReceived       Report[]       @relation("reportedUser")
   banners                Banner[]
+  userOtps               UserOtp[]
 }
 
 model Location {
@@ -73,12 +77,12 @@ model Location {
   name      String
   country   String
   city      String
-  latitude  Decimal
-  longitude Decimal
+  latitude  String
+  longitude String
   listings  Listing[]
 }
 
-model Amenitie {
+model Amenity {
   id          String   @id @default(uuid())
   name        String
   description String   @default("")
@@ -88,10 +92,10 @@ model Amenitie {
 }
 
 model Tag {
-  id           String       @id @default(uuid())
-  name         String
-  descriptiopn String
-  listingTags  ListingTag[]
+  id          String       @id @default(uuid())
+  name        String
+  description String
+  listingTags ListingTag[]
 }
 
 model ListingTag {
@@ -111,16 +115,17 @@ model Image {
 }
 
 model Listing {
-  id          String     @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
   address     String
-  latitude    Decimal
-  longitude   Decimal
+  latitude    String
+  longitude   String
   price       Decimal
   area        Decimal
-  amenities   Amenitie[]
-  term        TermType   @default(BOTH)
+  amenities   Amenity[]
+  term        TermType  @default(BOTH)
+  isPublish   Boolean   @default(false)
 
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -197,6 +202,7 @@ model Favorite {
 
 model Report {
   id           String @id @default(uuid())
+  content      String
   reporterId   String
   reporterUser User   @relation("reporterUser", fields: [reporterId], references: [id], onDelete: Cascade)
 
@@ -204,4 +210,13 @@ model Report {
   reportedUser User   @relation("reportedUser", fields: [reportedId], references: [id], onDelete: Cascade)
 
   @@index([reporterId, reportedId])
+}
+
+model UserOtp {
+  id       String  @id @default(uuid())
+  otp      String?
+  isActive Boolean @default(true)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
