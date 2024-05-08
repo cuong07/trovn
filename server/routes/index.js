@@ -4,3 +4,4 @@ export { default as ListingRoutes } from "./listing.routes.js";
 export { default as LoactionRoutes } from "./location.routes.js";
 export { default as FavoriteRoutes } from "./favorite.routes.js";
 export { default as TagRoutes } from "./tag.routes.js";
+export { default as ListingTagRoutes } from "./listingTag.routes.js";

@@ -5,6 +5,7 @@ import {
   LoactionRoutes,
   FavoriteRoutes,
   TagRoutes,
+  ListingTagRoutes,
 } from "./routes/index.js";
 import express from "express";
 import cors from "cors";
@@ -24,6 +25,7 @@ app.use("/api/v1", ListingRoutes);
 app.use("/api/v1", LoactionRoutes);
 app.use("/api/v1", FavoriteRoutes);
 app.use("/api/v1", TagRoutes);
+app.use("/api/v1", ListingTagRoutes);
 
 app.get((req, res) => {
   res.status(404).send("Sorry, resource not found");
