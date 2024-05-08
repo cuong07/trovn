@@ -9,6 +9,16 @@ const TagService = {
             throw error;
         }
     },
+
+    async getTagByName(tagName){
+        try {
+            return await TagModel.methods.getTagByName(tagName);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+
     async createTag(tagData){
         try {
             const existingTag = await TagModel.methods.getTagByName(tagData.name);
