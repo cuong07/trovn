@@ -4,6 +4,7 @@ import { generateRefreshToken, generateToken } from "../utils/tokenUtils.js";
 import { sendMail } from "../utils/mailer.utils.js";
 import { otpGenerator } from "../utils/otp.utils.js";
 import UserOtpModel from "../models/user.otp.config.js";
+import { otpTemplate } from "../utils/otp.template.utils.js";
 
 const UserService = {
   async getUserById(userId) {
@@ -80,13 +81,14 @@ const UserService = {
     try {
       const otp = otpGenerator(6);
       const { email, id } = user;
+      const template = otpTemplate(email, id);
       let subject = "Xác minh mã OTP";
       const newUserOpt = {
         userId: id,
         otp,
       };
       await UserOtpModel.methods.createUserOtp(newUserOpt);
-      sendMail(email, subject, otp);
+      sendMail(email, subject, template);
     } catch (error) {
       console.log(error);
       throw error;

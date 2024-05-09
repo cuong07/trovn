@@ -6,3 +6,5 @@ export { default as FavoriteRoutes } from "./favorite.routes.js";
 export { default as BannerRoutes } from "./banner.routes.js";
 export { default as TagRoutes } from "./tag.routes.js";
 export { default as ListingTagRoutes } from "./listingTag.routes.js";
+export { default as AdvertisingPackageRoutes } from "./advertising.package.routes.js";
+export { default as PaymentRoutes } from "./payment.routes.js";

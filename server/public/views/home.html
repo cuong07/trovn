@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      justify-content: center;
+      align-items: center;
+    }
+    .containers {
+      padding: 80px;
+      border-radius: 24px;
+      display: flex;
+      width: 50%;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+      gap: 8px;
+    }
+  </style>
+  <body>
+    <div class="containers">
+      <h1
+        class="text-4xl flex gap-2 justify-center items-center border-b-[2px] mb-8 pb-8 border-[#333]"
+        id="header"
+      >
+        THANH TOÁN THÀNH CÔNG
+        <img
+          src="../images/success.gif"
+          alt="Success"
+          class="rounded-full scale-[1.05] w-[48px] h-[48px]"
+        />
+      </h1>
+      <div class="">
+        <h2 class="text-xl mb-4">Chi tiết đơn hàng</h2>
+        <div id="list" class="flex flex-col gap-2"></div>
+      </div>
+      <div class="flex justify-end mt-8">
+        <button
+          class="group p-5 cursor-pointer relative text-xl font-normal border-0 flex items-center justify-center bg-transparent text-red-500 h-auto w-[250px] overflow-hidden transition-all duration-100"
+        >
+          <span
+            class="group-hover:w-full absolute left-0 h-full w-5 border-y border-l border-red-500 transition-all duration-500"
+          >
+          </span>
+
+          <p
+            class="group-hover:opacity-0 group-hover:translate-x-[-100%] absolute translate-x-0 transition-all duration-200"
+          >
+            Quay lại trang chủ
+          </p>
+
+          <span
+            class="group-hover:translate-x-0 group-hover:opacity-100 absolute translate-x-full opacity-0 transition-all duration-200"
+            >Cảm ơn!
+          </span>
+
+          <span
+            class="group-hover:w-full absolute right-0 h-full w-5 border-y border-r border-red-500 transition-all duration-500"
+          >
+          </span>
+        </button>
+      </div>
+    </div>
+  </body>
+  <script>
+    const header = document.getElementById("header");
+    const list = document.getElementById("list");
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const paramArray = Array.from(urlParams.entries()).map(([name, value]) => ({
+      name,
+      value,
+    }));
+    const resultCodeObject = paramArray.find(
+      (obj) => obj.name === "resultCode"
+    );
+    const resultCodeValue = resultCodeObject
+      ? resultCodeObject.value
+      : "Not found";
+
+    if (resultCodeValue != 0) {
+      header.innerText = "THANH TOÁN KHÔNG THÀNH CÔNG";
+    }
+
+    let html = "";
+
+    paramArray.forEach((item) => {
+      return (html += `
+        <div class="flex justify-between text-lg">
+          <div class="font-bold">${item.name}</div>  
+          <div class="text-center text-wrap">${item.value}</div>  
+        </div>
+      `);
+    });
+
+    list.innerHTML = html;
+
+    console.log(paramArray);
+  </script>
+</html>

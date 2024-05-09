@@ -7,6 +7,8 @@ import {
   BannerRoutes,
   TagRoutes,
   ListingTagRoutes,
+  AdvertisingPackageRoutes,
+  PaymentRoutes,
 } from "./routes/index.js";
 import express from "express";
 import cors from "cors";
@@ -26,7 +28,9 @@ app.use("/api/v1", FavoriteRoutes);
 app.use("/api/v1", BannerRoutes);
 app.use("/api/v1", TagRoutes);
 app.use("/api/v1", ListingTagRoutes);
-
+app.use("/api/v1", AdvertisingPackageRoutes);
+app.use("/api/v1", PaymentRoutes);
+app.use(express.static("./public"));
 app.get((req, res) => {
   res.status(404).send("Sorry, resource not found");
 });
