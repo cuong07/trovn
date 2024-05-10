@@ -1,11 +1,11 @@
 import { statusCode } from "../config/statusCode.js";
 import { BaseResponse } from "../responses/BaseResponse.js";
-import AmenitieService from "../services/amenitie.service.js";
+import AmenityService from "../services/amenity.service.js";
 
-const AmenitieController = {
-  async getAllAmenitie(req, res) {
+const AmenityController = {
+  async getAllAmenity(req, res) {
     try {
-      const amenities = await AmenitieService.getAllAmenitie();
+      const amenities = await AmenityService.getAllAmenity();
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", amenities));
@@ -15,37 +15,37 @@ const AmenitieController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
-  async createAmenitie(req, res) {
+  async createAmenity(req, res) {
     const file = req.file;
-    const amenitieData = req.body;
+    const amenityData = req.body;
     try {
       const newData = {
-        ...amenitieData,
+        ...amenityData,
         file,
       };
-      const amenitie = await AmenitieService.createAmenitie(newData);
+      const amenity = await AmenityService.createAmenity(newData);
       return res
         .status(statusCode.CREATED)
-        .json(BaseResponse.success("Thành công", amenitie));
+        .json(BaseResponse.success("Thành công", amenity));
     } catch (error) {
       return res
         .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },
-  async updateAmenitie(req, res) {
+  async updateAmenity(req, res) {
     const { id } = req.params;
     const file = req.file;
-    const amenitieData = req.body;
+    const amenityData = req.body;
     try {
       const newData = {
-        ...amenitieData,
+        ...amenityData,
         file,
       };
-      const amenitie = await AmenitieService.udpateAmenitie(id, newData);
+      const amenity = await AmenityService.udpateAmenity(id, newData);
       return res
         .status(statusCode.CREATED)
-        .json(BaseResponse.success("Thành công", amenitie));
+        .json(BaseResponse.success("Thành công", amenity));
     } catch (error) {
       return res
         .status(statusCode.BAD_REQUEST)
@@ -53,10 +53,10 @@ const AmenitieController = {
     }
   },
 
-  async deleteAmenitie(req, res) {
+  async deleteAmenity(req, res) {
     const { id } = req.params;
     try {
-      await AmenitieService.deleteAmenitie(id);
+      await AmenityService.deleteAmenity(id);
       return res
         .status(statusCode.NO_CONTENT)
         .json(BaseResponse.success("Thành công", null));
@@ -68,4 +68,4 @@ const AmenitieController = {
   },
 };
 
-export default AmenitieController;
+export default AmenityController;
