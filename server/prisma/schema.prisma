@@ -57,19 +57,22 @@ model User {
   longitude   String? @default("")
   isVerify    Boolean @default(false)
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  listings  Listing[]
-  messages  Message[]
-
-  conversationsInitiated Conversation[] @relation("userOne")
-  conversationsReceived  Conversation[] @relation("userTwo")
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  listings               Listing[]
+  messages               Message[]
+  packageId              String?
+  advertisingPackage     AdvertisingPackage? @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  conversationsInitiated Conversation[]      @relation("userOne")
+  conversationsReceived  Conversation[]      @relation("userTwo")
   reviews                Review[]
   favorites              Favorite[]
-  reporterInitiated      Report[]       @relation("reporterUser")
-  reportedReceived       Report[]       @relation("reportedUser")
+  reporterInitiated      Report[]            @relation("reporterUser")
+  reportedReceived       Report[]            @relation("reportedUser")
   banners                Banner[]
   userOtps               UserOtp[]
+  orderItems             OrderItem[]
+  payments               Payment[]
 }
 
 model Location {
@@ -219,4 +222,48 @@ model UserOtp {
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AdvertisingPackage {
+  id          String      @id @default(uuid())
+  name        String
+  description String?
+  duration    Int
+  price       Float
+  users       User[]
+  OrderItem   OrderItem[]
+}
+
+model Payment {
+  id            String  @id @default(uuid())
+  amount        Float?
+  status        Boolean
+  provider      String?
+  note          String? @default("")
+  transactionId String  @unique
+  isActive      Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id     String @id @default(uuid())
+  amount Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  paymentId String
+  payment   Payment @relation(fields: [paymentId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  advertisingPackageId String?
+  advertisingPackage   AdvertisingPackage? @relation(fields: [advertisingPackageId], references: [id], onDelete: Cascade)
 }

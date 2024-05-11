@@ -8,3 +8,12 @@ export const otpGenerator = (number) => {
     lowerCaseAlphabets: false,
   });
 };
+
+export const orderIdGenerator = (number) => {
+  return otp.generate(number, {
+    digits: true,
+    upperCaseAlphabets: true,
+    specialChars: false,
+    lowerCaseAlphabets: false,
+  });
+};
