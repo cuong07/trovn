@@ -23,7 +23,7 @@ const index = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
     control,
   } = useForm({
@@ -79,7 +79,7 @@ const index = () => {
                 name="password"
               />
               <div className="mt-8 flex flex-col gap-4">
-                <Button type="primary">Login</Button>
+                <Button type="primary" loading={isSubmitting} >Login</Button>
                 <Button type="default">Login with Google</Button>
               </div>
             </Form>
