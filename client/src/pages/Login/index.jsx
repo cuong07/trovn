@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function LoginForm(){
+function Login(){
 
     const [formData, setFormData] = useState({username: "", password: ""});
 
@@ -20,12 +20,19 @@ function LoginForm(){
         <>
         <form onSubmit={handleSubmit}>
             <h1>Login</h1>
-            <label htmlFor="username">User Name</label>
-            <input name="username" type="text" id="username" value={formData.username} onChange={handleChange}/>
-
-            <label htmlFor="password">Password</label>
-            <input name="password" type="password" id="password" value={formData.password} onChange={handleChange}/>
-
+            <div>
+                <label htmlFor="username">User Name</label>
+                <input name="username" type="text" id="username" value={formData.username} onChange={handleChange}/>
+            </div>
+            <div>
+                <label htmlFor="password">Password</label>
+                <input name="password" type="password" id="password" value={formData.password} onChange={handleChange}/>
+            </div>
+            <div>
+                <span>Bạn chưa có tài khoản? Đăng ký tài khoản</span>
+                <span>Quên mật khẩu</span>
+            </div>
+            
             <button type="submit">Submit</button>
         </form>
         </>
@@ -33,4 +40,4 @@ function LoginForm(){
 
 }
 
-export default LoginForm;
+export default Login;
