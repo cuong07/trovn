@@ -1,8 +1,10 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 
 const index = () => {
-  console.log("hello");
-  return <div>Hello world</div>;
+  return (
+    <Outlet />
+  );
 };
 
 export default index;

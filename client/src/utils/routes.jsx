@@ -1,16 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
-import MainLayout from "../pages/MainLayout";
-import LoginForm from "../pages/Login/index.jsx";
+import MainLayout from "../pages/Layout/MainLayout";
+import EmptyLayout from "../pages/Layout/EmptyLayout"
+import Register from "../pages/Register"
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "",
+    element: <EmptyLayout />,
     children: [
       {
-        path: "app",
-        element: <h1>App layout</h1>,
+        path: "/register",
+        element: <Register/>,
       },
+      { 
+        path: "/",
+        element: <MainLayout/>
+      }
     ],
   },
   {
