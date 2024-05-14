@@ -1,5 +1,9 @@
+import { SliderFilter } from "../../components";
+
 const index = () => {
-  return <div>Home page</div>;
+  return <div>
+    <SliderFilter/>
+  </div>;
 };
 
 export default index;
