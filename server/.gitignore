@@ -12,6 +12,24 @@ dist
 dist-ssr
 *.local
 
+<<<<<<< HEAD
+=======
+logfile.log
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+>>>>>>> 19bbe6d3418861d5df017a79c0d344f4b23d5cb5
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
