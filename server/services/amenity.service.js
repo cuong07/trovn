@@ -23,7 +23,7 @@ const AmenityService = {
       const newAmenity = {
         name,
         description,
-        iconUrl: newPath.id,
+        iconUrl: newPath?.url,
       };
       return await AmenityModel.methods.createAmenity(newAmenity);
     } catch (error) {

@@ -61,8 +61,6 @@ model User {
   updatedAt              DateTime            @updatedAt
   listings               Listing[]
   messages               Message[]
-  packageId              String?
-  advertisingPackage     AdvertisingPackage? @relation(fields: [packageId], references: [id], onDelete: Cascade)
   conversationsInitiated Conversation[]      @relation("userOne")
   conversationsReceived  Conversation[]      @relation("userTwo")
   reviews                Review[]
@@ -73,6 +71,8 @@ model User {
   userOtps               UserOtp[]
   orderItems             OrderItem[]
   payments               Payment[]
+  AdvertisingPackage     AdvertisingPackage? @relation(fields: [advertisingPackageId], references: [id])
+  advertisingPackageId   String?
 }
 
 model Location {
@@ -86,12 +86,11 @@ model Location {
 }
 
 model Amenity {
-  id          String   @id @default(uuid())
-  name        String
-  description String   @default("")
-  iconUrl     String
-  listings    Listing? @relation(fields: [listingId], references: [id])
-  listingId   String?
+  id               String           @id @default(uuid())
+  name             String
+  description      String           @default("")
+  iconUrl          String
+  listingAmenities ListingAmenity[]
 }
 
 model Tag {
@@ -118,7 +117,7 @@ model Image {
 }
 
 model Listing {
-  id          String    @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String
   description String
   address     String
@@ -126,21 +125,21 @@ model Listing {
   longitude   String
   price       Decimal
   area        Decimal
-  amenities   Amenity[]
-  term        TermType  @default(BOTH)
-  isPublish   Boolean   @default(false)
+  term        TermType @default(BOTH)
+  isPublish   Boolean  @default(false)
 
   userId     String
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   locationId String
   location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  listingTags ListingTag[]
-  images      Image[]
-  reviews     Review[]
-  favorites   Favorite[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  listingTags      ListingTag[]
+  images           Image[]
+  reviews          Review[]
+  favorites        Favorite[]
+  listingAmenities ListingAmenity[]
 
   @@index([userId])
 }
@@ -157,6 +156,14 @@ model Conversation {
   messages Message[]
 
   @@index([userTwoId])
+}
+
+model ListingAmenity {
+  id        String  @id @default(uuid())
+  listingId String
+  amenityId String
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  amenity   Amenity @relation(fields: [amenityId], references: [id], onDelete: Cascade)
 }
 
 model Message {
