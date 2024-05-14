@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "..";
 import { cn } from "../../utils/helpers";
 
-const index = () => {
+const Index = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [arrow, setArrow] = useState("Hide");
 
@@ -81,4 +81,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

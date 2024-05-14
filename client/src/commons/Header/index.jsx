@@ -3,7 +3,7 @@ import { Button, SearchInput } from "../../components";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
 
-const index = () => {
+const Index = () => {
   return (
     <div className="h-full leading-none flex items-center justify-between container mx-auto">
       <div className="flex gap-9">
@@ -30,4 +30,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
