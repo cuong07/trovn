@@ -50,6 +50,12 @@ const ListingModel = {
           images: true,
           location: true,
           reviews: true,
+          user: true,
+          listingAmenities: {
+            include: {
+              amenity: true,
+            },
+          },
         },
       });
     },
@@ -102,6 +108,11 @@ const ListingModel = {
               { description: { contains: keyword } },
             ],
             NOT: [{ isPublish: true }],
+          },
+          include: {
+            images: true,
+            user: true,
+            reviews: true,
           },
         }),
       ]);
