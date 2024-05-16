@@ -26,7 +26,7 @@ function Login(){
             </div>
             <div>
                 <label htmlFor="password">Password</label>
-                <input name="password" type="password" id="password" value={formData.password} onChange={handleChange}/>
+                <input name="password" type="password" id="password" placeholder="ahfkad" value={formData.password} onChange={handleChange}/>
             </div>
             <div>
                 <span>Bạn chưa có tài khoản? Đăng ký tài khoản</span>
