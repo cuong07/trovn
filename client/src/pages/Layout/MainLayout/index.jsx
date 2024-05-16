@@ -1,17 +1,17 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import { MainFooter, MainHeader } from "../../../commons";
 
-import { Flex, Layout } from "antd";
+import { Layout } from "antd";
+import useMessage from "antd/es/message/useMessage";
 const { Header, Content, Footer } = Layout;
 
-const index = () => {
+const Index = () => {
   return (
     <Layout className="bg-none bg-transparent">
-      <Header className="h-20  bg-transparent p-0 m-0 fixed left-0 right-0 bg-white" >
+      <Header className="h-20  bg-transparent p-0 m-0 fixed shadow-sm left-0 z-50 right-0 bg-white">
         <MainHeader />
       </Header>
-      <Content className="h-screen  mt-20">
+      <Content className="mt-20">
         <Outlet />
       </Content>
       <Footer className="bg-transparent">
@@ -21,4 +21,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

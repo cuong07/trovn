@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form } from "antd";
-import { Button, InputFeild } from "../../components";
+import { Button, InputField } from "../../components";
 
 const schema = yup
   .object({
@@ -19,7 +19,7 @@ const schema = yup
   })
   .required();
 
-const index = () => {
+const Index = () => {
   const {
     register,
     handleSubmit,
@@ -54,32 +54,34 @@ const index = () => {
           </div>
           <div className="grid gap-4">
             <Form onSubmit={handleSubmit(onSubmit)} layout="vertical">
-              <InputFeild
+              <InputField
                 control={control}
                 errors={errors.username}
                 label="Username"
                 name="username"
               />
-              <InputFeild
+              <InputField
                 control={control}
                 errors={errors.email}
                 label="email"
                 name="email"
               />
-              <InputFeild
+              <InputField
                 control={control}
                 errors={errors.phoneNumber}
                 label="phoneNumber"
                 name="phoneNumber"
               />
-              <InputFeild
+              <InputField
                 control={control}
                 errors={errors.password}
                 label="password"
                 name="password"
               />
               <div className="mt-8 flex flex-col gap-4">
-                <Button type="primary" loading={isSubmitting} >Login</Button>
+                <Button type="primary" loading={isSubmitting}>
+                  Login
+                </Button>
                 <Button type="default">Login with Google</Button>
               </div>
             </Form>
@@ -91,4 +93,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

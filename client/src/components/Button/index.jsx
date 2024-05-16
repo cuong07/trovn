@@ -1,12 +1,9 @@
 import { Button } from "antd";
 import React from "react";
 import { motion } from "framer-motion";
-const index = ({ children, type, ...props }) => {
+const Index = ({ children, type, ...props }) => {
   return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      >
+    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
       <Button
         type={type}
         className="inline-flex items-center justify-center whitespace-nowrap rounded-md
@@ -21,4 +18,4 @@ const index = ({ children, type, ...props }) => {
   );
 };
 
-export default index;
+export default Index;
