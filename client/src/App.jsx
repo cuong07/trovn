@@ -6,7 +6,9 @@ function App() {
       App
       <div>
         <Outlet />
+        
       </div>
+      
     </div>
   );
 }
