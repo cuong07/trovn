@@ -1,13 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { SliderFilter } from "../../components";
+import { Banner, Button, SliderFilter } from "../../components";
 import { getAllAmenity } from "../../apis/amenities";
 import { getListings } from "../../apis/listing";
 import useListingStore from "../../hooks/useListingStore";
+import ProductList from "./ProductList";
 
 const Index = () => {
   const [amenities, setAmenities] = useState([]);
-  const { setListings, listings } = useListingStore();
+  const {
+    setListings,
+    listings: {
+      contents,
+      currentPage,
+      totalElements,
+      pagination: { page, limit },
+    },
+    setCurrentPageListing,
+    setListingLoading,
+  } = useListingStore();
 
   useEffect(() => {
     (async () => {
@@ -18,14 +29,35 @@ const Index = () => {
 
   useEffect(() => {
     (async () => {
-      const { data } = await getListings(0, 100, { keyword: "" });
-      setListings({ data });
+      setListingLoading(true);
+      const { data } = await getListings();
+      setListingLoading(false);
+      setListings(data);
     })();
-  }, []);
-  console.log(listings);
+  }, [page]);
+
+  const handleLoadMore = () => {
+    setCurrentPageListing(currentPage + 1);
+  };
+
   return (
     <div>
-      <SliderFilter data={amenities} />
+      <div className="fixed top-[80px] z-40 left-0 right-0">
+        <SliderFilter data={amenities} />
+      </div>
+      <div className="h-[50%]">
+        <Banner />
+      </div>
+      <div className="mt-20">
+        <ProductList data={contents} />
+      </div>
+      {contents.length < totalElements && (
+        <div className="flex justify-center">
+          <Button type="primary" className="w-[300px]" onClick={handleLoadMore}>
+            Load more
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

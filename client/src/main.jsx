@@ -9,8 +9,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     theme={{
       token: {
         fontFamily: '"Roboto", sans-serif',
-        borderRadius: 2,
-        colorPrimary: '#8343EB', // Set the primary color
+        borderRadius: 6,
+        colorText: "#222",
+        colorPrimary: "#8343EB", // Set the primary color
       },
     }}
   >

@@ -21,3 +21,40 @@
 .swiper-button-next {
   margin-right: -10px;
 }
+
+.swiper-card .swiper-button-prev,
+.swiper-card .swiper-button-next {
+  background-color: #fff;
+  width: 28px;
+  border-radius: 100%;
+  height: 28px;
+  margin-left: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin-right: 0px;
+  z-index: 99999;
+  transition: 0.3s all ease-in-out;
+}
+
+.swiper-card .swiper-button-prev:hover,
+.swiper-card .swiper-button-next:hover {
+  background-color: #faebeb;
+}
+
+.swiper-card .swiper-button-disabled,
+.swiper-card .swiper-button-disabled {
+  background-color: #dadada;
+  opacity: 0;
+}
+
+.swiper-card .swiper-button-prev::after,
+.swiper-card .swiper-button-next::after {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ant-image-mask:hover {
+  display: none;
+}

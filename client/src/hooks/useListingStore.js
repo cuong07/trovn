@@ -10,14 +10,14 @@ const useListingStore = create((set) => ({
     },
     pagination: {
       page: 1,
-      limit: 18,
+      limit: 10,
     },
     currentPage: 0,
     totalElements: 0,
   },
 
-  filterListing: {
-    data: [],
+  searchListing: {
+    contents: [],
     isLoading: false,
     filter: {
       keyword: "",
@@ -30,14 +30,48 @@ const useListingStore = create((set) => ({
     currentPage: 0,
     totalElements: 0,
   },
+  // listings
 
-  setListings: ({ data }) => {
+  setListings: (data) => {
     set((state) => ({
       listings: {
         ...state.listings,
-        contents: data?.contents,
+        contents: [...state.listings.contents, ...data.contents],
         currentPage: data?.currentPage,
         totalElements: data?.totalElement,
+      },
+    }));
+  },
+
+  setListingLoading: (data) => {
+    set((state) => ({
+      listings: {
+        ...state.listings,
+        isLoading: data,
+      },
+    }));
+  },
+
+  setListingKeyword: (data) => {
+    set((state) => ({
+      listings: {
+        ...state.listings,
+        filter: {
+          ...state.listings.filter,
+          keyword: data,
+        },
+      },
+    }));
+  },
+
+  setCurrentPageListing: (page) => {
+    set((state) => ({
+      listings: {
+        ...state.listings,
+        pagination: {
+          ...state.listings.pagination,
+          page: page,
+        },
       },
     }));
   },
@@ -58,7 +92,21 @@ const useListingStore = create((set) => ({
     set((state) => ({
       listings: {
         ...state.listings,
-        contents: [...state.listings.contents, ...data],
+        contents: [...state.listings.contents, data?.contents],
+        currentPage: data?.currentPage,
+        totalElements: data?.totalElement,
+      },
+    }));
+  },
+
+  // search listing
+  setSearchListings: (data) => {
+    set((state) => ({
+      searchListing: {
+        ...state.searchListing,
+        contents: [...state.searchListing.contents, ...data.contents],
+        currentPage: data?.currentPage,
+        totalElements: data?.totalElement,
       },
     }));
   },

@@ -16,6 +16,18 @@ export const getListings = async () => {
       keyword,
     },
   });
+  await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+
+  const { data } = await apiClient.get(url);
+  return data;
+};
+
+export const getListing = async (id) => {
+  const url = qs.stringifyUrl({
+    url: ListingV1.GET_LISTING_BY_ID + id,
+  });
+  // await new Promise((resolve, reject) => setTimeout(resolve, 0000));
+
   const { data } = await apiClient.get(url);
   return data;
 };
