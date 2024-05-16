@@ -1,10 +1,8 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const index = () => {
-  return (
-    <Outlet />
-  );
+const Index = () => {
+  return <Outlet />;
 };
 
-export default index;
+export default Index;

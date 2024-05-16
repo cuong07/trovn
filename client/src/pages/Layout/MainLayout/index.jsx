@@ -1,13 +1,24 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
+import { MainFooter, MainHeader } from "../../../commons";
 
-const index = () => {
+import { Layout } from "antd";
+import useMessage from "antd/es/message/useMessage";
+const { Header, Content, Footer } = Layout;
+
+const Index = () => {
   return (
-    <div>
-      <div>Main layout </div>
-      <Outlet />
-    </div>
+    <Layout className="bg-none bg-transparent">
+      <Header className="h-20  bg-transparent p-0 m-0 fixed shadow-sm left-0 z-50 right-0 bg-white">
+        <MainHeader />
+      </Header>
+      <Content className="mt-20">
+        <Outlet />
+      </Content>
+      <Footer className="bg-transparent">
+        <MainFooter />
+      </Footer>
+    </Layout>
   );
 };
 
-export default index;
+export default Index;
