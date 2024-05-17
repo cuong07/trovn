@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 // import MainLayout from "../pages/Layout/MainLayout";
 // import EmptyLayout from "../pages/Layout/EmptyLayout";
 // import Register from "../pages/Register";
-import Login from "../pages/Login";
+// import Login from "../pages/Login";
 
 import {
   AdminLayout,
@@ -13,6 +13,8 @@ import {
   Register,
   Search,
   HostLayout,
+  Login,
+  Profile,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 
@@ -36,6 +38,7 @@ export const router = createBrowserRouter([
           { path: "", element: <Home /> },
           { path: "/listing/:id", element: <Listing /> },
           { path: "/search", element: <Search /> },
+          { path: "/user/:id", element: <Profile /> },
         ],
       },
     ],
