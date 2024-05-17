@@ -18,3 +18,9 @@ export const login = async (data) =>{
     const user = await apiClient.post(url, data);
     return user.data;
 }
+
+export const getUser = async (id) =>{
+    const url = `user/${id}`;
+    const user = await apiClient.get(url);
+    return user.data;
+}

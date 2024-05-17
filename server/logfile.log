@@ -30,3 +30,4 @@
 {"level":"info","message":"5/4/2024 - 09:12:34 - ::1 - POST /user/login - {\"username\":\"cong\",\"password\":\"ads\"}"}
 {"level":"info","message":"5/4/2024 - 09:12:46 - ::1 - POST /user/login - {\"username\":\"cong\",\"password\":\"ads\"}"}
 {"level":"info","message":"5/4/2024 - 09:13:46 - ::1 - POST /user/login - {\"username\":\"cong\",\"password\":\"ads\"}"}
+{"level":"info","message":"5/4/2024 - 22:38:18 - ::1 - POST /user/login - {\"username\":\"admin\",\"password\":\"thecong123\"}"}
