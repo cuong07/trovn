@@ -7,7 +7,7 @@ import { FaUser } from "react-icons/fa";
 
 const Index = () => {
   const contents = (
-    <div className="flex flex-col gap-2 p-2">
+    <div className="flex flex-col gap-2 p-2 ">
       <Link to="/user/info" className="flex gap-2 items-center">
         <div>
           <FaUser />
@@ -20,15 +20,19 @@ const Index = () => {
   return (
     <div className="h-full leading-none flex items-center justify-between container mx-auto">
       <div className="flex gap-9">
-        <div className="font-bold text-2xl tracking-wider">TROVN</div>
+        <div className="font-bold text-2xl tracking-wider">
+          <Link to="/">TROVN</Link>
+        </div>
         <div>
           <SearchInput />
         </div>
       </div>
       <Flex gap={24} align="center" justify="center">
-        <Button type="primary" className="rounded-full h-9">
-          Trở thành chủ nhà
-        </Button>
+        <Link to="/host">
+          <Button type="primary" className="rounded-full h-9">
+            Trở thành chủ nhà
+          </Button>
+        </Link>
         <div>
           <CiHeart size={24} />
         </div>

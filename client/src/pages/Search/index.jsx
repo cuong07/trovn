@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import useListingStore from "../../hooks/useListingStore";
 import { getListings } from "../../apis/listing";
+import ProductList from "../Home/ProductList";
 
 const Index = () => {
   const {
@@ -16,7 +17,11 @@ const Index = () => {
     })();
   }, [keyword, setSearchListings]);
   console.log(contents);
-  return <div>Search</div>;
+  return (
+    <div>
+      <ProductList data={contents} />
+    </div>
+  );
 };
 
 export default Index;

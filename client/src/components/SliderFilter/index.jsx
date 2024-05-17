@@ -11,8 +11,8 @@ const Index = ({ data }) => {
   return (
     <div className="px-40 bg-white">
       <Swiper
-        slidesPerView={14}
-        spaceBetween={50}
+        slidesPerView={12}
+        spaceBetween={0}
         navigation={true}
         modules={[Navigation]}
         className="h-20 px-10 "
@@ -20,9 +20,9 @@ const Index = ({ data }) => {
         {data?.map((item) => (
           <SwiperSlide
             key={item.id}
-            className="flex items-center  justify-center cursor-pointer"
+            className="flex items-center w-auto  justify-center cursor-pointer"
           >
-            <div className=" gap-2 hover:border-b-2 border-black hover:font-medium transition-all">
+            <div className=" gap-2 hover:border-b-2 border-black flex flex-col justify-between hover:font-medium transition-all">
               <div className="text-center">
                 <img
                   src={item.iconUrl}
@@ -30,7 +30,9 @@ const Index = ({ data }) => {
                   className="w-6 h-6 mx-auto"
                 />
               </div>
-              <div className="text-center">{item.name}</div>
+              <div className="text-center text-xs font-semibold">
+                {item.name}
+              </div>
             </div>
           </SwiperSlide>
         ))}
