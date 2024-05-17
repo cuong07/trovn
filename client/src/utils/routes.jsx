@@ -14,6 +14,7 @@ import {
   Search,
   HostLayout,
 } from "../pages";
+import { ListingCreate, ListingList } from "../pages/Host";
 
 export const router = createBrowserRouter([
   {
@@ -49,14 +50,24 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  
+
   {
     path: "/host",
     element: <HostLayout />,
     children: [
       {
-        path: "app",
-        element: <h1>Main layout App</h1>,
+        path: "listing",
+        element: <EmptyLayout />,
+        children: [
+          {
+            path: "list",
+            element: <ListingList />,
+          },
+          {
+            path: "create",
+            element: <ListingCreate />,
+          },
+        ],
       },
     ],
   },

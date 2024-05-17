@@ -10,7 +10,7 @@ const useListingStore = create((set) => ({
     },
     pagination: {
       page: 1,
-      limit: 10,
+      limit: 20,
     },
     currentPage: 0,
     totalElements: 0,
@@ -30,13 +30,35 @@ const useListingStore = create((set) => ({
     currentPage: 0,
     totalElements: 0,
   },
+
+  newListing: {
+    title: "",
+    description: "",
+    address: "",
+    longitude: "",
+    latitude: "",
+    price: 0,
+    area: "",
+    term: "",
+    locationId: "",
+    files: [],
+  },
+
+  setNewListing: (data) => {
+    set((state) => ({
+      newListing: {
+        ...state.newListing,
+      },
+    }));
+  },
+
   // listings
 
   setListings: (data) => {
     set((state) => ({
       listings: {
         ...state.listings,
-        contents: [...state.listings.contents, ...data.contents],
+        contents: data?.contents,
         currentPage: data?.currentPage,
         totalElements: data?.totalElement,
       },
@@ -104,7 +126,7 @@ const useListingStore = create((set) => ({
     set((state) => ({
       searchListing: {
         ...state.searchListing,
-        contents: [...state.searchListing.contents, ...data.contents],
+        contents: data.contents,
         currentPage: data?.currentPage,
         totalElements: data?.totalElement,
       },
