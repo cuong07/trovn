@@ -22,6 +22,8 @@ export const getListings = async () => {
   return data;
 };
 
+export const getFilterListing = async () => {};
+
 export const getListing = async (id) => {
   const url = qs.stringifyUrl({
     url: ListingV1.GET_LISTING_BY_ID + id,

@@ -9,7 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  // provider = "mysql"
+  // provider = "postgresql"
+  provider = "cockroachdb"
   url      = env("DATABASE_URL")
 }
 
@@ -168,7 +170,7 @@ model ListingAmenity {
 
 model Message {
   id      String @id @default(uuid())
-  content String @db.Text
+  content String
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

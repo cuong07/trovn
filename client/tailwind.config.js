@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        "custom-calc": "calc(100% - 80px)",
+      },
+    },
   },
   plugins: [],
 };

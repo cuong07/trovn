@@ -1,72 +1,49 @@
-import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { MainHeader } from "../../../commons";
+import { Link, Outlet } from "react-router-dom";
 const { Content, Sider } = Layout;
+const hostNav = [
+  {
+    key: 1,
+    children: [
+      {
+        key: 1.1,
+        label: <Link to="listing/list">Danh sách</Link>,
+        path: "",
+      },
+      {
+        key: 1.2,
+        label: <Link to="listing/create">Thêm</Link>,
+        path: "",
+      },
+    ],
+    label: "Cho thuê",
+  },
+];
 
-const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1);
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
-});
 const HostLayout = () => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
   return (
-    <Layout>
-      
+    <Layout className="h-svh">
+      <div className="h-20">
+        <MainHeader />
+      </div>
       <Layout>
-        <Sider
-          width={200}
-          style={{
-            background: colorBgContainer,
-          }}
-        >
+        <Sider width={200}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{
-              height: '100%',
-              borderRight: 0,
-            }}
-            items={items2}
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["1.1"]}
+            className="h-full"
+            items={hostNav}
           />
         </Sider>
         <Layout
           style={{
-            padding: '0 24px 24px',
+            padding: "0 24px 24px",
           }}
         >
-          <Breadcrumb
-            style={{
-              margin: '16px 0',
-            }}
-          >
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>Host</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            Content
+          <Content className="rounded-lg  h-full">
+            <Outlet />
           </Content>
         </Layout>
       </Layout>

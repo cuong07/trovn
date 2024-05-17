@@ -113,6 +113,11 @@ const ListingModel = {
             images: true,
             user: true,
             reviews: true,
+            listingAmenities: {
+              include: {
+                amenity: true,
+              },
+            },
           },
         }),
       ]);

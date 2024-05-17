@@ -118,7 +118,7 @@ const Index = () => {
                   </h2>
                   <div>
                     <div className="h-[600px] rounded-lg overflow-hidden ">
-                      <MapListing listing={listing} />
+                      {listing && <MapListing listing={listing} />}
                     </div>
                     <div className="text-base font-semibold mt-6">
                       {listing?.address}

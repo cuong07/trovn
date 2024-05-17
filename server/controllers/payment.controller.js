@@ -120,6 +120,7 @@ const PaymentController = {
       const { user } = await PaymentService.getUserForTransactionId(orderId);
       const { email } = user;
       const template = orderTemplate(email, list);
+      console.log(email);
       const subject =
         resultCode === 0
           ? "THANH TOÁN THÀNH CÔNG"
