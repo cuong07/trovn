@@ -1,12 +1,17 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 const useUserStore = create((set) => ({
-    user: null,
-    token: JSON.parse(localStorage.getItem("token")) || "",
+  user: null,
+  token: JSON.parse(localStorage.getItem("token")) || "",
 
+  setUser: (data) => {
+    set((state) => ({ ...state, user: data }));
+  },
 
-    setUser: set((user) => ({ user })),
-    setToen: set((token) => ({ token }))
-}))
+  setToken: (data) => {
+    localStorage.setItem("token", JSON.stringify(data));
+    set((state) => ({ ...state, token: data }));
+  },
+}));
 
-export default useUserStore
+export default useUserStore;

@@ -36,8 +36,38 @@ const ListingModel = {
 
   methods: {
     async createListing(listingData) {
+      const {
+        title,
+        description,
+        address,
+        latitude,
+        longitude,
+        price,
+        area,
+        locationId,
+        term,
+        amenityConnections,
+        userId,
+      } = listingData;
+
+      const amenities = amenityConnections.split(",").map((amenityId) => ({
+        amenity: { connect: { id: amenityId } },
+      }));
+
       return await db.listing.create({
-        data: listingData,
+        data: {
+          title,
+          description,
+          address,
+          latitude,
+          longitude,
+          price,
+          area,
+          term,
+          listingAmenities: { create: amenities },
+          user: { connect: { id: userId } },
+          location: { connect: { id: locationId } },
+        },
       });
     },
 

@@ -8,4 +8,6 @@ export { default as ImagePreview } from "./ImagePreview";
 export { default as Banner } from "./Banner";
 export { default as MapLocation } from "./MapLocation";
 export { default as ListingForm } from "./ListingForm";
+export { default as ListingDetailStep } from "./ListingDetailStep";
 export { default as Input } from "./Input";
+export { default as UploadImage } from "./UploadImage";

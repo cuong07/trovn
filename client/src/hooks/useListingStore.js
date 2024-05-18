@@ -41,19 +41,19 @@ const useListingStore = create((set) => ({
     area: "",
     term: "",
     locationId: "",
-    files: [],
+    files: null,
+    amenityConnections: [],
   },
 
-  setNewListing: (data) => {
+  updateListing: (key, value) =>
     set((state) => ({
       newListing: {
         ...state.newListing,
+        [key]: value,
       },
-    }));
-  },
+    })),
 
   // listings
-
   setListings: (data) => {
     set((state) => ({
       listings: {

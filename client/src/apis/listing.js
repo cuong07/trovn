@@ -28,8 +28,25 @@ export const getListing = async (id) => {
   const url = qs.stringifyUrl({
     url: ListingV1.GET_LISTING_BY_ID + id,
   });
-  // await new Promise((resolve, reject) => setTimeout(resolve, 0000));
 
   const { data } = await apiClient.get(url);
   return data;
+};
+
+export const createListing = async (value) => {
+  const url = `${ListingV1.CREATE_LISTING}`;
+  const formData = new FormData();
+
+  // Append your form fields to the FormData object
+  for (const [key, val] of Object.entries(value)) {
+    formData.append(key, val);
+  }
+
+  try {
+    const { data } = await apiClient.post(url, formData);
+    return data;
+  } catch (error) {
+    console.error("Error creating listing:", error);
+    throw error;
+  }
 };

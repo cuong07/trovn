@@ -15,7 +15,7 @@ const columns = [
   Table.EXPAND_COLUMN,
   {
     title: "Amenity",
-    dataIndex: "listingAmenities.amenity.name",
+    dataIndex: "amenityConnections.amenity.name",
     key: "amenity",
   },
   Table.SELECTION_COLUMN,

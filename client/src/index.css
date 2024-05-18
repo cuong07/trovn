@@ -85,3 +85,21 @@
 #map {
   margin-top: 75px;
 }
+
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+  display: flex;
+  align-items: center;
+}
+.mapboxgl-ctrl-geocoder--icon-search {
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  width: 350px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  outline: none;
+}

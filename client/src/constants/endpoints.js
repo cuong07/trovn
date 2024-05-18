@@ -15,4 +15,10 @@ export const AmenityV1 = {
 export const ListingV1 = {
   GET_LISTING: "/listings",
   GET_LISTING_BY_ID: "/listing/",
+  CREATE_LISTING: "/listing",
+};
+
+export const LocationV1 = {
+  CREATE_LOCATION: "/location",
+  GET_LOCATIONS: "/locations",
 };

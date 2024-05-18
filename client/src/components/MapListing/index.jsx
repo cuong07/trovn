@@ -13,8 +13,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { IoHome } from "react-icons/io5";
 const MAPBOX_TOKEN = import.meta.env.VITE_APP_MAPBOX_TOKEN;
 
-const Index = ({ listing }) => {
-  const { latitude, longitude } = listing;
+const Index = ({ latitude, longitude }) => {
   return (
     <Map
       mapboxAccessToken={MAPBOX_TOKEN}

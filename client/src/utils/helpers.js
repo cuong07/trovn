@@ -24,3 +24,10 @@ export const getTerm = (term) => {
       break;
   }
 };
+
+export const convertArrayToFiles = (files) => {
+  return files.map((file) => {
+    const fileObj = new File([file], file.name, { type: file.type });
+    return fileObj;
+  });
+};

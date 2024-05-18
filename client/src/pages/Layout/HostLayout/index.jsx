@@ -31,7 +31,7 @@ const HostLayout = () => {
         <Sider width={200}>
           <Menu
             mode="inline"
-            defaultSelectedKeys={["1"]}
+            defaultSelectedKeys={["1.1"]}
             defaultOpenKeys={["1.1"]}
             className="h-full"
             items={hostNav}
@@ -42,7 +42,7 @@ const HostLayout = () => {
             padding: "0 24px 24px",
           }}
         >
-          <Content className="rounded-lg  h-full">
+          <Content className="rounded-lg overflow-hidden  h-screen">
             <Outlet />
           </Content>
         </Layout>
