@@ -7,10 +7,10 @@ import { login } from "../../apis/user";
 
 
 function Login() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const[form] = Form.useForm();
   const navigate = useNavigate();
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
 
   const handleChange = (evt) => {
     setFormData((previusData) => {
@@ -23,11 +23,12 @@ function Login() {
 
   const handleSubmit = async(evt) => {
     evt.preventDefault();
-      const userData = await login(JSON.stringify(formData));
-      if(userData){
+      const userData = await login(formData);
+      if(userData.data){
+        localStorage.setItem('authToken', userData.data);
         return navigate('/');
       }
-      return messageApi.info('Hello, Ant Design!');
+      return alert("tai khoản sai");
   };
 
   return (
@@ -44,7 +45,7 @@ function Login() {
 
           <Form.Item
             label='Tên đăng nhập'
-            name='username'
+            name='email'
             rules={[
               {
                 required: true,
@@ -52,7 +53,7 @@ function Login() {
               },
             ]}>
             <Input 
-              name="username" 
+              name="email" 
               onChange={handleChange} 
               className="mr-9" 
               placeholder="Email hoạc username"

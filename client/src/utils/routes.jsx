@@ -14,7 +14,7 @@ import {
   Search,
   HostLayout,
   Login,
-  Profile,
+  Info,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 
@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
           { path: "", element: <Home /> },
           { path: "/listing/:id", element: <Listing /> },
           { path: "/search", element: <Search /> },
-          { path: "/user/:id", element: <Profile /> },
+          { path: "/user/info", element: <Info /> },
         ],
       },
     ],

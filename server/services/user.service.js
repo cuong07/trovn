@@ -20,11 +20,11 @@ const UserService = {
     try {
       const existingUser = await UserModel.methods.getUserByEmail(email);
       if (!existingUser) {
-        throw Error("Không tìm thấy người dùng có email: ", email);
+        return Error("Không tìm thấy người dùng có email: ", email);
       }
       const isMatch = await bcrypt.compare(password, existingUser.password);
       if (!isMatch) {
-        throw Error("Mật khẩu không chính xác");
+        return Error("Mật khẩu không chính xác");
       }
       const token = generateToken(existingUser);
       const refreshToken = generateRefreshToken(existingUser);

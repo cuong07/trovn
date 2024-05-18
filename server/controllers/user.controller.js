@@ -26,15 +26,18 @@ const UserController = {
     const { email, password } = req.body;
     try {
       const { token, refreshToken } = await UserService.login(email, password);
+      
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         scure: true,
         path: "/",
         sameSite: "strict",
       });
+      
       return res
-        .status(statusCode.OK)
-        .json(BaseResponse.success("Thành công", token));
+      .status(statusCode.OK)
+      .json(BaseResponse.success("Thành công", token));
+      
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
