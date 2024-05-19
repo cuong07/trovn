@@ -15,6 +15,8 @@ import {
   HostLayout,
   Login,
   Info,
+  Forgetpass,
+  Newpass,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/forgetpass",
+        element: <Forgetpass />,
+      },
+      {
+        path: "/newpass",
+        element: <Newpass />,
       },
       {
         path: "/",

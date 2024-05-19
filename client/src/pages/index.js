@@ -8,3 +8,8 @@ export { default as Search } from "./Search";
 export { default as HostLayout } from "./Layout/HostLayout";
 export { default as Login} from "./Login";
 export { default as Info } from "./Info";
+export { default as Forgetpass} from "./Forgetpass";
+export { default as Newpass} from "./Newpass";
+
+
+

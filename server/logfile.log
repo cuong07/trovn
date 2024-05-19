@@ -1,0 +1,4 @@
+{"level":"info","message":"0/4/2024 - 18:02:53 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"thecong123\"}"}
+{"level":"info","message":"0/4/2024 - 18:03:30 - ::1 - POST /user/login - {\"email\":\"bach@gmail.com\",\"password\":\"bachdz123\"}"}
+{"level":"info","message":"0/4/2024 - 20:06:47 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"thecong123\"}"}
+{"level":"info","message":"0/4/2024 - 20:06:52 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"thecong123\"}"}
