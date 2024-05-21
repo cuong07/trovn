@@ -136,6 +136,7 @@ const ListingModel = {
             OR: [
               { title: { contains: keyword } },
               { description: { contains: keyword } },
+              { address: { contains: keyword } },
             ],
             NOT: [{ isPublish: true }],
           },

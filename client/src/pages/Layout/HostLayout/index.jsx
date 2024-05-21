@@ -1,6 +1,8 @@
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import { MainHeader } from "../../../commons";
 import { Link, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { getCurrentUser } from "../../../apis/user";
 const { Content, Sider } = Layout;
 const hostNav = [
   {
@@ -19,9 +21,19 @@ const hostNav = [
     ],
     label: "Cho thuê",
   },
+  {
+    key: 2,
+    label: "Quảng bá",
+    children: [{ key: 2.1, label: <Link to="ads-package">Gói quảng bá</Link> }],
+  },
 ];
 
 const HostLayout = () => {
+  useEffect(() => {
+    (async () => {
+      await getCurrentUser();
+    })();
+  }, []);
   return (
     <Layout className="h-svh">
       <div className="h-20">

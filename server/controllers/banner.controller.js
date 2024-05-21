@@ -48,6 +48,7 @@ const BannerController = {
     const bannerData = req.body;
     try {
       const { id } = user;
+
       const newBanner = {
         userId: id,
         ...bannerData,

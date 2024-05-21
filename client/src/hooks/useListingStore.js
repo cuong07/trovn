@@ -16,7 +16,17 @@ const useListingStore = create((set) => ({
     totalElements: 0,
   },
 
-  searchListing: {
+  hostListings: {
+    contents: [],
+    pagination: {
+      page: 1,
+      limit: 2,
+    },
+    currentPage: 0,
+    totalElements: 0,
+  },
+
+  searchListings: {
     contents: [],
     isLoading: false,
     filter: {
@@ -52,6 +62,29 @@ const useListingStore = create((set) => ({
         [key]: value,
       },
     })),
+  // host
+  setHostListings: (data) => {
+    set((state) => ({
+      hostListings: {
+        ...state.hostListings,
+        contents: data?.contents,
+        currentPage: data?.currentPage,
+        totalElements: data?.totalElement,
+      },
+    }));
+  },
+
+  setCurrentPageHostListing: (page, size) => {
+    set((state) => ({
+      hostListings: {
+        ...state.hostListings,
+        pagination: {
+          limit: size ?? 10,
+          page: page,
+        },
+      },
+    }));
+  },
 
   // listings
   setListings: (data) => {
@@ -123,12 +156,36 @@ const useListingStore = create((set) => ({
 
   // search listing
   setSearchListings: (data) => {
+    console.log(data);
     set((state) => ({
-      searchListing: {
-        ...state.searchListing,
+      ...state,
+      searchListings: {
+        ...state.searchListings,
         contents: data.contents,
         currentPage: data?.currentPage,
         totalElements: data?.totalElement,
+      },
+    }));
+  },
+
+  setSearchListingLoading: (isLoading) => {
+    set((state) => ({
+      ...state,
+      searchListings: {
+        ...state.searchListings,
+        isLoading,
+      },
+    }));
+  },
+
+  setSearchListingKeyword: (data) => {
+    set((state) => ({
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          ...state.searchListings.filter,
+          keyword: data,
+        },
       },
     }));
   },

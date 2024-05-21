@@ -1,5 +1,6 @@
 export const UserV1 = {
   CREATE_USER: "/user",
+  GET_CURRENT_USER: "/user",
   GET_USER: "/user/:id",
   UPDATE_USER: "/user/:id",
   DELETE_USER: "/user/:id",
@@ -21,4 +22,22 @@ export const ListingV1 = {
 export const LocationV1 = {
   CREATE_LOCATION: "/location",
   GET_LOCATIONS: "/locations",
+};
+
+export const AdvertisingV1 = {
+  GET_ALL_ADVERTISING: "/advertising-packages",
+};
+
+export const PaymentV1 = {
+  GET_MOMO_PAYMENT: "/payment/momo",
+};
+
+export const OrderV1 = {
+  GET_ORDERS_BY_USER: "/orders",
+};
+
+export const BannerV1 = {
+  CREATE_BANNER: "/banner",
+  GET_BANNERS: "/banners",
+  GET_BANNERS_ACTIVE: "/banners/active",
 };

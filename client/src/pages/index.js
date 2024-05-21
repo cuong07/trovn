@@ -6,3 +6,6 @@ export { default as Register } from "./Register";
 export { default as Listing } from "./Listing";
 export { default as Search } from "./Search";
 export { default as HostLayout } from "./Layout/HostLayout";
+export { default as Services } from "./Host/Services";
+export { default as AdvertiseManager } from "./Host/AdvertiseManager";
+export { default as Checkout } from "./Checkout";

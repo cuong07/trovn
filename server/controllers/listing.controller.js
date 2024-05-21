@@ -17,7 +17,7 @@ const ListingController = {
             )
           );
       }
-      if (files) {
+      if (files.length !== 0) {
         const newListingData = {
           ...listingData,
           userId: user.id,
@@ -26,6 +26,7 @@ const ListingController = {
           newListingData,
           files
         );
+        console.log(listing);
         return res
           .status(statusCode.CREATED)
           .json(BaseResponse.success("Thành công", listing));

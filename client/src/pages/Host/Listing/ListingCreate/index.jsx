@@ -88,6 +88,7 @@ const Index = () => {
 
   const handleSubmit = async () => {
     try {
+      console.log(newListing);
       const res = await createListing(newListing);
       console.log(res);
       message.success("Thêm thành công");

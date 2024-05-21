@@ -3,13 +3,19 @@ import { Skeleton } from "antd";
 import { ListingCard } from "../../../components";
 import useListingStore from "../../../hooks/useListingStore";
 import SkeletonImage from "antd/es/skeleton/Image";
+import clsx from "clsx";
+import { cn } from "../../../utils/helpers";
 
-const Index = ({ data }) => {
+const Index = ({ data, column }) => {
   const {
     listings: { isLoading },
   } = useListingStore();
   return (
-    <div className=" grid grid-cols-5 px-20 gap-6">
+    <div
+      className={cn(
+        clsx("grid grid-cols-5 px-20 gap-6", column && `grid-cols-${column}`)
+      )}
+    >
       {data.map((item) => (
         <ListingCard listing={item} key={item.id} />
       ))}

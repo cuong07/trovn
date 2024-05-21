@@ -6,7 +6,7 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "multipart/form-data",
   },
-  timeout: 10000,
+  timeout: 60000,
 });
 
 const addAuthorizationHeader = (config) => {

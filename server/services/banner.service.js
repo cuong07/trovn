@@ -4,6 +4,7 @@ import Logger from "../utils/logger.utils.js";
 import BannerModel from "../models/banner.model.js";
 import UserModal from "../models/user.model.js";
 import { uploader } from "../utils/uploader.js";
+import PaymentService from "./payment.service.js";
 
 const BannerService = {
   async getBanners() {
@@ -18,16 +19,25 @@ const BannerService = {
 
   async createBanner(bannerData) {
     try {
-      const { file, ...newBannerData } = bannerData;
-      const { path } = file;
-      const newPath = await uploader(path);
-      fs.unlinkSync(path);
-      const newBanner = {
-        imageUrl: newPath.url,
-        ...newBannerData,
-      };
-      console.log(newBanner);
-      return await BannerModel.methods.createBanner(newBanner);
+      const { file, paymentId, ...newBannerData } = bannerData;
+      const payment = await PaymentService.getPaymentById(paymentId);
+      if (payment.isActive) {
+        const { path } = file;
+        const newPath = await uploader(path);
+        fs.unlinkSync(path);
+        const newBanner = {
+          imageUrl: newPath.url,
+          ...newBannerData,
+        };
+        const banner = await BannerModel.methods.createBanner(newBanner);
+        if (banner) {
+          await PaymentService.updatePayment(paymentId, { isActive: false });
+          return banner;
+        }
+        throw new Error("Có lỗi khi tạo banner");
+      }
+      Logger.error("BANNER_SERVICE: createBanner", error);
+      throw new Error("Bạn đã sử dụng dịch vụ");
     } catch (error) {
       Logger.error("BANNER_SERVICE: createBanner", error);
       throw error;

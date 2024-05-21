@@ -7,7 +7,7 @@ export const getLocations = async () => {
   const url = qs.stringifyUrl({
     url: LocationV1.GET_LOCATIONS,
   });
-  await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+  // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
   const res = await apiClient.get(url);
   return res.data;
 };

@@ -4,11 +4,9 @@ function App() {
   return (
     <div>
       App
-      <div>
+      <div className="aspect-square">
         <Outlet />
-        
       </div>
-      
     </div>
   );
 }

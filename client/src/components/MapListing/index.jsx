@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
-import * as React from "react";
 
-import ReactMapGL, {
+import {
   FullscreenControl,
   GeolocateControl,
   Map,

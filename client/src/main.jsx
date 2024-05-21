@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         fontFamily: '"Roboto", sans-serif',
         borderRadius: 6,
         colorText: "#222",
-        colorPrimary: "#8343EB", // Set the primary color
+        colorPrimary: "#E51D55",
       },
     }}
   >
