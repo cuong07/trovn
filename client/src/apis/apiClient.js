@@ -4,7 +4,7 @@ import useUserStore from "../hooks/userStore";
 const apiClient = axios.create({
   baseURL: "http://localhost:8888/api/v1",
   headers: {
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
   },
   timeout: 60000,
 });

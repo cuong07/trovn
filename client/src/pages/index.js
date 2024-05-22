@@ -9,3 +9,5 @@ export { default as HostLayout } from "./Layout/HostLayout";
 export { default as Services } from "./Host/Services";
 export { default as AdvertiseManager } from "./Host/AdvertiseManager";
 export { default as Checkout } from "./Checkout";
+export { default as Login } from "./Login";
+export { default as Info } from "./Info";

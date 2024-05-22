@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 // import MainLayout from "../pages/Layout/MainLayout";
 // import EmptyLayout from "../pages/Layout/EmptyLayout";
 // import Register from "../pages/Register";
-import Login from "../pages/Login";
+// import Login from "../pages/Login";
 
 import {
   AdminLayout,
@@ -16,6 +16,8 @@ import {
   Services,
   Checkout,
   AdvertiseManager,
+  Login,
+  Info,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 
@@ -40,6 +42,7 @@ export const router = createBrowserRouter([
           { path: "/listing/:id", element: <Listing /> },
           { path: "/search", element: <Search /> },
           { path: "/checkout", element: <Checkout /> },
+          { path: "/user/info", element: <Info /> },
         ],
       },
     ],
