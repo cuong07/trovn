@@ -97,9 +97,15 @@ const ListingService = {
     }
   },
 
-  async getListings(page, limit, keyword) {
+  async getListings(page, limit, keyword, latCoords, lngCoords) {
     try {
-      return await ListingModel.methods.getListings(page, limit, keyword);
+      return await ListingModel.methods.getListings(
+        page,
+        limit,
+        keyword,
+        latCoords,
+        lngCoords
+      );
     } catch (error) {
       console.log(error);
       throw error;

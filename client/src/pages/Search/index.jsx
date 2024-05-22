@@ -41,6 +41,9 @@ const Index = () => {
       <div className="grid grid-cols-5">
         <div className="col-span-3">
           <ProductList data={contents} column={3} />
+          {contents?.length === 0 && (
+            <h1>Không tìm tháy bất kì địa điểm nào có tên:</h1>
+          )}
           {isLoading && (
             <div className="grid grid-cols-3 px-20 gap-6">
               {new Array(10).fill(0).map((_, index) => (
@@ -55,7 +58,7 @@ const Index = () => {
         <div className="col-span-2 relative h-full">
           <div className="sticky top-20 ">
             <div className="h-screen">
-              {contents.length > 0 && <MapSearch listings={contents} />}
+              <MapSearch listings={contents} />
             </div>
           </div>
         </div>

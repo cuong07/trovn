@@ -59,8 +59,8 @@ const ListingModel = {
           title,
           description,
           address,
-          latitude,
-          longitude,
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
           price,
           area,
           term,
@@ -119,27 +119,53 @@ const ListingModel = {
         },
       });
     },
-    async getListings(page, limit, keyword, sort) {
-      // * bỏ qua các phần tử đã lấy ở page trước
+    async getListings(page, limit, keyword, latCoords, lngCoords) {
+      // Initialize variables for pagination
       const skip = Math.max(0, (page - 1) * limit);
       const currentPage = +page || 1;
       const take = +limit || 10;
+
+      const filters = {
+        NOT: [{ isPublish: true }],
+      };
+
+      if (keyword) {
+        filters.OR = [
+          { title: { contains: keyword } },
+          { description: { contains: keyword } },
+          { address: { contains: keyword } },
+        ];
+      }
+
+      if (latCoords) {
+        const latMin = Math.min(...latCoords.split(","));
+        const latMax = Math.max(...latCoords.split(","));
+        filters.latitude = {
+          gte: latMin,
+          lte: latMax,
+        };
+      }
+
+      if (lngCoords) {
+        const lngMin = Math.min(...lngCoords.split(","));
+        const lngMax = Math.max(...lngCoords.split(","));
+        filters.longitude = {
+          gte: lngMin,
+          lte: lngMax,
+        };
+      }
+
       const [totalElement, contents] = await db.$transaction([
-        db.listing.count(),
+        db.listing.count({
+          where: filters,
+        }),
         db.listing.findMany({
           take,
           skip,
           orderBy: {
-            createdAt: sort,
+            createdAt: "asc",
           },
-          where: {
-            OR: [
-              { title: { contains: keyword } },
-              { description: { contains: keyword } },
-              { address: { contains: keyword } },
-            ],
-            NOT: [{ isPublish: true }],
-          },
+          where: filters,
           include: {
             images: true,
             user: true,
@@ -152,7 +178,11 @@ const ListingModel = {
           },
         }),
       ]);
-      let totalPage = Math.ceil(totalElement / take);
+
+      // Calculate the total number of pages
+      const totalPage = Math.ceil(totalElement / take);
+
+      // Return the results
       return { totalElement, currentPage, totalPage, contents };
     },
   },

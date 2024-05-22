@@ -53,7 +53,7 @@ export const getFilterListing = async () => {
       keyword,
     },
   });
-  await new Promise((resolve, reject) => setTimeout(resolve, 9000));
+  // await new Promise((resolve, reject) => setTimeout(resolve, 9000));
   const { data } = await apiClient.get(url);
   return data;
 };
