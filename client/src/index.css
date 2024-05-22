@@ -29,13 +29,17 @@
   border-radius: 100%;
   height: 28px;
   margin-left: 0px;
-  display: flex;
   align-items: center;
+  display: none;
   justify-content: center;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   margin-right: 0px;
   z-index: 99999;
   transition: 0.3s all ease-in-out;
+}
+.swiper-card:hover .swiper-button-prev,
+.swiper-card:hover .swiper-button-next {
+  display: flex;
 }
 
 .swiper-card .swiper-button-prev:hover,
@@ -84,4 +88,22 @@
 }
 #map {
   margin-top: 75px;
+}
+
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+  display: flex;
+  align-items: center;
+}
+.mapboxgl-ctrl-geocoder--icon-search {
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  width: 350px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  outline: none;
 }

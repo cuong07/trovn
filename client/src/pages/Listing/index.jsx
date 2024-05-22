@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { IoCallOutline } from "react-icons/io5";
-import { FaStar } from "react-icons/fa";
+import { IoCallOutline, IoTimeOutline } from "react-icons/io5";
+import { FaChartArea, FaStar } from "react-icons/fa";
 import useMessage from "antd/es/message/useMessage";
 import { Avatar, Empty } from "antd";
 import { CiMail } from "react-icons/ci";
@@ -9,7 +9,12 @@ import moment from "moment";
 import { LuDot } from "react-icons/lu";
 
 import { getListing } from "../../apis/listing";
-import { Button, ImagePreview, MapListing } from "../../components";
+import {
+  AmenitiesList,
+  Button,
+  ImagePreview,
+  MapListing,
+} from "../../components";
 import { formatMoney, getTerm } from "../../utils/helpers";
 import Loading from "./Loading";
 
@@ -49,7 +54,7 @@ const Index = () => {
   return (
     <>
       {contextHolder}
-      <div className="container h-full mx-auto lg:px-40 px-4">
+      <div className="container h-full mx-auto lg:px-40 px-4 py-10">
         {!isLoading && (
           <>
             <div className="h-[560px]">
@@ -59,8 +64,9 @@ const Index = () => {
               <div className="col-span-2 h-[2000px]">
                 <div className=" py-8">
                   <h2 className="text-[22px] font-semibold">{listing.title}</h2>
-                  <div className="flex gap-1 items-center">
-                    {getTerm(listing?.term)} <LuDot /> {listing?.area}m
+                  <div className="flex gap-1 items-center text-base">
+                    <IoTimeOutline size={18} /> {getTerm(listing?.term)}{" "}
+                    <LuDot /> <FaChartArea size={18} /> {listing?.area}m
                     <sup>2</sup>
                   </div>
                   <div className="font-semibold text-base flex gap-2 items-center">
@@ -89,28 +95,20 @@ const Index = () => {
                   </div>
                 </div>
                 <p className="text-base leading-6 py-6 border-b-[1px]">
-                  {listing?.description}
+                  <h2 className="text-[22px] font-semibold leading-[26px] mb-6">
+                    Thông tin chi tiết
+                  </h2>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: listing?.description,
+                    }}
+                  />
                 </p>
                 <div className=" py-6 border-b-[1px]">
                   <h2 className="text-[22px] font-semibold leading-[26px] mb-6">
                     Phòng này có gì
                   </h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    {listing?.listingAmenities?.map((item) => (
-                      <div key={item.id} className="flex gap-4">
-                        <div>
-                          <img
-                            src={item.amenity.iconUrl}
-                            alt={item.amenity.name}
-                            className="w-6 h-6"
-                          />
-                        </div>
-                        <div className="text-base leading-5">
-                          {item.amenity.name}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  <AmenitiesList listingAmenities={listing?.listingAmenities} />
                 </div>
                 <div className=" py-6 border-b-[1px]">
                   <h2 className="text-[22px] font-semibold leading-[26px] mb-6">
@@ -118,7 +116,12 @@ const Index = () => {
                   </h2>
                   <div>
                     <div className="h-[600px] rounded-lg overflow-hidden ">
-                      {listing && <MapListing listing={listing} />}
+                      {listing && (
+                        <MapListing
+                          latitude={listing.latitude}
+                          longitude={listing.longitude}
+                        />
+                      )}
                     </div>
                     <div className="text-base font-semibold mt-6">
                       {listing?.address}

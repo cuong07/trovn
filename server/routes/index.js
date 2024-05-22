@@ -8,3 +8,4 @@ export { default as TagRoutes } from "./tag.routes.js";
 export { default as ListingTagRoutes } from "./listingTag.routes.js";
 export { default as AdvertisingPackageRoutes } from "./advertising.package.routes.js";
 export { default as PaymentRoutes } from "./payment.routes.js";
+export { default as OrderRoutes } from "./order.routes.js";

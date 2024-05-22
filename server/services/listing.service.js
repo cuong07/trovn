@@ -19,7 +19,6 @@ const ListingService = {
       let imageUrls = [];
 
       for (const file of files) {
-        console.log(file);
         if (file.size > MAX_IMAGE_SIZE) {
           throw new Error(
             `Dung lượng của ảnh phải <= 5MB file name:  ${
@@ -31,7 +30,6 @@ const ListingService = {
 
       for (const file of files) {
         const { path } = file;
-        console.log(file);
         const newPath = await uploader(path);
         imageUrls.push({
           url: newPath?.url,
@@ -99,9 +97,15 @@ const ListingService = {
     }
   },
 
-  async getListings(page, limit, keyword) {
+  async getListings(page, limit, keyword, latCoords, lngCoords) {
     try {
-      return await ListingModel.methods.getListings(page, limit, keyword);
+      return await ListingModel.methods.getListings(
+        page,
+        limit,
+        keyword,
+        latCoords,
+        lngCoords
+      );
     } catch (error) {
       console.log(error);
       throw error;

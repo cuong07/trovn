@@ -1,12 +1,25 @@
-import { create } from 'zustand'
+import { create } from "zustand";
 
 const useUserStore = create((set) => ({
-    user: null,
-    token: JSON.parse(localStorage.getItem("token")) || "",
+  user: null,
+  token: JSON.parse(localStorage.getItem("token")) || "",
+  adsPackage: null,
 
+  setAdsPackage: (data) => {
+    set((state) => ({
+      ...state,
+      adsPackage: data,
+    }));
+  },
 
-    setUser: set((user) => ({ user })),
-    setToen: set((token) => ({ token }))
-}))
+  setUser: (data) => {
+    set((state) => ({ ...state, user: data }));
+  },
 
-export default useUserStore
+  setToken: (data) => {
+    localStorage.setItem("token", JSON.stringify(data));
+    set((state) => ({ ...state, token: data }));
+  },
+}));
+
+export default useUserStore;

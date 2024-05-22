@@ -1,5 +1,6 @@
 import db from "../lib/db.js";
-
+import dayjs from "dayjs";
+import "dayjs/locale/vi.js";
 const BannerModel = {
   methods: {
     async createBanner(bannerData) {
@@ -26,15 +27,41 @@ const BannerModel = {
     },
 
     async getBannersActive() {
-      return db.banner.findMany({
+      const now = dayjs().toISOString();
+
+      const validBanners = await db.banner.findMany({
         where: {
-          toDate: {
-            gt: new Date(),
+          fromDate: {
+            lte: now,
           },
-          isActive: true,
+          toDate: {
+            gte: now,
+          },
           isAvailable: true,
         },
       });
+
+      return validBanners;
+    },
+
+    async updateExpiredBanners() {
+      const now = dayjs().toISOString();
+      console.log(now);
+      const updatedBanners = await db.banner.updateMany({
+        where: {
+          toDate: {
+            lt: now,
+          },
+          isAvailable: true,
+        },
+        data: {
+          isAvailable: false,
+        },
+      });
+
+      console.log(updatedBanners);
+
+      return updatedBanners;
     },
 
     async updateBanner(bannerId, bannerData) {

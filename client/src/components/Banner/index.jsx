@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -6,7 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-const Index = () => {
+const Index = ({ banners }) => {
   return (
     <>
       <Swiper
@@ -23,9 +24,18 @@ const Index = () => {
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
       >
-        {new Array(10).fill(0).map((_, index) => (
+        {/* {new Array(10).fill(0).map((_, index) => (
           <SwiperSlide className="bg-zinc-500" key={index}>
             Slide {index + 1}
+          </SwiperSlide>
+        ))} */}
+        {banners?.map((item) => (
+          <SwiperSlide className="bg-zinc-500" key={item.id}>
+            <img
+              src={item.imageUrl}
+              alt={item.title}
+              className="w-full h-full"
+            />
           </SwiperSlide>
         ))}
       </Swiper>

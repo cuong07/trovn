@@ -6,8 +6,11 @@ import { getListings } from "../../apis/listing";
 import useListingStore from "../../hooks/useListingStore";
 import ProductList from "./ProductList";
 
+import useAmenityStore from "../../hooks/useAmenityStore";
+import { getBannerActive } from "../../apis/banner";
+
 const Index = () => {
-  const [amenities, setAmenities] = useState([]);
+  const [banners, setBanners] = useState([]);
   const {
     setListings,
     listings: {
@@ -19,13 +22,7 @@ const Index = () => {
     setCurrentPageListing,
     setListingLoading,
   } = useListingStore();
-
-  useEffect(() => {
-    (async () => {
-      const { data } = await getAllAmenity();
-      setAmenities(data);
-    })();
-  }, []);
+  const { amenities } = useAmenityStore();
 
   useEffect(() => {
     (async () => {
@@ -36,6 +33,17 @@ const Index = () => {
     })();
   }, [page]);
 
+  useEffect(() => {
+    try {
+      (async () => {
+        const { data } = await getBannerActive();
+        setBanners(data);
+      })();
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  console.log(banners);
   const handleLoadMore = () => {
     setCurrentPageListing(currentPage + 1);
   };
@@ -46,7 +54,7 @@ const Index = () => {
         <SliderFilter data={amenities} />
       </div>
       <div className="h-[50%]">
-        <Banner />
+        <Banner banners={banners} />
       </div>
       <div className="mt-20">
         <ProductList data={contents} />

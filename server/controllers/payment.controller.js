@@ -11,7 +11,7 @@ import { orderTemplate } from "../utils/order.template.utils.js";
 
 const PaymentController = {
   async createMomoPayment(req, res) {
-    const { amount, orderInfo } = req.query;
+    const { amount, orderInfo, adsPackageId } = req.query;
     const { id } = req.user;
     console.log(amount, orderInfo);
     try {
@@ -37,7 +37,7 @@ const PaymentController = {
         "&amount=" +
         amount +
         "&extraData=" +
-        extraData +
+        adsPackageId +
         "&ipnUrl=" +
         ipnUrl +
         "&orderId=" +
@@ -71,7 +71,7 @@ const PaymentController = {
         lang: lang,
         requestType: requestType,
         autoCapture: autoCapture,
-        extraData: extraData,
+        extraData: adsPackageId,
         orderGroupId: orderGroupId,
         signature: signature,
       });
@@ -108,7 +108,6 @@ const PaymentController = {
 
   async callbackMomo(req, res) {
     const data = req.body;
-    console.log(data);
     const list = Object.entries(data).map(([key, value]) => ({
       name: key,
       value,
@@ -120,7 +119,6 @@ const PaymentController = {
       const { user } = await PaymentService.getUserForTransactionId(orderId);
       const { email } = user;
       const template = orderTemplate(email, list);
-      console.log(email);
       const subject =
         resultCode === 0
           ? "THANH TOÁN THÀNH CÔNG"
@@ -129,9 +127,9 @@ const PaymentController = {
       sendMail(email, subject, template);
 
       const payment = await PaymentService.updatePaymentActive(
-        orderId,
         status,
-        true
+        user,
+        data
       );
       return payment;
     } catch (error) {

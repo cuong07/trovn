@@ -66,6 +66,7 @@ const UserController = {
 
   async createUser(req, res) {
     const userData = req.body;
+    console.log(req.body);
     try {
       const newUser = await UserService.createUser(userData);
       return res

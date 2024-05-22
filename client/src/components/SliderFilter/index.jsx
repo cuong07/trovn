@@ -7,11 +7,11 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Flex, Skeleton, Space } from "antd";
 
-const Index = ({ data }) => {
+const Index = ({ data, count }) => {
   return (
     <div className="px-40 bg-white">
       <Swiper
-        slidesPerView={12}
+        slidesPerView={count ? count : 12}
         spaceBetween={0}
         navigation={true}
         modules={[Navigation]}
