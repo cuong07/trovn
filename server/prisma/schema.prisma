@@ -97,8 +97,8 @@ model Amenity {
 
 model Tag {
   id          String       @id @default(uuid())
-  name        String
-  description String
+  name        String       @unique
+  description String       @default("")
   listingTags ListingTag[]
 }
 

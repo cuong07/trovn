@@ -21,6 +21,7 @@ const BannerService = {
     try {
       const { file, paymentId, ...newBannerData } = bannerData;
       const payment = await PaymentService.getPaymentById(paymentId);
+      console.log(payment);
       if (payment.isActive) {
         const { path } = file;
         const newPath = await uploader(path);
@@ -36,7 +37,7 @@ const BannerService = {
         }
         throw new Error("Có lỗi khi tạo banner");
       }
-      Logger.error("BANNER_SERVICE: createBanner", error);
+      // Logger.error("BANNER_SERVICE: createBanner", error);
       throw new Error("Bạn đã sử dụng dịch vụ");
     } catch (error) {
       Logger.error("BANNER_SERVICE: createBanner", error);

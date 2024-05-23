@@ -1,4 +1,4 @@
-import { Modal, Result, Steps, message } from "antd";
+import { Modal, Result, Spin, Steps, message } from "antd";
 import {
   Button,
   ListingDetailStep,
@@ -12,31 +12,24 @@ import { getLocations } from "../../../../apis/location";
 import useListingStore from "../../../../hooks/useListingStore";
 import { Link } from "react-router-dom";
 import { createListing } from "../../../../apis/listing";
+import { getAllTags } from "../../../../apis/tag";
 
 const steps = [
   {
     title: "Thồng tin",
-    status: "error",
     subTitle: "hello",
   },
   {
     title: "Địa chỉ",
-    status: "error",
     subTitle: "hello",
   },
-  {
-    title: "Chi tiết",
-    status: "error",
-    subTitle: "hello",
-  },
+
   {
     title: "Hình ảnh",
-    status: "error",
     subTitle: "hello",
   },
   {
     title: "Thành công",
-    status: "error",
     subTitle: "hello",
   },
 ];
@@ -46,7 +39,10 @@ const Index = () => {
   const [current, setCurrent] = useState(0);
   const { newListing } = useListingStore();
   const [amenities, setAmenities] = useState([]);
+  const [tags, setTags] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const showModalConfirm = () => {
     setIsShowModal(true);
@@ -73,12 +69,14 @@ const Index = () => {
   useEffect(() => {
     (async () => {
       try {
-        const [res1, res2] = await Promise.all([
+        const [res1, res2, res3] = await Promise.all([
           getAllAmenity(),
           getLocations(),
+          getAllTags(),
         ]);
         setAmenities(res1.data);
-        setLocations(res2.data);
+        setLocations(res2.data.contents);
+        setTags(res3.data);
       } catch (error) {
         message.error(error.message);
         console.log(error);
@@ -88,19 +86,21 @@ const Index = () => {
 
   const handleSubmit = async () => {
     try {
-      console.log(newListing);
-      const res = await createListing(newListing);
-      console.log(res);
-      message.success("Thêm thành công");
+      setIsLoading(true);
+      const { data, success } = await createListing(newListing);
+      setIsLoading(false);
+      setIsSuccess(success);
+      if (success) {
+        message.success("Thêm thành công");
+        return;
+      }
     } catch (error) {
       message.error(error.message);
     }
-    console.log(newListing);
-    message.success("Processing complete!");
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full h-full p-4 overflow-auto">
+    <div className="flex flex-col gap-2 w-full h-full p-4 overflow-scroll">
       <Steps current={current} items={items} className="mb-4" responsive />
       <div className="flex justify-end gap-4  w-full  p-2">
         {current > 0 && (
@@ -127,10 +127,14 @@ const Index = () => {
           </Button>
         )}
       </div>
-      <div className=" overflow-hidden h-full ">
+      <div className="  h-full ">
         {current === 0 && (
-          <div className="w-full ">
-            <ListingForm amenities={amenities} locations={locations} />
+          <div className="w-full">
+            <ListingForm
+              amenities={amenities}
+              tags={tags}
+              locations={locations}
+            />
           </div>
         )}
         {current === 1 && (
@@ -139,41 +143,42 @@ const Index = () => {
           </div>
         )}
         {current === 2 && (
-          <div className="h-full">
-            <ListingDetailStep
-              newListing={newListing}
-              amenities={amenities}
-              locations={locations}
-            />
-          </div>
-        )}
-        {current === 3 && (
           <div className="w-full h-full">
             <UploadImage />
           </div>
         )}
-        {current === 4 && (
+        {current === 3 && (
           <div className="w-full h-full">
-            {/* <Result
-              status="success"
-              title="Successfully Purchased Cloud Server ECS!"
-              subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-              extra={
-                <div className="flex justify-center gap-4">
-                  <div key="console">
-                    <Button type="primary">Go Console</Button>
+            {isSuccess && (
+              <Result
+                status="success"
+                title="Thêm phòng thành công"
+                subTitle="Yêu cầu thêm phòng của bạn đã được gửi để  vui lòng đợi để đợi để được phê duyệt"
+                extra={
+                  <div className="flex justify-center gap-4">
+                    <div key="console">
+                      <Link to="/host/list">
+                        <Button type="primary">
+                          Quay trở lại trang quản trị
+                        </Button>
+                      </Link>
+                    </div>
+                    <div key="buy">
+                      <Link to="/host/create">
+                        <Button>Tạo Thêm</Button>
+                      </Link>
+                    </div>
                   </div>
-                  <div key="buy">
-                    <Button>Buy Again</Button>
-                  </div>
-                </div>
-              }
-            /> */}
-            <ListingDetailStep
-              newListing={newListing}
-              amenities={amenities}
-              locations={locations}
-            />
+                }
+              />
+            )}
+            {!isSuccess && (
+              <ListingDetailStep
+                newListing={newListing}
+                amenities={amenities}
+                locations={locations}
+              />
+            )}
           </div>
         )}
       </div>
@@ -192,6 +197,7 @@ const Index = () => {
             : newListing.address}
         </h2>
       </Modal>
+      <Spin spinning={isLoading} fullscreen />
     </div>
   );
 };

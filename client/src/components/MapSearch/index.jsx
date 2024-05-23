@@ -14,11 +14,14 @@ import axios from "axios";
 
 import { formatMoney } from "../../utils/helpers";
 import { ListingCard } from "..";
+import { getFilterListing } from "../../apis/listing";
+import useListingStore from "../../hooks/useListingStore";
 const MAPBOX_TOKEN = import.meta.env.VITE_APP_MAPBOX_TOKEN;
 
 const Index = ({ listings }) => {
   const [openCardId, setOpenCardId] = useState(null);
   const [mapBounds, setMapBounds] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
   const [mapInfo, setMapInfo] = useState({
     center: { lat: 10.79744042085094, lng: 106.66571997369292 },
     corners: {
@@ -28,6 +31,11 @@ const Index = ({ listings }) => {
       bottomRight: { lat: 0, lng: 0 },
     },
   });
+  const {
+    setSearchListings,
+    setSearchListingLoading,
+    searchListings: { contents, filter, isLoading },
+  } = useListingStore();
   const mapRef = useRef(null);
 
   const onOpen = (id) => {
@@ -51,13 +59,7 @@ const Index = ({ listings }) => {
     }
   };
 
-  // useEffect(() => {
-  //   if (mapRef.current) {
-  //     updateBounds();
-  //   }
-  // }, [mapRef.current]);
-
-  const handleMove = (evt) => {
+  const handleMove = async (evt) => {
     const { viewState } = evt;
     const map = evt.target;
     const bounds = map.getBounds();
@@ -83,18 +85,37 @@ const Index = ({ listings }) => {
       },
     };
     setMapInfo(newMapInfo);
-  };
 
-  console.log(mapInfo);
+    let latCoords = [
+      bounds.getNorthWest().lat,
+      bounds.getNorthEast().lat,
+      bounds.getSouthWest().lat,
+      bounds.getSouthEast().lat,
+    ].join(",");
+    let lngCoords = [
+      bounds.getNorthWest().lng,
+      bounds.getNorthEast().lng,
+      bounds.getSouthWest().lng,
+      bounds.getSouthEast().lng,
+    ].join(",");
+    try {
+      // setSearchListingLoading(true);
+      const { data, success } = await getFilterListing(latCoords, lngCoords);
+      // setSearchListingLoading(false);
+      // setSearchListings(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Map
       ref={mapRef}
       mapboxAccessToken={MAPBOX_TOKEN}
       initialViewState={{
-        longitude: listings[0]?.longitude,
-        latitude: listings[0]?.latitude,
-        zoom: 14,
+        longitude: (listings && listings[0]?.longitude) ?? 106.67977169460214,
+        latitude: (listings && listings[0]?.latitude) ?? 10.84636797159555,
+        zoom: 10,
       }}
       style={{ width: "100%", height: "100%" }}
       mapStyle="mapbox://styles/mapbox/streets-v12"
@@ -111,15 +132,7 @@ const Index = ({ listings }) => {
             latitude={mapInfo?.center.lat + 0.00027}
             longitude={mapInfo?.center.lng + 0.00027}
           >
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                backgroundColor: "blue",
-                opacity: 0.6,
-              }}
-            />
+            <div className="text-red-500 font-black text-3xl">Y</div>
           </Marker>
           {mapInfo?.corners && (
             <>
@@ -146,15 +159,7 @@ const Index = ({ listings }) => {
                   latitude={corner.lat}
                   longitude={corner.lng}
                 >
-                  <div
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      borderRadius: "50%",
-                      backgroundColor: "red",
-                      opacity: 0.6,
-                    }}
-                  />
+                  <div className="text-red-500 font-black text-3xl">X</div>
                 </Marker>
               ))}
             </>
@@ -182,6 +187,17 @@ const Index = ({ listings }) => {
           </div>
         </Marker>
       ))}
+      {isLoading && (
+        <div className="absolute top-10 right-0 w-full  flex justify-center">
+          <div className="w-20 h-8 overflow-hidden bg-white  rounded-xl shadow-md">
+            <img
+              src="https://i.pinimg.com/originals/86/e8/f6/86e8f6313548f01396b4b43c2ce2f87f.gif"
+              alt="loading..."
+              className="w-full h-full  object-cover scale-150"
+            />
+          </div>
+        </div>
+      )}
     </Map>
   );
 };

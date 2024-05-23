@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Col, Descriptions, Divider, Drawer, Image, Row } from "antd";
-import React from "react";
+import { Descriptions, Drawer, Image } from "antd";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -54,7 +53,7 @@ const Index = ({ onClose, open, listing }) => {
       >
         <div className="grid gap-4">
           <div className="w-full grid grid-cols-2 gap-4 ">
-            <div>
+            <div className="h-[400px]">
               <Swiper
                 effect={"coverflow"}
                 grabCursor={true}
@@ -76,12 +75,12 @@ const Index = ({ onClose, open, listing }) => {
                 className="mySwiper w-full h-full rounded-xl overflow-hidden"
               >
                 {listing.images.map((item) => (
-                  <SwiperSlide key={item.id} className="">
+                  <SwiperSlide key={item.id} className="!w-full">
                     <Image
                       wrapperClassName="!h-full"
                       src={item.url}
                       alt={item?.caption}
-                      className="!h-full !w-full !object-cover"
+                      className="!h-full !w-full !object-fill !aspect-square"
                     />
                   </SwiperSlide>
                 ))}

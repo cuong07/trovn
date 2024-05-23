@@ -4,7 +4,7 @@ import { CiHeart, CiUser } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-
+import { LogoSvg } from "../../components/Icons";
 const Index = () => {
   const contents = (
     <div className="flex flex-col gap-2 p-2 ">
@@ -19,9 +19,16 @@ const Index = () => {
 
   return (
     <div className="h-full leading-none flex items-center justify-between container mx-auto">
-      <div className="flex gap-9">
+      <div className="flex gap-9 items-center">
         <div className="font-bold text-2xl tracking-wider">
-          <Link to="/">TROVN</Link>
+          <Link to="/">
+            <LogoSvg
+              style={{
+                width: 60,
+                height: 60,
+              }}
+            />
+          </Link>
         </div>
         <div>
           <SearchInput />

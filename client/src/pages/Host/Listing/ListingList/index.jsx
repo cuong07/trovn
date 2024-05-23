@@ -1,8 +1,9 @@
-import { Table, message } from "antd";
+import { Table, Tag, message } from "antd";
 import { useEffect, useState, useMemo } from "react";
 import { getHostListings } from "../../../../apis/listing";
 import useListingStore from "../../../../hooks/useListingStore";
-import { ListingDrawer } from "../../../../components";
+import { Button, ListingDrawer } from "../../../../components";
+import { formatCurrency, getTerm } from "../../../../utils/helpers";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,46 +29,62 @@ const Index = () => {
   const columns = useMemo(
     () => [
       {
-        title: "Full Name",
-        width: 100,
+        title: "Tiêu đề",
+        width: 200,
         dataIndex: "title",
         key: "name",
         fixed: "left",
+        render: (title) => {
+          return <div>{title?.slice(0, 20)}</div>;
+        },
       },
       {
-        title: "Age",
-        width: 100,
+        title: "Diện tích",
         dataIndex: "area",
         key: "area",
         fixed: "left",
+        render: (area) => {
+          return (
+            <div>
+              {area}m<sup>2</sup>
+            </div>
+          );
+        },
       },
       {
-        title: "Column 1",
-        dataIndex: "address",
+        title: "Loại hình cho thuê",
+        dataIndex: "term",
         key: "1",
-        width: 150,
+        // width: 150,
+        render: (term) => {
+          return <Tag color="green">{getTerm(term)}</Tag>;
+        },
       },
       {
-        title: "Column 2",
+        title: "Địa chỉ",
         dataIndex: "address",
         key: "2",
-        width: 150,
+        render: (address) => {
+          return <div>{address.slice(0, 50)}</div>;
+        },
       },
       {
-        title: "Column 3",
-        dataIndex: "address",
+        title: "Giá (vnd)",
+        dataIndex: "price",
         key: "3",
-        width: 150,
+        render: (price) => {
+          let money = parseFloat(price);
+          return <div>{formatCurrency(money)}</div>;
+        },
       },
       {
-        title: "Action",
+        title: "Chi tiết",
         key: "operation",
         fixed: "right",
-        width: 100,
         render: (_, record) => (
-          <div className="cursor-pointer" onClick={() => showDrawer(record)}>
-            Click
-          </div>
+          <Button className="cursor-pointer" onClick={() => showDrawer(record)}>
+            Xem chi tiêt
+          </Button>
         ),
       },
     ],

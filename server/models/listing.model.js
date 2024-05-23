@@ -1,4 +1,5 @@
 import db from "../lib/db.js";
+import { removeAccents } from "../utils/removeAccents.js";
 
 const ListingModel = {
   fields: {
@@ -48,13 +49,14 @@ const ListingModel = {
         term,
         amenityConnections,
         userId,
+        tags,
       } = listingData;
 
       const amenities = amenityConnections.split(",").map((amenityId) => ({
         amenity: { connect: { id: amenityId } },
       }));
 
-      return await db.listing.create({
+      const newListing = await db.listing.create({
         data: {
           title,
           description,
@@ -69,6 +71,27 @@ const ListingModel = {
           location: { connect: { id: locationId } },
         },
       });
+
+      const listingId = newListing.id;
+
+      const tagArray = tags.split(",").map(async (tagName) => {
+        const tag = await db.tag.upsert({
+          where: { name: tagName },
+          create: { name: tagName },
+          update: {},
+        });
+
+        await db.listingTag.create({
+          data: {
+            listings: { connect: { id: listingId } },
+            tag: { connect: { id: tag.id } },
+          },
+        });
+      });
+
+      await Promise.all(tagArray);
+
+      return newListing;
     },
 
     async getListingById(listingId) {
@@ -81,6 +104,12 @@ const ListingModel = {
           location: true,
           reviews: true,
           user: true,
+
+          listingTags: {
+            include: {
+              tag: true,
+            },
+          },
           listingAmenities: {
             include: {
               amenity: true,
@@ -124,6 +153,7 @@ const ListingModel = {
       const skip = Math.max(0, (page - 1) * limit);
       const currentPage = +page || 1;
       const take = +limit || 10;
+      const searchTerm = removeAccents(keyword ?? "");
 
       const filters = {
         NOT: [{ isPublish: true }],
@@ -131,9 +161,9 @@ const ListingModel = {
 
       if (keyword) {
         filters.OR = [
-          { title: { contains: keyword } },
-          { description: { contains: keyword } },
-          { address: { contains: keyword } },
+          { title: { contains: keyword, mode: "insensitive" } },
+          { description: { contains: keyword, mode: "insensitive" } },
+          { address: { contains: keyword, mode: "insensitive" } },
         ];
       }
 
@@ -170,6 +200,11 @@ const ListingModel = {
             images: true,
             user: true,
             reviews: true,
+            listingTags: {
+              include: {
+                tag: true,
+              },
+            },
             listingAmenities: {
               include: {
                 amenity: true,
@@ -179,10 +214,8 @@ const ListingModel = {
         }),
       ]);
 
-      // Calculate the total number of pages
       const totalPage = Math.ceil(totalElement / take);
 
-      // Return the results
       return { totalElement, currentPage, totalPage, contents };
     },
   },

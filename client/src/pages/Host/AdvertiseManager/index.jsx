@@ -36,7 +36,11 @@ const Index = () => {
   const [modalText, setModalText] = useState("Content of the modal");
   const [adsPackageSelect, setAdsPackageSelect] = useState(null);
 
-  const showModal = () => {
+  const showModal = (record) => {
+    const { payment } = record;
+    setAdsPackageSelect(record);
+    setValue("paymentId", payment.id);
+    console.log(payment.id);
     setOpen(true);
   };
 
@@ -119,15 +123,11 @@ const Index = () => {
       key: "sudung",
       render: (_, record) => {
         const { payment } = record;
-        setAdsPackageSelect(record);
-        const handle = () => {
-          console.log(record);
-        };
         return (
           <div>
             <Button
               className="h-10"
-              onClick={showModal}
+              onClick={() => showModal(record)}
               disabled={!payment?.isActive}
             >
               {payment?.isActive ? "Sử dụng" : "Đã sử dụng"}
@@ -165,13 +165,6 @@ const Index = () => {
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-
-  useEffect(() => {
-    if (adsPackageSelect) {
-      const { payment, user, advertisingPackage } = adsPackageSelect;
-      setValue("paymentId", payment.id);
-    }
-  }, [adsPackageSelect, setValue]);
 
   const disabledDaysDate = (current, { from }) => {
     if (current && current < moment().startOf("day")) {
