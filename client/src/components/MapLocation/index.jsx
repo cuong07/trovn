@@ -1,11 +1,10 @@
 import { Map } from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import GeocoderControl from "./GeocoderControl";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import useListingStore from "../../hooks/useListingStore";
 import { getLocationByLatLng } from "../../apis/location";
-import { Modal } from "antd";
 
 const MAPBOX_TOKEN = import.meta.env.VITE_APP_MAPBOX_TOKEN;
 
@@ -51,9 +50,6 @@ const Index = () => {
     }
   }, [result, updateLatLng]);
 
-  // useEffect(() => {
-  //   console.log(newListing);
-  // }, [newListing]);
   return (
     <div>
       <Map

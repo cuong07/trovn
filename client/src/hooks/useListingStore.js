@@ -20,7 +20,7 @@ const useListingStore = create((set) => ({
     contents: [],
     pagination: {
       page: 1,
-      limit: 2,
+      limit: 10,
     },
     currentPage: 0,
     totalElements: 0,
@@ -53,6 +53,7 @@ const useListingStore = create((set) => ({
     locationId: "",
     files: null,
     amenityConnections: [],
+    tags: "",
   },
 
   updateListing: (key, value) =>

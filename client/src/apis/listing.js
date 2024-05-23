@@ -31,16 +31,16 @@ export const getHostListings = async () => {
     query: {
       page,
       limit,
-      keyword: "",
+      query: "",
     },
   });
-  await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+  // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
   const { data } = await apiClient.get(url);
   return data;
 };
 
-export const getFilterListing = async () => {
+export const getFilterListing = async (latCoords, lngCoords) => {
   const {
     pagination: { page, limit },
     filter: { keyword },
@@ -51,10 +51,35 @@ export const getFilterListing = async () => {
       page,
       limit,
       keyword,
+      latCoords,
+      lngCoords,
     },
   });
-  // await new Promise((resolve, reject) => setTimeout(resolve, 9000));
+  useListingStore.setState((prev) => ({
+    ...prev,
+    searchListings: {
+      ...prev.searchListings,
+      isLoading: true,
+    },
+  }));
+  await new Promise((resolve, reject) => setTimeout(resolve, 1000));
   const { data } = await apiClient.get(url);
+  useListingStore.setState((prev) => ({
+    ...prev,
+    searchListings: {
+      ...prev.searchListings,
+      isLoading: false,
+    },
+  }));
+  useListingStore.setState((prev) => ({
+    ...prev,
+    searchListings: {
+      ...prev.searchListings,
+      contents: data.data.contents,
+      currentPage: data?.data.currentPage,
+      totalElements: data?.data.totalElement,
+    },
+  }));
   return data;
 };
 
@@ -79,6 +104,8 @@ export const createListing = async (value) => {
         });
       } else if (key === "amenityConnections") {
         formData.append(key, val);
+      } else if (key === "tags") {
+        formData.append(key, val.join(","));
       }
     } else {
       formData.append(key, val);

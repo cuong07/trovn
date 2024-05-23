@@ -75,6 +75,16 @@ const Index = () => {
                       ? `${listing?.reviews?.length} review`
                       : "Chưa có review nào"}
                   </div>
+                  <div className="flex gap-2 flex-wrap">
+                    {listing?.listingTags?.map((item) => (
+                      <span
+                        key={item.id}
+                        className="py-1 px-2 rounded-md hover:bg-slate-100 cursor-pointer bg-slate-200"
+                      >
+                        #{item.tag.name}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="py-6 border-y-[1px] flex items-center gap-2">

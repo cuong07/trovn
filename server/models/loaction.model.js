@@ -2,8 +2,22 @@ import db from "../lib/db.js";
 
 const LocationModel = {
   methods: {
-    async getLocations() {
-      return await db.location.findMany();
+    async getLocations(page, limit) {
+      const currentPage = +page || 1;
+      const take = limit ? +limit : undefined;
+      const skip = take ? Math.max(0, (currentPage - 1) * take) : 0;
+
+      const [totalElement, contents] = await db.$transaction([
+        db.location.count(),
+        db.location.findMany({
+          take,
+          skip,
+        }),
+      ]);
+
+      const totalPage = take ? Math.ceil(totalElement / take) : 1;
+
+      return { totalElement, currentPage, totalPage, contents };
     },
 
     async getLocationById(locationId) {
