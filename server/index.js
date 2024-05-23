@@ -21,7 +21,8 @@ const app = express();
 app.use(express.json({ limit: "30mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: "*", credentials: true }));
+// app.use(cors({ origin: "*", credentials: 'http://localhost:5173',  }));
+app.use(cors());
 
 app.use("/api/v1", UserRoutes);
 app.use("/api/v1", AmenityRoutes);
