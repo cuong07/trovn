@@ -17,7 +17,7 @@ const ListingController = {
             )
           );
       }
-      if (files) {
+      if (files.length !== 0) {
         const newListingData = {
           ...listingData,
           userId: user.id,
@@ -26,6 +26,7 @@ const ListingController = {
           newListingData,
           files
         );
+        console.log(listing);
         return res
           .status(statusCode.CREATED)
           .json(BaseResponse.success("Thành công", listing));
@@ -69,9 +70,15 @@ const ListingController = {
   },
 
   async getListings(req, res) {
-    const { page, limit, keyword } = req.query;
+    const { page, limit, keyword, latCoords, lngCoords } = req.query;
     try {
-      const listings = await ListingService.getListings(page, limit, keyword);
+      const listings = await ListingService.getListings(
+        page,
+        limit,
+        keyword,
+        latCoords,
+        lngCoords
+      );
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", listings));

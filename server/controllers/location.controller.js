@@ -4,8 +4,9 @@ import LocaionService from "../services/location.service.js";
 
 const LocaionController = {
   async getAllLocation(req, res) {
+    const { page, limit } = req.query;
     try {
-      const locations = await LocaionService.getAllLocation();
+      const locations = await LocaionService.getAllLocation(page, limit);
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", locations));

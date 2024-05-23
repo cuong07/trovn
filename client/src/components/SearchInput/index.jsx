@@ -1,5 +1,5 @@
 import { Empty, Input, Popover } from "antd";
-import { CiSearch } from "react-icons/ci";
+import { CiLocationOn, CiSearch } from "react-icons/ci";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import qs from "query-string";
@@ -9,17 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "..";
 import { cn } from "../../utils/helpers";
 import useListingStore from "../../hooks/useListingStore";
+import useLocationStore from "../../hooks/useLocationStore";
 
 const Index = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [value] = useDebounce(keyword, 300);
   const navigate = useNavigate();
-  const { setListingKeyword } = useListingStore();
+  const { setSearchListingKeyword } = useListingStore();
+  const { locations } = useLocationStore();
 
   const handleSearch = () => {
     const queryParams = qs.stringify({ keyword: value });
-    setListingKeyword(keyword);
+    setSearchListingKeyword(keyword);
     navigate(`/search?${queryParams}`);
   };
 
@@ -27,27 +29,36 @@ const Index = () => {
     setKeyword(e.target.value);
   };
 
-  const handleFocus = () => {
+  const handleFocus = useMemo(() => {
     setIsFocus(true);
-  };
+  }, []);
 
-  const handleBlur = () => {
+  const handleBlur = useMemo(() => {
     setIsFocus(false);
-  };
+  }, []);
 
   const content = (
-    <div className="w-[280px]">
-      <Empty />
+    <div className="w-[400px]">
+      {locations.map((item) => (
+        <div
+          key={item.id}
+          className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2"
+        >
+          <div>
+            <CiLocationOn size={22} />
+          </div>
+          <div>{`${item.name} - ${item.city}`}</div>
+        </div>
+      ))}
+      {locations.length < 0 && <Empty />}
     </div>
   );
 
   return (
     <Popover title="Danh sách tìm kiếm" content={content}>
-      <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-[300px] border">
+      <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-[400px] border">
         <input
           className="bg-transparent h-full w-full  focus-within:outline-none text-base group-focus:border"
-          onFocus={handleFocus}
-          onBlur={handleBlur}
           onChange={handleChangeQuery}
           placeholder="Tìm kiếm địa chỉ, khu vực..."
         />
@@ -59,6 +70,8 @@ const Index = () => {
           >
             <Button
               type="primary"
+              onMouseEnter={handleFocus}
+              onMouseLeave={handleBlur}
               className={cn(
                 "rounded-full h-full p-2 w-full flex overflow-hidden gap-2 items-center"
               )}

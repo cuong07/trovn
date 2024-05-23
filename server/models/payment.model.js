@@ -8,6 +8,14 @@ const PaymentModel = {
       });
     },
 
+    async getPaymentById(id) {
+      return await db.payment.findUnique({
+        where: {
+          id: id,
+        },
+      });
+    },
+
     async getPaymentsByUser(userId) {
       return await db.payment.findMany({
         where: {
@@ -46,15 +54,24 @@ const PaymentModel = {
       return user;
     },
 
-    async updatePaymentActive(orderId, isActive, status) {
+    async updatePaymentActive(orderId, status, isActive) {
       return await db.payment.update({
         where: {
           transactionId: orderId,
         },
         data: {
           status: status,
-          isActive: isActive,
+          isActive: status,
         },
+      });
+    },
+
+    async updatePayment(id, data) {
+      return await db.payment.update({
+        where: {
+          id,
+        },
+        data: data,
       });
     },
 
