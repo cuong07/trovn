@@ -1,7 +1,7 @@
 import { Avatar, Flex, Popover } from "antd";
 import { Button, SearchInput } from "../../components";
 import { CiHeart, CiUser } from "react-icons/ci";
-import { IoIosNotificationsOutline } from "react-icons/io";
+import { IoIosNotificationsOutline, IoIosHelpCircle } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 
@@ -13,6 +13,12 @@ const Index = () => {
           <FaUser />
         </div>
         Thông tin cá nhân
+      </Link>
+      <Link to="/user/help" className="flex gap-1 items-center">
+        <div>
+          <IoIosHelpCircle size={20} />
+        </div>
+        Trung tâm trợ giúp
       </Link>
     </div>
   );
