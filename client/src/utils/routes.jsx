@@ -18,6 +18,9 @@ import {
   AdvertiseManager,
   Login,
   Info,
+  Forgetpass,
+  Newpass,
+  Chatbot,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 
@@ -33,6 +36,18 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/chatbot",
+        element: <Chatbot />,
+      },
+      {
+        path: "/forgetpass",
+        element: <Forgetpass />,
+      },
+      {
+        path: "/newpass",
+        element: <Newpass />,
       },
       {
         path: "/",
@@ -57,6 +72,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
 
   {
     path: "/host",
