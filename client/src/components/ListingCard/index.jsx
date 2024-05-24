@@ -7,10 +7,10 @@ import { useState } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { formatMoney } from "../../utils/helpers";
-import { Skeleton } from "antd";
 import { Link } from "react-router-dom";
+import { IoClose } from "react-icons/io5";
 
-const Index = ({ listing }) => {
+const Index = ({ listing, onClose }) => {
   const [isFocus, setIsFocus] = useState(true);
 
   const handleFocus = () => {
@@ -53,23 +53,34 @@ const Index = ({ listing }) => {
             </div>
           )}
         </Swiper>
-        <div className="flex flex-col text-[15px] gap-y-[2px]">
-          <h2 className=" font-semibold leading-[19px]">{listing.title}</h2>
+        <Link
+          to={`/listing/${listing.id}`}
+          className="flex flex-col text-[15px] gap-y-[2px] hover:text-[#222]"
+        >
+          <h2 className=" font-semibold leading-[19px]">
+            {listing?.title?.length > 30
+              ? `${listing.title.slice(0, 30)}...`
+              : listing.title}
+          </h2>
           <div className="text-[#717171]">
-            {listing?.description?.length > 30
-              ? `${listing.description.slice(0, 30)}...`
-              : listing.description}
+            {listing?.address?.length > 30
+              ? `${listing.address.slice(0, 30)}...`
+              : listing.address}
           </div>
           <div className="mt-[6px] font-semibold leading-[19px]">
             {`${formatMoney(listing.price)} `}{" "}
             <span className="font-normal">/ Tháng</span>
           </div>
-        </div>
+        </Link>
       </div>
-      <Link
-        to={`/listing/${listing.id}`}
-        className="absolute top-0 left-0 bottom-0 w-full z-10"
-      />
+      {onClose && (
+        <div
+          className="absolute right-2 top-2 z-50 p-2 cursor-pointer rounded-full shadow-lg bg-white"
+          onClick={onClose}
+        >
+          <IoClose />
+        </div>
+      )}
     </div>
   );
 };

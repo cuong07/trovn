@@ -13,6 +13,9 @@ import {
   Register,
   Search,
   HostLayout,
+  Services,
+  Checkout,
+  AdvertiseManager,
   Login,
   Info,
   Forgetpass,
@@ -53,6 +56,7 @@ export const router = createBrowserRouter([
           { path: "", element: <Home /> },
           { path: "/listing/:id", element: <Listing /> },
           { path: "/search", element: <Search /> },
+          { path: "/checkout", element: <Checkout /> },
           { path: "/user/info", element: <Info /> },
         ],
       },
@@ -74,6 +78,14 @@ export const router = createBrowserRouter([
     path: "/host",
     element: <HostLayout />,
     children: [
+      {
+        path: "",
+        element: <Services />,
+      },
+      {
+        path: "ads-package",
+        element: <AdvertiseManager />,
+      },
       {
         path: "listing",
         element: <EmptyLayout />,

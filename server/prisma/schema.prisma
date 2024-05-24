@@ -75,6 +75,8 @@ model User {
   payments               Payment[]
   AdvertisingPackage     AdvertisingPackage? @relation(fields: [advertisingPackageId], references: [id])
   advertisingPackageId   String?
+
+  @@index([email, phoneNumber])
 }
 
 model Location {
@@ -97,9 +99,11 @@ model Amenity {
 
 model Tag {
   id          String       @id @default(uuid())
-  name        String
-  description String
+  name        String       @unique
+  description String       @default("")
   listingTags ListingTag[]
+
+  @@index([name])
 }
 
 model ListingTag {
@@ -123,8 +127,8 @@ model Listing {
   title       String
   description String
   address     String
-  latitude    String
-  longitude   String
+  latitude    Float
+  longitude   Float
   price       Decimal
   area        Decimal
   term        TermType @default(BOTH)
@@ -143,7 +147,7 @@ model Listing {
   favorites        Favorite[]
   listingAmenities ListingAmenity[]
 
-  @@index([userId])
+  @@index([userId, latitude, longitude])
 }
 
 model Conversation {
@@ -258,6 +262,8 @@ model Payment {
   userId     String
   user       User        @relation(fields: [userId], references: [id])
   orderItems OrderItem[]
+
+  @@index([transactionId])
 }
 
 model OrderItem {

@@ -4,12 +4,12 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useControl, Marker } from "react-map-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import useSearchLocation from "../../hooks/useSearchLocation";
+import useLocationStore from "../../hooks/useLocationStore";
 
 function GeocoderControl(props) {
   const [marker, setMarker] = useState(null);
   const geocoderRef = useRef(null);
-  const { locationSearch } = useSearchLocation();
+  const { locationSearch } = useLocationStore();
 
   const onMarkerDragStart = React.useCallback((event) => {
     props.onSetEvent((_events) => ({ ..._events, onDragStart: event.lngLat }));

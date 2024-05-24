@@ -9,9 +9,9 @@ const LoactionService = {
       throw error;
     }
   },
-  async getAllLocation() {
+  async getAllLocation(page, limit) {
     try {
-      return await LoactionModel.methods.getLocations();
+      return await LoactionModel.methods.getLocations(page, limit);
     } catch (error) {
       console.log(error);
       throw error;

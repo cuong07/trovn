@@ -42,6 +42,7 @@ const User = {
           isPremium: true,
           createdAt: true,
           updatedAt: true,
+          isVerify: true,
         },
       });
     },
