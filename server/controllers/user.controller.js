@@ -121,7 +121,7 @@ const UserController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
-
+  
   async verifyEmail(req, res) {
     const { otp, email } = req.body;
     try {
