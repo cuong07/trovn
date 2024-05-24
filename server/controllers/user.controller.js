@@ -26,18 +26,17 @@ const UserController = {
     const { email, password } = req.body;
     try {
       const { token, refreshToken } = await UserService.login(email, password);
-      
+
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         scure: true,
         path: "/",
         sameSite: "strict",
       });
-      
+
       return res
-      .status(statusCode.OK)
-      .json(BaseResponse.success("Thành công", token));
-      
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", token));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)
@@ -116,6 +115,25 @@ const UserController = {
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", null));
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
+    }
+  },
+
+  async verifyEmail(req, res) {
+    const { otp, email } = req.body;
+    try {
+      if ((email, otp)) {
+        await UserService.verifyEmail(email, otp);
+        return res
+          .status(statusCode.OK)
+          .json(BaseResponse.success("Thành công", null));
+      }
+      return res
+        .status(statusCode.BAD_REQUEST)
+        .json(BaseResponse.success("Vui lòng đăng nhập và nhập otp", null));
     } catch (error) {
       return res
         .status(statusCode.INTERNAL_SERVER_ERROR)

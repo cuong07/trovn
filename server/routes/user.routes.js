@@ -5,6 +5,7 @@ import { accessLogger } from "../middlewares/logger.middleware.js";
 const router = express.Router();
 
 router.get("/user/otp", verifyTokenAllRole, UserController.getUserOtp);
+router.post("/user/verify", UserController.verifyEmail);
 router.get("/user/:id", UserController.getUser);
 router.get("/user", verifyTokenAllRole, UserController.getCurrentUser);
 

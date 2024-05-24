@@ -50,6 +50,30 @@ export const getUser = async (id) => {
   return user.data;
 };
 
+export const getEmailOtp = async () => {
+  const url = qs.stringifyUrl({
+    url: UserV1.GET_USER_OTP,
+  });
+
+  const { data } = await apiClient.get(url);
+  return data;
+};
+
+export const getVerifyEmailOtp = async () => {
+  const url = qs.stringifyUrl({
+    url: UserV1.GET_VERIFY_EMAIL_OTP,
+  });
+  await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+
+  const value = {
+    email: useUserStore.getState().user.email,
+    otp: useUserStore.getState().otp,
+  };
+
+  const { data } = await apiClient.post(url, value);
+  return data;
+};
+
 // export const getCurrentUser = async ()=>{
 //     const url = '/user';
 //     const token = localStorage.getItem('authToken');
