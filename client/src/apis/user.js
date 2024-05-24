@@ -38,4 +38,5 @@ export const getCurrentUser = async () => {
         }
     });
     return user;
+    
 }

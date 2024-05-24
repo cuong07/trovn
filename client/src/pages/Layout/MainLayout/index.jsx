@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { MainFooter, MainHeader } from "../../../commons";
-
+import {Chatbot} from "../../../pages";
 import { Layout } from "antd";
 import useMessage from "antd/es/message/useMessage";
 const { Header, Content, Footer } = Layout;
@@ -13,11 +13,15 @@ const Index = () => {
       </Header>
       <Content className="mt-20">
         <Outlet />
+        <Chatbot />
       </Content>
       <Footer className="bg-transparent">
         <MainFooter />
       </Footer>
+
+  
     </Layout>
+    
   );
 };
 

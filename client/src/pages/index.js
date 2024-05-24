@@ -10,6 +10,7 @@ export { default as Login} from "./Login";
 export { default as Info } from "./Info";
 export { default as Forgetpass} from "./Forgetpass";
 export { default as Newpass} from "./Newpass";
+export { default as Chatbot} from "./Chatbot"
 
 
 

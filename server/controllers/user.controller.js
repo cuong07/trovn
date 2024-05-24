@@ -121,6 +121,7 @@ const UserController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
+
 };
 
 export default UserController;
