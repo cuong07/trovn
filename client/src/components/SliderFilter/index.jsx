@@ -6,8 +6,27 @@ import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
 import { Flex, Skeleton, Space } from "antd";
+import useListingStore from "../../hooks/useListingStore";
+import { cn } from "../../utils/helpers";
+import { getListings } from "../../apis/listing";
 
 const Index = ({ data, count }) => {
+  const { setListingAmenitiesId, listings } = useListingStore();
+  const {
+    filter: { amenityIds },
+  } = listings;
+
+  console.log(amenityIds);
+  const handleClickItem = async (id) => {
+    try {
+      setListingAmenitiesId(id);
+      const { data } = await getListings();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="px-40 bg-white">
       <Swiper
@@ -21,8 +40,14 @@ const Index = ({ data, count }) => {
           <SwiperSlide
             key={item.id}
             className="flex items-center w-auto  justify-center cursor-pointer"
+            onClick={() => handleClickItem(item.id)}
           >
-            <div className=" gap-2 hover:border-b-2 border-black flex flex-col justify-between hover:font-medium transition-all">
+            <div
+              className={cn(
+                "gap-2 hover:border-b-2 border-black flex flex-col text-sm justify-between hover:font-medium transition-all",
+                amenityIds?.includes(item.id) && "border-b-2 font-semibold"
+              )}
+            >
               <div className="text-center">
                 <img
                   src={item.iconUrl}
@@ -30,9 +55,7 @@ const Index = ({ data, count }) => {
                   className="w-6 h-6 mx-auto"
                 />
               </div>
-              <div className="text-center text-xs font-semibold">
-                {item.name}
-              </div>
+              <div className="text-center ">{item.name}</div>
             </div>
           </SwiperSlide>
         ))}

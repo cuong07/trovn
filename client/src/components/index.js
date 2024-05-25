@@ -16,3 +16,4 @@ export { default as AmenitiesList } from "./AmenitiesList";
 export { default as MapSearch } from "./MapSearch";
 export { default as CheckoutAds } from "./Template/CheckoutAds";
 export { default as ModalCreate } from "./ModalCreate";
+export { default as SearchTable } from "./SearchTable";

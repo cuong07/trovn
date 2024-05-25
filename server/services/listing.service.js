@@ -97,14 +97,15 @@ const ListingService = {
     }
   },
 
-  async getListings(page, limit, keyword, latCoords, lngCoords) {
+  async getListings(page, limit, keyword, latCoords, lngCoords, amenityIds) {
     try {
       return await ListingModel.methods.getListings(
         page,
         limit,
         keyword,
         latCoords,
-        lngCoords
+        lngCoords,
+        amenityIds
       );
     } catch (error) {
       console.log(error);
