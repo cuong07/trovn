@@ -39,7 +39,7 @@ const Index = () => {
 
   const content = (
     <div className="w-[400px]">
-      {locations.map((item) => (
+      {locations?.map((item) => (
         <div
           key={item.id}
           className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2"
@@ -50,7 +50,7 @@ const Index = () => {
           <div>{`${item.name} - ${item.city}`}</div>
         </div>
       ))}
-      {locations.length < 0 && <Empty />}
+      {locations?.length < 0 && <Empty />}
     </div>
   );
 
