@@ -6,6 +6,8 @@ export const UserV1 = {
   DELETE_USER: "/user/:id",
   GET_USERS: "/users",
   USER_LOGIN: "/user/login",
+  GET_USER_OTP: "/user/otp",
+  GET_VERIFY_EMAIL_OTP: "/user/verify",
 };
 
 export const AmenityV1 = {

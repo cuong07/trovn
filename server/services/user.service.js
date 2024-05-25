@@ -69,8 +69,24 @@ const UserService = {
     }
   },
 
-  async verifyEmail(email) {
+  async verifyEmail(email, otp) {
     try {
+      const userOtp = await UserOtpModel.methods.getUserOtpByEmailAndOtp(
+        email,
+        otp
+      );
+      if (userOtp) {
+        await UserModel.methods.updateUser(userOtp.userId, {
+          isVerify: true,
+        });
+
+        await UserOtpModel.methods.updateUserOtp(userOtp.id, {
+          isActive: false,
+        });
+
+        return;
+      }
+      throw new Error("Otp không chính xác vui lòng nhập lại");
     } catch (error) {
       console.log(error);
       throw error;
@@ -81,7 +97,7 @@ const UserService = {
     try {
       const otp = otpGenerator(6);
       const { email, id } = user;
-      const template = otpTemplate(email, id);
+      const template = otpTemplate(email, otp);
       let subject = "Xác minh mã OTP";
       const newUserOpt = {
         userId: id,

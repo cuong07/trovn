@@ -128,3 +128,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
+
+.ant-otp-input {
+  height: 48px;
+  font-size: 22px;
+}
