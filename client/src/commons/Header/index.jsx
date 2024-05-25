@@ -21,17 +21,8 @@ import { LogoSvg } from "../../components/Icons";
 import useUserStore from "../../hooks/userStore";
 import { useEffect, useState } from "react";
 import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
-
-const contents = (
-  <div className="flex flex-col gap-2 p-2 ">
-    <Link to="/user/info" className="flex gap-2 items-center">
-      <div>
-        <FaUser />
-      </div>
-      Thông tin cá nhân
-    </Link>
-  </div>
-);
+import { ROLE } from "../../constants/role";
+import { RiAdminLine } from "react-icons/ri";
 
 const Index = () => {
 <<<<<<< HEAD
@@ -57,6 +48,25 @@ const Index = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { user, otp, setOtp } = useUserStore();
   const [api, contextHolder] = notification.useNotification();
+
+  const contents = (
+    <div className="flex flex-col gap-2 p-2 ">
+      <Link to="/user/info" className="flex gap-2 items-center">
+        <div>
+          <FaUser />
+        </div>
+        Thông tin cá nhân
+      </Link>
+      {user?.role === ROLE.ADMIN && (
+        <Link to="/admin" className="flex gap-2 items-center">
+          <div>
+            <RiAdminLine />
+          </div>
+          Trang quản lý
+        </Link>
+      )}
+    </div>
+  );
 
   const handleClickHosting = () => {
     const placement = "topLeft";

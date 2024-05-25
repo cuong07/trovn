@@ -6,26 +6,104 @@ import qs from "query-string";
 export const getListings = async () => {
   const {
     pagination: { page, limit },
-    filter: { keyword },
+    filter: { keyword, amenityIds },
   } = useListingStore.getState().listings;
+
   const url = qs.stringifyUrl({
     url: ListingV1.GET_LISTING,
     query: {
       page,
       limit,
-      keyword,
+      amenityIds: amenityIds?.join(","),
     },
   });
+  useListingStore.setState((prev) => ({
+    ...prev,
+    listings: {
+      ...prev.listings,
+      isLoading: true,
+    },
+  }));
   // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
-
   const { data } = await apiClient.get(url);
-  return data;
+
+  useListingStore.setState((prev) => ({
+    ...prev,
+    listings: {
+      ...prev.listings,
+      isLoading: false,
+    },
+  }));
+
+  useListingStore.setState((prev) => ({
+    ...prev,
+    listings: {
+      ...prev.listings,
+      totalElement: data.data.totalElement,
+      currentPage: data.data.currentPage,
+      totalPage: data.data.totalPage,
+      contents: data.data.contents,
+    },
+  }));
+
+  const { success, message } = data;
+
+  return message, success;
+};
+
+export const adminGetListings = async () => {
+  const {
+    pagination: { page, limit },
+    filter: { keyword, amenityIds },
+  } = useListingStore.getState().adminListings;
+
+  const url = qs.stringifyUrl({
+    url: ListingV1.GET_LISTING,
+    query: {
+      page,
+      limit,
+      amenityIds: amenityIds?.join(","),
+    },
+  });
+  useListingStore.setState((prev) => ({
+    ...prev,
+    adminListings: {
+      ...prev.adminListings,
+      isLoading: true,
+    },
+  }));
+  // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+  const { data } = await apiClient.get(url);
+
+  useListingStore.setState((prev) => ({
+    ...prev,
+    adminListings: {
+      ...prev.adminListings,
+      isLoading: false,
+    },
+  }));
+
+  useListingStore.setState((prev) => ({
+    ...prev,
+    adminListings: {
+      ...prev.adminListings,
+      totalElement: data.data.totalElement,
+      currentPage: data.data.currentPage,
+      totalPage: data.data.totalPage,
+      contents: data.data.contents,
+    },
+  }));
+
+  const { success, message } = data;
+
+  return message, success;
 };
 
 export const getHostListings = async () => {
   const {
     pagination: { page, limit },
   } = useListingStore.getState().hostListings;
+
   const url = qs.stringifyUrl({
     url: ListingV1.GET_LISTING,
     query: {
@@ -34,6 +112,7 @@ export const getHostListings = async () => {
       query: "",
     },
   });
+
   // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
 
   const { data } = await apiClient.get(url);

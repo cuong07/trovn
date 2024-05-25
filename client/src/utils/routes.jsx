@@ -23,6 +23,15 @@ import {
   Chatbot,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
+import {
+  Amenities,
+  Banners,
+  Dashboard,
+  Listings,
+  Locations,
+  Payments,
+  Users,
+} from "../pages/Admin";
 
 export const router = createBrowserRouter([
   {
@@ -67,12 +76,39 @@ export const router = createBrowserRouter([
     element: <AdminLayout />,
     children: [
       {
-        path: "app",
-        element: <h1>Main layout App</h1>,
+        path: "",
+        element: <Dashboard />,
+      },
+      {
+        path: "listings",
+        element: <Listings />,
+      },
+      {
+        path: "banners",
+        element: <Banners />,
+      },
+      {
+        path: "locations",
+        element: <Locations />,
+      },
+      {
+        path: "amenities",
+        element: <Amenities />,
+      },
+      {
+        path: "users",
+        element: <Users />,
+      },
+      {
+        path: "payments",
+        element: <Payments />,
+      },
+      {
+        path: "messages",
+        element: "not found",
       },
     ],
   },
-
 
   {
     path: "/host",

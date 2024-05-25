@@ -6,7 +6,7 @@ const useListingStore = create((set) => ({
     isLoading: false,
     filter: {
       keyword: "",
-      amenityId: "",
+      amenityIds: [],
     },
     pagination: {
       page: 1,
@@ -26,12 +26,28 @@ const useListingStore = create((set) => ({
     totalElements: 0,
   },
 
+  adminListings: {
+    contents: [],
+    isLoading: false,
+    filter: {
+      keyword: "",
+      amenityIds: [],
+    },
+    pagination: {
+      page: 1,
+      limit: 100,
+    },
+    currentPage: 0,
+    totalElements: 0,
+  },
+
   searchListings: {
     contents: [],
     isLoading: false,
     filter: {
       keyword: "",
       amenityId: "",
+      locationId: "",
     },
     pagination: {
       page: 1,
@@ -154,6 +170,24 @@ const useListingStore = create((set) => ({
       },
     }));
   },
+  setListingAmenitiesId: (data) => {
+    set((state) => {
+      const isDataIncluded = state.listings.filter.amenityIds.includes(data);
+      const updatedAmenityIds = isDataIncluded
+        ? state.listings.filter.amenityIds.filter((item) => item !== data)
+        : [...state.listings.filter.amenityIds, data];
+
+      return {
+        listings: {
+          ...state.listings,
+          filter: {
+            ...state.listings.filter,
+            amenityIds: updatedAmenityIds,
+          },
+        },
+      };
+    });
+  },
 
   // search listing
   setSearchListings: (data) => {
@@ -186,6 +220,28 @@ const useListingStore = create((set) => ({
         filter: {
           ...state.searchListings.filter,
           keyword: data,
+        },
+      },
+    }));
+  },
+  setSearchListingAmenityId: (data) => {
+    set((state) => ({
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          ...state.searchListings.filter,
+          amenityId: data,
+        },
+      },
+    }));
+  },
+  setSearchListingLocationId: (data) => {
+    set((state) => ({
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          ...state.searchListings.filter,
+          locationId: data,
         },
       },
     }));

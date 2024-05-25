@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { MainFooter, MainHeader } from "../../../commons";
-import {Chatbot} from "../../../pages";
+import { Chatbot } from "../../../pages";
 import { Layout } from "antd";
 import useMessage from "antd/es/message/useMessage";
 import useLocationStore from "../../../hooks/useLocationStore";
@@ -8,6 +8,7 @@ import useAmenityStore from "../../../hooks/useAmenityStore";
 import { getAllAmenity } from "../../../apis/amenities";
 import { getLocations } from "../../../apis/location";
 import { useEffect } from "react";
+import { getCurrentUser } from "../../../apis/user";
 const { Header, Content, Footer } = Layout;
 
 const Index = () => {
@@ -18,6 +19,7 @@ const Index = () => {
     (async () => {
       const { data } = await getAllAmenity();
       const res = await getLocations(1, 10);
+      await getCurrentUser();
       setAmenities(data);
       setLocations(res?.data?.contents);
     })();
@@ -34,10 +36,7 @@ const Index = () => {
       <Footer className="bg-transparent">
         <MainFooter />
       </Footer>
-
-  
     </Layout>
-    
   );
 };
 

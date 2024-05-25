@@ -25,7 +25,9 @@ export const formatMoney = (amount) => {
 };
 
 export const formatCurrency = (number) => {
-  return number.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+  return parseFloat(number)
+    .toFixed(2)
+    .replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
 };
 
 export const getTerm = (term) => {
