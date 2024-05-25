@@ -2,6 +2,7 @@
 import { Image } from "antd";
 
 const Index = ({ images }) => {
+  const items = images?.map((item) => item.url);
   return (
     <>
       {images && (
@@ -11,6 +12,7 @@ const Index = ({ images }) => {
               onChange: (current, prev) =>
                 console.log(`current index: ${current}, prev index: ${prev}`),
             }}
+            items={items}
           >
             <div className="lg:grid lg:grid-cols-2 grid-cols-1 gap-4 h-full  overflow-hidden rounded-xl ">
               <Image
@@ -45,7 +47,7 @@ const Index = ({ images }) => {
                   </div>
                   <div>
                     <Image
-                      src={images[2]?.url}
+                      src={images[4]?.url}
                       alt="image"
                       className="aspect-square object-cover"
                     />

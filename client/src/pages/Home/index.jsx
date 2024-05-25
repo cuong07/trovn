@@ -8,6 +8,7 @@ import ProductList from "./ProductList";
 
 import useAmenityStore from "../../hooks/useAmenityStore";
 import { getBannerActive } from "../../apis/banner";
+import { Skeleton } from "antd";
 
 const Index = () => {
   const [banners, setBanners] = useState([]);
@@ -16,6 +17,7 @@ const Index = () => {
     listings: {
       contents,
       currentPage,
+      isLoading,
       totalElements,
       pagination: { page, limit },
     },
@@ -26,10 +28,11 @@ const Index = () => {
 
   useEffect(() => {
     (async () => {
-      setListingLoading(true);
-      const { data } = await getListings();
-      setListingLoading(false);
-      setListings(data);
+      // setListingLoading(true);
+      const { success } = await getListings();
+      console.log(success);
+      // setListingLoading(false);
+      // setListings(data);
     })();
   }, [page]);
 
@@ -43,7 +46,6 @@ const Index = () => {
       console.log(error);
     }
   }, []);
-  console.log(banners);
   const handleLoadMore = () => {
     setCurrentPageListing(currentPage + 1);
   };
@@ -57,7 +59,17 @@ const Index = () => {
         <Banner banners={banners} />
       </div>
       <div className="mt-20">
-        <ProductList data={contents} />
+        {!isLoading && <ProductList data={contents} />}
+        {isLoading && (
+          <div className="grid grid-cols-5 px-20 gap-6">
+            {new Array(20).fill(0).map((_, index) => (
+              <div key={index}>
+                <div className="w-full mb-2 rounded-xl animate-pulse aspect-square bg-[#F0F0F0]"></div>
+                <Skeleton className=" animate-pulse" />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {contents.length < totalElements && (
         <div className="flex justify-center">

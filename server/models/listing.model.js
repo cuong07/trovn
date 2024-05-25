@@ -148,7 +148,7 @@ const ListingModel = {
         },
       });
     },
-    async getListings(page, limit, keyword, latCoords, lngCoords) {
+    async getListings(page, limit, keyword, latCoords, lngCoords, amenityIds) {
       // Initialize variables for pagination
       const skip = Math.max(0, (page - 1) * limit);
       const currentPage = +page || 1;
@@ -185,6 +185,16 @@ const ListingModel = {
         };
       }
 
+      if (amenityIds) {
+        const ids = amenityIds.split(",");
+        filters.AND = ids.map((id) => ({
+          listingAmenities: {
+            some: {
+              amenityId: id,
+            },
+          },
+        }));
+      }
       const [totalElement, contents] = await db.$transaction([
         db.listing.count({
           where: filters,
@@ -196,6 +206,7 @@ const ListingModel = {
             createdAt: "asc",
           },
           where: filters,
+
           include: {
             images: true,
             user: true,

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 const Index = ({ listingAmenities }) => {
-  console.log(listingAmenities);
   return (
     <div className="grid grid-cols-2 gap-4">
       {listingAmenities?.map((item) => (
