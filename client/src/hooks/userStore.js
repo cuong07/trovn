@@ -5,6 +5,8 @@ const useUserStore = create((set) => ({
   token: JSON.parse(localStorage.getItem("token")) || "",
   adsPackage: null,
   otp: "",
+  socketConnection: null,
+  onlineUser: [],
 
   setAdsPackage: (data) => {
     set((state) => ({
@@ -24,6 +26,19 @@ const useUserStore = create((set) => ({
   setToken: (data) => {
     localStorage.setItem("token", JSON.stringify(data));
     set((state) => ({ ...state, token: data }));
+  },
+
+  setSocketConnection: (data) => {
+    set((state) => ({
+      ...state,
+      socketConnection: data,
+    }));
+  },
+  setOnlineUser: (data) => {
+    set((state) => ({
+      ...state,
+      onlineUser: data,
+    }));
   },
 }));
 

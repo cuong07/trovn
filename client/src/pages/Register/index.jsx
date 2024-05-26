@@ -43,7 +43,6 @@ const Index = () => {
 
   const onSubmit = async () => {
     const value = getValues();
-    console.log(value);
     try {
       const { data, success } = await register(value);
       if (success) {

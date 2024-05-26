@@ -108,7 +108,6 @@ const Index = () => {
   }, [setHostListings, pagination]);
 
   const handleTableChange = (page, pageSize) => {
-    console.log(page);
     setCurrentPageHostListing(page, pageSize);
   };
 

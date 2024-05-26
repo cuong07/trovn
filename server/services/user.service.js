@@ -5,6 +5,7 @@ import { sendMail } from "../utils/mailer.utils.js";
 import { otpGenerator } from "../utils/otp.utils.js";
 import UserOtpModel from "../models/user.otp.config.js";
 import { otpTemplate } from "../utils/otp.template.utils.js";
+import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const UserService = {
   async getUserById(userId) {
@@ -20,11 +21,11 @@ const UserService = {
     try {
       const existingUser = await UserModel.methods.getUserByEmail(email);
       if (!existingUser) {
-        return Error("Không tìm thấy người dùng có email: ", email);
+        throw new Error("Không tìm thấy người dùng có email: ", email);
       }
       const isMatch = await bcrypt.compare(password, existingUser.password);
       if (!isMatch) {
-        return Error("Mật khẩu không chính xác");
+        throw new Error("Mật khẩu không chính xác");
       }
       const token = generateToken(existingUser);
       const refreshToken = generateRefreshToken(existingUser);
@@ -109,6 +110,17 @@ const UserService = {
       console.log(error);
       throw error;
     }
+  },
+
+  async getUserDetailsFromToken(token) {
+    if (!token) {
+      return {
+        message: "session out",
+        logout: true,
+      };
+    }
+    const user = await verifyToken(token);
+    return await UserModel.methods.getUserById(user.id);
   },
 };
 

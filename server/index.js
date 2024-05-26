@@ -1,3 +1,9 @@
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import cron from "node-cron";
+import BannerModel from "./models/banner.model.js";
+import { app, server } from "./socket/index.js";
 import {
   UserRoutes,
   AmenityRoutes,
@@ -10,19 +16,13 @@ import {
   AdvertisingPackageRoutes,
   PaymentRoutes,
   OrderRoutes,
+  ConversationRoutes,
 } from "./routes/index.js";
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import cron from "node-cron";
-import BannerModel from "./models/banner.model.js";
 
-const app = express();
 app.use(express.json({ limit: "30mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: true, credentials: true,  }));
-// app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 app.use("/api/v1", UserRoutes);
 app.use("/api/v1", AmenityRoutes);
@@ -35,20 +35,21 @@ app.use("/api/v1", ListingTagRoutes);
 app.use("/api/v1", AdvertisingPackageRoutes);
 app.use("/api/v1", PaymentRoutes);
 app.use("/api/v1", OrderRoutes);
+app.use("/api/v1", ConversationRoutes);
 
 app.use(express.static("./public"));
 
-app.get((req, res) => {
+app.get("*", (req, res) => {
   res.status(404).send("Sorry, resource not found");
 });
 
 cron.schedule("0 0 * * *", async () => {
-  console.log("Chạy công việc đã lên lịch để cập nhật các banner đã hết hạn.");
+  console.log("Running scheduled job to update expired banners.");
   await BannerModel.methods.updateExpiredBanners();
 });
 
 const PORT = process.env.PORT || 8888;
 
-app.listen(PORT, () => {
-  console.log(`server running on port: http://localhost:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Server running on port: http://localhost:${PORT}`);
 });

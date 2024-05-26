@@ -40,7 +40,8 @@ export const login = async (data) => {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+  console.log(user);
+  // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
   return user.data;
 };
 

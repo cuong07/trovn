@@ -16,12 +16,10 @@ const Index = ({ data, count }) => {
     filter: { amenityIds },
   } = listings;
 
-  console.log(amenityIds);
   const handleClickItem = async (id) => {
     try {
       setListingAmenitiesId(id);
       const { data } = await getListings();
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

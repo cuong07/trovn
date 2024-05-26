@@ -21,6 +21,7 @@ import {
   Forgetpass,
   Newpass,
   Chatbot,
+  Chat,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 import {
@@ -32,6 +33,7 @@ import {
   Payments,
   Users,
 } from "../pages/Admin";
+import { MessagePage } from "../components";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +69,11 @@ export const router = createBrowserRouter([
           { path: "/search", element: <Search /> },
           { path: "/checkout", element: <Checkout /> },
           { path: "/user/info", element: <Info /> },
+          {
+            path: "/chat",
+            element: <Chat />,
+            children: [{ path: ":id", element: <MessagePage /> }],
+          },
         ],
       },
     ],

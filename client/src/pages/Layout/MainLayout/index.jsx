@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { MainFooter, MainHeader } from "../../../commons";
 import { Chatbot } from "../../../pages";
 import { Layout } from "antd";
@@ -14,6 +14,9 @@ const { Header, Content, Footer } = Layout;
 const Index = () => {
   const { setLocations } = useLocationStore();
   const { amenities, setAmenities } = useAmenityStore();
+  const location = useLocation();
+
+  const isChatPage = location.pathname.includes("/chat");
 
   useEffect(() => {
     (async () => {
@@ -33,9 +36,11 @@ const Index = () => {
         <Outlet />
         <Chatbot />
       </Content>
-      <Footer className="bg-transparent">
-        <MainFooter />
-      </Footer>
+      {!isChatPage && (
+        <Footer className="bg-transparent">
+          <MainFooter />
+        </Footer>
+      )}
     </Layout>
   );
 };

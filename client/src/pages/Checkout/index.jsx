@@ -32,7 +32,6 @@ const Index = () => {
   const handleGetPaymentMomo = async () => {
     try {
       const { data, success } = await getPaymentMomo();
-      console.log(data);
       if (success) {
         window.open(data.shortLink, "_blank");
         navigate("/host/ads-package");

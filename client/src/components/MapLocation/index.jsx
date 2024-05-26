@@ -38,7 +38,6 @@ const Index = () => {
         if (data) {
           updateListing("address", data.display_name);
         }
-        console.log(data);
       })();
     }
   }, [newListing.latitude, newListing.longitude, updateListing]);

@@ -4,6 +4,7 @@ import {
   Input,
   Modal,
   Popover,
+  Tooltip,
   message,
   notification,
 } from "antd";
@@ -18,13 +19,16 @@ import { useEffect, useState } from "react";
 import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
 import { ROLE } from "../../constants/role";
 import { RiAdminLine } from "react-icons/ri";
+import { FiBell, FiHeart, FiMessageCircle } from "react-icons/fi";
 
 const Index = () => {
   const naviagate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const { user, otp, setOtp } = useUserStore();
   const [api, contextHolder] = notification.useNotification();
+  const navigate = useNavigate();
+  // * Custom hooks
+  const { user, otp, setOtp } = useUserStore();
 
   const contents = (
     <div className="flex flex-col gap-2 p-2 ">
@@ -107,6 +111,10 @@ const Index = () => {
     }
   };
 
+  const handleNavigate = (url) => {
+    navigate(url);
+  };
+
   return (
     <>
       {contextHolder}
@@ -134,12 +142,27 @@ const Index = () => {
           >
             Trở thành chủ nhà
           </Button>
-          <div>
-            <CiHeart size={24} />
-          </div>
-          <div>
-            <IoIosNotificationsOutline size={24} />
-          </div>
+          <Tooltip placement="bottom" title="Danh sách yêu thích">
+            <FiHeart
+              size={20}
+              className="cursor-pointer"
+              onClick={() => handleNavigate("favorite")}
+            />
+          </Tooltip>
+          <Tooltip placement="bottom" title="Trò chuyện">
+            <FiMessageCircle
+              size={20}
+              className="cursor-pointer"
+              onClick={() => handleNavigate("chat")}
+            />
+          </Tooltip>
+          <Tooltip placement="bottom" title="Thông báo">
+            <FiBell
+              size={20}
+              className="cursor-pointer"
+              onClick={() => handleNavigate("notification")}
+            />
+          </Tooltip>
           <Popover placement="bottomRight" content={contents} arrow={false}>
             <Avatar size={32} icon={<CiUser />} />
           </Popover>
