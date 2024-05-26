@@ -1,23 +1,55 @@
 import {Link } from "react-router-dom";
-import { getUser, getCurrentUser } from "../../apis/user";
+import { getUser, getListingByUserId, getFavoriteListing } from "../../apis/user";
 import { useEffect, useState } from "react";
 import {Button} from "../../components";
 import { Form, Input } from "antd";
+import useUserStore from '../../hooks/userStore';
+import {useParams}from 'react-router-dom';
+import { Tabs } from 'antd';
+import InfoTab from "./info.tab";
+import ProductList from "../Home/ProductList";
 
 function Info() {
-  const [user, setUser] = useState({});
+  const {user} = useUserStore();
+  console.log('user in info:', user);
+  const { id } = useParams();
+  const [listings, setListing] = useState([]);
+  const [favoriteListing, setFavoriteListing] = useState([]);
+
   useEffect(() => {
     const getInforUser = async () => {
-      const currentUser = await getCurrentUser(); 
-      const idCurrentUser = currentUser.data.data.id;
-      const u = await getUser(idCurrentUser);
-      setUser((previusUser) => {
-        return { ...u.data };
-      });
+      
+      await getUser(id);
+      const lts = await getListingByUserId(id);
+      const fvlts = await getFavoriteListing(id);
+      setListing((prev)=> ([...lts]));
+      setFavoriteListing((prev)=>([...fvlts]));
     };
     getInforUser();
-  }, []);
-
+  },[id]);
+  
+  
+  // tabs
+  const onChangeTabs = (key) => {
+    console.log(key);
+  };
+  const items = [
+    {
+      key: '1',
+      label: 'General',
+      children: <InfoTab user={user}/>,
+    },
+    {
+      key: '2',
+      label: 'Phòng yêu thích',
+      children: <ProductList data={favoriteListing} column={2}/>,
+    },
+    {
+      key: '3',
+      label: 'Phòng hiện có',
+      children: <ProductList data={listings} column={2}/>,
+    },
+  ];
 
   return (
     <>
@@ -25,13 +57,37 @@ function Info() {
         <div className="max-w-[1280px] mx-auto px-10 bg-white pb-3">
           <h1 className="text-2xl font-medium pt-3">Hồ sơ của tôi</h1>
           <h5 className="text-lg ">
-            Quản lý thông tin hồ sơ để bảo mật tài khoản{" "}
+            Quản lý thông tin hồ sơ để bảo mật tài khoảnn
           </h5>
           <hr className="my-5 border-black " />
+              {/* left side */}
+          <div className="flex ">
+            <div className="w-4/12 flex justify-center flex-col">
+                  <div className="w-2/3 mx-auto">
+                      <img src={user?.avatarUrl} alt="Ảnh đại diện" />
+                      <Button>Chọn ảnh</Button>
+                  </div>
+                  <div>
+                    <span>Tổng quan</span>
 
-          <div className="flex">
-            <div className="w-8/12 lg:pl-32">
-              <Form
+                  </div>
+                  <div>
+                    <span>Thẻ</span>
+                  </div>
+            </div>
+                {/* right side */}
+            <div className="w-8/12">
+              <div className="">
+                <p className="text-3xl">{user.username}</p>
+                <p className="text-xs text-cyan-400">{user.role}</p> 
+                {user.role === 'HOST' ? <label>{user.isPremium ? '- Normal' : 'isPremium'}</label> : ''} 
+              </div>
+
+              <div>
+                <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
+              </div>
+                
+              {/* <Form
                 labelCol={{
                   span: 6,
                 }}
@@ -81,18 +137,13 @@ function Info() {
                     <Button>Xác nhận</Button>
                 </div>
                 
-              </Form>
-            </div>
-
-            <div className="w-4/12 border-l-2 border-solid border-black flex justify-center">
-                <div className="w-2/3">
-                    <img src={user.avatarUrl} alt="Ảnh đại diện" />
-                    <Button>Chọn ảnh</Button>
-                </div>
+              </Form> */}
             </div>
           </div>
         </div>
       </div>
+
+      <h1>info components</h1>
     </>
   );
 }

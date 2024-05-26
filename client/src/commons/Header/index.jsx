@@ -10,14 +10,14 @@ import {
 import { Button, SearchInput } from "../../components";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { RiAdminLine } from 'react-icons/ri';
+import { Link, useNavigate  } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LogoSvg } from "../../components/Icons";
 import useUserStore from "../../hooks/userStore";
 import { useEffect, useState } from "react";
 import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
-import { ROLE } from "../../constants/role";
-import { RiAdminLine } from "react-icons/ri";
+import {ROLE} from '../../constants/role';
 
 const Index = () => {
   const naviagate = useNavigate();
@@ -25,10 +25,12 @@ const Index = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { user, otp, setOtp } = useUserStore();
   const [api, contextHolder] = notification.useNotification();
+ 
+  console.log("user in header: ", user);
 
   const contents = (
     <div className="flex flex-col gap-2 p-2 ">
-      <Link to="/user/info" className="flex gap-2 items-center">
+      <Link to={`/user/info/${user?.id}`} className="flex gap-2 items-center">
         <div>
           <FaUser />
         </div>
