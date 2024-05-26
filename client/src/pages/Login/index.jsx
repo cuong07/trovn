@@ -4,13 +4,12 @@ import {Form, Input, message } from "antd";
 import {Button} from "../../components";
 import {Link, useNavigate} from "react-router-dom";
 import { login } from "../../apis/user";
-
+import { getCurrentUser } from "../../apis/user";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const[form] = Form.useForm();
   const navigate = useNavigate();
-  const [messageApi] = message.useMessage();
 
   const handleChange = (evt) => {
     setFormData((previusData) => {
@@ -25,7 +24,6 @@ function Login() {
     evt.preventDefault();
       const userData = await login(formData);
       if(userData.data){
-        localStorage.setItem('authToken', userData.data);
         return navigate('/');
       }
       return alert("tai khoản sai");

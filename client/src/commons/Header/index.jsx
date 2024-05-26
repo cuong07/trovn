@@ -9,49 +9,28 @@ import {
 } from "antd";
 import { Button, SearchInput } from "../../components";
 import { CiHeart, CiUser } from "react-icons/ci";
-<<<<<<< HEAD
-import { IoIosNotificationsOutline, IoIosHelpCircle } from "react-icons/io";
-import { Link } from "react-router-dom";
-=======
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
->>>>>>> df72665702d57b06f656cd94bb6ba3b96d0745f9
+import { RiAdminLine } from 'react-icons/ri';
+import { Link, useNavigate  } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LogoSvg } from "../../components/Icons";
 import useUserStore from "../../hooks/userStore";
 import { useEffect, useState } from "react";
 import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
-import { ROLE } from "../../constants/role";
-import { RiAdminLine } from "react-icons/ri";
+import {ROLE} from '../../constants/role';
 
 const Index = () => {
-<<<<<<< HEAD
-  const contents = (
-    <div className="flex flex-col gap-2 p-2 ">
-      <Link to="/user/info" className="flex gap-2 items-center">
-        <div>
-          <FaUser />
-        </div>
-        Thông tin cá nhân
-      </Link>
-      <Link to="/user/help" className="flex gap-1 items-center">
-        <div>
-          <IoIosHelpCircle size={20} />
-        </div>
-        Trung tâm trợ giúp
-      </Link>
-    </div>
-  );
-=======
   const naviagate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { user, otp, setOtp } = useUserStore();
   const [api, contextHolder] = notification.useNotification();
+ 
+  console.log("user in header: ", user);
 
   const contents = (
     <div className="flex flex-col gap-2 p-2 ">
-      <Link to="/user/info" className="flex gap-2 items-center">
+      <Link to={`/user/info/${user?.id}`} className="flex gap-2 items-center">
         <div>
           <FaUser />
         </div>
@@ -129,7 +108,6 @@ const Index = () => {
       message.error(error.message);
     }
   };
->>>>>>> df72665702d57b06f656cd94bb6ba3b96d0745f9
 
   return (
     <>
