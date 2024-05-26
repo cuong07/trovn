@@ -40,15 +40,35 @@ export const login = async (data) => {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  console.log(user);
-  // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+
+  useUserStore.setState((prev) => ({
+    ...prev,
+    token: user.data.data,
+  }));
+  await new Promise((resolve, reject) => setTimeout(resolve, 1000));
   return user.data;
+};
+
+export const getListingByUserId = async (userId) => {
+  const url = `listing/user/${userId}`;
+  const listings = await apiClient.get(url);
+  return listings.data.data;
+};
+
+export const getFavoriteListing = async (userId) => {
+  const url = `/favorite/user/${userId}`;
+  const favoriteListing = await apiClient.get(url);
+  return favoriteListing.data.data;
 };
 
 export const getUser = async (id) => {
   const url = `/user/${id}`;
-  const user = await apiClient.get(url);
-  return user.data;
+  const { data } = await apiClient.get(url);
+  useUserStore.setState((prev) => ({
+    ...prev,
+    user: data.data,
+  }));
+  return data;
 };
 
 export const getEmailOtp = async () => {
