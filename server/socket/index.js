@@ -10,8 +10,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5173",
-    credentials: true,
+    origin: "*",
+    // credentials: true,
   },
 });
 
@@ -21,7 +21,8 @@ io.on("connection", async (socket) => {
   console.log("New connection");
   console.log("Connect User", socket.id);
 
-  const token = socket.handshake.auth.token;
+  // const token = socket.handshake.auth.token;
+  const token = socket.handshake.query.token;
   const user = await UserService.getUserDetailsFromToken(token);
 
   socket.join(user?.id.toString());
