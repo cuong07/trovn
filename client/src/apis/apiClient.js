@@ -2,7 +2,7 @@ import axios from "axios";
 import useUserStore from "../hooks/userStore";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:8888/api/v1",
+  baseURL: import.meta.env.VITE_APP_BACKEND_URL + "/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
