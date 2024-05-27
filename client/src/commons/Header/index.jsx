@@ -4,29 +4,31 @@ import {
   Input,
   Modal,
   Popover,
+  Tooltip,
   message,
   notification,
 } from "antd";
 import { Button, SearchInput } from "../../components";
 import { CiHeart, CiUser } from "react-icons/ci";
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { RiAdminLine } from 'react-icons/ri';
-import { Link, useNavigate  } from "react-router-dom";
+import { RiAdminLine } from "react-icons/ri";
+import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { LogoSvg } from "../../components/Icons";
 import useUserStore from "../../hooks/userStore";
 import { useEffect, useState } from "react";
 import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
-import {ROLE} from '../../constants/role';
+import { ROLE } from "../../constants/role";
+import { FiBell, FiHeart, FiMessageCircle } from "react-icons/fi";
 
 const Index = () => {
   const naviagate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const { user, otp, setOtp } = useUserStore();
   const [api, contextHolder] = notification.useNotification();
- 
-  console.log("user in header: ", user);
+  const navigate = useNavigate();
+  // * Custom hooks
+  const { user, otp, setOtp } = useUserStore();
 
   const contents = (
     <div className="flex flex-col gap-2 p-2 ">
@@ -109,11 +111,15 @@ const Index = () => {
     }
   };
 
+  const handleNavigate = (url) => {
+    navigate(url);
+  };
+
   return (
     <>
       {contextHolder}
-      <div className="h-full leading-none flex items-center justify-between container mx-auto">
-        <div className="flex gap-9 items-center">
+      <div className="h-full leading-none flex items-center justify-between container mx-auto md:px-0 px-4">
+        <div className="flex md:gap-9 gap-2 items-center">
           <div className="font-bold text-2xl tracking-wider">
             <Link to="/">
               <LogoSvg
@@ -124,24 +130,49 @@ const Index = () => {
               />
             </Link>
           </div>
-          <div>
+          <div className="md:w-[400px] md:block hidden ">
             <SearchInput />
           </div>
+        </div>
+        <div className=" md:hidden block w-[300px] ">
+          <SearchInput />
         </div>
         <Flex gap={24} align="center" justify="center">
           <Button
             type="primary"
-            className="rounded-full h-9"
+            className="rounded-full h-9 md:block hidden "
             onClick={handleClickHosting}
           >
             Trở thành chủ nhà
           </Button>
-          <div>
-            <CiHeart size={24} />
-          </div>
-          <div>
-            <IoIosNotificationsOutline size={24} />
-          </div>
+          <Flex
+            gap={24}
+            align="center"
+            justify="center"
+            className="md:flex hidden"
+          >
+            <Tooltip placement="bottom" title="Danh sách yêu thích">
+              <FiHeart
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handleNavigate("favorite")}
+              />
+            </Tooltip>
+            <Tooltip placement="bottom" title="Trò chuyện">
+              <FiMessageCircle
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handleNavigate("chat")}
+              />
+            </Tooltip>
+            <Tooltip placement="bottom" title="Thông báo">
+              <FiBell
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handleNavigate("notification")}
+              />
+            </Tooltip>
+          </Flex>
           <Popover placement="bottomRight" content={contents} arrow={false}>
             <Avatar size={32} icon={<CiUser />} />
           </Popover>

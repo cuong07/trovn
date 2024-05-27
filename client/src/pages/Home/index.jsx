@@ -28,11 +28,7 @@ const Index = () => {
 
   useEffect(() => {
     (async () => {
-      // setListingLoading(true);
       const { success } = await getListings();
-      console.log(success);
-      // setListingLoading(false);
-      // setListings(data);
     })();
   }, [page]);
 

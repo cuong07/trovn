@@ -17,3 +17,8 @@ export { default as MapSearch } from "./MapSearch";
 export { default as CheckoutAds } from "./Template/CheckoutAds";
 export { default as ModalCreate } from "./ModalCreate";
 export { default as SearchTable } from "./SearchTable";
+export { default as SidebarChat } from "./SidebarChat";
+export { default as MessagePage } from "./MessagePage";
+export { default as InputChat } from "./InputChat";
+export { default as ChatUser } from "./ChatUser";
+export { default as MessageItem } from "./MessageItem";

@@ -40,18 +40,15 @@ const Index = () => {
     const { payment } = record;
     setAdsPackageSelect(record);
     setValue("paymentId", payment.id);
-    console.log(payment.id);
     setOpen(true);
   };
 
   const handleOk = async () => {
     try {
       const value = getValues();
-      console.log(value);
       setConfirmLoading(true);
       const { data, success } = await createBanner(value);
       setConfirmLoading(false);
-      console.log(data);
       if (success) {
         message.success("Thành công");
       }
@@ -62,7 +59,6 @@ const Index = () => {
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
   };
 
@@ -186,7 +182,6 @@ const Index = () => {
 
   const onSumit = () => {
     const data = getValues();
-    console.log(data);
   };
 
   return (
@@ -226,10 +221,6 @@ const Index = () => {
               <DatePicker.RangePicker
                 format="YYYY-MM-DD HH:mm:ss"
                 onChange={(dates) => {
-                  console.log(
-                    dayjs(dates[0]).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-                    dayjs(dates[1]).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
-                  );
                   setValue(
                     "fromDate",
                     dates
