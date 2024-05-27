@@ -14,6 +14,7 @@ const Index = () => {
       auth: {
         token: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
+      timeout: 16000,
     });
     socketConnection.on("connection", () => {
       console.log("Connected to server");
