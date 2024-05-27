@@ -22,6 +22,7 @@ import {
   Newpass,
   Chatbot,
   Chat,
+  Welcome,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 import {
@@ -72,7 +73,13 @@ export const router = createBrowserRouter([
           {
             path: "/chat",
             element: <Chat />,
-            children: [{ path: ":id", element: <MessagePage /> }],
+            children: [
+              {
+                path: "",
+                element: <Welcome />,
+              },
+              { path: ":id", element: <MessagePage /> },
+            ],
           },
           { path: "/user/info/:id", element: <Info /> },
         ],

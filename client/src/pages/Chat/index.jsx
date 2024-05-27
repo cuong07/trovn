@@ -46,11 +46,11 @@ const Index = () => {
       }}
       className="overflow-hidden"
     >
-      <div className="container mx-auto  h-full grid grid-cols-3">
-        <div className="col-span-1 border h-full">
+      <div className="container mx-auto  rounded-md shadow-lg  h-full grid grid-cols-3">
+        <div className="col-span-1  h-full">
           <SidebarChat />
         </div>
-        <div className="col-span-2 h-full  border">
+        <div className="col-span-2 h-full rounded-md shadow-md">
           <Outlet />
         </div>
       </div>
