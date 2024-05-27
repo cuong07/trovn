@@ -11,14 +11,13 @@ const Index = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const socketConnection = io(import.meta.env.VITE_APP_BACKEND_URL, {
-      // auth: {
-      //   token: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
-      // },
+      auth: {
+        token: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      },
       query: {
         token: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
       timeout: 16000,
-      // withCredentials: true,
     });
     socketConnection.on("connection", () => {
       console.log("Connected to server");

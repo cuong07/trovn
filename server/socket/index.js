@@ -20,9 +20,10 @@ const onlineUser = new Set();
 io.on("connection", async (socket) => {
   console.log("New connection");
   console.log("Connect User", socket.id);
-
-  // const token = socket.handshake.auth.token;
   const token = socket.handshake.query.token;
+  console.log(token);
+  console.log(socket.handshake.query);
+  // const token = socket.handshake.auth.token;
   const user = await UserService.getUserDetailsFromToken(token);
 
   socket.join(user?.id.toString());
