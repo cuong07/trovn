@@ -182,7 +182,6 @@ const Index = () => {
 
   const onSumit = () => {
     const data = getValues();
-    console.log(data);
   };
 
   return (

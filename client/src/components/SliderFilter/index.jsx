@@ -26,13 +26,33 @@ const Index = ({ data, count }) => {
   };
 
   return (
-    <div className="px-40 bg-white">
+    <div className="2xl:px-40 lg:px-20 md:px-10 px-4 bg-white">
       <Swiper
         slidesPerView={count ? count : 12}
         spaceBetween={0}
         navigation={true}
         modules={[Navigation]}
         className="h-20 px-10 "
+        breakpoints={{
+          320: {
+            slidesPerView: 4,
+          },
+          640: {
+            slidesPerView: 4,
+          },
+          768: {
+            slidesPerView: 6,
+          },
+          1024: {
+            slidesPerView: 8,
+          },
+          1280: {
+            slidesPerView: 10,
+          },
+          1536: {
+            slidesPerView: 12,
+          },
+        }}
       >
         {data?.map((item) => (
           <SwiperSlide
@@ -53,7 +73,9 @@ const Index = ({ data, count }) => {
                   className="w-6 h-6 mx-auto"
                 />
               </div>
-              <div className="text-center ">{item.name}</div>
+              <div className="text-center lg:text-base text-xs ">
+                {item.name}
+              </div>
             </div>
           </SwiperSlide>
         ))}

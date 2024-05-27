@@ -7,7 +7,10 @@ const Index = ({ data, column }) => {
   return (
     <div
       className={cn(
-        clsx("grid grid-cols-5 px-20 gap-6", column && `grid-cols-${column}`)
+        clsx(
+          "grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:px-20 px-6 gap-6",
+          column && `xl:grid-cols-${column} 2xl:grid-cols-${column} `
+        )
       )}
     >
       {data?.map((item) => (

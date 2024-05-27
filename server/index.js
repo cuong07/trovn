@@ -22,7 +22,12 @@ import {
 app.use(express.json({ limit: "30mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    origin: "*",
+    // credentials: true,
+  })
+);
 
 app.use("/api/v1", UserRoutes);
 app.use("/api/v1", AmenityRoutes);

@@ -19,9 +19,7 @@ import useUserStore from "../../hooks/userStore";
 import { useEffect, useState } from "react";
 import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
 import { ROLE } from "../../constants/role";
-import { RiAdminLine } from "react-icons/ri";
 import { FiBell, FiHeart, FiMessageCircle } from "react-icons/fi";
-import { ROLE } from "../../constants/role";
 
 const Index = () => {
   const naviagate = useNavigate();
@@ -31,8 +29,6 @@ const Index = () => {
   const navigate = useNavigate();
   // * Custom hooks
   const { user, otp, setOtp } = useUserStore();
-
-  console.log("user in header: ", user);
 
   const contents = (
     <div className="flex flex-col gap-2 p-2 ">
@@ -122,8 +118,8 @@ const Index = () => {
   return (
     <>
       {contextHolder}
-      <div className="h-full leading-none flex items-center justify-between container mx-auto">
-        <div className="flex gap-9 items-center">
+      <div className="h-full leading-none flex items-center justify-between container mx-auto md:px-0 px-4">
+        <div className="flex md:gap-9 gap-2 items-center">
           <div className="font-bold text-2xl tracking-wider">
             <Link to="/">
               <LogoSvg
@@ -134,39 +130,49 @@ const Index = () => {
               />
             </Link>
           </div>
-          <div>
+          <div className="md:w-[400px] md:block hidden ">
             <SearchInput />
           </div>
+        </div>
+        <div className=" md:hidden block w-[300px] ">
+          <SearchInput />
         </div>
         <Flex gap={24} align="center" justify="center">
           <Button
             type="primary"
-            className="rounded-full h-9"
+            className="rounded-full h-9 md:block hidden "
             onClick={handleClickHosting}
           >
             Trở thành chủ nhà
           </Button>
-          <Tooltip placement="bottom" title="Danh sách yêu thích">
-            <FiHeart
-              size={20}
-              className="cursor-pointer"
-              onClick={() => handleNavigate("favorite")}
-            />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Trò chuyện">
-            <FiMessageCircle
-              size={20}
-              className="cursor-pointer"
-              onClick={() => handleNavigate("chat")}
-            />
-          </Tooltip>
-          <Tooltip placement="bottom" title="Thông báo">
-            <FiBell
-              size={20}
-              className="cursor-pointer"
-              onClick={() => handleNavigate("notification")}
-            />
-          </Tooltip>
+          <Flex
+            gap={24}
+            align="center"
+            justify="center"
+            className="md:flex hidden"
+          >
+            <Tooltip placement="bottom" title="Danh sách yêu thích">
+              <FiHeart
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handleNavigate("favorite")}
+              />
+            </Tooltip>
+            <Tooltip placement="bottom" title="Trò chuyện">
+              <FiMessageCircle
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handleNavigate("chat")}
+              />
+            </Tooltip>
+            <Tooltip placement="bottom" title="Thông báo">
+              <FiBell
+                size={20}
+                className="cursor-pointer"
+                onClick={() => handleNavigate("notification")}
+              />
+            </Tooltip>
+          </Flex>
           <Popover placement="bottomRight" content={contents} arrow={false}>
             <Avatar size={32} icon={<CiUser />} />
           </Popover>

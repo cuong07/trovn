@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: ["http://localhost:5173", "http://192.168.1.5:5173", "*"],
     credentials: true,
   },
 });
@@ -102,28 +102,45 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("seen", async (userId) => {
-    let conversation = await ConversationService.getConversationMessage(
-      user?.id,
-      userId
-    );
-    const conversationMessageId =
-      conversation?.messages?.map((item) => item.id) || [];
+    try {
+      if (!user || !userId) {
+        console.error("User or userId is missing");
+        return;
+      }
 
-    const updateMessages = await MessageService.updateMessage(
-      conversationMessageId,
-      userId,
-      { isSeen: true }
-    );
+      const conversation = await ConversationService.getConversationMessage(
+        user.id,
+        userId
+      );
+      const conversationMessageId =
+        conversation?.messages?.map((item) => item.id) || [];
 
-    const conversationSender = await ConversationService.getConversation(
-      user?.id
-    );
-    const conversationReceiver = await ConversationService.getConversation(
-      userId
-    );
+      if (conversationMessageId.length > 0) {
+        await MessageService.updateMessage(conversationMessageId, userId, {
+          isSeen: true,
+        });
 
-    io.to(user?.id).emit("conversation", conversationSender);
-    io.to(userId).emit("conversation", conversationReceiver);
+        const conversationSender = await ConversationService.getConversation(
+          user.id
+        );
+        const conversationReceiver = await ConversationService.getConversation(
+          userId
+        );
+
+        io.to(user.id).emit("conversation", conversationSender);
+        io.to(userId).emit("conversation", conversationReceiver);
+      }
+    } catch (error) {
+      console.error("Error in seen event:", error);
+    }
+  });
+
+  socket.on("typing", (conversationId) => {
+    socket.to(conversationId).emit("typing");
+  });
+
+  socket.on("stopTyping", (conversationId) => {
+    socket.to(conversationId).emit("stopTyping");
   });
 
   socket.on("disconnect", () => {

@@ -1,5 +1,7 @@
 /* eslint-disable react/prop-types */
 import moment from "moment";
+import { BiCheckboxChecked } from "react-icons/bi";
+import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const Index = ({ message, meId }) => {
   return (
@@ -12,13 +14,20 @@ const Index = ({ message, meId }) => {
       }`}
     >
       <p className="">{message.content}</p>
-      <p
-        className={`w-fit text-[10px] ${
-          meId === message?.userId ? "ml-auto" : "mr-auto"
-        }`}
-      >
-        {moment(message.createdAt).format("hh:mm")}
-      </p>
+      <div className="flex justify-between gap-2">
+        <p
+          className={`w-fit text-[10px] ${
+            meId === message?.userId ? "ml-auto" : "mr-auto"
+          }`}
+        >
+          {moment(message.createdAt).format("hh:mm")}
+        </p>
+        {message?.isSeen && (
+          <p>
+            <IoCheckmarkDoneOutline />
+          </p>
+        )}
+      </div>
     </div>
   );
 };

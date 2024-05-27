@@ -19,7 +19,6 @@ const Index = () => {
       console.log("Connected to server");
     });
     socketConnection.on("onlineUser", (data) => {
-      console.log(data);
       setOnlineUser(data);
     });
 

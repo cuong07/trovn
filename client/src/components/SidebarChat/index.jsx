@@ -14,15 +14,13 @@ const Index = () => {
   const { setConversations, conversations } = useConversationStore();
 
   useEffect(() => {
-    if (socketConnection) {
-      socketConnection.emit("sidebar", user?.id);
+    if (socketConnection && user) {
+      socketConnection.emit("sidebar", user.id);
       socketConnection.on("conversation", (data) => {
         setConversations(data);
       });
     }
   }, [setConversations, socketConnection, user]);
-
-  console.log(conversations);
 
   return (
     <div className="w-full h-full  ">

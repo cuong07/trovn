@@ -26,8 +26,6 @@ const useConversationStore = create((set) => ({
           };
         }
       });
-
-      console.log(conversationUserData, useUserStore.getState().user?.id);
       return {
         ...state,
         conversations: conversationUserData,
