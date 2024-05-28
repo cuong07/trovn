@@ -8,7 +8,7 @@ const errorMessage = {
   PLEASE_LOGIN: "Vui lòng đăng nhập để truy cập",
 };
 
-const verifyToken = (authorization) => {
+export const verifyToken = (authorization) => {
   return new Promise((resolve, reject) => {
     if (authorization) {
       const accessToken = authorization.split(" ")[1];

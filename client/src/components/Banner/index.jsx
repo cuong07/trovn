@@ -11,7 +11,7 @@ const Index = ({ banners }) => {
   return (
     <>
       <Swiper
-        className="banner-swiper h-[500px] mt-20"
+        className="banner-swiper md:h-[500px] h-[240px]  mt-20"
         slidesPerView={1}
         loop={true}
         autoplay={{
@@ -34,7 +34,7 @@ const Index = ({ banners }) => {
             <img
               src={item.imageUrl}
               alt={item.title}
-              className="w-full h-full"
+              className="w-full h-full md:object-none object-fill"
             />
           </SwiperSlide>
         ))}

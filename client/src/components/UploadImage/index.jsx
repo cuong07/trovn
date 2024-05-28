@@ -42,9 +42,6 @@ const Index = () => {
     },
   };
 
-  useEffect(() => {
-    console.log(newListing);
-  }, [newListing]);
 
   return (
     <div className="">
