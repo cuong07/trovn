@@ -63,12 +63,9 @@ export const getFavoriteListing = async (userId) => {
 
 export const getUser = async (id) => {
   const url = `/user/${id}`;
-  const { data } = await apiClient.get(url);
-  useUserStore.setState((prev) => ({
-    ...prev,
-    user: data.data,
-  }));
-  return data;
+  const {data} = await apiClient.get(url);
+  return data.data;
+
 };
 
 export const getEmailOtp = async () => {
