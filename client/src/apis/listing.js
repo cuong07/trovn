@@ -119,10 +119,19 @@ export const getHostListings = async () => {
   return data;
 };
 
-export const getFilterListing = async (latCoords, lngCoords) => {
+export const getFilterListing = async () => {
   const {
     pagination: { page, limit },
-    filter: { keyword },
+    filter: {
+      keyword,
+      minPrice,
+      maxPrice,
+      locationId,
+      tagId,
+      amenityIds,
+      latCoords,
+      lngCoords,
+    },
   } = useListingStore.getState().searchListings;
   const url = qs.stringifyUrl({
     url: ListingV1.GET_LISTING,
@@ -132,6 +141,11 @@ export const getFilterListing = async (latCoords, lngCoords) => {
       keyword,
       latCoords,
       lngCoords,
+      minPrice,
+      maxPrice,
+      locationId,
+      tagId,
+      amenityIds: amenityIds?.join(),
     },
   });
   useListingStore.setState((prev) => ({

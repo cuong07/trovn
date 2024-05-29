@@ -174,7 +174,7 @@ const Index = () => {
             </Tooltip>
           </Flex>
           <Popover placement="bottomRight" content={contents} arrow={false}>
-            <Avatar size={32} icon={<CiUser />} />
+            <Avatar size={32} src={user?.avatarUrl} icon={<CiUser />} />
           </Popover>
         </Flex>
       </div>

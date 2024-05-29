@@ -1,5 +1,6 @@
 import axios from "axios";
 import { clsx } from "clsx";
+import moment from "moment";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs) {
@@ -48,4 +49,8 @@ export const convertArrayToFiles = (files) => {
     const fileObj = new File([file], file.name, { type: file.type });
     return fileObj;
   });
+};
+
+export const formatDateCount = (data) => {
+  return moment(data).startOf("day").fromNow();
 };
