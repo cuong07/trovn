@@ -102,22 +102,22 @@ const Index = ({ listing, onClose }) => {
         </Link>
       </div>
       <div className=" flex gap-2 absolute right-2 top-2 z-10 ">
-        {onClose && (
-          <div
-            className=" p-2 cursor-pointer rounded-full shadow-lg bg-white"
-            onClick={onClose}
-          >
-            <IoClose />
-          </div>
-        )}
         {
           <div
             className="group-hover:block p-2  cursor-pointer  "
             onClick={handleToggleFavorite}
           >
-            <FaHeart size={24} color={toggleHeart ? "red" : "white"} />
+            <FaHeart size={20} color={toggleHeart ? "red" : "white"} />
           </div>
         }
+        {onClose && (
+          <div
+            className=" p-2 cursor-pointer rounded-full shadow-xl bg-white"
+            onClick={onClose}
+          >
+            <IoClose size={20} />
+          </div>
+        )}
       </div>
     </div>
   );

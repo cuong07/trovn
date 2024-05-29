@@ -20,13 +20,13 @@ import Loading from "./Loading";
 
 import "moment/locale/vi";
 import useUserStore from "../../hooks/userStore";
+import BuyBox from "./BuyBox";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [listing, setListing] = useState({});
   const { user } = useUserStore();
   const [messageApi, contextHolder] = useMessage();
-  const navigate = useNavigate();
 
   const { id } = useParams();
 
@@ -54,24 +54,20 @@ const Index = () => {
     })();
   }, [id, messageApi]);
 
-  const handleChat = (userId) => {
-    if (!user) {
-      return message.warning("Vui lòng đăng nhập");
-    }
-    navigate("/chat/" + userId);
-  };
-
   return (
     <>
       {contextHolder}
       <div className="container h-full mx-auto lg:px-40 px-4 py-10">
         {!isLoading && (
           <>
-            <div className="h-[560px]">
+            <div className="md:h-[560px] h-auto">
               <ImagePreview images={listing?.images} />
             </div>
-            <div className="grid grid-cols-3">
-              <div className="col-span-2 h-[2000px]">
+            <div className="md:hidden flex w-full">
+              <BuyBox listing={listing} user={user} />
+            </div>
+            <div className="grid md:grid-cols-3">
+              <div className="col-span-2 ">
                 <div className=" py-8">
                   <h2 className="text-[22px] font-semibold">{listing.title}</h2>
                   <div className="flex gap-1 items-center text-base">
@@ -155,64 +151,8 @@ const Index = () => {
                   {listing?.reviews?.length === 0 && <Empty />}
                 </div>
               </div>
-              <div className="col-span-1 relative pl-20  mt-10">
-                <div className="relative h-full ">
-                  <div className=" sticky top-[100px] border-t-4 border-[#A86FF7]">
-                    <div className="w-full p-4  shadow-md flex flex-col gap-4 ">
-                      <div>
-                        <div className="uppercase tracking-widest mb-2 ">
-                          Giá phòng
-                        </div>
-                        <div className="text-4xl font-medium leading-none ">
-                          {formatMoney(listing.price)}{" "}
-                          <span className="font-light text-2xl">/ Tháng</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="uppercase tracking-widest mb-2 ">
-                          Thông tin liên hệ
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Button
-                            type="primary"
-                            onClick={() => handleChat(listing?.user?.id)}
-                          >
-                            <CiChat1 className="mr-2 " size={18} />
-                            Nhắn với chủ nhà
-                          </Button>
-                          <Link
-                            target="_blank"
-                            to={`https://zalo.me/${listing?.user?.phoneNumber}`}
-                          >
-                            <Button>Zalo</Button>
-                          </Link>
-                          <Link to={`tel:${listing?.user?.phoneNumber}`}>
-                            <Button type="ghost">
-                              <IoCallOutline className="mr-2 " size={18} />
-                              {!user
-                                ? `${listing?.user?.phoneNumber.slice(
-                                    0,
-                                    6
-                                  )}****`
-                                : listing?.user?.phoneNumber}
-                            </Button>
-                          </Link>
-                          <Link to={`mail:to${listing?.user?.email}`}>
-                            <Button type="ghost">
-                              <CiMail className="mr-2 " size={18} />
-                              {listing?.user?.email}
-                            </Button>
-                          </Link>
-                        </div>
-                        <div className=" text-center">
-                          <Link to="/login" className="text-xs underline">
-                            để xem đầu đủ thông tin vui lòng đăng nhập
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="col-span-1 relative pl-20  mt-10 md:flex hidden">
+                <BuyBox listing={listing} user={user} />
               </div>
             </div>
           </>

@@ -24,7 +24,7 @@ const Index = () => {
 
   const handleSearch = () => {
     const queryParams = qs.stringify({ keyword: value });
-
+    setSearchListingKeyword(value);
     navigate(`/search?${queryParams}`);
   };
 

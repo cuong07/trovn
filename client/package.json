@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emoji-mart/data": "^1.2.1",
+    "@emoji-mart/react": "^1.1.1",
     "@hookform/resolvers": "^3.3.4",
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@types/mapbox-gl": "^3.1.0",
@@ -17,6 +19,7 @@
     "axios": "^1.6.8",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.11",
+    "emoji-mart": "^5.6.0",
     "emoji-picker-react": "^4.9.3",
     "framer-motion": "^11.1.9",
     "froala-editor": "^4.2.0",

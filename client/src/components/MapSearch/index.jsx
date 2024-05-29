@@ -53,6 +53,16 @@ const Index = ({ listings }) => {
     }
   }, [latitude, longitude]);
 
+  // useEffect(() => {
+  //   if (mapRef.current && listings?.length > 0) {
+  //     mapRef.current.flyTo({
+  //       center: [listings[0]?.longitude, listings[0]?.latitude],
+  //       zoom: 9,
+  //       essential: true,
+  //     });
+  //   }
+  // }, [listings]);
+
   const onOpen = (id) => {
     if (openCardId === id) {
       onClose();
@@ -121,6 +131,8 @@ const Index = ({ listings }) => {
       console.log(error);
     }
   };
+
+  console.log(listings);
 
   return (
     <Map

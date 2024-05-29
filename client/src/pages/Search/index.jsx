@@ -68,6 +68,7 @@ const Index = () => {
   useEffect(() => {
     console.log(filter);
   }, [filter]);
+  console.log(filter);
 
   const handleClickItem = async (id) => {
     try {
@@ -81,7 +82,7 @@ const Index = () => {
 
   return (
     <div className="">
-      <div className=" grid grid-cols-5">
+      <div className="grid grid-cols-5">
         <div className="ml-20 gap-4 flex  items-center">
           <div
             className="col-span-1 w-fit  relative flex items-center leading-5 gap-2 py-2 px-4 border cursor-pointer hover:bg-slate-50 rounded-lg "
@@ -115,7 +116,7 @@ const Index = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-5 bg-white">
         <div className="col-span-3">
           {!isLoading && <ProductList data={contents} column={3} />}
           {contents?.length === 0 && !isLoading && (
@@ -141,8 +142,8 @@ const Index = () => {
           )}
         </div>
         <div className="col-span-2 relative flex-1 ">
-          <div className="sticky top-20 h-full  ">
-            <div className=" h-[800px] rounded-lg ">
+          <div className="sticky top-20 ">
+            <div className=" rounded-lg  h-[900px] ">
               <MapSearch listings={contents} />
             </div>
           </div>
