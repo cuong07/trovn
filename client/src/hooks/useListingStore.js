@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useListingStore = create((set) => ({
+const useListingStore = create((set, get) => ({
   listings: {
     contents: [],
     isLoading: false,
@@ -46,8 +46,13 @@ const useListingStore = create((set) => ({
     isLoading: false,
     filter: {
       keyword: "",
-      amenityId: "",
+      amenityIds: [],
       locationId: "",
+      minPrice: "",
+      maxPrice: "",
+      tagId: "",
+      latCoords: "",
+      lngCoords: "",
     },
     pagination: {
       page: 1,
@@ -170,6 +175,7 @@ const useListingStore = create((set) => ({
       },
     }));
   },
+
   setListingAmenitiesId: (data) => {
     set((state) => {
       const isDataIncluded = state.listings.filter.amenityIds.includes(data);
@@ -244,6 +250,69 @@ const useListingStore = create((set) => ({
         },
       },
     }));
+  },
+  updateSearchListings: (key, value) => {
+    set((state) => ({
+      ...state,
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          ...state.searchListings.filter,
+          [key]: value,
+        },
+      },
+    }));
+  },
+
+  setSearchListingAmenitiesId: (data) => {
+    set((state) => {
+      const isDataIncluded =
+        state.searchListings.filter.amenityIds.includes(data);
+      const updatedAmenityIds = isDataIncluded
+        ? state.searchListings.filter.amenityIds.filter((item) => item !== data)
+        : [...state.searchListings.filter.amenityIds, data];
+
+      return {
+        searchListings: {
+          ...state.searchListings,
+          filter: {
+            ...state.searchListings.filter,
+            amenityIds: updatedAmenityIds,
+          },
+        },
+      };
+    });
+  },
+
+  clearSearchFilter: () => {
+    set((state) => ({
+      ...state,
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          keyword: "",
+          amenityIds: [],
+          locationId: "",
+          minPrice: "",
+          maxPrice: "",
+          tagId: "",
+          latCoords: "",
+          lngCoords: "",
+        },
+      },
+    }));
+  },
+
+  countSearchListingFilters: () => {
+    const { filter } = get().searchListings;
+    let count = 0;
+    if (filter.keyword) count++;
+    if (filter.amenityIds.length > 0) count++;
+    if (filter.locationId) count++;
+    if (filter.minPrice || filter.maxPrice) count++;
+    if (filter.tagId) count++;
+    if (filter.latCoords || filter.lngCoords) count++;
+    return count;
   },
 }));
 

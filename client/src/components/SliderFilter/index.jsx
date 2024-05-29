@@ -6,29 +6,13 @@ import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
 import { Flex, Skeleton, Space } from "antd";
-import useListingStore from "../../hooks/useListingStore";
 import { cn } from "../../utils/helpers";
-import { getListings } from "../../apis/listing";
 
-const Index = ({ data, count }) => {
-  const { setListingAmenitiesId, listings } = useListingStore();
-  const {
-    filter: { amenityIds },
-  } = listings;
-
-  const handleClickItem = async (id) => {
-    try {
-      setListingAmenitiesId(id);
-      const { data } = await getListings();
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+const Index = ({ data, count, handleClickItem, amenityIds }) => {
   return (
     <div className="2xl:px-40 lg:px-20 md:px-10 px-4 bg-white">
       <Swiper
-        slidesPerView={count ? count : 12}
+        // slidesPerView={}
         spaceBetween={0}
         navigation={true}
         modules={[Navigation]}
@@ -50,7 +34,7 @@ const Index = ({ data, count }) => {
             slidesPerView: 10,
           },
           1536: {
-            slidesPerView: 12,
+            slidesPerView: count ?? 12,
           },
         }}
       >

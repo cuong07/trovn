@@ -87,6 +87,7 @@ const PaymentService = {
         amount: amount,
         paymentId: payment.id,
       };
+
       const order = await OrderService.createOrder(orderData);
 
       return order;
@@ -95,6 +96,7 @@ const PaymentService = {
       throw error;
     }
   },
+
   async updatePayment(id, data) {
     try {
       return await PaymentModel.methods.updatePayment(id, data);

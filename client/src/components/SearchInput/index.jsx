@@ -10,19 +10,29 @@ import { Button } from "..";
 import { cn } from "../../utils/helpers";
 import useListingStore from "../../hooks/useListingStore";
 import useLocationStore from "../../hooks/useLocationStore";
+import useMapStore from "../../hooks/useMapStore";
 
 const Index = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [value] = useDebounce(keyword, 300);
   const navigate = useNavigate();
-  const { setSearchListingKeyword } = useListingStore();
+  const { setSearchListingKeyword, updateSearchListings, clearSearchFilter } =
+    useListingStore();
   const { locations } = useLocationStore();
+  const { setSearchLatLng } = useMapStore();
 
   const handleSearch = () => {
     const queryParams = qs.stringify({ keyword: value });
-    setSearchListingKeyword(keyword);
+
     navigate(`/search?${queryParams}`);
+  };
+
+  const handleClickSearchLocation = (location) => {
+    clearSearchFilter();
+    setSearchLatLng(location.latitude, location.longitude);
+    updateSearchListings("locationId", location.id);
+    navigate(`/search?${location.name} - ${location.city}`);
   };
 
   const handleChangeQuery = (e) => {
@@ -38,11 +48,12 @@ const Index = () => {
   }, []);
 
   const content = (
-    <div className="">
+    <div className="md:w-[400px] w-[250px]">
       {locations?.map((item) => (
         <div
           key={item.id}
           className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2"
+          onClick={() => handleClickSearchLocation(item)}
         >
           <div>
             <CiLocationOn size={22} />

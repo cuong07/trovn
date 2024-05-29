@@ -9,6 +9,7 @@ import { HiDotsVertical } from "react-icons/hi";
 import { InputChat, MessageItem } from "..";
 import { LuBadgeCheck } from "react-icons/lu";
 import { useChatScroll } from "../../hooks/useChatScroll";
+import EmojiPicker from "emoji-picker-react";
 
 const Index = () => {
   const [allMessages, setAllMessages] = useState([]);
@@ -111,6 +112,12 @@ const Index = () => {
     }
   };
 
+  const onEmojiClick = (event, emojiObject) => {
+    setMessage((prevMessage) => ({
+      text: prevMessage.text + emojiObject.emoji,
+    }));
+  };
+
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -176,6 +183,7 @@ const Index = () => {
           handleOnChange={handleOnChange}
           handleSendMessage={handleSendMessage}
         />
+        <EmojiPicker height={400} width={300} onEmojiClick={onEmojiClick} />
       </div>
     </div>
   );

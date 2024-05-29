@@ -58,6 +58,7 @@ model User {
   latitude    String? @default("")
   longitude   String? @default("")
   isVerify    Boolean @default(false)
+  fullName    String  @default("")
 
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt
@@ -160,6 +161,9 @@ model Conversation {
   userTwo   User   @relation("userTwo", fields: [userTwoId], references: [id], onDelete: Cascade)
 
   messages Message[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@index([userTwoId])
 }

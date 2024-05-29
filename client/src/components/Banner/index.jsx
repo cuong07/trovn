@@ -34,7 +34,7 @@ const Index = ({ banners }) => {
             <img
               src={item.imageUrl}
               alt={item.title}
-              className="w-full h-full md:object-none object-fill"
+              className="w-full h-full object-cover"
             />
           </SwiperSlide>
         ))}
