@@ -85,8 +85,8 @@ model Location {
   name      String
   country   String
   city      String
-  latitude  String
-  longitude String
+  latitude  Float
+  longitude Float
   listings  Listing[]
 }
 
