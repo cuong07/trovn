@@ -1,5 +1,5 @@
-import { UserV1 } from "../constants/endpoints";
-import useUserStore from "../hooks/userStore";
+import { UserV1 } from "@/constants/endpoints";
+import useUserStore from "@/hooks/userStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 
@@ -45,7 +45,10 @@ export const login = async (data) => {
     ...prev,
     token: user.data.data,
   }));
-  await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+
+  localStorage.setItem("token", user.data.data);
+
+  // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
   return user.data;
 };
 
@@ -63,9 +66,8 @@ export const getFavoriteListing = async (userId) => {
 
 export const getUser = async (id) => {
   const url = `/user/${id}`;
-  const {data} = await apiClient.get(url);
+  const { data } = await apiClient.get(url);
   return data.data;
-
 };
 
 export const getEmailOtp = async () => {

@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import moment from "moment";
-import { BiCheckboxChecked } from "react-icons/bi";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 
 const Index = ({ message, meId }) => {

@@ -3,13 +3,14 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, message } from "antd";
-import { Button, InputField } from "../../components";
-import useUserStore from "../../hooks/userStore";
-import { register } from "../../apis/user";
+import { Button, InputField } from "@/components";
+import useUserStore from "@/hooks/userStore";
+import { register } from "@/apis/user";
 
 const schema = yup
   .object({
     username: yup.string().min(6).required(),
+    fullName: yup.string().min(6).required(),
     email: yup.string().email().required(),
     password: yup.string().min(8).max(16).required(),
     phoneNumber: yup
@@ -35,6 +36,7 @@ const Index = () => {
       password: "",
       phoneNumber: "",
       username: "",
+      fullName: "",
     },
     reValidateMode: "onBlur",
     mode: "onBlur",
@@ -55,58 +57,72 @@ const Index = () => {
       console.log(error);
     }
   };
+
+  const loginWithGoogle = () => {
+    window.open("http://localhost:8888/api/v1/auth/google/callback", "_self");
+  };
   return (
     <div className="w-full h-screen lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
+        <div className="mx-auto grid w-[400px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
+            <h1 className="text-3xl font-bold">Đăng ký</h1>
             <p className="text-balance text-muted-foreground">
-              Enter your email below to login to your account
+              Nhập email của bạn dưới đây để đăng nhập vào tài khoản của bạn
             </p>
           </div>
           <div className="grid gap-4">
             <Form layout="vertical">
               <InputField
                 control={control}
+                errors={errors.fullName}
+                label="Họ tên"
+                name="fullName"
+              />
+              <InputField
+                control={control}
                 errors={errors.username}
-                label="Username"
+                label="Tên đăng nhập"
                 name="username"
               />
               <InputField
                 control={control}
                 errors={errors.email}
-                label="email"
+                label="Email"
                 name="email"
               />
               <InputField
                 control={control}
                 errors={errors.phoneNumber}
-                label="phoneNumber"
+                label="Số điện thoại"
                 name="phoneNumber"
               />
               <InputField
                 control={control}
                 errors={errors.password}
-                label="password"
+                label="Mật khẩu"
                 name="password"
+                type="password"
               />
-              <button type="submit">Login</button>
               <div className="mt-8 flex flex-col gap-4">
                 <Button
                   type="primary"
                   onClick={onSubmit}
                   loading={isSubmitting}
                 >
-                  Login
+                  Đăng ký
                 </Button>
-                <Button type="default">Login with Google</Button>
+                <Button type="default" onClick={loginWithGoogle}>
+                  Đăng nhập với Google
+                </Button>
               </div>
             </Form>
           </div>
         </div>
       </div>
-      <div></div>
+      <div className="flex justify-center items-center">
+        <img src="/login.svg" alt="" className="" />
+      </div>
     </div>
   );
 };

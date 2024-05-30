@@ -4,7 +4,7 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useControl, Marker } from "react-map-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import useLocationStore from "../../hooks/useLocationStore";
+import useLocationStore from "@/hooks/useLocationStore";
 
 function GeocoderControl(props) {
   const [marker, setMarker] = useState(null);

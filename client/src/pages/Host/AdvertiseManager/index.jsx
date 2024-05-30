@@ -8,14 +8,13 @@ import { FaArrowRight } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Services } from "../..";
-import useUserStore from "../../../hooks/userStore";
-import { getOrdersByCurrentUser } from "../../../apis/order";
-import { formatCurrency } from "../../../utils/helpers";
-import { InputField, ModalCreate } from "../../../components";
-import { createBanner } from "../../../apis/banner";
+import useUserStore from "@/hooks/userStore";
+import { getOrdersByCurrentUser } from "@/apis/order";
+import { formatCurrency } from "@/utils/helpers";
+import { InputField, ModalCreate } from "@/components";
+import { createBanner } from "@/apis/banner";
 
 import dayjs from "dayjs";
-
 
 const schema = yup
   .object({

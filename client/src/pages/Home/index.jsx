@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { Banner, Button, SliderFilter } from "../../components";
-import { getAllAmenity } from "../../apis/amenities";
-import { getListings } from "../../apis/listing";
-import useListingStore from "../../hooks/useListingStore";
+import { Banner, Button, SliderFilter } from "@/components";
+import { getAllAmenity } from "@/apis/amenities";
+import { getListings } from "@/apis/listing";
+import useListingStore from "@/hooks/useListingStore";
 import ProductList from "./ProductList";
 
-import useAmenityStore from "../../hooks/useAmenityStore";
-import { getBannerActive } from "../../apis/banner";
+import useAmenityStore from "@/hooks/useAmenityStore";
+import { getBannerActive } from "@/apis/banner";
 import { Skeleton } from "antd";
-import { getFavorites } from "../../apis/favorite";
+import { getFavorites } from "@/apis/favorite";
 
 const TOKEN = JSON.parse(localStorage.getItem("token"));
 

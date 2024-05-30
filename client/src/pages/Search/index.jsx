@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import useListingStore from "../../hooks/useListingStore";
-import { getFilterListing, getListings } from "../../apis/listing";
+import useListingStore from "@/hooks/useListingStore";
+import { getFilterListing, getListings } from "@/apis/listing";
 import ProductList from "../Home/ProductList";
-import { MapSearch, SliderFilter } from "../../components";
-import useAmenityStore from "../../hooks/useAmenityStore";
+import { MapSearch, SliderFilter } from "@/components";
+import useAmenityStore from "@/hooks/useAmenityStore";
 import { CiFilter, CiSquareRemove } from "react-icons/ci";
 import { Modal, Skeleton, Slider } from "antd";
 import { useDebounce } from "use-debounce";
-import { formatCurrency, formatMoney } from "../../utils/helpers";
-import useMapStore from "../../hooks/useMapStore";
+import { formatCurrency, formatMoney } from "@/utils/helpers";
+import useMapStore from "@/hooks/useMapStore";
 
 const Index = () => {
   const { amenities } = useAmenityStore();

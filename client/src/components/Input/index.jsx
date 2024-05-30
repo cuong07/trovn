@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import * as React from "react";
-import { cn } from "../../utils/helpers";
+import { cn } from "@/utils/helpers";
 
 const Input = React.forwardRef(({ className, type, ...props }, ref) => {
   return (

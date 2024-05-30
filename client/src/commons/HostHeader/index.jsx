@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { LogoSvg } from "../../components/Icons";
-import { IoBanOutline, IoSettings } from "react-icons/io5";
-import { FaAppStore, FaUser } from "react-icons/fa";
+import { LogoSvg } from "@/components/Icons";
+import { FaUser } from "react-icons/fa";
 import { CiHeart, CiMail, CiUser } from "react-icons/ci";
 import { Avatar, Flex, Menu, Popover } from "antd";
 import { useState } from "react";

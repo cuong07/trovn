@@ -5,14 +5,14 @@ import {
   ListingForm,
   MapLocation,
   UploadImage,
-} from "../../../../components";
+} from "@/components";
 import { useEffect, useState } from "react";
-import { getAllAmenity } from "../../../../apis/amenities";
-import { getLocations } from "../../../../apis/location";
-import useListingStore from "../../../../hooks/useListingStore";
+import { getAllAmenity } from "@/apis/amenities";
+import { getLocations } from "@/apis/location";
+import useListingStore from "@/hooks/useListingStore";
 import { Link } from "react-router-dom";
-import { createListing } from "../../../../apis/listing";
-import { getAllTags } from "../../../../apis/tag";
+import { createListing } from "@/apis/listing";
+import { getAllTags } from "@/apis/tag";
 
 const steps = [
   {

@@ -17,6 +17,15 @@ const UserService = {
     }
   },
 
+  async getUserByGoogleAccountId(id) {
+    try {
+      return await UserModel.methods.getUserByGoogleAccountId(id);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   async login(email, password) {
     try {
       const existingUser = await UserModel.methods.getUserByEmail(email);
@@ -37,6 +46,7 @@ const UserService = {
   },
 
   async createUser(userData) {
+    console.log(userData);
     try {
       const hashedPassword = await bcrypt.hash(userData?.password, 8);
       const newUser = {

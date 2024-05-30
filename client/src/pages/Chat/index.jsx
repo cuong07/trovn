@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import MediaQuery from "react-responsive";
 import ChatDesktop from "./ChatDesktop";
 import { useNavigate } from "react-router-dom";
-import useUserStore from "../../hooks/userStore";
-import { getConversations } from "../../apis/conversation";
+import useUserStore from "@/hooks/userStore";
+import { getConversations } from "@/apis/conversation";
 import { message } from "antd";
 import { io } from "socket.io-client";
 import ChatMobile from "./ChatMobile";
@@ -15,7 +15,7 @@ const Index = () => {
   const { setOnlineUser, setSocketConnection } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  console.log("aaaaaaaaaaaaaa");
   useEffect(() => {
     if (!TOKEN) {
       return;

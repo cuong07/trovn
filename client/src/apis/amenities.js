@@ -1,4 +1,4 @@
-import { AmenityV1 } from "../constants/endpoints";
+import { AmenityV1 } from "@/constants/endpoints";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 

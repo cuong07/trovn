@@ -1,4 +1,4 @@
-import { BannerV1 } from "../constants/endpoints";
+import { BannerV1 } from "@/constants/endpoints";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 

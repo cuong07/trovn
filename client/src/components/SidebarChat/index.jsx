@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
-import useUserStore from "../../hooks/userStore";
+import useUserStore from "@/hooks/userStore";
 import { FiArrowUpLeft } from "react-icons/fi";
 
 import { ChatUser } from "..";
-import useConversationStore from "../../hooks/useConversationStore";
+import useConversationStore from "@/hooks/useConversationStore";
 
 const Index = ({ isLoading }) => {
   const { user, socketConnection } = useUserStore();
