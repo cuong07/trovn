@@ -30,3 +30,12 @@ export const getLocationByLatLng = async (lat, lon) => {
   const res = await axios.get(url);
   return res.data;
 };
+
+export const createLocation = async (location) => {
+  const url = qs.stringifyUrl({
+    url: LocationV1.CREATE_LOCATION,
+  });
+
+  const { data } = await apiClient.post(url, location);
+  return data;
+};

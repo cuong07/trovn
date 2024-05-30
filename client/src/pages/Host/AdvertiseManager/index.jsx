@@ -16,7 +16,6 @@ import { createBanner } from "../../../apis/banner";
 
 import dayjs from "dayjs";
 
-import "dayjs/locale/vi";
 
 const schema = yup
   .object({

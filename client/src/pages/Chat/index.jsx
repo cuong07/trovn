@@ -1,19 +1,33 @@
-import React, { useEffect } from "react";
-import io from "socket.io-client";
+import React, { useEffect, useState } from "react";
+import MediaQuery from "react-responsive";
+import ChatDesktop from "./ChatDesktop";
+import { useNavigate } from "react-router-dom";
 import useUserStore from "../../hooks/userStore";
-import { MessagePage, SidebarChat } from "../../components";
-import { Outlet, useNavigate } from "react-router-dom";
 import { getConversations } from "../../apis/conversation";
 import { message } from "antd";
+import { io } from "socket.io-client";
+import ChatMobile from "./ChatMobile";
+
+const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
+const TOKEN = JSON.parse(localStorage.getItem("token"));
 
 const Index = () => {
   const { setOnlineUser, setSocketConnection } = useUserStore();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
-    const socketConnection = io(import.meta.env.VITE_APP_BACKEND_URL, {
+    if (!TOKEN) {
+      return;
+    }
+    const socketConnection = io(BACKEND_URL, {
       auth: {
-        token: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+        token: `Bearer ${TOKEN}`,
       },
+      // query: {
+      //   token: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
+      // },
+      timeout: 16000,
     });
     socketConnection.on("connection", () => {
       console.log("Connected to server");
@@ -25,7 +39,9 @@ const Index = () => {
     setSocketConnection(socketConnection);
     (async () => {
       try {
+        setIsLoading(true);
         const { success } = await getConversations();
+        setIsLoading(false);
         if (!success) {
           return message.error("Vui lòng đăng nhập");
         }
@@ -39,21 +55,17 @@ const Index = () => {
     };
   }, []);
 
+  if (!TOKEN) {
+    return navigate("/");
+  }
   return (
-    <div
-      style={{
-        height: "calc(100vh - 80px)",
-      }}
-      className="overflow-hidden"
-    >
-      <div className="container mx-auto  rounded-md shadow-lg  h-full grid grid-cols-3">
-        <div className="col-span-1  h-full">
-          <SidebarChat />
-        </div>
-        <div className="col-span-2 h-full rounded-md shadow-md">
-          <Outlet />
-        </div>
-      </div>
+    <div className="h-full overflow-hidden">
+      <MediaQuery minWidth={992}>
+        <ChatDesktop isLoading={isLoading} />
+      </MediaQuery>
+      <MediaQuery maxWidth={991}>
+        <ChatMobile isLoading={isLoading} />
+      </MediaQuery>
     </div>
   );
 };
