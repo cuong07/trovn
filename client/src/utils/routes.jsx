@@ -18,7 +18,7 @@ import {
   AdvertiseManager,
   Login,
   Info,
-  Forgetpass,
+  Forgot,
   Newpass,
   Chatbot,
 } from "../pages";
@@ -47,12 +47,12 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/chatbot",
-        element: <Chatbot />,
+        path: "/forgot",
+        element: <Forgot />,
       },
       {
-        path: "/forgetpass",
-        element: <Forgetpass />,
+        path: "/chatbot",
+        element: <Chatbot />,
       },
       {
         path: "/newpass",

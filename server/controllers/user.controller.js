@@ -1,6 +1,8 @@
 import { statusCode } from "../config/statusCode.js";
 import { BaseResponse } from "../responses/BaseResponse.js";
 import UserService from "../services/user.service.js";
+import { sendMail } from "../utils/mailer.utils.js";
+import { otpTemplate } from "../utils/otp.template.utils.js";
 
 const UserController = {
   async getUser(req, res) {
@@ -11,6 +13,25 @@ const UserController = {
         return res
           .status(statusCode.NOT_FOUND)
           .json(BaseResponse.error("Không tìm thấy người dùng", null));
+      }
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", user));
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json({ message: "Internal server error" });
+    }
+  },
+
+  async getUserByEmail(req, res){
+    const email = req.params.email;
+    try {
+      const user = await UserService.getUserByEmail(email);
+      if(!user){
+        return res.status(statusCode.NOT_FOUND)
+          .json(BaseResponse.error("Không tìm thấy người dùng", null));
+        
       }
       return res
         .status(statusCode.OK)
@@ -65,7 +86,6 @@ const UserController = {
 
   async createUser(req, res) {
     const userData = req.body;
-    console.log(req.body);
     try {
       const newUser = await UserService.createUser(userData);
       return res
@@ -140,6 +160,40 @@ const UserController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
+
+  async sendEmail(req, res){
+    const {email} = req.params;
+    const {subject, otp} = req.body;
+    try {
+      const template = otpTemplate(email, otp);
+      await sendMail(email, subject, template);
+      return res
+          .status(statusCode.OK)
+          .json(BaseResponse.success("Gửi email thành công", null));
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
+    }
+    
+  },
+
+  async changePassword(req, res){
+    const {id} = req.params;
+    const {password} = req.body;
+    try {
+      const changePass = await UserService.changePassword(id, password);
+      return res
+          .status(statusCode.OK)
+          .json(BaseResponse.success("Cập nhật mật khẩu thành công", changePass));
+          
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
+    }
+
+  }
 };
 
 export default UserController;

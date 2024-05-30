@@ -48,9 +48,10 @@ const User = {
     },
 
     async getUserByEmail(email) {
-      return await db.user.findFirst({
+      const user =  await db.user.findFirst({
         where: { email: email },
       });
+      return user;
     },
 
     async createUser(userData) {

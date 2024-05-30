@@ -6,6 +6,7 @@ import { Form, message } from "antd";
 import { Button, InputField } from "../../components";
 import useUserStore from "../../hooks/userStore";
 import { register } from "../../apis/user";
+import { Link } from "react-router-dom";
 
 const schema = yup
   .object({
@@ -61,9 +62,9 @@ const Index = () => {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
+            <h1 className="text-3xl font-bold">Đăng ký</h1>
             <p className="text-balance text-muted-foreground">
-              Enter your email below to login to your account
+              Đăng ký tài khoản cá nhân của bạn để sử dụng các chức năng của chúng tôi, cũng như sử dụng dịch vụ trở thành chủ nhà của bạn.
             </p>
           </div>
           <div className="grid gap-4">
@@ -92,16 +93,16 @@ const Index = () => {
                 label="password"
                 name="password"
               />
-              <button type="submit">Login</button>
               <div className="mt-8 flex flex-col gap-4">
                 <Button
                   type="primary"
                   onClick={onSubmit}
                   loading={isSubmitting}
                 >
-                  Login
+                  Xác nhận
                 </Button>
-                <Button type="default">Login with Google</Button>
+                <Button type="default" className="my-3">Login with Google</Button>
+                <Link to="/login" >Quay trở lại trang <strong>Đăng nhập</strong></Link>
               </div>
             </Form>
           </div>

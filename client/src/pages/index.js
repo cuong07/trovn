@@ -11,6 +11,6 @@ export { default as AdvertiseManager } from "./Host/AdvertiseManager";
 export { default as Checkout } from "./Checkout";
 export { default as Login } from "./Login";
 export { default as Info } from "./Info";
-export { default as Forgetpass } from "./Forgetpass";
+export { default as Forgot } from "./Forgetpass";
 export { default as Newpass } from "./Newpass";
 export { default as Chatbot } from "./Chatbot";
