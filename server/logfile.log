@@ -1,4 +1,0 @@
-{"level":"info","message":"3/4/2024 - 17:35:42 - ::1 - POST /user/login - {\"email\":\"cuong07\",\"password\":\"123456789\"}"}
-{"level":"info","message":"3/4/2024 - 17:35:53 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
-{"level":"error","message":"BANNER_SERVICE: createBanner Bạn đã sử dụng dịch vụ","stack":"Error: Bạn đã sử dụng dịch vụ\n    at Object.createBanner (file:///home/cuong/Documents/trovn/server/services/banner.service.js:41:13)\n    at async createBanners (file:///home/cuong/Documents/trovn/server/controllers/banner.controller.js:57:23)"}
-{"level":"info","message":"3/4/2024 - 17:39:53 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
