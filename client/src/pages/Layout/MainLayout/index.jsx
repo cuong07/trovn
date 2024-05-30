@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import { MainFooter, MainHeader } from "../../../commons";
+import { Outlet, useLocation } from "react-router-dom";
+import { MainFooter, MainHeader, MenuMobile } from "../../../commons";
 import { Chatbot } from "../../../pages";
 import { Layout } from "antd";
 import useMessage from "antd/es/message/useMessage";
@@ -14,6 +14,9 @@ const { Header, Content, Footer } = Layout;
 const Index = () => {
   const { setLocations } = useLocationStore();
   const { amenities, setAmenities } = useAmenityStore();
+  const location = useLocation();
+
+  const isChatPage = location.pathname.includes("/chat");
 
   useEffect(() => {
     (async () => {
@@ -33,9 +36,14 @@ const Index = () => {
         <Outlet />
         <Chatbot />
       </Content>
-      <Footer className="bg-transparent">
-        <MainFooter />
-      </Footer>
+      {!isChatPage && (
+        <Footer className="bg-transparent">
+          <MainFooter />
+        </Footer>
+      )}
+      <div className="sticky md:hidden block bottom-0 w-full h-16 bg-white z-[9999]">
+        <MenuMobile />
+      </div>
     </Layout>
   );
 };

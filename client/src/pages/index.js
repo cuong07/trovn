@@ -14,3 +14,5 @@ export { default as Info } from "./Info";
 export { default as Forgot } from "./Forgetpass";
 export { default as Newpass } from "./Newpass";
 export { default as Chatbot } from "./Chatbot";
+export { default as Chat } from "./Chat";
+export { default as Welcome } from "./Welcome";

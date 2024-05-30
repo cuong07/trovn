@@ -38,7 +38,7 @@ const Index = () => {
   }, []);
 
   const content = (
-    <div className="w-[400px]">
+    <div className="">
       {locations?.map((item) => (
         <div
           key={item.id}
@@ -56,7 +56,7 @@ const Index = () => {
 
   return (
     <Popover title="Danh sách tìm kiếm" content={content}>
-      <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-[400px] border">
+      <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-full border">
         <input
           className="bg-transparent h-full w-full  focus-within:outline-none text-base group-focus:border"
           onChange={handleChangeQuery}

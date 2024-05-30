@@ -47,7 +47,7 @@ const UserController = {
     const { email, password } = req.body;
     try {
       const { token, refreshToken } = await UserService.login(email, password);
-
+      console.log(token, refreshToken);
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         scure: true,
@@ -141,7 +141,7 @@ const UserController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
-  
+
   async verifyEmail(req, res) {
     const { otp, email } = req.body;
     try {

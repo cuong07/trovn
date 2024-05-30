@@ -47,3 +47,7 @@ export const BannerV1 = {
 export const TagV1 = {
   GET_TAGS: "/tag",
 };
+
+export const ConversationV1 = {
+  GET_CONVERSATIONS: "/conversation",
+};

@@ -3,7 +3,6 @@ import useUserStore from "../hooks/userStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 
-
 export const register = async (data) => {
   const url = qs.stringifyUrl({
     url: UserV1.CREATE_USER,
@@ -50,23 +49,23 @@ export const login = async (data) => {
   return user.data;
 };
 
-export const getListingByUserId = async (userId) =>{
+export const getListingByUserId = async (userId) => {
   const url = `listing/user/${userId}`;
   const listings = await apiClient.get(url);
   return listings.data.data;
-}
+};
 
-export const getFavoriteListing = async (userId)=>{
+export const getFavoriteListing = async (userId) => {
   const url = `/favorite/user/${userId}`;
   const favoriteListing = await apiClient.get(url);
   return favoriteListing.data.data;
-}
+};
 
 export const getUser = async (id) => {
   const url = `/user/${id}`;
   const {data} = await apiClient.get(url);
   return data.data;
-};
+}
 
 export const getUserByEmail = async (email) => {
   try {

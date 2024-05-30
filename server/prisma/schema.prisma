@@ -51,7 +51,7 @@ model User {
   email       String  @unique
   phoneNumber String  @default("")
   password    String
-  avatarUrl   String  @default("https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI=")
+  avatarUrl   String  @default("https://api.dicebear.com/7.x/miniavs/svg?seed=3")
   address     String  @default("")
   role        Role    @default(USER)
   isPremium   Boolean @default(false)
@@ -182,6 +182,7 @@ model Message {
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   deleted        Boolean      @default(false)
+  isSeen         Boolean      @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -191,7 +191,6 @@ const useListingStore = create((set) => ({
 
   // search listing
   setSearchListings: (data) => {
-    console.log(data);
     set((state) => ({
       ...state,
       searchListings: {

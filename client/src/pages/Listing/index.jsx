@@ -35,7 +35,6 @@ const Index = () => {
         const res = await getListing(id);
         setListing(res.data);
         setIsLoading(false);
-        console.log(res.status);
         if (res.success) {
           messageApi.open({
             type: "success",
