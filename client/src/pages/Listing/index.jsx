@@ -8,18 +8,13 @@ import { CiChat1, CiMail } from "react-icons/ci";
 import moment from "moment";
 import { LuDot } from "react-icons/lu";
 
-import { getListing } from "../../apis/listing";
-import {
-  AmenitiesList,
-  Button,
-  ImagePreview,
-  MapListing,
-} from "../../components";
-import { formatMoney, getTerm } from "../../utils/helpers";
+import { getListing } from "@/apis/listing";
+import { AmenitiesList, Button, ImagePreview, MapListing } from "@/components";
+import { formatMoney, getTerm } from "@/utils/helpers";
 import Loading from "./Loading";
 
 import "moment/locale/vi";
-import useUserStore from "../../hooks/userStore";
+import useUserStore from "@/hooks/userStore";
 import BuyBox from "./BuyBox";
 
 const Index = () => {

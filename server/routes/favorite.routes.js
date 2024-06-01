@@ -9,7 +9,7 @@ router.post("/favorite", verifyTokenAllRole, FavoriteController.createFavorite);
 router.get(
   "/favorites",
   verifyTokenAllRole,
-  FavoriteController.getFavoriteByUserId
+  FavoriteController.getFavoriteCurrentUser
 );
 
 router.get(

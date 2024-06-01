@@ -1,17 +1,17 @@
-import LoactionModel from "../models/loaction.model.js";
+import LocationModel from "../models/location.model.js";
 
-const LoactionService = {
-  async createLoaction(locationData) {
+const LocationService = {
+  async createLocation(locationData) {
     try {
-      return await LoactionModel.methods.insertLocation(locationData);
+      return await LocationModel.methods.insertLocation(locationData);
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
-  async getAllLocation(page, limit) {
+  async getAllLocation(page, limit, keyword) {
     try {
-      return await LoactionModel.methods.getLocations(page, limit);
+      return await LocationModel.methods.getLocations(page, limit, keyword);
     } catch (error) {
       console.log(error);
       throw error;
@@ -19,7 +19,7 @@ const LoactionService = {
   },
   async getLocationById(locationId) {
     try {
-      return await LoactionModel.methods.getLocationById(locationId);
+      return await LocationModel.methods.getLocationById(locationId);
     } catch (error) {
       console.log(error);
       throw error;
@@ -28,7 +28,7 @@ const LoactionService = {
 
   async updateLocation(locationId, locationData) {
     try {
-      return await LoactionModel.methods.updateLocation(
+      return await LocationModel.methods.updateLocation(
         locationId,
         locationData
       );
@@ -40,11 +40,11 @@ const LoactionService = {
 
   async deleteLocation(locationId) {
     try {
-      return await LoactionModel.methods.deleteLocation(locationId);
+      return await LocationModel.methods.deleteLocation(locationId);
     } catch (error) {
       console.log(error);
       throw error;
     }
   },
 };
-export default LoactionService;
+export default LocationService;

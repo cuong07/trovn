@@ -1,8 +1,8 @@
 import { Tabs } from "antd";
-import React, { useEffect, useState } from "react";
-import { SearchTable } from "../../../components";
-import { adminGetListings } from "../../../apis/listing";
-import useListingStore from "../../../hooks/useListingStore";
+import { useEffect, useState } from "react";
+import { SearchTable } from "@/components";
+import { adminGetListings } from "@/apis/listing";
+import useListingStore from "@/hooks/useListingStore";
 
 const Index = () => {
   const [selectedTab, setSelectedTab] = useState(0);

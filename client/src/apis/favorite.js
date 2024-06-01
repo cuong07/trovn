@@ -1,5 +1,5 @@
-import { FavoriteV1 } from "../constants/endpoints";
-import useFavoriteStore from "../hooks/useFavoriteStore";
+import { FavoriteV1 } from "@/constants/endpoints";
+import useFavoriteStore from "@/hooks/useFavoriteStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 

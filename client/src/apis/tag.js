@@ -1,4 +1,4 @@
-import { TagV1 } from "../constants/endpoints";
+import { TagV1 } from "@/constants/endpoints";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 

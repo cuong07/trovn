@@ -6,13 +6,13 @@ import { useState } from "react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
-import { formatDateCount, formatMoney } from "../../utils/helpers";
+import { formatDateCount, formatMoney } from "@/utils/helpers";
 import { Link } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
-import { createFavorite } from "../../apis/favorite";
-import useFavoriteStore from "../../hooks/useFavoriteStore";
-import useUserStore from "../../hooks/userStore";
+import { createFavorite } from "@/apis/favorite";
+import useFavoriteStore from "@/hooks/useFavoriteStore";
+import useUserStore from "@/hooks/userStore";
 import { message } from "antd";
 
 const Index = ({ listing, onClose }) => {

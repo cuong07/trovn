@@ -6,7 +6,7 @@ import "swiper/css/navigation";
 
 import { Navigation } from "swiper/modules";
 import { Flex, Skeleton, Space } from "antd";
-import { cn } from "../../utils/helpers";
+import { cn } from "@/utils/helpers";
 
 const Index = ({ data, count, handleClickItem, amenityIds }) => {
   return (

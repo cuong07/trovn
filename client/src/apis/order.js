@@ -1,4 +1,4 @@
-import { OrderV1 } from "../constants/endpoints";
+import { OrderV1 } from "@/constants/endpoints";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 

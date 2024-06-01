@@ -1,5 +1,5 @@
 import React from "react";
-import { SidebarChat } from "../../components";
+import { SidebarChat } from "@/components";
 
 const ChatMobile = () => {
   return (

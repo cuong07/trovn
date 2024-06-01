@@ -46,6 +46,7 @@ const UserService = {
   },
 
   async createUser(userData) {
+    console.log(userData);
     try {
       const hashedPassword = await bcrypt.hash(userData?.password, 8);
       const newUser = {
@@ -121,14 +122,15 @@ const UserService = {
     }
   },
 
-  async changePassword(id, password){
+  async changePassword(id, password) {
     try {
       const user = await UserModel.methods.getUserById(id);
       const hashedPassword = await bcrypt.hash(password, 8);
       const newUser = {
-        ...user, password: hashedPassword,
-      }
-      const update = await UserModel.methods.updateUser(id,newUser);
+        ...user,
+        password: hashedPassword,
+      };
+      const update = await UserModel.methods.updateUser(id, newUser);
       const token = generateToken(update);
       return token;
     } catch (error) {
@@ -136,7 +138,7 @@ const UserService = {
       throw error;
     }
   },
-  
+
   async getUserDetailsFromToken(token) {
     if (!token) {
       return {

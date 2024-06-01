@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { formatMoney, getTerm } from "../../utils/helpers";
+import { formatMoney, getTerm } from "@/utils/helpers";
 import { AmenitiesList } from "..";
 
 // import required modules

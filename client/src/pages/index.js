@@ -17,4 +17,5 @@ export { default as Newpass } from "./Newpass";
 export { default as Chatbot } from "./Chatbot";
 export { default as Chat } from "./Chat";
 export { default as Welcome } from "./Welcome";
+export { default as Logout } from "./Logout";
 export { default as Favorite } from "./Favorite";

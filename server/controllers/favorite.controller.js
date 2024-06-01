@@ -30,6 +30,11 @@ const FavoriteController = {
   async getFavoriteByUserId(req, res) {
     const { id } = req.params;
     try {
+      if (!id) {
+        return res
+          .status(statusCode.BAD_REQUEST)
+          .json(BaseResponse.error("Có lỗi", null));
+      }
       const favorites = await FavoriteService.getFavoriteByUserId(id);
       return res
         .status(statusCode.OK)

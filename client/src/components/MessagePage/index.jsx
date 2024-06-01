@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import useUserStore from "../../hooks/userStore";
+import useUserStore from "@/hooks/userStore";
 import { Link, useParams } from "react-router-dom";
 import { FaAngleLeft, FaDotCircle } from "react-icons/fa";
 import { Avatar } from "antd";

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { MapListing } from "..";
-import { getTerm } from "../../utils/helpers";
+import { getTerm } from "@/utils/helpers";
 
 const Index = ({ newListing, locations, amenities }) => {
   const {

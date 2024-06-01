@@ -9,15 +9,12 @@ import {
   NavigationControl,
   ScaleControl,
 } from "react-map-gl";
-import { debounce } from "lodash";
-import axios from "axios";
 
-import { formatMoney } from "../../utils/helpers";
+import { formatMoney } from "@/utils/helpers";
 import { ListingCard } from "..";
-import { getFilterListing } from "../../apis/listing";
-import useListingStore from "../../hooks/useListingStore";
-import useMapStore from "../../hooks/useMapStore";
-import mapboxgl from "mapbox-gl";
+import useListingStore from "@/hooks/useListingStore";
+import useMapStore from "@/hooks/useMapStore";
+
 const MAPBOX_TOKEN = import.meta.env.VITE_APP_MAPBOX_TOKEN;
 
 const Index = ({ listings }) => {

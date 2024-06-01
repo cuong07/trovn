@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { Banner, Button, SliderFilter } from "../../components";
-import { getAllAmenity } from "../../apis/amenities";
-import { getListings } from "../../apis/listing";
-import useListingStore from "../../hooks/useListingStore";
+import { Banner, Button, SliderFilter } from "@/components";
+import { getAllAmenity } from "@/apis/amenities";
+import { getListings } from "@/apis/listing";
+import useListingStore from "@/hooks/useListingStore";
 import ProductList from "./ProductList";
 
-import useAmenityStore from "../../hooks/useAmenityStore";
-import { getBannerActive } from "../../apis/banner";
-import { Skeleton } from "antd";
-import { getFavorites } from "../../apis/favorite";
+import useAmenityStore from "@/hooks/useAmenityStore";
+import { getBannerActive } from "@/apis/banner";
+import { Empty, Skeleton } from "antd";
+import { getFavorites } from "@/apis/favorite";
+import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
+import { cn } from "@/utils/helpers";
 
 const TOKEN = JSON.parse(localStorage.getItem("token"));
 
@@ -20,12 +22,13 @@ const Index = () => {
       contents,
       currentPage,
       isLoading,
-      totalElements,
+      totalElement,
       filter: { amenityIds },
       pagination: { page, limit },
     },
     setListingAmenitiesId,
     setCurrentPageListing,
+    setLoadMoreListings,
   } = useListingStore();
   const { amenities } = useAmenityStore();
 
@@ -57,10 +60,15 @@ const Index = () => {
       console.log(error);
     }
   }, []);
-  const handleLoadMore = () => {
+
+  const handleLoadMore = async () => {
     setCurrentPageListing(currentPage + 1);
   };
 
+  const handlePrev = async () => {
+    setCurrentPageListing(currentPage - 1);
+  };
+  console.log(totalElement, contents.length);
   return (
     <div>
       <div className="fixed top-[80px] z-40 left-0 right-0">
@@ -86,12 +94,34 @@ const Index = () => {
             ))}
           </div>
         )}
+        {contents.length === 0 && !isLoading && <Empty />}
       </div>
-      {contents.length < totalElements && (
-        <div className="flex justify-center">
-          <Button type="primary" className="w-[300px]" onClick={handleLoadMore}>
-            Load more
-          </Button>
+
+      {contents.length < totalElement && (
+        <div
+          className={cn(
+            "flex   mt-20 mx-20",
+            contents.length !== 0 ? "justify-end" : "justify-start"
+          )}
+        >
+          {contents.length !== 0 && (
+            <button
+              className="w-[300px] hover:bg-slate-100 transition-all  flex h-12 border rounded-md shadow-sm  items-center justify-center text-base gap-2"
+              onClick={handleLoadMore}
+            >
+              Trang tiếp <BiArrowToRight size={24} />
+            </button>
+          )}
+
+          {contents.length === 0 && (
+            <button
+              className="w-[300px] hover:bg-slate-100 transition-all flex h-12 border rounded-md shadow-sm  items-center justify-center text-base gap-2"
+              onClick={handlePrev}
+            >
+              <BiArrowToLeft size={24} />
+              Trang trước
+            </button>
+          )}
         </div>
       )}
     </div>

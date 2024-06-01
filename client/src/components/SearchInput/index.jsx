@@ -1,25 +1,27 @@
-import { Empty, Input, Popover } from "antd";
+import { AutoComplete } from "antd";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import qs from "query-string";
 import { useDebounce } from "use-debounce";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "..";
-import { cn } from "../../utils/helpers";
-import useListingStore from "../../hooks/useListingStore";
-import useLocationStore from "../../hooks/useLocationStore";
-import useMapStore from "../../hooks/useMapStore";
+import { cn } from "@/utils/helpers";
+import useListingStore from "@/hooks/useListingStore";
+import useLocationStore from "@/hooks/useLocationStore";
+import useMapStore from "@/hooks/useMapStore";
+import { getLocations } from "@/apis/location";
 
 const Index = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [value] = useDebounce(keyword, 300);
+  const [value] = useDebounce(keyword, 500);
+  const { locations } = useLocationStore();
+  const [searchLocation, setSearchLocation] = useState(locations);
   const navigate = useNavigate();
   const { setSearchListingKeyword, updateSearchListings, clearSearchFilter } =
     useListingStore();
-  const { locations } = useLocationStore();
   const { setSearchLatLng } = useMapStore();
 
   const handleSearch = () => {
@@ -47,26 +49,40 @@ const Index = () => {
     setIsFocus(false);
   }, []);
 
-  const content = (
-    <div className="md:w-[400px] w-[250px]">
-      {locations?.map((item) => (
-        <div
-          key={item.id}
-          className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2"
-          onClick={() => handleClickSearchLocation(item)}
-        >
-          <div>
+  useEffect(() => {
+    (async () => {
+      const { data } = await getLocations(1, 10, value);
+      setSearchLocation(data?.contents);
+    })();
+    console.log(value);
+  }, [value]);
+
+  const items = useMemo(
+    () =>
+      searchLocation?.map((item) => ({
+        label: (
+          <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2">
             <CiLocationOn size={22} />
+            {`${item.name} - ${item.city}`}
           </div>
-          <div>{`${item.name} - ${item.city}`}</div>
-        </div>
-      ))}
-      {locations?.length < 0 && <Empty />}
-    </div>
+        ),
+        value: item.id,
+        native: item,
+      })),
+    [searchLocation]
   );
 
   return (
-    <Popover title="Danh sách tìm kiếm" content={content}>
+    <AutoComplete
+      popupMatchSelectWidth={400}
+      style={{
+        width: "100%",
+      }}
+      options={items}
+      onSelect={(_, item) => handleClickSearchLocation(item.native)}
+      onSearch={handleChangeQuery}
+      size="large"
+    >
       <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-full border">
         <input
           className="bg-transparent h-full w-full  focus-within:outline-none text-base group-focus:border"
@@ -104,7 +120,7 @@ const Index = () => {
           </motion.div>
         </AnimatePresence>
       </div>
-    </Popover>
+    </AutoComplete>
   );
 };
 

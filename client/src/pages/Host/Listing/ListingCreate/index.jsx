@@ -5,14 +5,14 @@ import {
   ListingForm,
   MapLocation,
   UploadImage,
-} from "../../../../components";
+} from "@/components";
 import { useEffect, useState } from "react";
-import { getAllAmenity } from "../../../../apis/amenities";
-import { getLocations } from "../../../../apis/location";
-import useListingStore from "../../../../hooks/useListingStore";
+import { getLocations } from "@/apis/location";
+import useListingStore from "@/hooks/useListingStore";
 import { Link } from "react-router-dom";
-import { createListing } from "../../../../apis/listing";
-import { getAllTags } from "../../../../apis/tag";
+import { createListing } from "@/apis/listing";
+import { getAllTags } from "@/apis/tag";
+import { getAllAmenity } from "@/apis/amenities";
 
 const steps = [
   {
@@ -138,7 +138,7 @@ const Index = () => {
           </div>
         )}
         {current === 1 && (
-          <div className="h-[700px]">
+          <div className="h-[800px]">
             <MapLocation />
           </div>
         )}
