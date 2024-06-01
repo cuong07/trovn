@@ -18,7 +18,7 @@ import {
   AdvertiseManager,
   Login,
   Info,
-  Forgetpass,
+  Forgot,
   Newpass,
   Chatbot,
   Chat,
@@ -53,16 +53,12 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/logout",
-        element: <Logout />,
+        path: "/forgot",
+        element: <Forgot />,
       },
       {
         path: "/chatbot",
         element: <Chatbot />,
-      },
-      {
-        path: "/forgetpass",
-        element: <Forgetpass />,
       },
       {
         path: "/newpass",

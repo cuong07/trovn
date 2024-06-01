@@ -8,9 +8,12 @@ router.get("/user/otp", verifyTokenAllRole, UserController.getUserOtp);
 router.post("/user/verify", UserController.verifyEmail);
 router.get("/user/:id", UserController.getUser);
 router.get("/user", verifyTokenAllRole, UserController.getCurrentUser);
+router.get('/user/email/:email', UserController.getUserByEmail);
 
 router.post("/user", UserController.createUser);
 router.post("/user/login", accessLogger, UserController.login);
+router.post("/user/email/:email", UserController.sendEmail);
+router.put('/user/:id/forgot', UserController.changePassword);
 router.put("/user/:id", UserController.updateUser);
 router.delete("/user/:id", UserController.deleteUser);
 

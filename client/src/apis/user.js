@@ -70,6 +70,20 @@ export const getUser = async (id) => {
   return data.data;
 };
 
+export const getUserByEmail = async (email) => {
+  try {
+    const url = `/user/email/${email}`;
+    const { data } = await apiClient.get(url);
+    return data.data;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      console.log("Không tìm thấy user");
+    } else {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  }
+};
+
 export const getEmailOtp = async () => {
   const url = qs.stringifyUrl({
     url: UserV1.GET_USER_OTP,
@@ -92,6 +106,31 @@ export const getVerifyEmailOtp = async () => {
 
   const { data } = await apiClient.post(url, value);
   return data;
+};
+
+export const sendEmail = async (data) => {
+  const url = `/user/email/${data.email}`;
+  const dt = await apiClient.post(url, data, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+  return data;
+};
+
+export const changePassword = async (id, password) => {
+  console.log("APIS changepasss data:", id, password);
+  const url = `/user/${id}/forgot`;
+  const dt = await apiClient.put(
+    url,
+    { password: password },
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+  return dt;
 };
 
 // export const getCurrentUser = async ()=>{
