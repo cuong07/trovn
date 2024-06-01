@@ -54,6 +54,7 @@ const Index = () => {
       const { data } = await getLocations(1, 10, value);
       setSearchLocation(data?.contents);
     })();
+    console.log(value);
   }, [value]);
 
   const items = useMemo(

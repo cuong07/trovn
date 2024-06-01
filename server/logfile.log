@@ -10,3 +10,4 @@
 {"level":"info","message":"4/4/2024 - 15:09:53 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
 {"level":"info","message":"4/4/2024 - 15:15:05 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
 {"level":"info","message":"4/4/2024 - 15:17:25 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
+{"level":"info","message":"6/5/2024 - 12:23:51 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}

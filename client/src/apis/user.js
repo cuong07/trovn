@@ -46,7 +46,7 @@ export const login = async (data) => {
     token: user.data.data,
   }));
 
-  localStorage.setItem("token", user.data.data);
+  localStorage.setItem("token", JSON.stringify(user.data.data));
 
   // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
   return user.data;

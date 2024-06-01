@@ -21,10 +21,10 @@ const Index = () => {
   useEffect(() => {
     (async () => {
       const { data } = await getAllAmenity();
-      const res = await getLocations(1, 10);
+      // const res = await getLocations(1, 10);
       await getCurrentUser();
       setAmenities(data);
-      setLocations(res?.data?.contents);
+      // setLocations(res?.data?.contents);
     })();
   }, [setAmenities, setLocations]);
   return (
