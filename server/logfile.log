@@ -97,3 +97,5 @@
 {"level":"info","message":"4/4/2024 - 19:03:07 - ::1 - POST /user/login - {\"email\":\"tranthecong99@gmail.com\",\"password\":\"conguser\"}"}
 =======
 >>>>>>> 8c0a2d92fd49bd0f3604a754b7a2afe464b28b86
+{"level":"info","message":"4/4/2024 - 20:39:44 - ::1 - POST /user/login - {\"email\":\"tranthecong99@gmail.com\",\"password\":\"newpass\"}"}
+{"level":"info","message":"4/4/2024 - 20:41:07 - ::1 - POST /user/login - {\"email\":\"tranthecong99@gmail.com\",\"password\":\"conguser\"}"}
