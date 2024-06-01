@@ -10,8 +10,8 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: true,
-    credentials: true,
+    origin: "*",
+    // credentials: true,
   },
 });
 
@@ -20,7 +20,12 @@ const onlineUser = new Set();
 io.on("connection", async (socket) => {
   console.log("New connection");
   console.log("Connect User", socket.id);
+  // const token = socket.handshake.query.token;
 
+  // if (!token) {
+  //   return;
+  // }
+  // console.log(socket.handshake.query);
   const token = socket.handshake.auth.token;
   const user = await UserService.getUserDetailsFromToken(token);
 
@@ -49,7 +54,6 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("newMessage", async (data) => {
-    console.log("data", data);
     let conversation = await ConversationService.getConversationMessage(
       data?.sender,
       data?.receiver

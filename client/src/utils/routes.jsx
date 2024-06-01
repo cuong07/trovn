@@ -23,6 +23,8 @@ import {
   Chatbot,
   Chat,
   Welcome,
+  Favorite,
+  NewInfo,
 } from "../pages";
 import { ListingCreate, ListingList } from "../pages/Host";
 import {
@@ -69,7 +71,7 @@ export const router = createBrowserRouter([
           { path: "/listing/:id", element: <Listing /> },
           { path: "/search", element: <Search /> },
           { path: "/checkout", element: <Checkout /> },
-          { path: "/user/info", element: <Info /> },
+          // { path: "/user/info", element: <NewInfo /> },
           {
             path: "/chat",
             element: <Chat />,
@@ -82,6 +84,8 @@ export const router = createBrowserRouter([
             ],
           },
           { path: "/user/info/:id", element: <Info /> },
+          { path: "/user/new-info/:id", element: <NewInfo /> },
+          { path: "/favorite", element: <Favorite /> },
         ],
       },
     ],

@@ -51,3 +51,9 @@ export const TagV1 = {
 export const ConversationV1 = {
   GET_CONVERSATIONS: "/conversation",
 };
+
+export const FavoriteV1 = {
+  CREATE_FAVORITE: "/favorite",
+  GET_FAVORITES: "/favorites",
+  DELETE_FAVORITE: "/favorite",
+};

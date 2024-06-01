@@ -148,7 +148,18 @@ const ListingModel = {
         },
       });
     },
-    async getListings(page, limit, keyword, latCoords, lngCoords, amenityIds) {
+    async getListings(
+      page,
+      limit,
+      keyword,
+      latCoords,
+      lngCoords,
+      amenityIds,
+      minPrice,
+      maxPrice,
+      locationId,
+      tagId
+    ) {
       // Initialize variables for pagination
       const skip = Math.max(0, (page - 1) * limit);
       const currentPage = +page || 1;
@@ -195,6 +206,36 @@ const ListingModel = {
           },
         }));
       }
+
+      if (minPrice && maxPrice) {
+        filters.price = {
+          gte: parseFloat(minPrice),
+          lte: parseFloat(maxPrice),
+        };
+      }
+
+      if (minPrice && !maxPrice) {
+        filters.price = {
+          gte: parseFloat(minPrice),
+          lte: 1000000000,
+        };
+      }
+
+      if (!minPrice && maxPrice) {
+        filters.price = {
+          gte: 100000,
+          lte: parseFloat(maxPrice),
+        };
+      }
+
+      if (locationId) {
+        filters.locationId = locationId;
+      }
+
+      if (tagId) {
+        filters.tagId = tagId;
+      }
+
       const [totalElement, contents] = await db.$transaction([
         db.listing.count({
           where: filters,
@@ -206,7 +247,6 @@ const ListingModel = {
             createdAt: "asc",
           },
           where: filters,
-
           include: {
             images: true,
             user: true,

@@ -7,9 +7,15 @@ const router = express.Router();
 
 router.post("/favorite", verifyTokenAllRole, FavoriteController.createFavorite);
 router.get(
-  "/favorite/user/:id",
+  "/favorites",
   verifyTokenAllRole,
   FavoriteController.getFavoriteByUserId
+);
+
+router.get(
+  "/favorite/user/:id",
+  verifyTokenAllRole,
+  FavoriteController.getFavoriteCurrentUser
 );
 router.delete(
   "/favorite/:id",

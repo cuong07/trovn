@@ -9,22 +9,34 @@ import ProductList from "./ProductList";
 import useAmenityStore from "../../hooks/useAmenityStore";
 import { getBannerActive } from "../../apis/banner";
 import { Skeleton } from "antd";
+import { getFavorites } from "../../apis/favorite";
+
+const TOKEN = JSON.parse(localStorage.getItem("token"));
 
 const Index = () => {
   const [banners, setBanners] = useState([]);
   const {
-    setListings,
     listings: {
       contents,
       currentPage,
       isLoading,
       totalElements,
+      filter: { amenityIds },
       pagination: { page, limit },
     },
+    setListingAmenitiesId,
     setCurrentPageListing,
-    setListingLoading,
   } = useListingStore();
   const { amenities } = useAmenityStore();
+
+  const handleClickItem = async (id) => {
+    try {
+      setListingAmenitiesId(id);
+      const { data } = await getListings();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -36,6 +48,9 @@ const Index = () => {
     try {
       (async () => {
         const { data } = await getBannerActive();
+        if (TOKEN) {
+          await getFavorites();
+        }
         setBanners(data);
       })();
     } catch (error) {
@@ -49,7 +64,12 @@ const Index = () => {
   return (
     <div>
       <div className="fixed top-[80px] z-40 left-0 right-0">
-        <SliderFilter data={amenities} />
+        <SliderFilter
+          data={amenities}
+          handleClickItem={handleClickItem}
+          amenityIds={amenityIds}
+          count={12}
+        />
       </div>
       <div className="h-[50%]">
         <Banner banners={banners} />
@@ -57,7 +77,7 @@ const Index = () => {
       <div className="mt-20">
         {!isLoading && <ProductList data={contents} />}
         {isLoading && (
-          <div className="grid grid-cols-5 px-20 gap-6">
+          <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:px-20 px-6 gap-6">
             {new Array(20).fill(0).map((_, index) => (
               <div key={index}>
                 <div className="w-full mb-2 rounded-xl animate-pulse aspect-square bg-[#F0F0F0]"></div>
