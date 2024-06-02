@@ -46,19 +46,20 @@ model Banner {
 }
 
 model User {
-  id          String  @id @default(uuid())
-  username    String  @unique
-  email       String  @unique
-  phoneNumber String  @default("")
-  password    String
-  avatarUrl   String  @default("https://api.dicebear.com/7.x/miniavs/svg?seed=3")
-  address     String  @default("")
-  role        Role    @default(USER)
-  isPremium   Boolean @default(false)
-  latitude    String? @default("")
-  longitude   String? @default("")
-  isVerify    Boolean @default(false)
-  fullName    String  @default("")
+  id              String  @id @default(uuid())
+  username        String  @unique
+  email           String  @unique
+  phoneNumber     String  @default("")
+  password        String
+  avatarUrl       String  @default("https://api.dicebear.com/7.x/miniavs/svg?seed=3")
+  address         String  @default("")
+  role            Role    @default(USER)
+  isPremium       Boolean @default(false)
+  latitude        String? @default("")
+  longitude       String? @default("")
+  isVerify        Boolean @default(false)
+  fullName        String  @default("")
+  googleAccountId String  @default("")
 
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt

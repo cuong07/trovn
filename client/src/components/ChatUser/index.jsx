@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Avatar, Flex } from "antd";
 import { NavLink, useParams } from "react-router-dom";
-import { cn, formatDateCount } from "../../utils/helpers";
+import { cn } from "@/utils/helpers";
 import moment from "moment";
 
 const Index = ({ conversation, user }) => {

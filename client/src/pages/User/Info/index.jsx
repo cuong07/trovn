@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { getListingByUserId, getUser } from "../../../apis/user";
+import { getListingByUserId, getUser } from "@/apis/user";
 import { Grid } from "antd";
 import { BiCamera, BiCheck } from "react-icons/bi";
 

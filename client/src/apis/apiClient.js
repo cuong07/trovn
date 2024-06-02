@@ -1,5 +1,5 @@
 import axios from "axios";
-import useUserStore from "../hooks/userStore";
+import useUserStore from "@/hooks/userStore";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_APP_BACKEND_URL + "/api/v1",

@@ -1,12 +1,16 @@
 import { statusCode } from "../config/statusCode.js";
 import { BaseResponse } from "../responses/BaseResponse.js";
-import LocaionService from "../services/location.service.js";
+import LocationService from "../services/location.service.js";
 
-const LocaionController = {
+const LocationController = {
   async getAllLocation(req, res) {
-    const { page, limit } = req.query;
+    const { page, limit, keyword } = req.query;
     try {
-      const locations = await LocaionService.getAllLocation(page, limit);
+      const locations = await LocationService.getAllLocation(
+        page,
+        limit,
+        keyword
+      );
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", locations));
@@ -19,7 +23,7 @@ const LocaionController = {
   async createLocation(req, res) {
     const locationData = req.body;
     try {
-      const location = await LocaionService.createLoaction(locationData);
+      const location = await LocationService.createLocation(locationData);
       return res
         .status(statusCode.CREATED)
         .json(BaseResponse.success("Thành công", location));
@@ -32,9 +36,8 @@ const LocaionController = {
 
   async getLocationById(req, res) {
     const { id } = req.params;
-    const locationData = req.body;
     try {
-      const location = await LocaionService.getLocationById(id);
+      const location = await LocationService.getLocationById(id);
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", location));
@@ -49,7 +52,7 @@ const LocaionController = {
     const { id } = req.params;
     const locationData = req.body;
     try {
-      const location = await LocaionService.updateLocation(id, locationData);
+      const location = await LocationService.updateLocation(id, locationData);
       return res
         .status(statusCode.ACCEPTED)
         .json(BaseResponse.success("Thành công", location));
@@ -63,7 +66,7 @@ const LocaionController = {
   async deleteLocation(req, res) {
     const { id } = req.params;
     try {
-      await LocaionService.deleteLocation(id);
+      await LocationService.deleteLocation(id);
       return res
         .status(statusCode.NO_CONTENT)
         .json(BaseResponse.success("Thành công"));
@@ -75,4 +78,4 @@ const LocaionController = {
   },
 };
 
-export default LocaionController;
+export default LocationController;

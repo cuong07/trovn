@@ -10,10 +10,10 @@ const useListingStore = create((set, get) => ({
     },
     pagination: {
       page: 1,
-      limit: 20,
+      limit: 5,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   hostListings: {
@@ -23,7 +23,7 @@ const useListingStore = create((set, get) => ({
       limit: 10,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   adminListings: {
@@ -38,7 +38,7 @@ const useListingStore = create((set, get) => ({
       limit: 100,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   searchListings: {
@@ -59,7 +59,7 @@ const useListingStore = create((set, get) => ({
       limit: 18,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   newListing: {
@@ -91,7 +91,7 @@ const useListingStore = create((set, get) => ({
         ...state.hostListings,
         contents: data?.contents,
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
@@ -115,7 +115,7 @@ const useListingStore = create((set, get) => ({
         ...state.listings,
         contents: data?.contents,
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
@@ -171,7 +171,7 @@ const useListingStore = create((set, get) => ({
         ...state.listings,
         contents: [...state.listings.contents, data?.contents],
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
@@ -203,7 +203,7 @@ const useListingStore = create((set, get) => ({
         ...state.searchListings,
         contents: data.contents,
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },

@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import useUserStore from "../../hooks/userStore";
 import useConversationStore from "../../hooks/useConversationStore";
 
 const Index = () => {
   const { user, socketConnection } = useUserStore();
-  const { setConversations, conversations } = useConversationStore();
+  const { setConversations } = useConversationStore();
 
   useEffect(() => {
     if (socketConnection && user) {

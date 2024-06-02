@@ -25,8 +25,9 @@ import {
   Welcome,
   Favorite,
   NewInfo,
-} from "../pages";
-import { ListingCreate, ListingList } from "../pages/Host";
+  Logout,
+} from "@/pages";
+import { ListingCreate, ListingList } from "@/pages/Host";
 import {
   Amenities,
   Banners,
@@ -35,8 +36,8 @@ import {
   Locations,
   Payments,
   Users,
-} from "../pages/Admin";
-import { MessagePage } from "../components";
+} from "@/pages/Admin";
+import { MessagePage } from "@/components";
 
 export const router = createBrowserRouter([
   {
@@ -124,7 +125,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "messages",
-        element: "not found",
+        element: <Chat />,
+        children: [
+          {
+            path: "",
+            element: <Welcome />,
+          },
+          { path: ":id", element: <MessagePage /> },
+        ],
       },
     ],
   },

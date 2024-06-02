@@ -1,14 +1,14 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { MainFooter, MainHeader, MenuMobile } from "../../../commons";
-import { Chatbot } from "../../../pages";
+import { MainFooter, MainHeader, MenuMobile } from "@/commons";
+import { Chatbot } from "@/pages";
 import { Layout } from "antd";
 import useMessage from "antd/es/message/useMessage";
-import useLocationStore from "../../../hooks/useLocationStore";
-import useAmenityStore from "../../../hooks/useAmenityStore";
-import { getAllAmenity } from "../../../apis/amenities";
-import { getLocations } from "../../../apis/location";
+import useLocationStore from "@/hooks/useLocationStore";
+import useAmenityStore from "@/hooks/useAmenityStore";
+import { getAllAmenity } from "@/apis/amenities";
+import { getLocations } from "@/apis/location";
 import { useEffect } from "react";
-import { getCurrentUser } from "../../../apis/user";
+import { getCurrentUser } from "@/apis/user";
 const { Header, Content, Footer } = Layout;
 
 const Index = () => {
@@ -21,10 +21,10 @@ const Index = () => {
   useEffect(() => {
     (async () => {
       const { data } = await getAllAmenity();
-      const res = await getLocations(1, 10);
+      // const res = await getLocations(1, 10);
       await getCurrentUser();
       setAmenities(data);
-      setLocations(res?.data?.contents);
+      // setLocations(res?.data?.contents);
     })();
   }, [setAmenities, setLocations]);
   return (

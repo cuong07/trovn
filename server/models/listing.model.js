@@ -160,7 +160,6 @@ const ListingModel = {
       locationId,
       tagId
     ) {
-      // Initialize variables for pagination
       const skip = Math.max(0, (page - 1) * limit);
       const currentPage = +page || 1;
       const take = +limit || 10;

@@ -8,18 +8,18 @@ import {
   message,
   notification,
 } from "antd";
-import { Button, SearchInput } from "../../components";
-import { CiHeart, CiUser } from "react-icons/ci";
-import { IoIosNotificationsOutline } from "react-icons/io";
+import { Button, SearchInput } from "@/components";
+import { CiUser } from "react-icons/ci";
 import { RiAdminLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import { LogoSvg } from "../../components/Icons";
-import useUserStore from "../../hooks/userStore";
-import { useEffect, useState } from "react";
-import { getEmailOtp, getVerifyEmailOtp } from "../../apis/user";
-import { ROLE } from "../../constants/role";
-import { FiBell, FiHeart, FiMessageCircle } from "react-icons/fi";
+import { LogoSvg } from "@/components/Icons";
+import useUserStore from "@/hooks/userStore";
+import { useState } from "react";
+import { getEmailOtp, getVerifyEmailOtp } from "@/apis/user";
+import { ROLE } from "@/constants/role";
+import { FiBell, FiHeart, FiLogIn, FiMessageCircle } from "react-icons/fi";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const Index = () => {
   const naviagate = useNavigate();
@@ -45,6 +45,24 @@ const Index = () => {
           </div>
           Trang quản lý
         </Link>
+      )}
+      {user && (
+        <Link to="/logout" className="flex gap-2 items-center">
+          <div>
+            <IoLogOutOutline />
+          </div>
+          Đăng xuất
+        </Link>
+      )}
+      {!user && (
+        <>
+          <Link to="/admin" className="flex gap-2 items-center">
+            <div>
+              <FiLogIn />
+            </div>
+            Đăng ký / Đăng nhập
+          </Link>
+        </>
       )}
     </div>
   );

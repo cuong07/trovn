@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { formatMoney } from "../../utils/helpers";
-import { Button } from "../../components";
+import { formatMoney } from "@/utils/helpers";
+import { Button } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { IoCallOutline } from "react-icons/io5";
 import { CiChat1, CiMail } from "react-icons/ci";

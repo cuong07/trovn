@@ -47,6 +47,27 @@ const User = {
       });
     },
 
+    async getUserByGoogleAccountId(id) {
+      return await db.user.findFirst({
+        where: {
+          googleAccountId: id,
+        },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          phoneNumber: true,
+          address: true,
+          avatarUrl: true,
+          role: true,
+          isPremium: true,
+          createdAt: true,
+          updatedAt: true,
+          isVerify: true,
+        },
+      });
+    },
+
     async getUserByEmail(email) {
       const user =  await db.user.findFirst({
         where: { email: email },

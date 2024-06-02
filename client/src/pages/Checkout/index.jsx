@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { CheckoutAds } from "../../components";
-import useUserStore from "../../hooks/userStore";
+import { CheckoutAds } from "@/components";
+import useUserStore from "@/hooks/userStore";
 import { useNavigate } from "react-router-dom";
-import { getPaymentMomo } from "../../apis/payment";
+import { getPaymentMomo } from "@/apis/payment";
 import { message } from "antd";
 
 const Index = () => {

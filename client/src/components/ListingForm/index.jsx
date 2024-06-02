@@ -4,7 +4,7 @@ import { Select } from "antd";
 import { FcAdvertising } from "react-icons/fc";
 
 import { Input } from "..";
-import useListingStore from "../../hooks/useListingStore";
+import useListingStore from "@/hooks/useListingStore";
 
 import "froala-editor/js/froala_editor.pkgd.min.js";
 import "froala-editor/css/froala_style.min.css";
@@ -115,13 +115,12 @@ const Index = ({ amenities, locations, tags }) => {
               </div>
               <Select
                 showSearch
-                style={{
-                  width: 200,
-                }}
                 placeholder="Search to Select"
                 optionFilterProp="children"
                 filterOption={(input, option) =>
-                  (option?.label ?? "").includes(input)
+                  (option?.label.toLocaleLowerCase() ?? "").includes(
+                    input.toLocaleLowerCase()
+                  )
                 }
                 filterSort={(optionA, optionB) =>
                   (optionA?.label ?? "")

@@ -3,7 +3,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 const { Header, Sider, Content } = Layout;
 
-import { LogoSvg } from "../../../components/Icons";
+import { LogoSvg } from "@/components/Icons";
 import { IoLocationSharp } from "react-icons/io5";
 import {
   HiOutlineFire,

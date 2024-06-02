@@ -1,9 +1,9 @@
 import { Table, Tag, message } from "antd";
 import { useEffect, useState, useMemo } from "react";
-import { getHostListings } from "../../../../apis/listing";
-import useListingStore from "../../../../hooks/useListingStore";
-import { Button, ListingDrawer } from "../../../../components";
-import { formatCurrency, getTerm } from "../../../../utils/helpers";
+import { getHostListings } from "@/apis/listing";
+import useListingStore from "@/hooks/useListingStore";
+import { Button, ListingDrawer } from "@/components";
+import { formatCurrency, getTerm } from "@/utils/helpers";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);

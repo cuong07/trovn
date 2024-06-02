@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getAdvertisingPackages } from "../../../apis/advertising";
+import { getAdvertisingPackages } from "@/apis/advertising";
 import { Button } from "antd";
-import useUserStore from "../../../hooks/userStore";
+import useUserStore from "@/hooks/userStore";
 import { useNavigate } from "react-router-dom";
 const backgroundColors = [
   "bg-red-200",

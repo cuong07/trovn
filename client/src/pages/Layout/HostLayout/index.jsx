@@ -1,8 +1,8 @@
 import { Layout, Menu } from "antd";
-import { HostHeader, MainHeader } from "../../../commons";
+import { HostHeader, MainHeader } from "@/commons";
 import { Link, Outlet } from "react-router-dom";
 import { useEffect } from "react";
-import { getCurrentUser } from "../../../apis/user";
+import { getCurrentUser } from "@/apis/user";
 const { Content, Sider } = Layout;
 const hostNav = [
   {

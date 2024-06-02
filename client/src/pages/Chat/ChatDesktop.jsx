@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { SidebarChat } from "../../components";
+import { SidebarChat } from "@/components";
 import { Outlet } from "react-router-dom";
 
 const ChatDesktop = ({ isLoading }) => {

@@ -1,5 +1,5 @@
-import { PaymentV1 } from "../constants/endpoints";
-import useUserStore from "../hooks/userStore";
+import { PaymentV1 } from "@/constants/endpoints";
+import useUserStore from "@/hooks/userStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 
