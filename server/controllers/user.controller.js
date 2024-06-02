@@ -193,7 +193,20 @@ const UserController = {
         .json(BaseResponse.error(error.message, error));
     }
 
-  }
+  },
+  async getAllUsers(req, res) { // Thêm hàm này
+    try {
+      const users = await UserService.getAllUsers();
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", users));
+    } catch (error) {
+      return res
+        .status(statusCode.INTERNAL_SERVER_ERROR)
+        .json(BaseResponse.error(error.message, error));
+    }
+  },
 };
+
 
 export default UserController;
