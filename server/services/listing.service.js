@@ -4,9 +4,9 @@ import UserService from "./user.service.js";
 import ListingModel from "../models/listing.model.js";
 import ImageService from "./image.service.js";
 import { uploader } from "../utils/uploader.js";
-
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 const ListingService = {
-  async createLiting(listingData, files) {
+  async createListing(listingData, files) {
     try {
       const existingUser = UserService.getUserById(listingData.userId);
       if (!existingUser) {
@@ -17,11 +17,22 @@ const ListingService = {
         throw new Error("Có lỗi khi thêm listing");
       }
       let imageUrls = [];
+
+      for (const file of files) {
+        if (file.size > MAX_IMAGE_SIZE) {
+          throw new Error(
+            `Dung lượng của ảnh phải <= 5MB file name:  ${
+              file.originalname
+            }: is ${file.size / 1024 / 1024}MB`
+          );
+        }
+      }
+
       for (const file of files) {
         const { path } = file;
         const newPath = await uploader(path);
         imageUrls.push({
-          url: newPath.url,
+          url: newPath?.url,
           caption: listing.title,
           listingId: listing.id,
         });
@@ -70,7 +81,7 @@ const ListingService = {
 
   async getListingByUserId(userId) {
     try {
-      return await ListingModel.methods.getLsitingByUserId(userId);
+      return await ListingModel.methods.getListingByUserId(userId);
     } catch (error) {
       console.log(error);
       throw error;
@@ -80,6 +91,37 @@ const ListingService = {
   async deleteListing(listingId) {
     try {
       return await ListingModel.methods.deleteListing(listingId);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
+  async getListings(
+    page,
+    limit,
+    keyword,
+    latCoords,
+    lngCoords,
+    amenityIds,
+    minPrice,
+    maxPrice,
+    locationId,
+    tagId
+  ) {
+    try {
+      return await ListingModel.methods.getListings(
+        page,
+        limit,
+        keyword,
+        latCoords,
+        lngCoords,
+        amenityIds,
+        minPrice,
+        maxPrice,
+        locationId,
+        tagId
+      );
     } catch (error) {
       console.log(error);
       throw error;
