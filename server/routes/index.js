@@ -11,3 +11,4 @@ export { default as PaymentRoutes } from "./payment.routes.js";
 export { default as OrderRoutes } from "./order.routes.js";
 export { default as ConversationRoutes } from "./conversation.routes.js";
 export { default as AnalyticsRoutes } from "./analytics.routes.js";
+export { default as GoogleAuthRoutes } from "./google.auth.routes.js";

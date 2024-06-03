@@ -18,6 +18,7 @@ import {
     OrderRoutes,
     ConversationRoutes,
     AnalyticsRoutes,
+    GoogleAuthRoutes,
 } from "./routes/index.js";
 import "./config/passport.config.js";
 import session from "express-session";
@@ -61,6 +62,7 @@ app.use("/api/v1", PaymentRoutes);
 app.use("/api/v1", OrderRoutes);
 app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", AnalyticsRoutes);
+app.use("/api/v1", GoogleAuthRoutes);
 
 // TODO: relative path
 app.use(express.static("./public"));
@@ -71,31 +73,6 @@ cron.schedule("0 0 * * *", async () => {
         "Chạy công việc theo lịch trình để cập nhật các banner đã hết hạn."
     );
     await BannerModel.methods.updateExpiredBanners();
-});
-
-// TODO: OAuth width passport
-app.get(
-    "/api/v1/auth/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-// TODO: Google auth
-app.get(
-    "/api/v1/auth/google/callback",
-    passport.authenticate("google", {
-        successRedirect: "http://localhost:5173/",
-        failureRedirect: "http://localhost:5173/login",
-    }),
-    (req, res) => {
-        res.redirect("/");
-    }
-);
-
-app.get("/api/v1/profile", (req, res) => {
-    if (!req.isAuthenticated()) {
-        return res.redirect("/auth/google");
-    }
-    res.send(`Hello, ${req.user.fullName}`);
 });
 
 app.get("*", (req, res) => {
