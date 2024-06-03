@@ -22,3 +22,7 @@ export { default as MessagePage } from "./MessagePage";
 export { default as InputChat } from "./InputChat";
 export { default as ChatUser } from "./ChatUser";
 export { default as MessageItem } from "./MessageItem";
+export { default as EmojiPicker } from "./EmojiPicker";
+export { default as LineChartCustom } from "./LineChartCustom";
+export { default as Statistic } from "./Statistic";
+export { default as Counter } from "./Counter";

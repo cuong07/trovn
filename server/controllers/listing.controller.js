@@ -70,8 +70,18 @@ const ListingController = {
   },
 
   async getListings(req, res) {
-    const { page, limit, keyword, latCoords, lngCoords, amenityIds } =
-      req.query;
+    const {
+      page,
+      limit,
+      keyword,
+      latCoords,
+      lngCoords,
+      amenityIds,
+      minPrice,
+      maxPrice,
+      locationId,
+      tagId,
+    } = req.query;
     try {
       const listings = await ListingService.getListings(
         page,
@@ -79,7 +89,11 @@ const ListingController = {
         keyword,
         latCoords,
         lngCoords,
-        amenityIds
+        amenityIds,
+        minPrice,
+        maxPrice,
+        locationId,
+        tagId
       );
       return res
         .status(statusCode.OK)

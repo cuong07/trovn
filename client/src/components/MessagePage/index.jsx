@@ -1,14 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import useUserStore from "../../hooks/userStore";
+import { useEffect, useRef, useState } from "react";
+import useUserStore from "@/hooks/userStore";
 import { Link, useParams } from "react-router-dom";
-import { IoMdSend } from "react-icons/io";
-import moment from "moment";
 import { FaAngleLeft, FaDotCircle } from "react-icons/fa";
 import { Avatar } from "antd";
-import { HiDotsVertical } from "react-icons/hi";
 import { InputChat, MessageItem } from "..";
 import { LuBadgeCheck } from "react-icons/lu";
-import { useChatScroll } from "../../hooks/useChatScroll";
 
 const Index = () => {
   const [allMessages, setAllMessages] = useState([]);
@@ -111,19 +107,17 @@ const Index = () => {
     }
   };
 
+  const onEmojiClick = (emojiObject) => {
+    setMessage((prevMessage) => ({
+      text: prevMessage.text + emojiObject,
+    }));
+  };
+
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [allMessages, otherUserTyping]);
-
-  // useChatScroll({
-  //   currentMessage,
-  //   bottomRef,
-  //   loadMore: () => {},
-  //   shouldLoadMore: false,
-  //   count: allMessages?.length,
-  // });
 
   return (
     <div className="h-full flex flex-col">
@@ -175,6 +169,7 @@ const Index = () => {
           message={message}
           handleOnChange={handleOnChange}
           handleSendMessage={handleSendMessage}
+          onEmojiClick={onEmojiClick}
         />
       </div>
     </div>

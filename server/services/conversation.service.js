@@ -28,6 +28,11 @@ const ConversationService = {
       throw error;
     }
   },
+  async updateAtConversation(id) {
+    try {
+      return ConversationModel.methods.updatedAtConversation(id);
+    } catch (error) {}
+  },
 };
 
 export default ConversationService;

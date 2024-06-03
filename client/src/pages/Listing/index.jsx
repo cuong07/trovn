@@ -1,31 +1,30 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoCallOutline, IoTimeOutline } from "react-icons/io5";
 import { FaChartArea, FaStar } from "react-icons/fa";
 import useMessage from "antd/es/message/useMessage";
-import { Avatar, Empty } from "antd";
-import { CiMail } from "react-icons/ci";
+import { Avatar, Empty, message } from "antd";
+import { CiChat1, CiMail } from "react-icons/ci";
 import moment from "moment";
 import { LuDot } from "react-icons/lu";
 
-import { getListing } from "../../apis/listing";
-import {
-  AmenitiesList,
-  Button,
-  ImagePreview,
-  MapListing,
-} from "../../components";
-import { formatMoney, getTerm } from "../../utils/helpers";
+import { getListing } from "@/apis/listing";
+import { AmenitiesList, Button, ImagePreview, MapListing } from "@/components";
+import { formatMoney, getTerm } from "@/utils/helpers";
 import Loading from "./Loading";
 
 import "moment/locale/vi";
+import useUserStore from "@/hooks/userStore";
+import BuyBox from "./BuyBox";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [listing, setListing] = useState({});
+  const { user } = useUserStore();
   const [messageApi, contextHolder] = useMessage();
 
   const { id } = useParams();
+
   useEffect(() => {
     moment.locale("vi");
 
@@ -56,11 +55,14 @@ const Index = () => {
       <div className="container h-full mx-auto lg:px-40 px-4 py-10">
         {!isLoading && (
           <>
-            <div className="h-[560px]">
+            <div className="md:h-[560px] h-auto">
               <ImagePreview images={listing?.images} />
             </div>
-            <div className="grid grid-cols-3">
-              <div className="col-span-2 h-[2000px]">
+            <div className="md:hidden flex w-full">
+              <BuyBox listing={listing} user={user} />
+            </div>
+            <div className="grid md:grid-cols-3">
+              <div className="col-span-2 ">
                 <div className=" py-8">
                   <h2 className="text-[22px] font-semibold">{listing.title}</h2>
                   <div className="flex gap-1 items-center text-base">
@@ -87,13 +89,13 @@ const Index = () => {
                 </div>
 
                 <div className="py-6 border-y-[1px] flex items-center gap-2">
-                  <div>
+                  <Link to={`/user/info/${user.id}`}>
                     <Avatar
                       size={64}
                       src={listing?.user?.avatarUrl}
                       alt="avatar"
                     />
-                  </div>
+                  </Link>
                   <div>
                     <h2 className="font-semibold text-base leading-5 mb-1">
                       Chủ nhà {listing?.user?.username}
@@ -142,50 +144,10 @@ const Index = () => {
                     Đánh giá
                   </h2>
                   {listing?.reviews?.length === 0 && <Empty />}
-                  {}
                 </div>
               </div>
-              <div className="col-span-1 relative pl-20  mt-10">
-                <div className="relative h-full ">
-                  <div className=" sticky top-[100px] border-t-4 border-[#A86FF7]">
-                    <div className="w-full p-4 h-[300px] shadow-md flex flex-col gap-4 ">
-                      <div>
-                        <div className="uppercase tracking-widest mb-2 ">
-                          Giá phòng
-                        </div>
-                        <div className="text-4xl font-medium leading-none ">
-                          {formatMoney(listing.price)}{" "}
-                          <span className="font-light text-2xl">/ Tháng</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="uppercase tracking-widest mb-2 ">
-                          Thông tin liên hệ
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <Link
-                            target="_blank"
-                            to={`https://zalo.me/${listing?.user?.phoneNumber}`}
-                          >
-                            <Button type="primary">Zalo</Button>
-                          </Link>
-                          <Link to={`tel:${listing?.user?.phoneNumber}`}>
-                            <Button type="default">
-                              <IoCallOutline className="mr-2 " size={18} />
-                              {listing?.user?.phoneNumber}
-                            </Button>
-                          </Link>
-                          <Link to={`mail:to${listing?.user?.email}`}>
-                            <Button type="default">
-                              <CiMail className="mr-2 " size={18} />
-                              {listing?.user?.email}
-                            </Button>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className="col-span-1 relative pl-20  mt-10 md:flex hidden">
+                <BuyBox listing={listing} user={user} />
               </div>
             </div>
           </>

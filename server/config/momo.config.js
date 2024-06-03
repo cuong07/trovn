@@ -1,5 +1,5 @@
 const NGROK_URL =
-  "https://4c25-2001-ee0-4f85-6cd0-84fe-4fc0-3fab-d595.ngrok-free.app";
+  "https://cde3-2001-ee0-4f85-6cd0-85cb-8828-cb16-ccb4.ngrok-free.app";
 
 export const MomoConfig = {
   accessKey: process.env.MOMO_ACCESS_KEY,

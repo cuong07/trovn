@@ -1,53 +1,57 @@
-import {Link } from "react-router-dom";
-import { getUser, getListingByUserId, getFavoriteListing } from "../../apis/user";
+import { getUser, getListingByUserId, getFavoriteListing } from "@/apis/user";
 import { useEffect, useState } from "react";
-import {Button} from "../../components";
-import { Form, Input } from "antd";
-import useUserStore from '../../hooks/userStore';
-import {useParams}from 'react-router-dom';
-import { Tabs } from 'antd';
+import { Button } from "@/components";
+import useUserStore from "@/hooks/userStore";
+import { useParams } from "react-router-dom";
+import { Tabs } from "antd";
 import InfoTab from "./info.tab";
 import ProductList from "../Home/ProductList";
+import {
+  AiFillMessage,
+  AiOutlineSend,
+  AiFillPhone,
+  AiOutlineWarning,
+  AiOutlineEnvironment,
+} from "react-icons/ai";
 
 function Info() {
-  const {user} = useUserStore();
-  console.log('user in info:', user);
   const { id } = useParams();
   const [listings, setListing] = useState([]);
   const [favoriteListing, setFavoriteListing] = useState([]);
-
+  const [user, setUser] = useState({});
   useEffect(() => {
     const getInforUser = async () => {
-      
-      await getUser(id);
+      const u = await getUser(id);
+      console.log("UUUUUU!!!!!!: ", u);
+      setUser((pre) => ({ ...u }));
+
       const lts = await getListingByUserId(id);
       const fvlts = await getFavoriteListing(id);
-      setListing((prev)=> ([...lts]));
-      setFavoriteListing((prev)=>([...fvlts]));
+      setListing((prev) => [...lts]);
+      setFavoriteListing((prev) => [...fvlts]);
     };
     getInforUser();
-  },[id]);
-  
-  
+  }, [id]);
+
   // tabs
   const onChangeTabs = (key) => {
     console.log(key);
   };
   const items = [
     {
-      key: '1',
-      label: 'General',
-      children: <InfoTab user={user}/>,
+      key: "1",
+      label: "Chung",
+      children: <InfoTab user={user} />,
     },
     {
-      key: '2',
-      label: 'Phòng yêu thích',
-      children: <ProductList data={favoriteListing} column={2}/>,
+      key: "2",
+      label: "Yêu thích",
+      children: <ProductList data={favoriteListing} column={2} />,
     },
     {
-      key: '3',
-      label: 'Phòng hiện có',
-      children: <ProductList data={listings} column={2}/>,
+      key: "3",
+      label: "Phòng hiện có",
+      children: <ProductList data={listings} column={2} />,
     },
   ];
 
@@ -60,90 +64,93 @@ function Info() {
             Quản lý thông tin hồ sơ để bảo mật tài khoảnn
           </h5>
           <hr className="my-5 border-black " />
-              {/* left side */}
+          {/* left side */}
           <div className="flex ">
-            <div className="w-4/12 flex justify-center flex-col">
-                  <div className="w-2/3 mx-auto">
-                      <img src={user?.avatarUrl} alt="Ảnh đại diện" />
-                      <Button>Chọn ảnh</Button>
-                  </div>
-                  <div>
-                    <span>Tổng quan</span>
-
-                  </div>
-                  <div>
-                    <span>Thẻ</span>
-                  </div>
-            </div>
-                {/* right side */}
-            <div className="w-8/12">
-              <div className="">
-                <p className="text-3xl">{user.username}</p>
-                <p className="text-xs text-cyan-400">{user.role}</p> 
-                {user.role === 'HOST' ? <label>{user.isPremium ? '- Normal' : 'isPremium'}</label> : ''} 
+            <div className="w-4/12 flex justify-start flex-col">
+              <div className="w-2/3 mx-auto">
+                <img
+                  className="mb-3 max-w-200"
+                  src={user?.avatarUrl}
+                  alt="Ảnh đại diện"
+                />
+                <Button>Chọn ảnh</Button>
               </div>
-
-              <div>
-                <Tabs defaultActiveKey="1" items={items} onChange={onChangeTabs} />
-              </div>
-                
-              {/* <Form
-                labelCol={{
-                  span: 6,
-                }}
-                wrapperCol={{
-                  span: 14,
-                }}
-                layout="horizontal"
-                style={{
-                  maxWidth: 600,
-                }}
-              >
-                <Form.Item label="Tên người dùng" className="my-2">
-                  <span className="ml-1">{user.username}</span>
-                </Form.Item>
-
-                <Form.Item label="Email" className="my-2">
-                  <span className="ml-1">{user.email}</span>
-                </Form.Item>
-
-                <Form.Item label="Số điện thoại" className="my-2">
-                  <span className="ml-1">{user.phoneNumber}</span>
-                </Form.Item>
-
-                <Form.Item label="Ngày tạo" className="my-2">
-                  <span className="ml-1">{user.createdAt}</span>
-                </Form.Item>
-
-                <Form.Item label="Ngày thay đổi gần nhất" className="my-2">
-                  <span className="ml-1">{user.updatedAt}</span>
-                </Form.Item>
-
-                <Form.Item label="Vai trò" className="my-2">
-                  <span className="ml-1">{user.role}</span>
-                </Form.Item>
-
-                <Form.Item label="Gói " className="my-2">
-                  <span className="ml-1">
-                    {user.isPremium ? "Normal" : "Premium"}
+              <div className="mx-16">
+                <div className="border-t-2 mt-10 relative">
+                  <span className="absolute -top-3 bg-white pr-2 text-slate-400">
+                    Tổng quan
                   </span>
-                  {user.isPremium ? <Link to="/" className="ml-20 text-sky-400 hover:text-red-700">Hủy gói</Link> : <Link to="/" className="ml-20 text-sky-400 hover:text-red-700">Đăng ký gói Premium</Link>}
-                </Form.Item>
-
-                <Form.Item label="Địa chỉ">
-                  <Input value={user.address} />
-                </Form.Item>
-                <div className="flex justify-center">
-                    <Button>Xác nhận</Button>
+                  <p className="my-10">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Ullam itaque, molestias dolorem et cum pariatur dolore
+                    expedita ipsam. Neque recusandae itaque nemo aliquam?
+                    Cupiditate officia officiis distinctio, eius similique
+                    consequatur.
+                  </p>
                 </div>
-                
-              </Form> */}
+                <div className="border-t-2 mt-10 relative">
+                  <span className="absolute -top-3 bg-white pr-2 text-slate-400">
+                    Thẻ
+                  </span>
+                </div>
+              </div>
+            </div>
+            {/* right side */}
+            <div className="w-8/12 mr-5">
+              <div
+                className="flex flex-col justify-between"
+                style={{ height: "180px" }}
+              >
+                <div>
+                  <div className="flex">
+                    <span className="text-3xl font-bold">{user.username}</span>
+                    <span className="flex items-center ml-10 pt-2 text-slate-500">
+                      <AiOutlineEnvironment className="mr-1" />
+                      {user.address}
+                    </span>
+                  </div>
+
+                  <span className="text-xs ">Vai trò:</span>
+                  <span className="text-xs text-cyan-400">{user.role}</span>
+                  {user.role === "HOST" ? (
+                    <span>{user.isPremium ? "- Normal" : "isPremium"}</span>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div>
+                  <p className="text-xs">Xếp loại người dùng</p>
+                  <p className="text-cyan-600 text-base">Normal</p>
+                </div>
+                <div className="flex">
+                  <span className="flex text-base hover:text-sky-600 mr-3 cursor-default">
+                    <AiFillMessage className="mr-1 my-auto" /> Gửi tin nhắn
+                  </span>
+                  <span className="flex text-base hover:text-sky-600 mx-3 cursor-default">
+                    <AiOutlineSend className="mr-1 my-auto" />
+                    Zalo
+                  </span>
+                  <span className="flex text-base hover:text-sky-600 mx-3 cursor-default">
+                    <AiFillPhone className="mr-1 my-auto" />
+                    Liên hệ qua SĐT
+                  </span>
+                  <span className="hover:text-red-700 text-base flex ml-3 cursor-default">
+                    <AiOutlineWarning className="mr-1 my-auto" /> Báo xấu
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-10">
+                <Tabs
+                  defaultActiveKey="1"
+                  items={items}
+                  onChange={onChangeTabs}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <h1>info components</h1>
     </>
   );
 }

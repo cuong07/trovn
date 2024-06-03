@@ -1,8 +1,8 @@
-import { ConversationV1 } from "../constants/endpoints";
-import useUserStore from "../hooks/userStore";
+import { ConversationV1 } from "@/constants/endpoints";
+import useUserStore from "@/hooks/userStore";
 import qs from "query-string";
 import { apiClient } from "./apiClient";
-import useConversationStore from "../hooks/useConversationStore";
+import useConversationStore from "@/hooks/useConversationStore";
 export const getConversations = async () => {
   const userId = useUserStore.getState().user?.id;
   if (!userId) {

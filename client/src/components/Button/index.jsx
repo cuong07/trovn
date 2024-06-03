@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import { Button } from "antd";
-import React from "react";
 import { motion } from "framer-motion";
 const Index = ({ children, type, ...props }) => {
   return (

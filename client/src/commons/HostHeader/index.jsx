@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import { LogoSvg } from "../../components/Icons";
-import { IoBanOutline, IoSettings } from "react-icons/io5";
-import { FaAppStore, FaUser } from "react-icons/fa";
+import { LogoSvg } from "@/components/Icons";
+import { FaUser } from "react-icons/fa";
 import { CiHeart, CiMail, CiUser } from "react-icons/ci";
 import { Avatar, Flex, Menu, Popover } from "antd";
 import { useState } from "react";
@@ -14,8 +13,8 @@ const Index = () => {
       key: "1",
       icon: <CiMail />,
       children: [
-        { key: "1.1", label: <Link to="listing/list">Danh sách</Link> },
-        { key: "1.2", label: <Link to="listing/create">Thêm</Link> },
+        { key: "1.1", label: <Link to="listing/list">Danh sách phòng</Link> },
+        { key: "1.2", label: <Link to="listing/create">Thêm phòng</Link> },
       ],
     },
     {

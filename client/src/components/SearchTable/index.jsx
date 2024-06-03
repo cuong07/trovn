@@ -1,8 +1,6 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import { Switch, Table, Tag } from "antd";
-import Checkbox from "antd/es/checkbox/Checkbox";
-import { formatCurrency, getTerm } from "../../utils/helpers";
+import { formatCurrency, getTerm } from "@/utils/helpers";
 import moment from "moment";
 import { LuBadgeCheck } from "react-icons/lu";
 import { Link } from "react-router-dom";

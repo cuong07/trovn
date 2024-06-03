@@ -18,13 +18,16 @@ import {
   AdvertiseManager,
   Login,
   Info,
-  Forgetpass,
+  Forgot,
   Newpass,
   Chatbot,
   Chat,
   Welcome,
-} from "../pages";
-import { ListingCreate, ListingList } from "../pages/Host";
+  Favorite,
+  NewInfo,
+  Logout,
+} from "@/pages";
+import { ListingCreate, ListingList } from "@/pages/Host";
 import {
   Amenities,
   Banners,
@@ -33,8 +36,8 @@ import {
   Locations,
   Payments,
   Users,
-} from "../pages/Admin";
-import { MessagePage } from "../components";
+} from "@/pages/Admin";
+import { MessagePage } from "@/components";
 
 export const router = createBrowserRouter([
   {
@@ -50,12 +53,12 @@ export const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/chatbot",
-        element: <Chatbot />,
+        path: "/forgot",
+        element: <Forgot />,
       },
       {
-        path: "/forgetpass",
-        element: <Forgetpass />,
+        path: "/chatbot",
+        element: <Chatbot />,
       },
       {
         path: "/newpass",
@@ -69,7 +72,7 @@ export const router = createBrowserRouter([
           { path: "/listing/:id", element: <Listing /> },
           { path: "/search", element: <Search /> },
           { path: "/checkout", element: <Checkout /> },
-          { path: "/user/info", element: <Info /> },
+          // { path: "/user/info", element: <NewInfo /> },
           {
             path: "/chat",
             element: <Chat />,
@@ -82,6 +85,8 @@ export const router = createBrowserRouter([
             ],
           },
           { path: "/user/info/:id", element: <Info /> },
+          { path: "/user/new-info/:id", element: <NewInfo /> },
+          { path: "/favorite", element: <Favorite /> },
         ],
       },
     ],
@@ -120,7 +125,14 @@ export const router = createBrowserRouter([
       },
       {
         path: "messages",
-        element: "not found",
+        element: <Chat />,
+        children: [
+          {
+            path: "",
+            element: <Welcome />,
+          },
+          { path: ":id", element: <MessagePage /> },
+        ],
       },
     ],
   },

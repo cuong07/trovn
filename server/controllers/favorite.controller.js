@@ -30,7 +30,31 @@ const FavoriteController = {
   async getFavoriteByUserId(req, res) {
     const { id } = req.params;
     try {
+      if (!id) {
+        return res
+          .status(statusCode.BAD_REQUEST)
+          .json(BaseResponse.error("Có lỗi", null));
+      }
       const favorites = await FavoriteService.getFavoriteByUserId(id);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", favorites));
+    } catch (error) {
+      return res
+        .status(statusCode.BAD_REQUEST)
+        .json(BaseResponse.error(error.message, error));
+    }
+  },
+
+  async getFavoriteCurrentUser(req, res) {
+    const { user } = req;
+    try {
+      if (!user) {
+        return res
+          .status(statusCode.BAD_REQUEST)
+          .json(BaseResponse.error("Vui lòng đăng nhập", null));
+      }
+      const favorites = await FavoriteService.getFavoriteByUserId(user.id);
       return res
         .status(statusCode.OK)
         .json(BaseResponse.success("Thành công", favorites));

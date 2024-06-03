@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
-import useUserStore from "../../hooks/userStore";
-import { NavLink } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { useEffect } from "react";
+import useUserStore from "@/hooks/userStore";
 import { FiArrowUpLeft } from "react-icons/fi";
-import { IoChatbubbleEllipses } from "react-icons/io5";
-import { FaImage, FaUserPlus, FaVideo } from "react-icons/fa";
-import { Avatar } from "antd";
-import { BiLogOut } from "react-icons/bi";
-import { ChatUser } from "..";
-import useConversationStore from "../../hooks/useConversationStore";
 
-const Index = () => {
+import { ChatUser } from "..";
+import useConversationStore from "@/hooks/useConversationStore";
+
+const Index = ({ isLoading }) => {
   const { user, socketConnection } = useUserStore();
   const { setConversations, conversations } = useConversationStore();
 
@@ -31,7 +28,7 @@ const Index = () => {
         <div className="bg-slate-200 p-[0.5px]"></div>
 
         <div className=" h-full w-full overflow-x-hidden overflow-y-auto scrollbar">
-          {conversations.length === 0 && (
+          {!isLoading && conversations.length === 0 && (
             <div className="mt-12">
               <div className="flex justify-center items-center my-4 text-slate-500">
                 <FiArrowUpLeft size={50} />
@@ -44,6 +41,10 @@ const Index = () => {
           {conversations.map((conv, index) => (
             <ChatUser conversation={conv} user={user} key={conv?.id} />
           ))}
+          {/* 
+          {isLoading && <div>
+            {n}
+            </div>} */}
         </div>
       </div>
     </div>

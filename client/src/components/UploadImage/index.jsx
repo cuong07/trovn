@@ -1,12 +1,12 @@
-import { Upload, message } from "antd";
+import { message } from "antd";
 import Dragger from "antd/es/upload/Dragger";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaBoxOpen } from "react-icons/fa";
-import useListingStore from "../../hooks/useListingStore";
-import { convertArrayToFiles } from "../../utils/helpers";
+import useListingStore from "@/hooks/useListingStore";
+import { convertArrayToFiles } from "@/utils/helpers";
 
 const Index = () => {
-  const { updateListing, newListing } = useListingStore();
+  const { updateListing } = useListingStore();
   const [showError, setShowError] = useState(false);
 
   const props = {
@@ -41,7 +41,6 @@ const Index = () => {
       updateListing("files", files);
     },
   };
-
 
   return (
     <div className="">

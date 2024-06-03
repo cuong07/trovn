@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useListingStore = create((set) => ({
+const useListingStore = create((set, get) => ({
   listings: {
     contents: [],
     isLoading: false,
@@ -13,7 +13,7 @@ const useListingStore = create((set) => ({
       limit: 20,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   hostListings: {
@@ -23,7 +23,7 @@ const useListingStore = create((set) => ({
       limit: 10,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   adminListings: {
@@ -38,7 +38,7 @@ const useListingStore = create((set) => ({
       limit: 100,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   searchListings: {
@@ -46,15 +46,20 @@ const useListingStore = create((set) => ({
     isLoading: false,
     filter: {
       keyword: "",
-      amenityId: "",
+      amenityIds: [],
       locationId: "",
+      minPrice: "",
+      maxPrice: "",
+      tagId: "",
+      latCoords: "",
+      lngCoords: "",
     },
     pagination: {
       page: 1,
       limit: 18,
     },
     currentPage: 0,
-    totalElements: 0,
+    totalElement: 0,
   },
 
   newListing: {
@@ -86,7 +91,7 @@ const useListingStore = create((set) => ({
         ...state.hostListings,
         contents: data?.contents,
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
@@ -110,7 +115,7 @@ const useListingStore = create((set) => ({
         ...state.listings,
         contents: data?.contents,
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
@@ -166,10 +171,11 @@ const useListingStore = create((set) => ({
         ...state.listings,
         contents: [...state.listings.contents, data?.contents],
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
+
   setListingAmenitiesId: (data) => {
     set((state) => {
       const isDataIncluded = state.listings.filter.amenityIds.includes(data);
@@ -197,7 +203,7 @@ const useListingStore = create((set) => ({
         ...state.searchListings,
         contents: data.contents,
         currentPage: data?.currentPage,
-        totalElements: data?.totalElement,
+        totalElement: data?.totalElement,
       },
     }));
   },
@@ -244,6 +250,69 @@ const useListingStore = create((set) => ({
         },
       },
     }));
+  },
+  updateSearchListings: (key, value) => {
+    set((state) => ({
+      ...state,
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          ...state.searchListings.filter,
+          [key]: value,
+        },
+      },
+    }));
+  },
+
+  setSearchListingAmenitiesId: (data) => {
+    set((state) => {
+      const isDataIncluded =
+        state.searchListings.filter.amenityIds.includes(data);
+      const updatedAmenityIds = isDataIncluded
+        ? state.searchListings.filter.amenityIds.filter((item) => item !== data)
+        : [...state.searchListings.filter.amenityIds, data];
+
+      return {
+        searchListings: {
+          ...state.searchListings,
+          filter: {
+            ...state.searchListings.filter,
+            amenityIds: updatedAmenityIds,
+          },
+        },
+      };
+    });
+  },
+
+  clearSearchFilter: () => {
+    set((state) => ({
+      ...state,
+      searchListings: {
+        ...state.searchListings,
+        filter: {
+          keyword: "",
+          amenityIds: [],
+          locationId: "",
+          minPrice: "",
+          maxPrice: "",
+          tagId: "",
+          latCoords: "",
+          lngCoords: "",
+        },
+      },
+    }));
+  },
+
+  countSearchListingFilters: () => {
+    const { filter } = get().searchListings;
+    let count = 0;
+    if (filter.keyword) count++;
+    if (filter.amenityIds.length > 0) count++;
+    if (filter.locationId) count++;
+    if (filter.minPrice || filter.maxPrice) count++;
+    if (filter.tagId) count++;
+    if (filter.latCoords || filter.lngCoords) count++;
+    return count;
   },
 }));
 

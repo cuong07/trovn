@@ -1,4 +1,5 @@
 import db from "../lib/db.js";
+import dayjs from "dayjs";
 
 const UserModel = {
   methods: {
@@ -7,6 +8,9 @@ const UserModel = {
       const currentUserConversation = await db.conversation.findMany({
         where: {
           OR: [{ userOneId: currentUserId }, { userTwoId: currentUserId }],
+        },
+        orderBy: {
+          updatedAt: "desc",
         },
         include: {
           messages: true,
@@ -18,6 +22,7 @@ const UserModel = {
         return {
           id: conv?.id,
           sender: conv?.userTwo,
+          updatedAt: conv?.updatedAt,
           receiver: conv?.userOne,
           lastMsg: conv.messages[conv?.messages?.length - 1],
         };
@@ -48,6 +53,17 @@ const UserModel = {
         data: {
           userOneId: sender,
           userTwoId: receiver,
+        },
+      });
+    },
+
+    async updatedAtConversation(id) {
+      return await db.conversation.update({
+        where: {
+          id,
+        },
+        data: {
+          updatedAt: new Date(),
         },
       });
     },

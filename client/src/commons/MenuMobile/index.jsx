@@ -1,7 +1,5 @@
-import React from "react";
 import { BiBell, BiHeart, BiHome, BiMessage, BiUser } from "react-icons/bi";
 import { NavLink, useLocation } from "react-router-dom";
-import { cn } from "../../utils/helpers";
 import { Flex } from "antd";
 
 const Index = () => {
