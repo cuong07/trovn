@@ -1,0 +1,2 @@
+{"level":"info","message":"6/5/2024 - 21:10:25 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
+{"level":"info","message":"6/5/2024 - 21:10:40 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}

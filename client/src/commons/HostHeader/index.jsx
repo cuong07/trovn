@@ -13,8 +13,8 @@ const Index = () => {
       key: "1",
       icon: <CiMail />,
       children: [
-        { key: "1.1", label: <Link to="listing/list">Danh sách</Link> },
-        { key: "1.2", label: <Link to="listing/create">Thêm</Link> },
+        { key: "1.1", label: <Link to="listing/list">Danh sách phòng</Link> },
+        { key: "1.2", label: <Link to="listing/create">Thêm phòng</Link> },
       ],
     },
     {
