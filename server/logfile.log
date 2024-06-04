@@ -1,0 +1,6 @@
+{"level":"info","message":"2/5/2024 - 15:01:47 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"CONGADMIN\"}"}
+{"level":"info","message":"2/5/2024 - 15:01:54 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"CONGADMIN\"}"}
+{"level":"info","message":"2/5/2024 - 15:02:05 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"congadmin\"}"}
+{"level":"info","message":"2/5/2024 - 15:05:49 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
+{"level":"info","message":"2/5/2024 - 15:08:43 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"congadmin\"}"}
+{"level":"info","message":"2/5/2024 - 15:09:27 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"congadmin\"}"}

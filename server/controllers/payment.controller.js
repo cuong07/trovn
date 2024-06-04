@@ -311,6 +311,36 @@ const PaymentController = {
         // thông báo kết quả cho ZaloPay server
         res.json(result);
     },
+
+    async getPaymentsByStatus(req, res) {
+        try {
+            const { status } = req.query;
+            const data = await PaymentService.getPaymentStatus(status);
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", data));
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    async deletePayment(req, res) {
+        try {
+            const { id } = req.params;
+            const data = await PaymentService.deletePayment(id);
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", data));
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
 };
 
 export default PaymentController;
