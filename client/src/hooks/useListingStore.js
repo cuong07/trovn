@@ -10,7 +10,7 @@ const useListingStore = create((set, get) => ({
     },
     pagination: {
       page: 1,
-      limit: 5,
+      limit: 20,
     },
     currentPage: 0,
     totalElement: 0,
