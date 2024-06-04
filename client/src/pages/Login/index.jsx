@@ -4,7 +4,6 @@ import { Form, Input, message } from "antd";
 import { Button } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/apis/user";
-import { getCurrentUser } from "@/apis/user";
 
 function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -22,11 +21,15 @@ function Login() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const userData = await login(formData);
-    if (userData.data) {
-      return navigate("/");
+    try {
+      const user = await login(formData);
+      if (user.success) {
+        return navigate("/");
+      }
+      return message.error(user.message);
+    } catch (error) {
+      return console.log("Login error", error);
     }
-    return alert("tai khoản sai");
   };
 
   return (

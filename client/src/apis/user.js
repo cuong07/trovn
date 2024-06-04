@@ -35,18 +35,23 @@ export const login = async (data) => {
   const url = qs.stringifyUrl({
     url: UserV1.USER_LOGIN,
   });
-  const user = await apiClient.post(url, data, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
-
-  useUserStore.setState((prev) => ({
-    ...prev,
-    token: user.data.data,
-  }));
-
-  localStorage.setItem("token", JSON.stringify(user.data.data));
+  try {
+    const user = await apiClient.post(url, data, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    useUserStore.setState((prev) => ({
+      ...prev,
+      token: user.data.data,
+    }));
+    localStorage.setItem("token", JSON.stringify(user.data.data));
+    console.log("APIS user: ", user);
+    return user.data
+  } catch (error) {
+    console.log("APIS error", error.response.data);
+    return error.response.data;
+  }
 
   // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
   return user.data;
