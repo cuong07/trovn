@@ -4,7 +4,6 @@ import { Form, Input, message } from "antd";
 import { Button } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/apis/user";
-import { getCurrentUser } from "@/apis/user";
 
 function Login() {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -29,6 +28,19 @@ function Login() {
         return message.error("Sai tài khoản hoặc mật khẩu");
     };
 
+
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    try {
+      const user = await login(formData);
+      if (user.success) {
+        return navigate("/");
+      }
+      return message.error(user.message);
+    } catch (error) {
+      return console.log("Login error", error);
+    }
+  };
     const loginWithGoogle = useCallback(() => {
         window.open(
             "http://localhost:8888/api/v1/auth/google/callback",
