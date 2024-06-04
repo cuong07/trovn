@@ -160,6 +160,25 @@ const UserService = {
             throw error;
         }
     },
+    async getUserDetailsFromToken(token) {
+        if (!token) {
+            return {
+                message: "session out",
+                logout: true,
+            };
+        }
+        const user = await verifyToken(token);
+        return await UserModel.methods.getUserById(user.id);
+    },
+    async getAllUsers() {
+        // Thêm phương thức này
+        try {
+            return await UserModel.methods.getAllUsers();
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
 };
 
 export default UserService;

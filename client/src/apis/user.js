@@ -75,6 +75,19 @@ export const getUser = async (id) => {
   return data.data;
 };
 
+export const getUsers = async () => {
+  try {
+    const url = qs.stringifyUrl({
+      url: UserV1.GET_USERS,  // Đảm bảo rằng bạn đã định nghĩa UserV1.GET_ALL_USERS trong constants/endpoints.js
+    });
+    const { data } = await apiClient.get(url);
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
+
 export const getUserByEmail = async (email) => {
   try {
     const url = `/user/email/${email}`;
@@ -137,6 +150,7 @@ export const changePassword = async (id, password) => {
   );
   return dt;
 };
+
 
 // export const getCurrentUser = async ()=>{
 //     const url = '/user';

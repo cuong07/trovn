@@ -5,13 +5,20 @@ import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.get(
-  "/payment/momo",
-  verifyTokenAllRole,
-  PaymentController.createMomoPayment
+    "/payment/momo",
+    verifyTokenAllRole,
+    PaymentController.createMomoPayment
 );
 router.post("/payment/momo/callback", PaymentController.callbackMomo);
 router.get(
-  "/payment/momo/check-status-transaction",
-  PaymentController.getMomoStatusTransaction
+    "/payment/momo/check-status-transaction",
+    PaymentController.getMomoStatusTransaction
 );
+
+router.get(
+    "/payment/zalopay",
+    verifyTokenAllRole,
+    PaymentController.createZaloPayPayment
+);
+router.post("/payment/zalopay/callback", PaymentController.callBackZaloPay);
 export default router;
