@@ -82,6 +82,21 @@ const PaymentModel = {
         },
       });
     },
+
+    async findManyPaymentByDate(startOfDay, endOfDay) {
+      return await db.payment.findMany({
+        where: {
+          createdAt: {
+            gte: startOfDay,
+            lte: endOfDay,
+          },
+          status: true,
+        },
+        select: {
+          amount: true,
+        },
+      });
+    },
   },
 };
 
