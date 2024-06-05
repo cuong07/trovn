@@ -171,7 +171,6 @@ const UserService = {
         return await UserModel.methods.getUserById(user.id);
     },
     async getAllUsers() {
-        // Thêm phương thức này
         try {
             return await UserModel.methods.getAllUsers();
         } catch (error) {

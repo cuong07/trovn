@@ -115,9 +115,10 @@ const User = {
                 },
             });
         },
+        async getAllUsers() {
+            return await db.user.findMany();
     },
-    async getAllUsers() {
-        return await db.user.findMany();
+    
     },
 };
 
