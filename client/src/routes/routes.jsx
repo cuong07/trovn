@@ -26,6 +26,7 @@ import {
     Favorite,
     NewInfo,
     Logout,
+    NotFound,
 } from "@/pages";
 import { ListingCreate, ListingList } from "@/pages/Host";
 import {
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
                     { path: "/user/new-info/:id", element: <NewInfo /> },
                     { path: "/favorite", element: <Favorite /> },
                     { path: "logout", element: <Logout /> },
+                    {
+                        path: "*",
+                        element: <NotFound />,
+                    },
                 ],
             },
         ],
@@ -126,7 +131,7 @@ export const router = createBrowserRouter([
                 element: <Payments />,
             },
             {
-                path: "messages",
+                path: "chat",
                 element: <Chat />,
                 children: [
                     {

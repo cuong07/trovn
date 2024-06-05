@@ -4,3 +4,5 @@
 {"level":"info","message":"2/5/2024 - 15:05:49 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
 {"level":"info","message":"2/5/2024 - 15:08:43 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"congadmin\"}"}
 {"level":"info","message":"2/5/2024 - 15:09:27 - ::1 - POST /user/login - {\"email\":\"congadmin@gmail.com\",\"password\":\"congadmin\"}"}
+{"level":"info","message":"3/5/2024 - 17:29:15 - ::1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 17:31:25 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}

@@ -19,6 +19,8 @@ export const ListingV1 = {
     GET_LISTING: "/listings",
     GET_LISTING_BY_ID: "/listing/",
     CREATE_LISTING: "/listing",
+    GET_LISTING_BY_USER_ID: "/listing/user/",
+    UPDATE_LISTING: "/listing/",
 };
 
 export const LocationV1 = {

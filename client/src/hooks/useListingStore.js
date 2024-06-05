@@ -84,6 +84,20 @@ const useListingStore = create((set, get) => ({
                 [key]: value,
             },
         })),
+
+    updateSomeListing: (data) => {
+        set((state) => {
+            const newHostListing = state.hostListings.contents.map(
+                (listing) => {
+                    if (listing.id === data.id) {
+                        return data;
+                    }
+                    return listing;
+                }
+            );
+            return newHostListing;
+        });
+    },
     // host
     setHostListings: (data) => {
         set((state) => ({
@@ -232,6 +246,7 @@ const useListingStore = create((set, get) => ({
             },
         }));
     },
+
     setSearchListingAmenityId: (data) => {
         set((state) => ({
             searchListings: {
@@ -243,6 +258,7 @@ const useListingStore = create((set, get) => ({
             },
         }));
     },
+
     setSearchListingLocationId: (data) => {
         set((state) => ({
             searchListings: {
@@ -254,6 +270,7 @@ const useListingStore = create((set, get) => ({
             },
         }));
     },
+
     updateSearchListings: (key, value) => {
         set((state) => ({
             ...state,
