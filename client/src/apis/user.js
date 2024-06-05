@@ -78,7 +78,7 @@ export const getUser = async (id) => {
 export const getUsers = async () => {
   try {
     const url = qs.stringifyUrl({
-      url: UserV1.GET_USERS,  // Đảm bảo rằng bạn đã định nghĩa UserV1.GET_ALL_USERS trong constants/endpoints.js
+      url: UserV1.GET_USERS,  
     });
     const { data } = await apiClient.get(url);
     return data.data;

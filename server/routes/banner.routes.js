@@ -23,6 +23,7 @@ router.get(
   verifyTokenWithUserPremium,
   BannerController.getBannersByUser
 );
+
 // router.delete(
 //   "/favorite/:id",
 //   verifyTokenAllRole,
