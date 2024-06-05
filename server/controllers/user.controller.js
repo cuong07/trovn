@@ -211,6 +211,7 @@ const UserController = {
         }
     },
     async getAllUsers(req, res) {
+        // Thêm hàm này
         try {
             const users = await UserService.getAllUsers();
             return res

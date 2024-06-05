@@ -87,6 +87,27 @@ const BannerService = {
       throw error;
     }
   },
+  async updateBannerStatus(bannerId, isActive) {
+    try {
+        const banner = await BannerModel.methods.getBannerById(bannerId);
+        if (!banner) {
+            throw new Error(`Banner with ID ${bannerId} not found`);
+        }
+        // Cập nhật thuộc tính isActive của banner
+        banner.isActive = isActive;
+        
+        // Lưu thay đổi
+        const updatedBanner = await BannerModel.methods.updateBanner(bannerId, banner);
+        
+        return updatedBanner;
+    } catch (error) {
+        console.error(`Error updating banner status: ${error.message}`);
+        throw error;
+    }
+}
+
+
+
 };
 
 export default BannerService;

@@ -37,6 +37,11 @@ export const getAllBanners = async () => {
   const { data } = await apiClient.get(url);
   return data;
 };
+export const updateBannerStatus = async (bannerId, status) => {
+  const url = `${BannerV1.UPDATE_BANNER_STATUS}/${bannerId}/block`;
+  const { data } = await apiClient.patch(url, { status });
+  return data;
+};
 
 
 

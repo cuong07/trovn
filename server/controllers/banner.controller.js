@@ -64,6 +64,19 @@ const BannerController = {
         .json(BaseResponse.error(error.message, error));
     }
   },
+  async blockBanner(req, res) {
+    const { bannerId } = req.params;
+    try {
+      await BannerService.updateBannerStatus(bannerId, false);
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Banner đã bị chặn", null));
+    } catch (error) {
+      return res
+        .status(statusCode.BAD_REQUEST)
+        .json(BaseResponse.error(error.message, error));
+    }
+  }
 };
 
 export default BannerController;

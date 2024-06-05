@@ -18,6 +18,7 @@ router.post(
 
 router.get("/banners", BannerController.getBanners);
 router.get("/banners/active", BannerController.getBannersActive);
+router.patch('/banners/:bannerId/block', BannerController.blockBanner);
 router.get(
   "/banners/user",
   verifyTokenWithUserPremium,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllBanners, } from "../../../apis/banner";
+import { getAllBanners, updateBannerStatus } from "../../../apis/banner";
 import { getUser } from "../../../apis/user";
 import moment from "moment";
 import { Button } from "@/components";
@@ -11,37 +11,44 @@ const BannerList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getAllBanners();
-        console.log("Banner data:", response);
-        if (response.success && Array.isArray(response.data)) {
-          const bannersWithUser = await Promise.all(
-            response.data.map(async (banner) => {
-              const user = await getUser(banner.userId);
-              return { ...banner, user };
-            })
-          );
-          setBanners(bannersWithUser);
-        } else {
-          console.error("Dữ liệu không hợp lệ:", response);
-        }
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách banner:", error);
+  const loadData = async () => {
+    try {
+      const response = await getAllBanners();
+      console.log("Banner data:", response);
+      if (response.success && Array.isArray(response.data)) {
+        const bannersWithUser = await Promise.all(
+          response.data.map(async (banner) => {
+            const user = await getUser(banner.userId);
+            return { ...banner, user };
+          })
+        );
+        setBanners(bannersWithUser);
+      } else {
+        console.error("Dữ liệu không hợp lệ:", response);
       }
-    };
-
-    fetchData();
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách banner:", error);
+    }
+  };
+  
+  useEffect(() => {
+    loadData();
   }, []);
- 
+  
+  const handleToggleActive = async (banner) => {
+    try {
+      await updateBannerStatus(banner.id, { isActive: false });
+      // Load lại danh sách banner sau khi đã chặn banner thành công
+      loadData();
+    } catch (error) {
+      console.error("Lỗi khi cập nhật trạng thái banner:", error);
+    }
+  };
+  
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
-
-
 
   const columns = [
     {
@@ -51,10 +58,7 @@ const BannerList = () => {
       width: 200,
       render: (user) => (
         <div className="flex items-center">
-          <img
-            src={user.avatarUrl}
-            className="w-10 h-10 rounded-full mr-2"
-          />
+          <img src={user.avatarUrl} className="w-10 h-10 rounded-full mr-2" />
           <div style={{ marginRight: '30px' }}>
             <div className="text-sm font-medium">{user.email}</div>
             <div className="text-xs text-black-500">{moment(user.createdAt).format("LL")}</div>
@@ -67,7 +71,7 @@ const BannerList = () => {
       title: "Hình ảnh",
       dataIndex: "imageUrl",
       key: "imageUrl",
-      render: (imageUrl) => <img src={imageUrl} alt="Banner" style={{ width: '400px', height: 'auto' }} />,
+      render: (imageUrl) => <img src={imageUrl} alt="Banner" style={{ width: '300px', height: 'auto' }} />,
     },
     {
       title: "Tiêu đề",
@@ -111,7 +115,6 @@ const BannerList = () => {
       ),
     },
   ];
-
   return (
     <div>
       <h2 className="text-xl font-bold mb-4">Danh sách banner</h2>
@@ -120,6 +123,7 @@ const BannerList = () => {
           dataSource={banners}
           columns={columns}
           pagination={{ current: currentPage, total: banners.length, pageSize, position: ['bottomCenter'] }}
+          onChange={handlePageChange}
           scroll={{ x: true }}
         />
       </div>
