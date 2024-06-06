@@ -47,6 +47,7 @@ export const BannerV1 = {
     CREATE_BANNER: "/banner",
     GET_BANNERS: "/banners",
     GET_BANNERS_ACTIVE: "/banners/active",
+    UPDATE_BANNER_STATUS: "/banners",
 };
 
 export const TagV1 = {

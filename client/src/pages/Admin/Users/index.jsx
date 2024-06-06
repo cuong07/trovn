@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getUsers } from "../../../apis/user";
 import { Avatar, Pagination } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, CloseCircleOutlined, MessageOutlined } from '@ant-design/icons';
+import moment from "moment";
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,6 +26,10 @@ const Index = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleMessageClick = (userId) => {
+    navigate(`/admin/messages/${userId}`);
   };
 
   const renderUsers = () => {
@@ -47,9 +54,11 @@ const Index = () => {
             <CloseCircleOutlined style={{ fontSize: '24px', color: 'red' }} />
           )}
         </td>
-        <td className="py-2 px-4 border border-gray-300">{user.createdAt}</td>
+        <td className="py-2 px-4 border border-gray-300">{moment(user.createdAt).format("LL")}</td>
+        <td className="py-2 px-4 border border-gray-300" style={{ textAlign: 'center' }}>
+          <MessageOutlined style={{ fontSize: '24px', color: 'blue', cursor: 'pointer' }} onClick={() => handleMessageClick(user.id)} />
+        </td>
       </tr>
-  
     ));
   };
 
@@ -67,6 +76,7 @@ const Index = () => {
           <th className="py-2 px-4 border border-gray-300">Chức vụ</th>
           <th className="py-2 px-4 border border-gray-300">Tài khoản premium</th>
           <th className="py-2 px-4 border border-gray-300">Ngày tạo</th>
+          <th className="py-2 px-4 border border-gray-300">Nhắn tin</th>
         </tr>
       </thead>
         <tbody>

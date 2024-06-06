@@ -117,7 +117,6 @@ const User = {
         },
         async getAllUsers() {
             return await db.user.findMany();
-        },
     },
 };
 
