@@ -96,6 +96,16 @@ const ListingModel = {
             return newListing;
         },
 
+        async getListingByIdAndUserId(listingId, userId) {
+            console.log(listingId, userId);
+            return await db.listing.findFirst({
+                where: {
+                    userId,
+                    id: listingId,
+                },
+            });
+        },
+
         async getListingById(listingId) {
             return await db.listing.findUnique({
                 where: {
@@ -121,32 +131,43 @@ const ListingModel = {
             });
         },
 
-        async getListingByUserId(userId) {
-            return await db.listing.findMany({
-                where: {
-                    userId: userId,
-                },
-                include: {
-                    images: true,
-                    location: true,
-                    reviews: true,
-                },
-            });
+        async getListingByUserId(userId, page, limit) {
+            const skip = Math.max(0, (page - 1) * limit);
+            const currentPage = +page || 1;
+            const take = +limit || 10;
+
+            const [totalElement, contents] = await db.$transaction([
+                db.listing.count({
+                    where: {
+                        userId: userId,
+                    },
+                }),
+                db.listing.findMany({
+                    where: {
+                        userId: userId,
+                    },
+                    include: {
+                        images: true,
+                        location: true,
+                        reviews: true,
+                        listingAmenities: {
+                            include: {
+                                amenity: true,
+                            },
+                        },
+                    },
+                    skip,
+                    take,
+                }),
+            ]);
+            const totalPage = Math.ceil(totalElement / take);
+            return { totalElement, currentPage, totalPage, contents };
         },
 
-        async updateListing(listingId, listingUpdate) {
-            return await db.listing.update({
+        async getCountListingByLocationId(locationId) {
+            return db.listing.count({
                 where: {
-                    id: listingId,
-                },
-                data: listingUpdate,
-            });
-        },
-
-        async deleteListing(listingId) {
-            return await db.listing.delete({
-                where: {
-                    id: listingId,
+                    locationId,
                 },
             });
         },
@@ -166,10 +187,9 @@ const ListingModel = {
             const skip = Math.max(0, (page - 1) * limit);
             const currentPage = +page || 1;
             const take = +limit || 10;
-            const searchTerm = removeAccents(keyword ?? "");
 
             const filters = {
-                NOT: [{ isPublish: true }],
+                AND: [{ isPublish: true }],
             };
 
             if (keyword) {
@@ -248,7 +268,9 @@ const ListingModel = {
                     orderBy: {
                         createdAt: "asc",
                     },
-                    where: filters,
+                    where: {
+                        ...filters,
+                    },
                     include: {
                         images: true,
                         user: true,
@@ -322,10 +344,28 @@ const ListingModel = {
             return result;
         },
 
-        async getCountListingByLocationId(locationId) {
-            return db.listing.count({
+        async updateListing(listingId, listingUpdate) {
+            console.log(listingUpdate);
+            return await db.listing.update({
                 where: {
-                    locationId,
+                    id: listingId,
+                },
+                data: listingUpdate,
+                include: {
+                    images: true,
+                    location: true,
+                    listingAmenities: {
+                        include: { amenity: true },
+                    },
+                    user: true,
+                },
+            });
+        },
+
+        async deleteListing(listingId) {
+            return await db.listing.delete({
+                where: {
+                    id: listingId,
                 },
             });
         },

@@ -1,6 +1,9 @@
 import express from "express";
 import PaymentController from "../controllers/payment.controller.js";
-import { verifyTokenAllRole } from "../middlewares/auth.middleware.js";
+import {
+    verifyTokenAllRole,
+    verifyTokenWithAdmin,
+} from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -21,4 +24,22 @@ router.get(
     PaymentController.createZaloPayPayment
 );
 router.post("/payment/zalopay/callback", PaymentController.callBackZaloPay);
+router.get(
+    "/payments",
+    verifyTokenWithAdmin,
+    PaymentController.getPaymentsByStatus
+);
+router.delete(
+    "/payment/:id",
+    verifyTokenWithAdmin,
+    PaymentController.deletePayment
+);
+
+router.get(
+    "/payment/vnpay",
+    verifyTokenAllRole,
+    PaymentController.createVNPayPayment
+);
+router.get("/payment/vnpay/callback", PaymentController.callbackVNPayIPN);
+
 export default router;

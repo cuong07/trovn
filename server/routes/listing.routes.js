@@ -8,17 +8,17 @@ import ListingTagController from "../controllers/listingTag.controller.js";
 const router = express.Router();
 
 router.post(
-  "/listing",
-  upload.array("files"),
-  verifyTokenAllRole,
-  ListingController.createListing
+    "/listing",
+    upload.array("files"),
+    verifyTokenAllRole,
+    ListingController.createListing
 );
 
 router.get("/listing/:id", ListingController.getListingById);
 router.get("/listings", ListingController.getListings);
 router.get("/listing/user/:id", ListingController.getListingByUserId);
+router.put("/listing/:id", verifyTokenAllRole, ListingController.updateListing);
 
-
-router.post('/listing/:id/listingTag', ListingTagController.createListingTag);
+router.post("/listing/:id/listingTag", ListingTagController.createListingTag);
 
 export default router;

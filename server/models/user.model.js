@@ -118,8 +118,6 @@ const User = {
         async getAllUsers() {
             return await db.user.findMany();
     },
-    
-    },
 };
 
 export default User;
