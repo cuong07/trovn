@@ -19,6 +19,8 @@ export const ListingV1 = {
     GET_LISTING: "/listings",
     GET_LISTING_BY_ID: "/listing/",
     CREATE_LISTING: "/listing",
+    GET_LISTING_BY_USER_ID: "/listing/user/",
+    UPDATE_LISTING: "/listing/",
 };
 
 export const LocationV1 = {
@@ -32,6 +34,9 @@ export const AdvertisingV1 = {
 
 export const PaymentV1 = {
     GET_MOMO_PAYMENT: "/payment/momo",
+    GET_VNPAY_PAYMENT: "/payment/vnpay",
+    GET_PAYMENTS_BY_STATUS: "/payments",
+    DELETE_PAYMENT: "/payment/",
 };
 
 export const OrderV1 = {
