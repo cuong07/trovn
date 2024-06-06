@@ -141,7 +141,7 @@ const App = () => {
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
                         flex: 1,
-                        // overflow: "scroll",
+                        overflow: "scroll",
                     }}
                 >
                     <Outlet />

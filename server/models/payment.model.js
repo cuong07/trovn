@@ -103,6 +103,14 @@ const PaymentModel = {
                 },
             });
         },
+
+        async getPaymentByTransactionId(id) {
+            return await db.payment.findFirst({
+                where: {
+                    transactionId: id,
+                },
+            });
+        },
     },
 };
 

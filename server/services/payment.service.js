@@ -105,6 +105,15 @@ const PaymentService = {
             throw error;
         }
     },
+
+    async getPaymentByTransactionId(id) {
+        try {
+            return await PaymentModel.methods.getPaymentByTransactionId(id);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
 };
 
 export default PaymentService;

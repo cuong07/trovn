@@ -9,10 +9,16 @@ import crypto from "crypto";
 import { sendMail } from "../utils/mailer.utils.js";
 import { orderTemplate } from "../utils/order.template.utils.js";
 import { ZaloPayConfig } from "../config/zalo.config.js";
+import { VNPayConfig } from "../config/vnpay.config.js";
 import moment from "moment";
 import CryptoJS from "crypto-js";
+import { sortObject } from "../utils/sort.object.utils.js";
+import queryString from "query-string";
 
 const PaymentController = {
+    /***
+     * MOMO
+     */
     async createMomoPayment(req, res) {
         const { amount, orderInfo, adsPackageId } = req.query;
         const { id } = req.user;
@@ -185,6 +191,9 @@ const PaymentController = {
         }
     },
 
+    /***
+     * ZALO PAY
+     */
     async createZaloPayPayment(req, res) {
         const { amount, orderInfo, adsPackageId } = req.query;
         const { id } = req.user;
@@ -339,6 +348,263 @@ const PaymentController = {
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    /***
+     * VNPAY
+     */
+
+    async createVNPayPayment(req, res) {
+        let { amount, locale, orderInfo, bankCode, adsPackageId } = req.query;
+        const { id } = req.user;
+
+        process.env.TZ = "Asia/Ho_Chi_Minh";
+
+        let date = new Date();
+        let createDate = moment(date).format("YYYYMMDDHHmmss");
+
+        let ipAddr =
+            req.headers["x-forwarded-for"] ||
+            req.connection.remoteAddress ||
+            req.socket.remoteAddress ||
+            req.connection.socket.remoteAddress;
+
+        let tmnCode = VNPayConfig.vnp_TmnCode;
+        let secretKey = VNPayConfig.vnp_HashSecret;
+        let vnpUrl = VNPayConfig.vnp_Url;
+        let returnUrl = VNPayConfig.vnp_ReturnUrl;
+        let orderId = moment(date).format("DDHHmmss");
+        let currCode = "VND";
+        let vnp_Params = {};
+
+        vnp_Params["vnp_Version"] = "2.1.0";
+        vnp_Params["vnp_Command"] = "pay";
+        vnp_Params["vnp_TmnCode"] = tmnCode;
+        vnp_Params["vnp_Locale"] = locale;
+        vnp_Params["vnp_CurrCode"] = currCode;
+        vnp_Params["vnp_TxnRef"] = orderId;
+        vnp_Params["vnp_OrderInfo"] = adsPackageId;
+        vnp_Params["vnp_OrderType"] = "other";
+        vnp_Params["vnp_Amount"] = amount * 100;
+        vnp_Params["vnp_ReturnUrl"] = returnUrl;
+        vnp_Params["vnp_IpAddr"] = ipAddr;
+        vnp_Params["vnp_CreateDate"] = createDate;
+        console.log(bankCode);
+        if (bankCode !== undefined && bankCode !== "") {
+            vnp_Params["vnp_BankCode"] = bankCode;
+        }
+
+        vnp_Params = sortObject(vnp_Params);
+        let signData = queryString.stringify(vnp_Params, { encode: false });
+        let hmac = crypto.createHmac("sha512", secretKey);
+        let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+        vnp_Params["vnp_SecureHash"] = signed;
+        vnpUrl += "?" + queryString.stringify(vnp_Params, { encode: false });
+
+        try {
+            let newPayment = {
+                amount: parseFloat(amount),
+                status: false,
+                provider: "VNPAY",
+                note: orderInfo,
+                transactionId: orderId,
+                userId: id,
+            };
+
+            const payment = await PaymentService.createPayment(newPayment);
+
+            return res.status(statusCode.OK).json(
+                BaseResponse.success("Thành công", {
+                    url: vnpUrl,
+                    code: "00",
+                })
+            );
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    async callBackVNPayPayment(req, res) {
+        let vnp_Params = req.query;
+        let secureHash = vnp_Params["vnp_SecureHash"];
+
+        delete vnp_Params["vnp_SecureHash"];
+        delete vnp_Params["vnp_SecureHashType"];
+
+        vnp_Params = sortObject(vnp_Params);
+
+        let tmnCode = VNPayConfig.vnp_TmnCode;
+        let secretKey = VNPayConfig.vnp_HashSecret;
+
+        let signData = queryString.stringify(vnp_Params, { encode: false });
+        let hmac = crypto.createHmac("sha512", secretKey);
+        let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
+        console.log(signData);
+        console.log(secureHash + "===" + signed);
+        if (secureHash === signed) {
+            //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+            res.json({ code: vnp_Params["vnp_ResponseCode"], success: true });
+        } else {
+            res.json({ code: "97", success: false });
+        }
+    },
+
+    async callbackVNPayIPN(req, res) {
+        try {
+            let vnp_Params = req.query;
+            let secureHash = vnp_Params["vnp_SecureHash"];
+
+            let orderId = vnp_Params["vnp_TxnRef"];
+            let rspCode = vnp_Params["vnp_ResponseCode"];
+            let orderInfo = vnp_Params["vnp_OrderInfo"];
+            delete vnp_Params["vnp_SecureHash"];
+            delete vnp_Params["vnp_SecureHashType"];
+
+            vnp_Params = sortObject(vnp_Params);
+            let secretKey = VNPayConfig.vnp_HashSecret;
+            let signData = queryString.stringify(vnp_Params, { encode: false });
+            let hmac = crypto.createHmac("sha512", secretKey);
+            let signed = hmac
+                .update(new Buffer(signData, "utf-8"))
+                .digest("hex");
+            console.log(vnp_Params);
+            const amount = parseFloat(vnp_Params["vnp_Amount"]) / 100;
+
+            const payment = await PaymentService.getPaymentByTransactionId(
+                orderId
+            );
+            const { user } = await PaymentService.getUserForTransactionId(
+                orderId
+            );
+
+            let paymentStatus = payment.status; // Giả sử '0' là trạng thái khởi tạo giao dịch, chưa có IPN. Trạng thái này được lưu khi yêu cầu thanh toán chuyển hướng sang Cổng thanh toán VNPAY tại đầu khởi tạo đơn hàng.
+
+            // TODO: Check order and amount
+            let checkOrderId = payment.transactionId === orderId; // Mã đơn hàng "giá trị của vnp_TxnRef" VNPAY phản hồi tồn tại trong CSDL của bạn
+            let checkAmount = payment.amount === amount; // Kiểm tra số tiền "giá trị của vnp_Amout/100" trùng khớp với số tiền của đơn hàng trong CSDL của bạn
+            console.log(payment.amount, amount);
+            /**
+             * EMAIL
+             */
+            let subject = "";
+            const { email } = user;
+
+            const list = Object.entries(vnp_Params).map(([key, value]) => ({
+                name: key,
+                value,
+            }));
+
+            const template = orderTemplate(email, list);
+            let vnp_BankTranNo = vnp_Params["vnp_BankTranNo"];
+            if (secureHash === signed) {
+                //kiểm tra checksum
+                if (checkOrderId) {
+                    if (checkAmount) {
+                        if (!paymentStatus) {
+                            //kiểm tra tình trạng giao dịch trước khi cập nhật tình trạng thanh toán
+                            const data = {
+                                amount,
+                                orderId,
+                                extraData: orderInfo,
+                            };
+                            console.log(data);
+                            if (rspCode == "00") {
+                                //thanh cong
+                                subject = "THANH TOÁN THÀNH CÔNG";
+                                //paymentStatus = '1'
+                                console.log(user, data);
+                                // Ở đây cập nhật trạng thái giao dịch thanh toán thành công vào CSDL của bạn
+                                const payment =
+                                    await PaymentService.updatePaymentActive(
+                                        true,
+                                        user,
+                                        data
+                                    );
+
+                                console.log(subject);
+                                res.status(statusCode.OK).json(
+                                    BaseResponse.success("Thành công", {
+                                        code: "00",
+                                        payment,
+                                    })
+                                );
+                            } else {
+                                //that bai
+                                subject = "THANH TOÁN KHÔNG THÀNH CÔNG";
+                                //paymentStatus = '2'
+                                // Ở đây cập nhật trạng thái giao dịch thanh toán thất bại vào CSDL của bạn
+                                const payment =
+                                    await PaymentService.updatePaymentActive(
+                                        false,
+                                        user,
+                                        data
+                                    );
+
+                                console.log(subject);
+                                res.status(statusCode.OK).json(
+                                    BaseResponse.success(
+                                        "Giao dịch không thành công",
+                                        {
+                                            code: "00",
+                                            payment,
+                                        }
+                                    )
+                                );
+                            }
+                        } else {
+                            subject =
+                                "Đơn hàng này đã được cập nhật trạng thái thanh toán";
+                            console.log(subject);
+                            res.status(statusCode.OK).json(
+                                BaseResponse.success(
+                                    "Đơn hàng này đã được cập nhật trạng thái thanh toán",
+                                    { code: "02" }
+                                )
+                            );
+                        }
+                    } else {
+                        subject = "Số tiền không hợp lệ";
+                        console.log(subject);
+
+                        res.status(statusCode.OK).json(
+                            BaseResponse.success("Số tiền không hợp lệ", {
+                                code: "04",
+                            })
+                        );
+                    }
+                } else {
+                    subject = "Không tìm thấy đơn hàng";
+                    console.log(subject);
+
+                    res.status(statusCode.OK).json(
+                        BaseResponse.success("Không tìm thấy đơn hàng", {
+                            code: "01",
+                        })
+                    );
+                }
+            } else {
+                subject = "Tổng kiểm tra không thành công";
+                console.log(subject);
+
+                res.status(statusCode.OK).json(
+                    BaseResponse.success("Tổng kiểm tra không thành công", {
+                        code: "97",
+                    })
+                );
+            }
+            sendMail(email, subject, template);
+        } catch (error) {
+            console.log(error);
+            res.status(statusCode.BAD_REQUEST).json(
+                BaseResponse.success(error.message, {
+                    code: "97",
+                    error: error,
+                })
+            );
         }
     },
 };

@@ -34,6 +34,7 @@ export const AdvertisingV1 = {
 
 export const PaymentV1 = {
     GET_MOMO_PAYMENT: "/payment/momo",
+    GET_VNPAY_PAYMENT: "/payment/vnpay",
     GET_PAYMENTS_BY_STATUS: "/payments",
     DELETE_PAYMENT: "/payment/",
 };

@@ -141,9 +141,9 @@ const Index = () => {
         },
     ];
     return (
-        <div>
+        <div className="">
             <Tabs
-                defaultActiveKey="1"
+                // defaultActiveKey="1"
                 type="card"
                 onChange={(value) => setStatus(value === 1 ? true : false)}
                 items={[

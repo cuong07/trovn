@@ -20,3 +20,5 @@ export { default as Welcome } from "./Welcome";
 export { default as Logout } from "./Logout";
 export { default as Favorite } from "./Favorite";
 export { default as NotFound } from "./NotFound";
+export { default as VNPay } from "./Payment/VNPay";
+export { default as Momo } from "./Payment/Momo";

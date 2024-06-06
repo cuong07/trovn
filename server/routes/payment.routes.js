@@ -34,4 +34,12 @@ router.delete(
     verifyTokenWithAdmin,
     PaymentController.deletePayment
 );
+
+router.get(
+    "/payment/vnpay",
+    verifyTokenAllRole,
+    PaymentController.createVNPayPayment
+);
+router.get("/payment/vnpay/callback", PaymentController.callbackVNPayIPN);
+
 export default router;
