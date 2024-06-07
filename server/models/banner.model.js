@@ -80,6 +80,13 @@ const BannerModel = {
         },
       });
     },
+    async getBannerById(bannerId) {
+      return db.banner.findUnique({
+        where: {
+          id: bannerId,
+        },
+      });
+    }
   },
 };
 
