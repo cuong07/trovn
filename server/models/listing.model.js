@@ -337,6 +337,9 @@ const ListingModel = {
                             },
                         },
                     },
+                    orderBy: {
+                        listings: { _count: "desc" },
+                    },
                 });
 
                 return users;
