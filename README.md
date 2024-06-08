@@ -44,9 +44,9 @@ Welcome to TROVN, a website designed to help you find rental rooms in Vietnam.
 2. Start the client:
    ```bash
    cd client
-   npm start
+   npm run dev
    ```
-3. Open your browser and go to `http://localhost:3000`.
+3. Open your browser and go to `http://localhost:5173`.
 
 ## Folder Structure
 
@@ -60,7 +60,7 @@ Welcome to TROVN, a website designed to help you find rental rooms in Vietnam.
 - React
 - Node.js
 - Express
-- MongoDB
+- Postgres
 
 ## Contributing
 
