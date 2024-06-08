@@ -28,7 +28,6 @@ const Index = () => {
         items={items}
         defaultValue={0}
         defaultChecked={1}
-        onChange={(number) => setSelectedTab(number)}
       />
     </div>
   )

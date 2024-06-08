@@ -24,6 +24,11 @@ import {
 import "./config/passport.config.js";
 import session from "express-session";
 import passport from "./config/passport.config.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 8888;
 
@@ -55,6 +60,10 @@ app.use(
     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   })
 );
+
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
 // setuppassport
 app.use(passport.initialize());

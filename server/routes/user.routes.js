@@ -9,6 +9,7 @@ router.post("/user/verify", UserController.verifyEmail);
 router.get("/user/:id", UserController.getUser);
 router.get("/user", verifyTokenAllRole, UserController.getCurrentUser);
 router.get('/user/email/:email', UserController.getUserByEmail);
+router.get('/users', verifyTokenAllRole, UserController.getAllUsers);
 
 router.post("/user", UserController.createUser);
 router.post("/user/login", accessLogger, UserController.login);
