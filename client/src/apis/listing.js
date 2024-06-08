@@ -170,7 +170,7 @@ export const getFilterListing = async () => {
             ...prev.searchListings,
             contents: data.data.contents,
             currentPage: data?.data.currentPage,
-            totalElements: data?.data.totalElement,
+            totalElement: data?.data.totalElement,
         },
     }));
     return data;
