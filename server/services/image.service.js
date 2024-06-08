@@ -5,7 +5,6 @@ import { uploader } from "../utils/uploader.js";
 const ImageService = {
   async createManyImage(urls) {
     try {
-      console.log();
       return await ImageModel.methods.insertManyImage(urls);
     } catch (error) {
       console.log(error);

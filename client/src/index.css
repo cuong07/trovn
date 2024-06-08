@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  color: black;
+  font-size: 18px;
+}
+
+.swiper-button-prev {
+  margin-left: -10px;
+}
+.swiper-button-next {
+  margin-right: -10px;
+}
+
+.swiper-card .swiper-button-prev,
+.swiper-card .swiper-button-next {
+  background-color: #fff;
+  width: 28px;
+  border-radius: 100%;
+  height: 28px;
+  margin-left: 0px;
+  align-items: center;
+  display: none;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin-right: 0px;
+  z-index: 99999;
+  transition: 0.3s all ease-in-out;
+}
+.swiper-card:hover .swiper-button-prev,
+.swiper-card:hover .swiper-button-next {
+  display: flex;
+}
+
+.swiper-card .swiper-button-prev:hover,
+.swiper-card .swiper-button-next:hover {
+  background-color: #faebeb;
+}
+
+.swiper-card .swiper-button-disabled,
+.swiper-card .swiper-button-disabled {
+  background-color: #dadada;
+  opacity: 0;
+}
+
+.swiper-card .swiper-button-prev::after,
+.swiper-card .swiper-button-next::after {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ant-image-mask:hover {
+  display: none;
+}
+
+.geocoder-dropdown-item {
+  padding: 5px;
+}
+.geocoder-dropdown-icon {
+  margin-right: 10px;
+}
+.geocoder-dropdown-text {
+  color: #5a3fc0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: larger;
+}
+
+.geocoder {
+  position: absolute;
+  z-index: 1;
+  width: 50%;
+  left: 50%;
+  margin-left: -25%;
+  top: 10px;
+}
+.mapboxgl-ctrl-geocoder {
+  min-width: 100%;
+}
+#map {
+  margin-top: 75px;
+}
+
+.mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+  display: flex;
+  align-items: center;
+}
+.mapboxgl-ctrl-geocoder--icon-search {
+}
+
+.mapboxgl-ctrl-geocoder--input {
+  width: 350px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.mapboxgl-ctrl-geocoder--input:focus {
+  outline: none;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  display: none;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.ant-otp-input {
+  height: 48px;
+  font-size: 22px;
+}
+
+.ant-table-container .ant-table-body {
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+}
+
+.ant-table-container .ant-table-body::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}

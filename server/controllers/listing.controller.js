@@ -17,25 +17,26 @@ const ListingController = {
             )
           );
       }
-      if (files) {
+      if (files.length !== 0) {
         const newListingData = {
           ...listingData,
           userId: user.id,
         };
-        const listing = await ListingService.createLiting(
+        const listing = await ListingService.createListing(
           newListingData,
           files
         );
+        console.log(listing);
         return res
           .status(statusCode.CREATED)
           .json(BaseResponse.success("Thành công", listing));
       }
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error("Vui lòng thêm hình cho listing", null));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },
@@ -49,7 +50,7 @@ const ListingController = {
         .json(BaseResponse.success("Thành công", listing));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },
@@ -63,7 +64,43 @@ const ListingController = {
         .json(BaseResponse.success("Thành công", listings));
     } catch (error) {
       return res
-        .status(statusCode.BAD_GATEWAY)
+        .status(statusCode.BAD_REQUEST)
+        .json(BaseResponse.error(error.message, error));
+    }
+  },
+
+  async getListings(req, res) {
+    const {
+      page,
+      limit,
+      keyword,
+      latCoords,
+      lngCoords,
+      amenityIds,
+      minPrice,
+      maxPrice,
+      locationId,
+      tagId,
+    } = req.query;
+    try {
+      const listings = await ListingService.getListings(
+        page,
+        limit,
+        keyword,
+        latCoords,
+        lngCoords,
+        amenityIds,
+        minPrice,
+        maxPrice,
+        locationId,
+        tagId
+      );
+      return res
+        .status(statusCode.OK)
+        .json(BaseResponse.success("Thành công", listings));
+    } catch (error) {
+      return res
+        .status(statusCode.BAD_REQUEST)
         .json(BaseResponse.error(error.message, error));
     }
   },

@@ -1,9 +1,7 @@
 # TROVN
 
-Tải các thư viện cần
-```bash
-  npm install
-```
+Insert gif or link to demo
+
 ## Database
 
 Để áp dụng nhứng chỉnh sửa trong file .prisma thì cần chạy những câu lệnh sau:
