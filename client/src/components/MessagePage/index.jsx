@@ -95,6 +95,7 @@ const Index = () => {
             if (socketConnection) {
                 socketConnection.emit("newMessage", {
                     sender: user?.id,
+                    senderName: user?.fullName ?? user?.username,
                     receiver: id,
                     text: message.text,
                     userId: user?.id,

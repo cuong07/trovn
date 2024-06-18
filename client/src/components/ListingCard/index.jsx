@@ -83,20 +83,29 @@ const Index = ({ listing, onClose }) => {
                     to={`/listing/${listing.id}`}
                     className="flex flex-col text-[15px] gap-y-[2px] hover:text-[#222]"
                 >
-                    <h2 className=" font-semibold leading-[19px]">
+                    <h2
+                        className=" font-semibold leading-[19px]"
+                        title={listing?.title}
+                    >
                         {listing?.title?.length > 30
                             ? `${listing.title.slice(0, 30)}...`
                             : listing.title}
                     </h2>
-                    <div className="text-[#717171]">
+                    <div className="text-[#717171]" title={listing?.address}>
                         {listing?.address?.length > 30
                             ? `${listing.address.slice(0, 30)}...`
                             : listing.address}
                     </div>
+                    {listing?.distance && (
+                        <div className="font-medium">
+                            {(listing?.distance / 1000).toFixed(2)} km
+                        </div>
+                    )}
+
                     <div className="mt-[6px] flex justify-between">
-                        <div className=" font-semibold text-base leading-[19px]">
+                        <div className=" font-semibold text-lg leading-[19px]">
                             {`${formatMoney(listing.price)} `}
-                            <span className="font-normal">/ Tháng</span>
+                            <span className="font-normal text-xs">/ Tháng</span>
                         </div>
                         <div className="text-xs">
                             {formatDateCount(listing.createdAt)}

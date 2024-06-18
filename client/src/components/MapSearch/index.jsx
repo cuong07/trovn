@@ -195,7 +195,9 @@ const Index = ({ listings }) => {
             style={{ width: "100%", height: "100%" }}
             mapStyle="mapbox://styles/mapbox/streets-v12"
             onLoad={updateBounds}
-            // onMoveEnd={handleMove}
+            // onZoomEnd={handleMove}
+            onMouseUp={handleMove}
+            onBoxZoomEnd={handleMove}
             onDragEnd={handleMove}
         >
             <GeolocateControl position="top-left" />

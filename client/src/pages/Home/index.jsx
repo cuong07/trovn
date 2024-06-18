@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Banner, SliderFilter } from "@/components";
 import { getAllAmenity } from "@/apis/amenities";
-import { getListings } from "@/apis/listing";
+import { getListings, getListingsForMe } from "@/apis/listing";
 import useListingStore from "@/hooks/useListingStore";
 import ProductList from "./ProductList";
 
@@ -20,6 +20,7 @@ const TOKEN = JSON.parse(localStorage.getItem("token"));
 const Index = () => {
     const [banners, setBanners] = useState([]);
     let [searchParams, setSearchParams] = useSearchParams();
+    const { user } = useUserStore();
 
     const {
         listings: {
@@ -32,7 +33,6 @@ const Index = () => {
         },
         setListingAmenitiesId,
         setCurrentPageListing,
-        setLoadMoreListings,
     } = useListingStore();
     const { amenities } = useAmenityStore();
     const { setToken } = useUserStore();
@@ -55,15 +55,20 @@ const Index = () => {
 
     useEffect(() => {
         (async () => {
-            const { success } = await getListings();
+            console.log(user);
+            if ((user && user?.latitude) || user?.longitude) {
+                const { success } = await getListingsForMe();
+            } else {
+                const { success } = await getListings();
+            }
         })();
-    }, [page]);
+    }, [page, user]);
 
     useEffect(() => {
         try {
             (async () => {
                 const { data } = await getBannerActive();
-                if (TOKEN) {
+                if (user) {
                     await getFavorites();
                 }
                 setBanners(data);

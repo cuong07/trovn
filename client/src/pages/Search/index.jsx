@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import useListingStore from "@/hooks/useListingStore";
-import { getFilterListing, getListings } from "@/apis/listing";
+import { getFilterListing } from "@/apis/listing";
 import ProductList from "../Home/ProductList";
 import { MapSearch, SliderFilter } from "@/components";
 import useAmenityStore from "@/hooks/useAmenityStore";
 import { CiFilter, CiSquareRemove } from "react-icons/ci";
 import { Modal, Skeleton, Slider } from "antd";
 import { useDebounce } from "use-debounce";
-import { formatCurrency, formatMoney } from "@/utils/helpers";
+import { formatMoney } from "@/utils/helpers";
 
 const Index = () => {
     const { amenities } = useAmenityStore();
@@ -67,11 +67,6 @@ const Index = () => {
             updateSearchListings("maxPrice", priceDebounce[1]);
         }
     }, [priceDebounce, updateSearchListings]);
-
-    useEffect(() => {
-        console.log(filter);
-    }, [filter]);
-    console.log(filter);
 
     const handleClickItem = async (id) => {
         try {
