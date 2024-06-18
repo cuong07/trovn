@@ -43,6 +43,8 @@ const User = {
                     createdAt: true,
                     updatedAt: true,
                     isVerify: true,
+                    latitude: true,
+                    longitude: true,
                 },
             });
         },
@@ -64,6 +66,8 @@ const User = {
                     createdAt: true,
                     updatedAt: true,
                     isVerify: true,
+                    latitude: true,
+                    longitude: true,
                 },
             });
         },
@@ -115,8 +119,10 @@ const User = {
                 },
             });
         },
+
         async getAllUsers() {
             return await db.user.findMany();
+        },
     },
 };
 

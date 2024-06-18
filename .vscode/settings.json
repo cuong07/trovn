@@ -1,6 +1,5 @@
 {
-  "cSpell.words": ["conv"],
-  "prettier.tabWidth": 4,
-  "editor.lineHeight": 26,
-  "git.ignoreLimitWarning": true
+    "cSpell.words": ["conv"],
+    "prettier.tabWidth": 4,
+    "editor.lineHeight": 26
 }

@@ -2,8 +2,107 @@ import { ListingV1 } from "@/constants/endpoints";
 import useListingStore from "@/hooks/useListingStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
+import useUserStore from "@/hooks/userStore";
 
 export const getListings = async () => {
+    try {
+        const {
+            pagination: { page, limit },
+            filter: { keyword, amenityIds },
+        } = useListingStore.getState().listings;
+
+        const url = qs.stringifyUrl({
+            url: ListingV1.GET_LISTING,
+            query: {
+                page,
+                limit,
+                amenityIds: amenityIds?.join(","),
+            },
+        });
+
+        useListingStore.setState((prev) => ({
+            ...prev,
+            listings: {
+                ...prev.listings,
+                isLoading: true,
+            },
+        }));
+
+        // await new Promise((resolve, reject) => setTimeout(resolve, 2000));
+
+        const { data } = await apiClient.get(url);
+
+        useListingStore.setState((prev) => ({
+            ...prev,
+            listings: {
+                ...prev.listings,
+                isLoading: false,
+            },
+        }));
+
+        useListingStore.setState((prev) => ({
+            ...prev,
+            listings: {
+                ...prev.listings,
+                totalElement: data.data.totalElement,
+                currentPage: data.data.currentPage,
+                totalPage: data.data.totalPage,
+                contents: data.data.contents,
+            },
+        }));
+
+        const { success, message } = data;
+
+        return { message, success };
+    } catch (error) {
+        console.log(error);
+        return { message: error.message, success: false };
+    }
+};
+
+export const getListingsForMe = async () => {
+    try {
+        const {
+            pagination: { page, limit },
+        } = useListingStore.getState().listings;
+
+        const { user } = useUserStore.getState();
+
+        const url = qs.stringifyUrl({
+            url: ListingV1.GET_LISTING_FOR_ME,
+            query: {
+                page,
+                limit,
+                latitude: user?.latitude,
+                longitude: user?.longitude,
+            },
+        });
+        const { data } = await apiClient.get(url);
+
+        useListingStore.setState((prev) => ({
+            ...prev,
+            listings: {
+                ...prev.listings,
+                isLoading: false,
+            },
+        }));
+
+        useListingStore.setState((prev) => ({
+            ...prev,
+            listings: {
+                ...prev.listings,
+                totalElement: data.data.totalElement,
+                currentPage: data.data.currentPage,
+                totalPage: data.data.totalPage,
+                contents: data.data.contents,
+            },
+        }));
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getListingsForUser = async () => {
     const {
         pagination: { page, limit },
         filter: { keyword, amenityIds },
@@ -170,7 +269,7 @@ export const getFilterListing = async () => {
             ...prev.searchListings,
             contents: data.data.contents,
             currentPage: data?.data.currentPage,
-            totalElements: data?.data.totalElement,
+            totalElement: data?.data.totalElement,
         },
     }));
     return data;

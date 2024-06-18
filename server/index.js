@@ -2,9 +2,9 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cron from "node-cron";
+
 import BannerModel from "./models/banner.model.js";
 import { app, server } from "./socket/index.js";
-import { rateLimit } from "express-rate-limit";
 import {
   UserRoutes,
   AmenityRoutes,
@@ -26,6 +26,7 @@ import session from "express-session";
 import passport from "./config/passport.config.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import redisClient from "./config/redis.client.config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,17 +48,6 @@ app.use(
     secret: "your-secret-key",
     resave: false,
     saveUninitialized: true,
-  })
-);
-
-// TODO: Rate limit
-
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    limit: 150,
-    standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
   })
 );
 
@@ -96,10 +86,29 @@ cron.schedule("0 0 * * *", async () => {
   await BannerModel.methods.updateExpiredBanners();
 });
 
+// TODO: Redis
+
 app.get("*", (req, res) => {
   res.status(404).send("Sorry, resource not found");
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running on port: http://localhost:${PORT}`);
+  console.log("----------SERVER RUNNING----------");
+  console.log(`-> http://localhost:${PORT}`);
 });
+
+// redisClient
+//   .connect()
+//   .then(() => {
+//     console.log("----------REDIS CONNECTED----------");
+//     console.log("-> SUCCESS");
+
+//     server.listen(PORT, () => {
+//       console.log("----------SERVER RUNNING----------");
+//       console.log(`-> http://localhost:${PORT}`);
+//     });
+//   })
+//   .catch((error) => {
+//     console.log("----------REDIS CONNECT ERROR----------");
+//     console.log(error);
+//   });

@@ -4,7 +4,12 @@ import UserService from "./user.service.js";
 import ListingModel from "../models/listing.model.js";
 import ImageService from "./image.service.js";
 import { uploader } from "../utils/uploader.js";
+import redisClient from "../config/redis.client.config.js";
+
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const CACHE_EXPIRATION = process.env.REDIS_CACHE_EXPIRATION;
+const USE_REDIS_CACHE = process.env.USE_REDIS_CACHE === "true";
+
 const ListingService = {
     async createListing(listingData, files) {
         try {
@@ -56,7 +61,34 @@ const ListingService = {
 
     async getListingById(listingId) {
         try {
-            return await ListingModel.methods.getListingById(listingId);
+            if (USE_REDIS_CACHE) {
+                const cachedListing = await redisClient.get(
+                    `listing:${listingId}`
+                );
+                if (cachedListing) {
+                    console.log("cache");
+                    return JSON.parse(cachedListing);
+                }
+            }
+
+            const listing = await ListingModel.methods.getListingById(
+                listingId
+            );
+            console.log("no-cache");
+
+            if (!listing) {
+                throw new Error("Listing not found");
+            }
+
+            if (USE_REDIS_CACHE) {
+                await redisClient.setEx(
+                    `listing:${listingId}`,
+                    CACHE_EXPIRATION,
+                    JSON.stringify(listing)
+                );
+            }
+
+            return listing;
         } catch (error) {
             console.log(error);
             throw error;
@@ -85,12 +117,19 @@ const ListingService = {
                 throw Error("Bạn không phải là chủ phòng hoặc admin ");
             }
 
-            console.log(listingData);
-
             const listingUpdate = await ListingModel.methods.updateListing(
                 listingId,
                 listingData
             );
+            if (USE_REDIS_CACHE) {
+                // Update cache
+                await redisClient.del(`listing:${listingId}`);
+                await redisClient.setEx(
+                    `listing:${listingId}`,
+                    CACHE_EXPIRATION,
+                    JSON.stringify(listingUpdate)
+                );
+            }
 
             return listingUpdate;
         } catch (error) {
@@ -101,11 +140,37 @@ const ListingService = {
 
     async getListingByUserId(userId, page, limit) {
         try {
-            return await ListingModel.methods.getListingByUserId(
+            if (USE_REDIS_CACHE) {
+                const cachedListingByUser = await redisClient.get(
+                    `listing:user:${userId}:page:${page}:limit:${limit}`
+                );
+
+                if (cachedListingByUser) {
+                    console.log("cache");
+                    return JSON.parse(cachedListingByUser);
+                }
+            }
+
+            const listings = await ListingModel.methods.getListingByUserId(
                 userId,
                 page,
                 limit
             );
+            console.log("no-cache");
+
+            if (!listings) {
+                throw new Error("Listing not found");
+            }
+
+            if (USE_REDIS_CACHE) {
+                await redisClient.setEx(
+                    `listing:user:${userId}:page:${page}:limit:${limit}`,
+                    CACHE_EXPIRATION,
+                    JSON.stringify(listings)
+                );
+            }
+
+            return listings;
         } catch (error) {
             console.log(error);
             throw error;
@@ -114,7 +179,11 @@ const ListingService = {
 
     async deleteListing(listingId) {
         try {
-            return await ListingModel.methods.deleteListing(listingId);
+            const result = await ListingModel.methods.deleteListing(listingId);
+
+            redisClient.del(`listing:${listingId}`);
+
+            return result;
         } catch (error) {
             console.log(error);
             throw error;
@@ -134,7 +203,16 @@ const ListingService = {
         tagId
     ) {
         try {
-            return await ListingModel.methods.getListings(
+            // const cacheKey = `listings:${page}:${limit}:${keyword}:${latCoords}:${lngCoords}:${amenityIds}:${minPrice}:${maxPrice}:${locationId}:${tagId}`;
+            // if (USE_REDIS_CACHE) {
+            //     const cachedListings = await redisClient.get(cacheKey);
+            //     if (cachedListings) {
+            //         console.log(cacheKey);
+            //         return JSON.parse(cachedListings);
+            //     }
+            // }
+
+            const listings = await ListingModel.methods.getListings(
                 page,
                 limit,
                 keyword,
@@ -145,6 +223,31 @@ const ListingService = {
                 maxPrice,
                 locationId,
                 tagId
+            );
+            // console.log("no-cache");
+
+            // if (USE_REDIS_CACHE) {
+            //     await redisClient.setEx(
+            //         cacheKey,
+            //         CACHE_EXPIRATION,
+            //         JSON.stringify(listings)
+            //     );
+            // }
+
+            return listings;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+
+    async getNearbyListings(lat, lng, page, limit) {
+        try {
+            return await ListingModel.methods.getNearbyListings(
+                lat,
+                lng,
+                page,
+                limit
             );
         } catch (error) {
             console.log(error);

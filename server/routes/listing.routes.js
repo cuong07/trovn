@@ -17,6 +17,7 @@ router.post(
 router.get("/listing/:id", ListingController.getListingById);
 router.get("/listings", ListingController.getListings);
 router.get("/listing/user/:id", ListingController.getListingByUserId);
+router.get("/listings/for-user", ListingController.getNearbyListings);
 router.put("/listing/:id", verifyTokenAllRole, ListingController.updateListing);
 
 router.post("/listing/:id/listingTag", ListingTagController.createListingTag);
