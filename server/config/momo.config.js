@@ -1,5 +1,4 @@
-const NGROK_URL =
-    "https://e1ba-2001-ee0-4f87-52d0-8a45-7c4-3fce-e88f.ngrok-free.app";
+const NGROK_URL = "https://6771-14-224-147-129.ngrok-free.app";
 
 export const MomoConfig = {
     accessKey: process.env.MOMO_ACCESS_KEY,
@@ -7,7 +6,7 @@ export const MomoConfig = {
     partnerCode: "MOMO",
     redirectUrl: "http://localhost:5173/payment/momo",
     ipnUrl: NGROK_URL + "/api/v1/payment/momo/callback",
-    requestType: "payWithMethod",
+    requestType: "captureWallet",
     extraData: "",
     orderGroupId: "",
     autoCapture: true,

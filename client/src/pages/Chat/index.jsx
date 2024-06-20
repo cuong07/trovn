@@ -15,7 +15,7 @@ const Index = () => {
                 const { success } = await getConversations();
                 setIsLoading(false);
                 if (!success) {
-                    return message.error("Vui lòng đăng nhập");
+                    // return message.error("Vui lòng đăng nhập");
                 }
             } catch (error) {
                 console.log(error);

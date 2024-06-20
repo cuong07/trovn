@@ -64,6 +64,16 @@ const Index = () => {
         })();
     }, [page, user]);
 
+    // useEffect(() => {
+    //     (async () => {
+    //         try {
+    //             const { success } = await getListings();
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     })();
+    // }, [page, user]);
+
     useEffect(() => {
         try {
             (async () => {
@@ -99,7 +109,7 @@ const Index = () => {
             <div className="h-[50%]">
                 <Banner banners={banners} />
             </div>
-            <div className="mt-20">
+            <div className="mt-20 md:px-20 px-6">
                 {!isLoading && <ProductList data={contents} />}
                 {isLoading && (
                     <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:px-20 px-6 gap-6">

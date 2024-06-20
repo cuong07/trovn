@@ -33,7 +33,7 @@ const Index = () => {
         try {
             const { data, success } = await getPaymentMomo();
             if (success) {
-                window.open(data.shortLink, "_blank");
+                window.open(data.payUrl, "_blank");
                 navigate("/");
                 message.success("Thành công");
             }

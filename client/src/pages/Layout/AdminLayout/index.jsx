@@ -14,7 +14,7 @@ import {
     HiOutlineWallet,
 } from "react-icons/hi2";
 import { LuMessagesSquare } from "react-icons/lu";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@/apis/user";
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -99,9 +99,11 @@ const App = () => {
     return (
         <Layout className="h-screen">
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div className="text-white text-center font-semibold text-2xl uppercase h-16 flex items-center justify-center overflow-hidden ">
-                    {collapsed ? <LogoSvg /> : "Admin Panel"}
-                </div>
+                <Link to="/">
+                    <div className="text-white text-center font-semibold text-2xl uppercase h-16 flex items-center justify-center overflow-hidden ">
+                        {collapsed ? <LogoSvg /> : "Admin Panel"}
+                    </div>
+                </Link>
                 <Menu
                     theme="dark"
                     mode="inline"

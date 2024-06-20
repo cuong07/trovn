@@ -1,24 +1,29 @@
 import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import useUserStore from "./hooks/userStore";
-import { RouterProvider, useLocation } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/routes";
 import useConversationStore from "./hooks/useConversationStore";
 import { notification } from "antd";
 import { BiMessageAltDetail } from "react-icons/bi";
-import { isEmpty } from "lodash";
 import { updateLatLngUser } from "./apis/user";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
+const TOKEN = JSON.parse(localStorage.getItem("token"));
+
 function App() {
-    const TOKEN = JSON.parse(localStorage.getItem("token"));
-    const { user, setOnlineUser, setSocketConnection } = useUserStore();
+    const { user, setOnlineUser, setSocketConnection, setUser } =
+        useUserStore();
+    const { setUnreadMessagesCount } = useConversationStore();
     const [api, contextHolder] = notification.useNotification();
-    const { setUser } = useUserStore();
-    // const { pathname } = useLocation();
-    const { setUnreadMessagesCount, unreadMessagesCount } =
-        useConversationStore();
+
+    const [location, setLocation] = useState({
+        latitude: null,
+        longitude: null,
+    });
+    const [error, setError] = useState(null);
+    console.log(TOKEN);
     useEffect(() => {
         if (!TOKEN) return;
 
@@ -49,7 +54,6 @@ function App() {
         });
 
         socketInstance.on("newMessageNotification", ({ senderName, text }) => {
-            // if (!pathname.includes("/chat")) {
             playNotificationSound();
             api.open({
                 message: (
@@ -64,12 +68,6 @@ function App() {
                     console.log("Notification Clicked!");
                 },
             });
-            // }
-
-            // setNotifications((prevNotifications) => [
-            //     ...prevNotifications,
-            //     `Bạn nhận được tin nhắn mới từ ${senderName}: ${text}`,
-            // ]);
         });
 
         return () => {
@@ -84,17 +82,29 @@ function App() {
         user,
     ]);
 
-    const [location, setLocation] = useState({
-        latitude: null,
-        longitude: null,
-    });
+    useEffect(() => {
+        const updateLocation = async () => {
+            if (
+                location.latitude !== null &&
+                location.longitude !== null &&
+                user?.latitude === null
+            ) {
+                const { data, success } = await updateLatLngUser(
+                    location.latitude,
+                    location.longitude
+                );
+                if (success) {
+                    setUser(data);
+                }
+            }
+        };
+        updateLocation();
+    }, [location.latitude, location.longitude, user, setUser]);
 
-    const [error, setError] = useState(null);
-
-    const handleGetLocation = () => {
+    const handleGetLocation = useCallback(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                async (position) => {
+                (position) => {
                     setLocation({
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
@@ -108,22 +118,13 @@ function App() {
         } else {
             setError("Geolocation is not supported by this browser.");
         }
-    };
+    }, []);
 
     useEffect(() => {
-        (async () => {
-            if (!user.latitude) {
-                handleGetLocation();
-                const { data, success } = await updateLatLngUser(
-                    parseFloat(location.latitude),
-                    parseFloat(location.longitude)
-                );
-                if (success) {
-                    setUser(data);
-                }
-            }
-        })();
-    }, [location.latitude, location.longitude, setUser, user]);
+        if (user?.latitude === null && user?.longitude === null) {
+            handleGetLocation();
+        }
+    }, [user, handleGetLocation]);
 
     const playNotificationSound = () => {
         const audio = new Audio("/message.mp3");

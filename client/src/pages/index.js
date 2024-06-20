@@ -22,3 +22,4 @@ export { default as Favorite } from "./Favorite";
 export { default as NotFound } from "./NotFound";
 export { default as VNPay } from "./Payment/VNPay";
 export { default as Momo } from "./Payment/Momo";
+export { default as ChatPageMobile } from "./Chat/ChatPageMobile";

@@ -140,35 +140,35 @@ const ListingService = {
 
     async getListingByUserId(userId, page, limit) {
         try {
-            if (USE_REDIS_CACHE) {
-                const cachedListingByUser = await redisClient.get(
-                    `listing:user:${userId}:page:${page}:limit:${limit}`
-                );
+            // if (USE_REDIS_CACHE) {
+            //     const cachedListingByUser = await redisClient.get(
+            //         `listing:user:${userId}:page:${page}:limit:${limit}`
+            //     );
 
-                if (cachedListingByUser) {
-                    console.log("cache");
-                    return JSON.parse(cachedListingByUser);
-                }
-            }
+            //     if (cachedListingByUser) {
+            //         console.log("cache");
+            //         return JSON.parse(cachedListingByUser);
+            //     }
+            // }
 
             const listings = await ListingModel.methods.getListingByUserId(
                 userId,
                 page,
                 limit
             );
-            console.log("no-cache");
+            // console.log("no-cache");
 
             if (!listings) {
                 throw new Error("Listing not found");
             }
 
-            if (USE_REDIS_CACHE) {
-                await redisClient.setEx(
-                    `listing:user:${userId}:page:${page}:limit:${limit}`,
-                    CACHE_EXPIRATION,
-                    JSON.stringify(listings)
-                );
-            }
+            // if (USE_REDIS_CACHE) {
+            //     await redisClient.setEx(
+            //         `listing:user:${userId}:page:${page}:limit:${limit}`,
+            //         CACHE_EXPIRATION,
+            //         JSON.stringify(listings)
+            //     );
+            // }
 
             return listings;
         } catch (error) {

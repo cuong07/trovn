@@ -28,6 +28,7 @@ const UserService = {
 
     async login(email, password) {
         try {
+            console.log(password);
             const existingUser = await UserModel.methods.getUserByEmail(email);
             if (!existingUser) {
                 throw new Error("Không tìm thấy người dùng có email: ", email);
@@ -50,6 +51,7 @@ const UserService = {
 
     async createUser(userData) {
         try {
+            console.log(userData?.password);
             const hashedPassword = await bcrypt.hash(userData?.password, 8);
             const newUser = {
                 ...userData,

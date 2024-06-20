@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import useListingStore from "@/hooks/useListingStore";
-import { getFilterListing } from "@/apis/listing";
-import ProductList from "../Home/ProductList";
-import { MapSearch, SliderFilter } from "@/components";
-import useAmenityStore from "@/hooks/useAmenityStore";
 import { CiFilter, CiSquareRemove } from "react-icons/ci";
-import { Modal, Skeleton, Slider } from "antd";
+import { Modal, Pagination, Skeleton, Slider } from "antd";
+
+import useListingStore from "@/hooks/useListingStore";
 import { useDebounce } from "use-debounce";
+import { getFilterListing } from "@/apis/listing";
+import ProductList from "@/pages/Home/ProductList";
+import { MapSearch, SliderFilter } from "@/components";
 import { formatMoney } from "@/utils/helpers";
+import useAmenityStore from "@/hooks/useAmenityStore";
 
 const Index = () => {
     const { amenities } = useAmenityStore();
@@ -24,13 +25,22 @@ const Index = () => {
     };
 
     const {
-        searchListings: { contents, filter, isLoading, totalElement },
+        searchListings: {
+            contents,
+            currentPage,
+            filter,
+            isLoading,
+            totalElement,
+            totalPage,
+            pagination: { page, limit },
+        },
         setSearchListings,
         setSearchListingLoading,
         updateSearchListings,
         setSearchListingAmenitiesId,
         clearSearchFilter,
         countSearchListingFilters,
+        setCurrentPageSearchListing,
     } = useListingStore();
 
     const {
@@ -51,6 +61,7 @@ const Index = () => {
         })();
     }, [
         keyword,
+        page,
         setSearchListings,
         minPrice,
         locationId,
@@ -122,7 +133,7 @@ const Index = () => {
                 </div>
             </div>
             <div className="grid mt-36 grid-cols-5 ">
-                <div className="col-span-3">
+                <div className="col-span-3 md:px-20 px-6">
                     {!isLoading && <ProductList data={contents} column={3} />}
                     {contents?.length === 0 && !isLoading && (
                         <div className="px-20">
@@ -136,7 +147,7 @@ const Index = () => {
                         </div>
                     )}
                     {isLoading && (
-                        <div className="grid grid-cols-3 px-20 gap-6">
+                        <div className="grid grid-cols-3 gap-6">
                             {new Array(10).fill(0).map((_, index) => (
                                 <div key={index}>
                                     <div className="w-full mb-2 rounded-xl animate-pulse aspect-square bg-[#F0F0F0]"></div>
@@ -145,6 +156,13 @@ const Index = () => {
                             ))}
                         </div>
                     )}
+                    <Pagination
+                        defaultCurrent={1}
+                        total={totalPage}
+                        pageSize={limit}
+                        current={currentPage}
+                        onChange={(page) => setCurrentPageSearchListing(page)}
+                    />
                 </div>
                 <div className="col-span-2 relative flex-1 ">
                     <div className="sticky top-48 ">
@@ -193,7 +211,7 @@ const Index = () => {
                         defaultValue={price}
                     />
                 </div>
-                <div>
+                <div className="grid gap-5">
                     <div className="text-[22px] font-semibold leading-[26px]">
                         Tiện nghi
                     </div>

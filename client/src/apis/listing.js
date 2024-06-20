@@ -255,7 +255,9 @@ export const getFilterListing = async () => {
         },
     }));
     await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+
     const { data } = await apiClient.get(url);
+
     useListingStore.setState((prev) => ({
         ...prev,
         searchListings: {
@@ -270,6 +272,7 @@ export const getFilterListing = async () => {
             contents: data.data.contents,
             currentPage: data?.data.currentPage,
             totalElement: data?.data.totalElement,
+            totalPage: data?.data.totalPage,
         },
     }));
     return data;

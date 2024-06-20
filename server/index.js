@@ -6,20 +6,20 @@ import cron from "node-cron";
 import BannerModel from "./models/banner.model.js";
 import { app, server } from "./socket/index.js";
 import {
-  UserRoutes,
-  AmenityRoutes,
-  ListingRoutes,
-  LocationRoutes,
-  FavoriteRoutes,
-  BannerRoutes,
-  TagRoutes,
-  ListingTagRoutes,
-  AdvertisingPackageRoutes,
-  PaymentRoutes,
-  OrderRoutes,
-  ConversationRoutes,
-  AnalyticsRoutes,
-  GoogleAuthRoutes,
+    UserRoutes,
+    AmenityRoutes,
+    ListingRoutes,
+    LocationRoutes,
+    FavoriteRoutes,
+    BannerRoutes,
+    TagRoutes,
+    ListingTagRoutes,
+    AdvertisingPackageRoutes,
+    PaymentRoutes,
+    OrderRoutes,
+    ConversationRoutes,
+    AnalyticsRoutes,
+    GoogleAuthRoutes,
 } from "./routes/index.js";
 import "./config/passport.config.js";
 import session from "express-session";
@@ -27,6 +27,7 @@ import passport from "./config/passport.config.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import redisClient from "./config/redis.client.config.js";
+import rateLimit from "express-rate-limit";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,17 +39,17 @@ app.use(express.json({ limit: "30mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
-  cors({
-    origin: "*",
-    // credentials: true,
-  })
+    cors({
+        origin: "*",
+        // credentials: true,
+    })
 );
 app.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: true,
-  })
+    session({
+        secret: "your-secret-key",
+        resave: false,
+        saveUninitialized: true,
+    })
 );
 
 // view engine setup
@@ -58,6 +59,17 @@ app.set("view engine", "jade");
 // setuppassport
 app.use(passport.initialize());
 app.use(passport.session());
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+    standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    // store: ... , // Redis, Memcached, etc. See below.
+});
+
+// Apply the rate limiting middleware to all requests.
+app.use(limiter);
 
 // TODO: Routes
 app.use("/api/v1", UserRoutes);
@@ -80,21 +92,21 @@ app.use(express.static("./public"));
 
 // TODO: run update banner 00h00
 cron.schedule("0 0 * * *", async () => {
-  console.log(
-    "Chạy công việc theo lịch trình để cập nhật các banner đã hết hạn."
-  );
-  await BannerModel.methods.updateExpiredBanners();
+    console.log(
+        "Chạy công việc theo lịch trình để cập nhật các banner đã hết hạn."
+    );
+    await BannerModel.methods.updateExpiredBanners();
 });
 
 // TODO: Redis
 
 app.get("*", (req, res) => {
-  res.status(404).send("Sorry, resource not found");
+    res.status(404).send("Sorry, resource not found");
 });
 
 server.listen(PORT, () => {
-  console.log("----------SERVER RUNNING----------");
-  console.log(`-> http://localhost:${PORT}`);
+    console.log("----------SERVER RUNNING----------");
+    console.log(`-> http://localhost:${PORT}`);
 });
 
 // redisClient
