@@ -16,7 +16,8 @@ const CustomFooter = () => {
             <div
                 className={cn(
                     "container mx-auto",
-                    pathname.includes("/search") && "hidden"
+                    pathname.includes("/search") ||
+                        (pathname.includes("message") && "hidden")
                 )}
             >
                 <div className=" grid grid-cols-1 md:grid-cols-3 gap-8 py-20 mb-8">

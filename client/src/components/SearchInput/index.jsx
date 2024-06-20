@@ -70,12 +70,11 @@ const Index = () => {
 
     return (
         <AutoComplete
-            popupMatchSelectWidth={400}
             options={items}
             className="w-full"
             onSelect={(_, item) => handleClickSearchLocation(item.native)}
             onSearch={handleChangeQuery}
-            size="large"
+            size="middle"
         >
             <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-full border">
                 <input
@@ -84,16 +83,16 @@ const Index = () => {
                     placeholder="Tìm kiếm địa chỉ, khu vực..."
                 />
                 <AnimatePresence>
-                    <motion.div className="w-[140px]">
+                    <motion.div className="md:w-[140px] w-auto">
                         <Button
                             type="primary"
                             className={cn(
-                                "w-[100px] rounded-full h-full p-2 flex overflow-hidden gap-2 items-center"
+                                "md:w-[100px] rounded-full h-full p-2 flex overflow-hidden gap-2 items-center"
                             )}
                             onClick={handleSearch}
                         >
                             <CiSearch size={18} strokeWidth={1} />
-                            Tìm kiếm
+                            <div className="md:block hidden">Tìm kiếm</div>
                         </Button>
                     </motion.div>
                 </AnimatePresence>

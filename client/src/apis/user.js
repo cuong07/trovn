@@ -60,7 +60,7 @@ export const login = async (data) => {
 export const getListingByUserId = async (userId) => {
     const url = `listing/user/${userId}`;
     const listings = await apiClient.get(url);
-    return listings.data.data;
+    return listings.data;
 };
 
 export const getFavoriteListing = async (userId) => {

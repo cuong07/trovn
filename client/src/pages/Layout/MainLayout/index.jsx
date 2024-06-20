@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { getCurrentUser } from "@/apis/user";
 const { Header, Content, Footer } = Layout;
 
+const TOKEN = JSON.parse(localStorage.getItem("token"));
+
 const Index = () => {
     const { setLocations } = useLocationStore();
     const { amenities, setAmenities } = useAmenityStore();
@@ -20,13 +22,19 @@ const Index = () => {
 
     useEffect(() => {
         (async () => {
-            const { data } = await getAllAmenity();
-            // const res = await getLocations(1, 10);
-            await getCurrentUser();
-            setAmenities(data);
-            // setLocations(res?.data?.contents);
+            try {
+                const { data } = await getAllAmenity();
+                // const res = await getLocations(1, 10);
+                if (TOKEN) {
+                    await getCurrentUser();
+                }
+                setAmenities(data);
+                // setLocations(res?.data?.contents);
+            } catch (error) {
+                console.log(error);
+            }
         })();
-    }, [setAmenities, setLocations]);
+    }, [TOKEN]);
     return (
         <Layout className="bg-none bg-transparent">
             <Header className="h-20  bg-transparent p-0 m-0 fixed shadow-sm left-0 z-50 right-0 bg-white">

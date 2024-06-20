@@ -104,6 +104,8 @@ const PaymentController = {
                 userId: id,
             };
 
+            console.log(options);
+
             const { data } = await axios(options);
             await PaymentService.createPayment(newMomoPayment);
             return res

@@ -29,6 +29,7 @@ import {
     NotFound,
     VNPay,
     Momo,
+    ChatPageMobile,
 } from "@/pages";
 import { ListingCreate, ListingList } from "@/pages/Host";
 import {
@@ -85,8 +86,13 @@ export const router = createBrowserRouter([
                                 path: "",
                                 element: <Welcome />,
                             },
+
                             { path: ":id", element: <MessagePage /> },
                         ],
+                    },
+                    {
+                        path: "/message/:id",
+                        element: <ChatPageMobile />,
                     },
                     { path: "/user/info/:id", element: <Info /> },
                     { path: "/user/new-info/:id", element: <NewInfo /> },
