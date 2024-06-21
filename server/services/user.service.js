@@ -1,11 +1,14 @@
-import UserModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import fs from "fs";
+
+import UserModel from "../models/user.model.js";
 import { generateRefreshToken, generateToken } from "../utils/tokenUtils.js";
 import { sendMail } from "../utils/mailer.utils.js";
 import { otpGenerator } from "../utils/otp.utils.js";
 import UserOtpModel from "../models/user.otp.config.js";
 import { otpTemplate } from "../utils/otp.template.utils.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
+import { uploader } from "../utils/uploader.js";
 
 const UserService = {
     async getUserById(userId) {
@@ -69,6 +72,20 @@ const UserService = {
     async updateUser(userId, updatedData) {
         try {
             return await UserModel.methods.updateUser(userId, updatedData);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+
+    async updateUserAvatar(userId, file) {
+        try {
+            const { path } = file;
+            const newPath = await uploader(path);
+            fs.unlinkSync(path);
+            return await UserModel.methods.updateUser(userId, {
+                avatarUrl: newPath?.url,
+            });
         } catch (error) {
             console.log(error);
             throw error;
@@ -162,6 +179,7 @@ const UserService = {
             throw error;
         }
     },
+
     async getUserDetailsFromToken(token) {
         if (!token) {
             return {
@@ -172,6 +190,7 @@ const UserService = {
         const user = await verifyToken(token);
         return await UserModel.methods.getUserById(user.id);
     },
+
     async getAllUsers() {
         // Thêm phương thức này
         try {

@@ -21,6 +21,8 @@ import { ROLE } from "@/constants/role";
 import { FiBell, FiHeart, FiLogIn, FiMessageCircle } from "react-icons/fi";
 import { IoLogOutOutline } from "react-icons/io5";
 import useConversationStore from "@/hooks/useConversationStore";
+import { FcSettings } from "react-icons/fc";
+import { BiMenu } from "react-icons/bi";
 
 const Index = () => {
     const naviagate = useNavigate();
@@ -34,32 +36,45 @@ const Index = () => {
     const { user, otp, setOtp, socketConnection } = useUserStore();
 
     const contents = (
-        <div className="flex flex-col gap-2 p-2 ">
-            <Link
-                to={`/user/info/${user?.id}`}
-                className="flex gap-2 items-center"
-            >
-                <div>
-                    <FaUser />
-                </div>
-                Thông tin cá nhân
-            </Link>
-            {user?.role === ROLE.ADMIN && (
-                <Link to="/admin" className="flex gap-2 items-center">
-                    <div>
-                        <RiAdminLine />
-                    </div>
-                    Trang quản lý
-                </Link>
-            )}
+        <div className="flex flex-col gap-2  p-2 md:w-[300px] text-lg  ">
             {user && (
-                <Link to="/logout" className="flex gap-2 items-center">
-                    <div>
-                        <IoLogOutOutline />
-                    </div>
-                    Đăng xuất
-                </Link>
+                <>
+                    <Link
+                        to={`/user/info/${user?.id}`}
+                        className="flex gap-2 items-center"
+                    >
+                        <div>
+                            <FaUser />
+                        </div>
+                        Thông tin cá nhân
+                    </Link>
+                    <Link
+                        to={`/account-settings`}
+                        className="flex gap-2 items-center"
+                    >
+                        <div>
+                            <FcSettings />
+                        </div>
+                        Cài đặt tài khoản
+                    </Link>
+                    <hr />
+                    {user?.role === ROLE.ADMIN && (
+                        <Link to="/admin" className="flex gap-2 items-center">
+                            <div>
+                                <RiAdminLine />
+                            </div>
+                            Trang quản lý
+                        </Link>
+                    )}
+                    <Link to="/logout" className="flex gap-2 items-center">
+                        <div>
+                            <IoLogOutOutline />
+                        </div>
+                        Đăng xuất
+                    </Link>
+                </>
             )}
+            <hr />
             {!user && (
                 <>
                     <Link to="/login" className="flex gap-2 items-center">
@@ -223,11 +238,14 @@ const Index = () => {
                         content={contents}
                         arrow={false}
                     >
-                        <Avatar
-                            size={32}
-                            src={user?.avatarUrl}
-                            icon={<CiUser />}
-                        />
+                        <div className="flex gap-1 py-1 px-2 border rounded-3xl items-center">
+                            <BiMenu size={20} />
+                            <Avatar
+                                size={32}
+                                src={user?.avatarUrl}
+                                icon={<CiUser />}
+                            />
+                        </div>
                     </Popover>
                 </Flex>
             </div>

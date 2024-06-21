@@ -127,6 +127,25 @@ const UserController = {
         }
     },
 
+    async updateUserAvatar(req, res) {
+        const userId = req.params.id;
+        const { file } = req;
+
+        try {
+            const updatedUser = await UserService.updateUserAvatar(
+                userId,
+                file
+            );
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", updatedUser));
+        } catch (error) {
+            return res
+                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
     async deleteUser(req, res) {
         const userId = req.params.id;
 
@@ -210,6 +229,7 @@ const UserController = {
                 .json(BaseResponse.error(error.message, error));
         }
     },
+
     async getAllUsers(req, res) {
         // Thêm hàm này
         try {

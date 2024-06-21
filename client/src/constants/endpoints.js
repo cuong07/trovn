@@ -3,6 +3,7 @@ export const UserV1 = {
     GET_CURRENT_USER: "/user",
     GET_USER: "/user/:id",
     UPDATE_USER: "/user/",
+    UPDATE_USER_AVATAR: "/user/avatar/",
     DELETE_USER: "/user/",
     GET_USERS: "/users",
     USER_LOGIN: "/user/login",

@@ -106,7 +106,7 @@ function Info() {
                             <div className=" mb-10">
                                 <div className="flex">
                                     <span className="text-3xl font-bold">
-                                        {user?.fullName ?? user?.username}
+                                        {user?.fullName || user?.username}
                                     </span>
                                     <span className="flex items-center ml-10 pt-2 text-slate-500">
                                         <AiOutlineEnvironment className="mr-1" />
