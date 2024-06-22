@@ -349,6 +349,18 @@ const useListingStore = create((set, get) => ({
             },
         }));
     },
+
+    setSearchAdminListingKeyword: (keyword) => {
+        set((state) => ({
+            adminListings: {
+                ...state.adminListings,
+                filter: {
+                    ...state.adminListings.filter,
+                    keyword,
+                },
+            },
+        }));
+    },
 }));
 
 export default useListingStore;

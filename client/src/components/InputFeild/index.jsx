@@ -5,7 +5,7 @@ import { BsEye, BsEyeSlashFill } from "react-icons/bs";
 
 const Index = ({ label, control, name, errors, type, icon }) => {
     return (
-        <Form.Item label={label} className="m-2">
+        <Form.Item label={label} className="m-0">
             <Controller
                 name={name}
                 control={control}

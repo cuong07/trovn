@@ -137,7 +137,7 @@ const Index = () => {
                             label="Số lượng: "
                         />
                     </div>
-                    <div className="h-1/2">
+                    <div className="h-1/2 w-full">
                         <PieChart
                             labels={location.labels}
                             data={location.data}

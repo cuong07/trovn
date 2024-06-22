@@ -41,6 +41,7 @@ const User = {
                     role: true,
                     isPremium: true,
                     createdAt: true,
+                    fullName: true,
                     updatedAt: true,
                     isVerify: true,
                     latitude: true,
@@ -65,6 +66,7 @@ const User = {
                     isPremium: true,
                     createdAt: true,
                     updatedAt: true,
+                    fullName: true,
                     isVerify: true,
                     latitude: true,
                     longitude: true,
@@ -74,7 +76,13 @@ const User = {
 
         async getUserByEmail(email) {
             const user = await db.user.findFirst({
-                where: { email: email },
+                where: {
+                    OR: [
+                        { email: email },
+                        { username: email },
+                        { phoneNumber: email },
+                    ],
+                },
             });
             return user;
         },

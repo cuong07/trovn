@@ -13,6 +13,8 @@ export { default as Login } from "./Login";
 export { default as Info } from "./Info";
 export { default as Forgot } from "./Forgetpass";
 export { default as NewInfo } from "./User/Info";
+export { default as Setting } from "./User/Setting";
+export { default as PersonalInfo } from "./User/Setting/PersonalInfo";
 export { default as Newpass } from "./Newpass";
 export { default as Chatbot } from "./Chatbot";
 export { default as Chat } from "./Chat";

@@ -169,6 +169,45 @@ export const updateLatLngUser = async (lat, lng) => {
     }
 };
 
+export const updateUser = async (userData) => {
+    try {
+        const { user } = useUserStore.getState();
+        const url = qs.stringifyUrl({
+            url: UserV1.UPDATE_USER + user?.id,
+        });
+
+        const { data } = await apiClient.put(url, userData);
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
+export const updateUserAvatar = async (file) => {
+    console.log(file);
+    try {
+        const { user } = useUserStore.getState();
+        const url = qs.stringifyUrl({
+            url: UserV1.UPDATE_USER_AVATAR + user?.id,
+        });
+
+        const { data } = await apiClient.put(
+            url,
+            { file },
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 // export const getCurrentUser = async ()=>{
 //     const url = '/user';
 //     const token = localStorage.getItem('authToken');
