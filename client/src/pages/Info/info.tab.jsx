@@ -68,9 +68,9 @@ function InfoTab({ user }) {
                 {/* <Form.Item label="Địa chỉ">
                     <Input value={user.address} />
                 </Form.Item> */}
-                <div className="flex justify-center">
+                {/* <div className="flex justify-center">
                     <Button>Xác nhận</Button>
-                </div>
+                </div> */}
             </Form>
         </>
     );

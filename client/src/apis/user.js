@@ -185,13 +185,22 @@ export const updateUser = async (userData) => {
 };
 
 export const updateUserAvatar = async (file) => {
+    console.log(file);
     try {
         const { user } = useUserStore.getState();
         const url = qs.stringifyUrl({
             url: UserV1.UPDATE_USER_AVATAR + user?.id,
         });
 
-        const { data } = await apiClient.put(url, { file });
+        const { data } = await apiClient.put(
+            url,
+            { file },
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            }
+        );
         return data;
     } catch (error) {
         console.log(error);

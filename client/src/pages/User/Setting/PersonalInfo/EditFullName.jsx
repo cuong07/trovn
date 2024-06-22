@@ -5,8 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { InputField } from "@/components";
 import { Button, Form, message } from "antd";
-import { updateUser } from "@/apis/user";
-import useUserStore from "@/hooks/userStore";
 
 const schema = yup
     .object({
@@ -14,8 +12,7 @@ const schema = yup
     })
     .required();
 
-const EditFullName = ({ user }) => {
-    const { setUser } = useUserStore();
+const EditFullName = ({ user, onSubmit }) => {
     const {
         handleSubmit,
         formState: { errors, isSubmitting },
@@ -28,19 +25,6 @@ const EditFullName = ({ user }) => {
         mode: "onBlur",
         resolver: yupResolver(schema),
     });
-
-    const onSubmit = async (value) => {
-        try {
-            const { success, data } = await updateUser(value);
-            if (success) {
-                message.success("Thành công");
-                setUser(data);
-            }
-        } catch (error) {
-            message.error(error.message);
-            console.log(error);
-        }
-    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mt-2">

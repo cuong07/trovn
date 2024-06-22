@@ -9,15 +9,21 @@ export const options = {
     hoverRadius: 12,
     hoverBackgroundColor: "yellow",
     responsive: true,
-    interaction: {
-        mode: "nearest",
-        intersect: false,
-        axis: "x",
+    bezierCurve: true,
+    // interaction: {
+    //     mode: "nearest",
+    //     intersect: false,
+    //     axis: "x",
+    // },
+    elements: {
+        line: {
+            tension: 0.4, // smooth lines
+        },
     },
     plugins: {
         // legend: {
-        //   position: "left",
-        //   easing: "easeInBounce",
+        //     position: "left",
+        //     easing: "easeInBounce",
         // },
         title: {
             display: true,
@@ -29,9 +35,11 @@ export const options = {
 
 export const optionsPieChart = {
     responsive: true,
+
     plugins: {
         legend: {
-            display: false,
+            position: "left",
+            easing: "easeInBounce",
         },
         title: {
             display: true,

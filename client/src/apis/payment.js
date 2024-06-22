@@ -3,9 +3,9 @@ import useUserStore from "@/hooks/userStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 
-export const getPaymentMomo = async () => {
+export const getPaymentMomo = async (requestType) => {
     const adsPackage = useUserStore.getState().adsPackage;
-
+    console.log(requestType);
     if (adsPackage) {
         const url = qs.stringifyUrl({
             url: PaymentV1.GET_MOMO_PAYMENT,
@@ -13,6 +13,7 @@ export const getPaymentMomo = async () => {
                 amount: adsPackage.price,
                 orderInfo: adsPackage.name,
                 adsPackageId: adsPackage.id,
+                requestType,
             },
         });
         // await new Promise((resolve, reject) => setTimeout(resolve, 2000));

@@ -161,6 +161,7 @@ export const adminGetListings = async () => {
         query: {
             page,
             limit,
+            keyword,
             amenityIds: amenityIds?.join(","),
         },
     });

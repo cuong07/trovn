@@ -76,7 +76,13 @@ const User = {
 
         async getUserByEmail(email) {
             const user = await db.user.findFirst({
-                where: { email: email },
+                where: {
+                    OR: [
+                        { email: email },
+                        { username: email },
+                        { phoneNumber: email },
+                    ],
+                },
             });
             return user;
         },

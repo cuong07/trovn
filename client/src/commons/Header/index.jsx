@@ -36,12 +36,12 @@ const Index = () => {
     const { user, otp, setOtp, socketConnection } = useUserStore();
 
     const contents = (
-        <div className="flex flex-col gap-2  p-2 md:w-[300px] text-lg  ">
+        <div className="flex flex-col p-2 md:w-[300px] text-lg  ">
             {user && (
                 <>
                     <Link
                         to={`/user/info/${user?.id}`}
-                        className="flex gap-2 items-center"
+                        className="flex gap-2 items-center  p-2 rounded-md hover:bg-slate-100 hover:text-[#222]"
                     >
                         <div>
                             <FaUser />
@@ -50,34 +50,44 @@ const Index = () => {
                     </Link>
                     <Link
                         to={`/account-settings`}
-                        className="flex gap-2 items-center"
+                        className="flex gap-2 items-center  p-2 rounded-md hover:bg-slate-100 hover:text-[#222]"
                     >
                         <div>
                             <FcSettings />
                         </div>
-                        Cài đặt tài khoản
+                        Tài khoản
                     </Link>
                     <hr />
-                    {user?.role === ROLE.ADMIN && (
-                        <Link to="/admin" className="flex gap-2 items-center">
+                    <div className="text-[#717171]">
+                        {user?.role === ROLE.ADMIN && (
+                            <Link
+                                to="/admin"
+                                className="flex gap-2 items-center p-2 rounded-md hover:bg-slate-100 hover:text-[#222]"
+                            >
+                                <div>
+                                    <RiAdminLine />
+                                </div>
+                                Trang quản lý
+                            </Link>
+                        )}
+                        <Link
+                            to="/logout"
+                            className="flex gap-2 items-center  p-2 rounded-md hover:bg-slate-100 hover:text-[#222]"
+                        >
                             <div>
-                                <RiAdminLine />
+                                <IoLogOutOutline />
                             </div>
-                            Trang quản lý
+                            Đăng xuất
                         </Link>
-                    )}
-                    <Link to="/logout" className="flex gap-2 items-center">
-                        <div>
-                            <IoLogOutOutline />
-                        </div>
-                        Đăng xuất
-                    </Link>
+                    </div>
                 </>
             )}
-            <hr />
             {!user && (
                 <>
-                    <Link to="/login" className="flex gap-2 items-center">
+                    <Link
+                        to="/login"
+                        className="flex gap-2 items-center  p-2 rounded-md hover:bg-slate-100 hover:text-[#222]"
+                    >
                         <div>
                             <FiLogIn />
                         </div>
