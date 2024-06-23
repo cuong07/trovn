@@ -14,11 +14,14 @@ import {
     HiOutlineWallet,
 } from "react-icons/hi2";
 import { LuMessagesSquare } from "react-icons/lu";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@/apis/user";
+import useUserStore from "@/hooks/userStore";
+import { BiLogOut } from "react-icons/bi";
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
+    const { user } = useUserStore();
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -99,15 +102,27 @@ const App = () => {
     return (
         <Layout className="h-screen">
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <div className="text-white text-center font-semibold text-2xl uppercase h-16 flex items-center justify-center overflow-hidden ">
-                    {collapsed ? <LogoSvg /> : "Admin Panel"}
+                <div>
+                    <Link to="/">
+                        <div className="text-white text-center font-semibold text-2xl uppercase h-16 flex items-center justify-center overflow-hidden ">
+                            {collapsed ? <LogoSvg /> : "Admin Panel"}
+                        </div>
+                    </Link>
+                    <Menu
+                        theme="dark"
+                        mode="inline"
+                        defaultSelectedKeys={["1"]}
+                        items={items}
+                    />
                 </div>
-                <Menu
-                    theme="dark"
-                    mode="inline"
-                    defaultSelectedKeys={["1"]}
-                    items={items}
-                />
+                <div>
+                    {/* <Menu.Item
+                        icon={<BiLogOut />}
+                        label="Đăng xuất"
+                        key="Đăng xuất"
+                        prefixCls="w-full"
+                    /> */}
+                </div>
             </Sider>
             <Layout>
                 <Header
@@ -115,6 +130,7 @@ const App = () => {
                         padding: 0,
                         background: colorBgContainer,
                     }}
+                    className="flex justify-between"
                 >
                     <Button
                         type="text"
@@ -132,6 +148,9 @@ const App = () => {
                             height: 64,
                         }}
                     />
+                    <div className="mr-4">
+                        Hi <strong>{user?.fullName || user?.username}</strong>
+                    </div>
                 </Header>
                 <Content
                     style={{

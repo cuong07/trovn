@@ -20,9 +20,9 @@ const PaymentController = {
      * MOMO
      */
     async createMomoPayment(req, res) {
-        const { amount, orderInfo, adsPackageId } = req.query;
+        const { amount, orderInfo, adsPackageId, requestType } = req.query;
         const { id } = req.user;
-        console.log(amount, orderInfo);
+
         try {
             let {
                 accessKey,
@@ -30,7 +30,7 @@ const PaymentController = {
                 partnerCode,
                 redirectUrl,
                 ipnUrl,
-                requestType,
+                // requestType,
                 extraData,
                 orderGroupId,
                 autoCapture,
@@ -103,6 +103,8 @@ const PaymentController = {
                 transactionId: orderId,
                 userId: id,
             };
+
+            console.log(options);
 
             const { data } = await axios(options);
             await PaymentService.createPayment(newMomoPayment);

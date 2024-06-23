@@ -29,6 +29,9 @@ import {
     NotFound,
     VNPay,
     Momo,
+    ChatPageMobile,
+    Setting,
+    PersonalInfo,
 } from "@/pages";
 import { ListingCreate, ListingList } from "@/pages/Host";
 import {
@@ -85,11 +88,37 @@ export const router = createBrowserRouter([
                                 path: "",
                                 element: <Welcome />,
                             },
+
                             { path: ":id", element: <MessagePage /> },
                         ],
                     },
-                    { path: "/user/info/:id", element: <Info /> },
-                    { path: "/user/new-info/:id", element: <NewInfo /> },
+                    {
+                        path: "/message/:id",
+                        element: <ChatPageMobile />,
+                    },
+                    {
+                        path: "/user",
+                        element: <EmptyLayout />,
+                        children: [
+                            { path: "info/:id", element: <Info /> },
+                            { path: "new-info/:id", element: <NewInfo /> },
+                        ],
+                    },
+
+                    {
+                        path: "/account-settings",
+                        element: <Setting />,
+                        // children: [
+                        //     {
+                        //         path: "personal-info",
+                        //         element: <PersonalInfo />,
+                        //     },
+                        // ],
+                    },
+                    {
+                        path: "/account-settings/personal-info",
+                        element: <PersonalInfo />,
+                    },
                     { path: "/favorite", element: <Favorite /> },
                     { path: "logout", element: <Logout /> },
                     { path: "/payment/vnpay", element: <VNPay /> },
@@ -102,6 +131,7 @@ export const router = createBrowserRouter([
             },
         ],
     },
+
     {
         path: "/admin",
         element: <AdminLayout />,

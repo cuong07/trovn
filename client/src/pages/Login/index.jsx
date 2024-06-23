@@ -31,6 +31,7 @@ function Login() {
             return console.log("Login error", error);
         }
     };
+
     const loginWithGoogle = useCallback(() => {
         window.open(
             "http://localhost:8888/api/v1/auth/google/callback",

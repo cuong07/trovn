@@ -20,7 +20,7 @@ const Index = ({
 
     return (
         <form
-            className="h-full h-20 flex px-4 gap-2"
+            className=" h-20 flex px-4 gap-2"
             onSubmit={handleSendMessage}
         >
             <input

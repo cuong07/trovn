@@ -113,6 +113,26 @@ const ListingController = {
         }
     },
 
+    async getNearbyListings(req, res) {
+        const { page, limit, latitude, longitude } = req.query;
+        try {
+            const listings = await ListingService.getNearbyListings(
+                latitude,
+                longitude,
+                page,
+                limit
+            );
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", listings));
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
     async updateListing(req, res) {
         const { id } = req.params;
         const data = req.body;

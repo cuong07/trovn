@@ -10,7 +10,7 @@ import { BiPhone, BiUser } from "react-icons/bi";
 import { BsGoogle, BsMailbox } from "react-icons/bs";
 import { CiMail } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
 
 const schema = yup
@@ -30,6 +30,7 @@ const schema = yup
 
 const Index = () => {
     const { setToken } = useUserStore();
+    const navigate = useNavigate();
     const {
         handleSubmit,
         formState: { errors, isSubmitting },
@@ -51,15 +52,19 @@ const Index = () => {
 
     const onSubmit = async () => {
         const value = getValues();
+        console.log(value);
         try {
             const { data, success } = await register(value);
+            console.log(data);
             if (success) {
-                setToken(data);
-                return message.success("Đăng ký thành công");
+                // setToken(data);
+                message.success("Đăng ký thành công");
+                navigate("/login");
+                return;
             }
             message.error("Có lỗi khi đăng ký");
         } catch (error) {
-            message.error(error.messaeg);
+            message.error("Người dùng hoặc email đã tồn tại");
             console.log(error);
         }
     };

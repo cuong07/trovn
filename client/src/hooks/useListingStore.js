@@ -60,6 +60,7 @@ const useListingStore = create((set, get) => ({
         },
         currentPage: 0,
         totalElement: 0,
+        totalPage: 0,
     },
 
     newListing: {
@@ -335,6 +336,30 @@ const useListingStore = create((set, get) => ({
         if (filter.tagId) count++;
         if (filter.latCoords || filter.lngCoords) count++;
         return count;
+    },
+
+    setCurrentPageSearchListing: (page) => {
+        set((state) => ({
+            searchListings: {
+                ...state.listings,
+                pagination: {
+                    ...state.listings.pagination,
+                    page: page,
+                },
+            },
+        }));
+    },
+
+    setSearchAdminListingKeyword: (keyword) => {
+        set((state) => ({
+            adminListings: {
+                ...state.adminListings,
+                filter: {
+                    ...state.adminListings.filter,
+                    keyword,
+                },
+            },
+        }));
     },
 }));
 

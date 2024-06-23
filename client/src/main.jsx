@@ -4,6 +4,7 @@ import { ConfigProvider } from "antd";
 
 import { router } from "@/routes/routes.jsx";
 import "@/index.css";
+import App from "./App";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <ConfigProvider
@@ -17,6 +18,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             },
         }}
     >
-        <RouterProvider router={router} />
+        <App />
     </ConfigProvider>
 );

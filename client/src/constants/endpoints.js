@@ -2,8 +2,9 @@ export const UserV1 = {
     CREATE_USER: "/user",
     GET_CURRENT_USER: "/user",
     GET_USER: "/user/:id",
-    UPDATE_USER: "/user/:id",
-    DELETE_USER: "/user/:id",
+    UPDATE_USER: "/user/",
+    UPDATE_USER_AVATAR: "/user/avatar/",
+    DELETE_USER: "/user/",
     GET_USERS: "/users",
     USER_LOGIN: "/user/login",
     GET_USER_OTP: "/user/otp",
@@ -17,6 +18,7 @@ export const AmenityV1 = {
 
 export const ListingV1 = {
     GET_LISTING: "/listings",
+    GET_LISTING_FOR_ME: "/listings/for-user",
     GET_LISTING_BY_ID: "/listing/",
     CREATE_LISTING: "/listing",
     GET_LISTING_BY_USER_ID: "/listing/user/",

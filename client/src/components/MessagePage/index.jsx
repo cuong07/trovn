@@ -19,6 +19,7 @@ const Index = () => {
         online: false,
         id: "",
     });
+
     const [message, setMessage] = useState({
         text: "",
     });
@@ -95,6 +96,7 @@ const Index = () => {
             if (socketConnection) {
                 socketConnection.emit("newMessage", {
                     sender: user?.id,
+                    senderName: user?.fullName ?? user?.username,
                     receiver: id,
                     text: message.text,
                     userId: user?.id,
@@ -133,7 +135,7 @@ const Index = () => {
         >
             <header className="h-16 sticky top-0 bg-white flex justify-between shadow-sm items-center px-4">
                 <div className="flex items-center gap-4">
-                    <Link to={"/"} className="lg:hidden">
+                    <Link to={"/chat"} className="lg:hidden">
                         <FaAngleLeft size={25} />
                     </Link>
                     <div>
@@ -163,7 +165,9 @@ const Index = () => {
             </header>
             <div
                 className={`flex flex-col gap-2 px-4 overflow-scroll  flex-grow  ${
-                    pathname.includes("admin") ? "h-[690px]" : "h-[770px]"
+                    pathname.includes("admin")
+                        ? "md:h-[690px] h-[620px]"
+                        : "md:h-[770px] h-[700px]"
                 }`}
                 ref={currentMessage}
             >
