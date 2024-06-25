@@ -1,11 +1,29 @@
 /* eslint-disable react/prop-types */
-import { ListingCard } from "../../../components";
 import clsx from "clsx";
-import { cn } from "../../../utils/helpers";
+import { motion } from "framer-motion";
 
+import { ListingCard } from "@/components";
+import { cn } from "@/utils/helpers";
 const Index = ({ data, column }) => {
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0 },
+    };
+
+    const listVariants = {
+        hidden: { opacity: 1 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.08,
+            },
+        },
+    };
     return (
-        <div
+        <motion.ul
+            initial="hidden"
+            animate="visible"
+            variants={listVariants}
             className={cn(
                 clsx(
                     "grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-6",
@@ -14,9 +32,11 @@ const Index = ({ data, column }) => {
             )}
         >
             {data?.map((item) => (
-                <ListingCard listing={item} key={item.id} />
+                <motion.li key={item.id} variants={itemVariants}>
+                    <ListingCard listing={item} />
+                </motion.li>
             ))}
-        </div>
+        </motion.ul>
     );
 };
 
