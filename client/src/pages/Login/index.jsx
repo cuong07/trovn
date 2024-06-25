@@ -4,6 +4,8 @@ import { Form, Input, message } from "antd";
 import { Button } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/apis/user";
+import { BsGoogle } from "react-icons/bs";
+import { LuLogIn } from "react-icons/lu";
 
 function Login() {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -97,20 +99,19 @@ function Login() {
                         <Form.Item className="">
                             <Button
                                 type="primary"
-                                htmlType="submit"
                                 onClick={handleSubmit}
-                                className="w-full h-10"
+                                // loading={isSubmitting}
                             >
-                                Đăng nhập
+                                <LuLogIn className="mr-2" size={18} /> Đăng nhập
                             </Button>
 
                             <Button
                                 type="default"
-                                htmlType="submit"
+                                className="mt-2 h-12 font-semibold flex gap-2 items-center w-full justify-center"
                                 onClick={loginWithGoogle}
-                                className="w-full h-10 mt-4"
                             >
-                                Đăng nhập bằng google
+                                <BsGoogle className="mr-2" size={18} /> Đăng
+                                nhập với Google
                             </Button>
                         </Form.Item>
                         <div className="flex justify-between">
