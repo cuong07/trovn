@@ -31,7 +31,7 @@ function PieChart({ labels, data, label }) {
             },
         ],
     };
-    return <Pie data={dataValues} options={optionsPieChart} />;
+    return <Pie data={dataValues} width={"100%"} options={optionsPieChart} />;
 }
 
 export default PieChart;

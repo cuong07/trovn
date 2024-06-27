@@ -10,3 +10,22 @@ export const getAllAmenity = async () => {
   const res = await apiClient.get(url);
   return res.data;
 };
+
+export const createAmenity = async (data) =>{
+  const url = qs.stringifyUrl({
+    url: AmenityV1.CREATE_AMENITY,
+  });
+  const res = await apiClient.post(url, data,{
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+}
+
+export const deleteAmenityById =  async (id) =>{
+  const url = `/amenity/${id}`;
+  
+  const res = await apiClient.delete(url)
+  return res.data;
+}

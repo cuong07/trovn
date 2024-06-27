@@ -75,11 +75,6 @@ const UserController = {
     async getCurrentUser(req, res) {
         try {
             const userId = req.user.id;
-            if (!userId) {
-                return res
-                    .status(statusCode.BAD_REQUEST)
-                    .json(BaseResponse.error("Id không hợp lệ", null));
-            }
             const user = await UserService.getUserById(userId);
             if (!user) {
                 return res
@@ -93,7 +88,7 @@ const UserController = {
                 .json(BaseResponse.success("Thành công", user));
         } catch (error) {
             return res
-                .status(statusCode.BAD_REQUEST)
+                .status(statusCode.INTERNAL_SERVER_ERROR)
                 .json(BaseResponse.error(error.message, error));
         }
     },
@@ -121,6 +116,25 @@ const UserController = {
             const updatedUser = await UserService.updateUser(
                 userId,
                 updatedData
+            );
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", updatedUser));
+        } catch (error) {
+            return res
+                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    async updateUserAvatar(req, res) {
+        const userId = req.params.id;
+        const { file } = req;
+
+        try {
+            const updatedUser = await UserService.updateUserAvatar(
+                userId,
+                file
             );
             return res
                 .status(statusCode.OK)
@@ -209,6 +223,20 @@ const UserController = {
                         changePass
                     )
                 );
+        } catch (error) {
+            return res
+                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    async getAllUsers(req, res) {
+        // Thêm hàm này
+        try {
+            const users = await UserService.getAllUsers();
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", users));
         } catch (error) {
             return res
                 .status(statusCode.INTERNAL_SERVER_ERROR)

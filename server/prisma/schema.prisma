@@ -55,8 +55,8 @@ model User {
   address         String  @default("")
   role            Role    @default(USER)
   isPremium       Boolean @default(false)
-  latitude        String? @default("")
-  longitude       String? @default("")
+  latitude        Float?
+  longitude       Float?
   isVerify        Boolean @default(false)
   fullName        String  @default("")
   googleAccountId String  @default("")

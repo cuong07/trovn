@@ -14,7 +14,7 @@ const Index = ({ text, value, percent, type }) => {
             {percent && (
                 <>
                     {percent > 0 && (
-                        <div className="text-xs">
+                        <div className="text-xs text-green-600">
                             {`+${Math.abs(percent).toFixed(
                                 2
                             )}% so với tháng truớc`}

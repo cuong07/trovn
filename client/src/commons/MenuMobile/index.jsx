@@ -4,7 +4,6 @@ import { Flex } from "antd";
 
 const Index = () => {
   const { pathname } = useLocation();
-  console.log(pathname);
   const items = [
     {
       label: "Trang chủ",

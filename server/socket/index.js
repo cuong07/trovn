@@ -9,148 +9,166 @@ const app = express();
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: "*",
-    // credentials: true,
-  },
+    cors: {
+        origin: "*",
+    },
 });
 
 const onlineUser = new Set();
 
 io.on("connection", async (socket) => {
-  console.log("New connection");
-  console.log("Connect User", socket.id);
-  // const token = socket.handshake.query.token;
+    console.log("Connect User", socket.id);
 
-  // if (!token) {
-  //   return;
-  // }
-  // console.log(socket.handshake.query);
-  const token = socket.handshake.auth.token;
-  const user = await UserService.getUserDetailsFromToken(token);
+    const token = socket.handshake.auth.token;
+    const user = await UserService.getUserDetailsFromToken(token);
 
-  socket.join(user?.id.toString());
-  onlineUser.add(user?.id?.toString());
+    socket.join(user?.id.toString());
+    onlineUser.add(user?.id?.toString());
 
-  io.emit("onlineUser", Array.from(onlineUser));
+    io.emit("onlineUser", Array.from(onlineUser));
 
-  socket.on("messagePage", async (userId) => {
-    const userDetails = await UserService.getUserById(userId);
-    const payload = {
-      id: userDetails?.id,
-      username: userDetails?.username,
-      email: userDetails?.email,
-      avatarUrl: userDetails?.avatarUrl,
-      online: onlineUser.has(userId),
-    };
-    socket.emit("messageUser", payload);
+    socket.on("messagePage", async (userId) => {
+        const userDetails = await UserService.getUserById(userId);
+        const payload = {
+            id: userDetails?.id,
+            username: userDetails?.username,
+            email: userDetails?.email,
+            avatarUrl: userDetails?.avatarUrl,
+            online: onlineUser.has(userId),
+        };
+        socket.emit("messageUser", payload);
 
-    const getConversationMessage =
-      await ConversationService.getConversationMessage(user.id, userId);
-    socket.emit("message", {
-      conversationId: userId,
-      messages: getConversationMessage?.messages || [],
-    });
-  });
-
-  socket.on("newMessage", async (data) => {
-    let conversation = await ConversationService.getConversationMessage(
-      data?.sender,
-      data?.receiver
-    );
-
-    if (!conversation) {
-      conversation = await ConversationService.createConversation(
-        data?.sender,
-        data?.receiver
-      );
-    }
-
-    const message = await MessageService.createMessage(
-      data?.text,
-      data?.userId,
-      conversation?.id
-    );
-
-    const getConversationMessage =
-      await ConversationService.getConversationMessage(
-        data?.sender,
-        data?.receiver
-      );
-
-    io.to(data?.sender).emit("message", {
-      conversationId: data?.receiver,
-      messages: getConversationMessage?.messages || [],
-    });
-    io.to(data?.receiver).emit("message", {
-      conversationId: data?.sender,
-      messages: getConversationMessage?.messages || [],
+        const getConversationMessage =
+            await ConversationService.getConversationMessage(user.id, userId);
+        socket.emit("message", {
+            conversationId: userId,
+            messages: getConversationMessage?.messages || [],
+        });
     });
 
-    const conversationSender = await ConversationService.getConversation(
-      data?.sender
-    );
-    const conversationReceiver = await ConversationService.getConversation(
-      data?.receiver
-    );
+    socket.on("newMessage", async (data) => {
+        let conversation = await ConversationService.getConversationMessage(
+            data?.sender,
+            data?.receiver
+        );
 
-    io.to(data?.sender).emit("conversation", conversationSender);
-    io.to(data?.receiver).emit("conversation", conversationReceiver);
-  });
+        if (!conversation) {
+            conversation = await ConversationService.createConversation(
+                data?.sender,
+                data?.receiver
+            );
+        }
 
-  socket.on("sidebar", async (currentUserId) => {
-    const conversation = await ConversationService.getConversation(
-      currentUserId
-    );
-    socket.emit("conversation", conversation);
-  });
+        const message = await MessageService.createMessage(
+            data?.text,
+            data?.userId,
+            conversation?.id
+        );
 
-  socket.on("seen", async (userId) => {
-    try {
-      if (!user || !userId) {
-        console.error("User or userId is missing");
-        return;
-      }
+        const getConversationMessage =
+            await ConversationService.getConversationMessage(
+                data?.sender,
+                data?.receiver
+            );
 
-      const conversation = await ConversationService.getConversationMessage(
-        user.id,
-        userId
-      );
-      const conversationMessageId =
-        conversation?.messages?.map((item) => item.id) || [];
-
-      if (conversationMessageId.length > 0) {
-        await MessageService.updateMessage(conversationMessageId, userId, {
-          isSeen: true,
+        io.to(data?.sender).emit("message", {
+            conversationId: data?.receiver,
+            messages: getConversationMessage?.messages || [],
+        });
+        io.to(data?.receiver).emit("message", {
+            conversationId: data?.sender,
+            messages: getConversationMessage?.messages || [],
+        });
+        console.log(data);
+        // Notify the receiver about the new message
+        io.to(data?.receiver).emit("newMessageNotification", {
+            sender: data?.sender,
+            text: data?.text,
+            senderName: data?.senderName,
         });
 
         const conversationSender = await ConversationService.getConversation(
-          user.id
+            data?.sender
         );
         const conversationReceiver = await ConversationService.getConversation(
-          userId
+            data?.receiver
         );
 
-        io.to(user.id).emit("conversation", conversationSender);
-        io.to(userId).emit("conversation", conversationReceiver);
-      }
-    } catch (error) {
-      console.error("Error in seen event:", error);
-    }
-  });
+        io.to(data?.sender).emit("conversation", conversationSender);
+        io.to(data?.receiver).emit("conversation", conversationReceiver);
+    });
 
-  socket.on("typing", (conversationId) => {
-    socket.to(conversationId).emit("typing");
-  });
+    socket.on("sidebar", async (currentUserId) => {
+        const conversation = await ConversationService.getConversation(
+            currentUserId
+        );
+        socket.emit("conversation", conversation);
+    });
 
-  socket.on("stopTyping", (conversationId) => {
-    socket.to(conversationId).emit("stopTyping");
-  });
+    socket.on("seen", async (userId) => {
+        try {
+            if (!user || !userId) {
+                console.error("User or userId is missing");
+                return;
+            }
 
-  socket.on("disconnect", () => {
-    onlineUser.delete(user?.id);
-    console.log("disconnect user ", socket.id);
-  });
+            const conversation =
+                await ConversationService.getConversationMessage(
+                    user.id,
+                    userId
+                );
+            const conversationMessageId =
+                conversation?.messages?.map((item) => item.id) || [];
+
+            if (conversationMessageId.length > 0) {
+                await MessageService.updateMessage(
+                    conversationMessageId,
+                    userId,
+                    {
+                        isSeen: true,
+                    }
+                );
+
+                const conversationSender =
+                    await ConversationService.getConversation(user.id);
+                const conversationReceiver =
+                    await ConversationService.getConversation(userId);
+
+                io.to(user.id).emit("conversation", conversationSender);
+                io.to(userId).emit("conversation", conversationReceiver);
+            }
+        } catch (error) {
+            console.error("Error in seen event:", error);
+        }
+    });
+
+    socket.on("unreadMessagesCount", async (userId) => {
+        try {
+            console.log("checkUnreadMessages event received");
+            if (!userId) {
+                console.error("userId is missing");
+                return;
+            }
+            const unreadCount = await MessageService.getMessageNotSeen(userId);
+            console.log(`Unread messages for user ${userId}: ${unreadCount}`);
+            socket.emit("unreadMessagesCount", unreadCount);
+        } catch (error) {
+            console.error("Error in checkUnreadMessages event:", error);
+        }
+    });
+
+    socket.on("typing", (conversationId) => {
+        socket.to(conversationId).emit("typing");
+    });
+
+    socket.on("stopTyping", (conversationId) => {
+        socket.to(conversationId).emit("stopTyping");
+    });
+
+    socket.on("disconnect", () => {
+        onlineUser.delete(user?.id);
+        console.log("disconnect user ", socket.id);
+    });
 });
 
 export { app, server };
