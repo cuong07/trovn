@@ -3,9 +3,10 @@ import {
     getListingByUserId,
     getFavoriteListing,
     updateUserAvatar,
+    updateUser,
 } from "@/apis/user";
 import { useEffect, useState } from "react";
-import { Button } from "@/components";
+import { Button } from "antd";
 import useUserStore from "@/hooks/userStore";
 import { useParams } from "react-router-dom";
 import { Image, Modal, Tabs, Upload, message } from "antd";
@@ -22,11 +23,16 @@ import ImgCrop from "antd-img-crop";
 
 function Info() {
     const { id } = useParams();
+    const currentUser = useUserStore().user;
     const [listings, setListing] = useState([]);
     const [user, setUser] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [isOpenReport, setIsOpenReport] = useState(false);
     const [fileImage, setFileImage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [description, setDescription] = useState("");
+    const [reportContent, setReportContent] = useState("");
 
     useEffect(() => {
         const getInforUser = async () => {
@@ -109,6 +115,19 @@ function Info() {
         imgWindow?.document.write(image.outerHTML);
     };
 
+    const handleUpdateDescription = async () => {
+        try {
+            const { success, data } = await updateUser({ description });
+            if (success) {
+                message.success("Thành công");
+                setUser(data);
+            }
+        } catch (error) {
+            message.error(error.message);
+            console.log(error);
+        }
+    };
+
     return (
         <div className="bg-slate-200 pt-5 pb-20">
             <div className="max-w-[1280px] mx-auto md:px-10 px-4 pd-10 bg-white pb-3">
@@ -155,10 +174,15 @@ function Info() {
                                         Thẻ
                                     </span>
                                 </div> */}
-                            <span className="underline font-semibold text-xs my-4 items-center cursor-pointer justify-center flex ml-3 ">
-                                <AiOutlineWarning className="mr-1 my-auto" />
-                                Khiếu nại người dùng
-                            </span>
+                            {currentUser?.id !== id && (
+                                <span
+                                    onClick={() => setIsOpenReport(true)}
+                                    className="underline font-semibold text-xs my-4 items-center cursor-pointer justify-center flex ml-3 "
+                                >
+                                    <AiOutlineWarning className="mr-1 my-auto" />
+                                    Khiếu nại người dùng
+                                </span>
+                            )}
                         </div>
                     </div>
                     {/* right side */}
@@ -173,6 +197,23 @@ function Info() {
                                         <AiOutlineEnvironment className="mr-1" />
                                         {user.address}
                                     </span>
+                                </div>
+                                <div className="mt-4 flex flex-col  gap-2 \">
+                                    <div className="text-base">
+                                        {user?.description
+                                            ? user?.description
+                                            : currentUser?.id === id
+                                            ? "Thêm mô tả bản thân"
+                                            : "Người dùng chưa có mô tả"}
+                                    </div>
+                                    {currentUser?.id === id && (
+                                        <Button
+                                            className="text-xs font-semibold w-fit"
+                                            onClick={() => setIsEdit(true)}
+                                        >
+                                            Chỉnh sửa
+                                        </Button>
+                                    )}
                                 </div>
                                 {/* 
                                     <span className="text-xs ">Vai trò:</span>
@@ -259,6 +300,59 @@ function Info() {
                         Tải lên
                     </Upload>
                 </ImgCrop>
+            </Modal>
+            <Modal
+                visible={isEdit}
+                // title="Cập nhật hình đại diện"
+                okText="Xác nhận"
+                cancelText="Thoát"
+                mask
+                onOk={handleUpdateDescription}
+                onCancel={() => setIsEdit(false)}
+            >
+                <div className="mt-4">
+                    <div className="font-semibold text-2xl">
+                        Giới thiệu về bạn
+                    </div>
+                    <p className="mt-2 text-[#717171] leading-4">
+                        Hãy chia sẻ đôi chút về bản thân để các Chủ nhà/Người tổ
+                        chức hoặc khách sau này có thể biết thêm về bạn.
+                    </p>
+                </div>
+                <textarea
+                    name=""
+                    id=""
+                    className="w-full p-2 border rounded-lg mt-4"
+                    rows="6"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
+                ></textarea>
+            </Modal>
+            <Modal
+                visible={isOpenReport}
+                // title="Cập nhật hình đại diện"
+                okText="Xác nhận"
+                cancelText="Thoát"
+                mask
+                // onOk={handleUpdateDescription}
+                onCancel={() => setIsOpenReport(false)}
+            >
+                <div className="mt-4">
+                    <div className="font-semibold text-2xl">
+                        Có chuyện gì vậy?
+                    </div>
+                    <p className="mt-2 text-[#717171] leading-4">
+                        Thông tin này sẽ chỉ được chia sẻ với TroVN
+                    </p>
+                </div>
+                <textarea
+                    name=""
+                    id=""
+                    className="w-full p-2 border rounded-lg mt-4"
+                    rows="6"
+                    onChange={(e) => setReportContent(e.target.value)}
+                    value={reportContent}
+                ></textarea>
             </Modal>
         </div>
     );

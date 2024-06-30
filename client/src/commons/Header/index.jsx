@@ -262,16 +262,14 @@ const Index = () => {
             <Modal
                 open={isOpen}
                 width={600}
-                title={
-                    <div className="text-xl">
-                        Vui lòng xác minh email trước khi đăng bài
-                    </div>
-                }
                 onCancel={onClose}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 closable
             >
+                <div className="text-2xl font-semibold my-8">
+                    Vui lòng xác minh email trước khi đăng bài
+                </div>
                 <div className="grid gap-2">
                     <label className="font-semibold text-lg">OTP</label>
                     <Input.OTP
@@ -281,7 +279,7 @@ const Index = () => {
                         onChange={(val) => setOtp(val)}
                     />
                 </div>
-                <div className="mt-1">
+                <div className="mt-2">
                     Gửi mã về email của bạn <strong>{user?.email}</strong>{" "}
                     <span
                         className="text-blue-500 cursor-pointer"

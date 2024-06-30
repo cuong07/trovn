@@ -62,3 +62,11 @@ export const deletePayment = async (id) => {
     const { data } = await apiClient.delete(url);
     return data;
 };
+
+export const getPaymentByUser = async () => {
+    const url = qs.stringifyUrl({
+        url: PaymentV1.GET_PAYMENT_USER,
+    });
+    const { data } = await apiClient.get(url);
+    return data;
+};

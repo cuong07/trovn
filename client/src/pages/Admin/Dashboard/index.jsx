@@ -12,6 +12,7 @@ import { formatCurrency } from "@/utils/helpers";
 import { Avatar, Space, Table, Tag, message } from "antd";
 import React, { useEffect } from "react";
 import { BsArrowDown } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const Index = () => {
     const {
@@ -64,13 +65,15 @@ const Index = () => {
             title: "Hình",
             dataIndex: "avatarUrl",
             key: "avatar",
-            render: (avatarUrl) => <Avatar src={avatarUrl} />,
+            render: (avatarUrl, record) => <Avatar src={avatarUrl} />,
         },
         {
             title: "Email",
             dataIndex: "email",
             key: "email",
-            render: (text) => <a>{text}</a>,
+            render: (text, record) => (
+                <Link to={`/user/info/${record.id}`}>{text}</Link>
+            ),
         },
 
         {

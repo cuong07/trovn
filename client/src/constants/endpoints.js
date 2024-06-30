@@ -38,6 +38,7 @@ export const PaymentV1 = {
     GET_MOMO_PAYMENT: "/payment/momo",
     GET_VNPAY_PAYMENT: "/payment/vnpay",
     GET_PAYMENTS_BY_STATUS: "/payments",
+    GET_PAYMENT_USER: "/payment/user",
     DELETE_PAYMENT: "/payment/",
 };
 
