@@ -28,7 +28,7 @@ const contents = [
         description:
             "Xem lại các khoản thanh toán, chi trả, phiếu giảm giá và thẻ quà tặng",
         icon: <CiCreditCard1 size={28} />,
-        path: "payments/payment-methods",
+        path: "payment",
     },
     {
         label: "Thông báo",

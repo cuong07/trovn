@@ -61,3 +61,26 @@
 {"level":"info","message":"1/5/2024 - 23:51:39 - ::1 - POST /user/login - {\"email\":\"front.cuong@gmail.com\",\"password\":\"123456789\"}"}
 {"level":"info","message":"2/5/2024 - 21:12:33 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
 {"level":"info","message":"2/5/2024 - 21:12:42 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 16:46:42 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 21:30:03 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 22:09:07 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 22:12:06 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 22:16:07 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 22:56:54 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/5/2024 - 22:57:47 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"clientVersion":"5.12.1","code":"P1001","level":"error","message":"BANNER_SERVICE: getBannersActive \nInvalid `prisma.banner.findMany()` invocation:\n\n\nCan't reach database server at `beta-ocelot-6815.6xw.aws-ap-southeast-1.cockroachlabs.cloud`:`26257`\n\nPlease make sure your database server is running at `beta-ocelot-6815.6xw.aws-ap-southeast-1.cockroachlabs.cloud`:`26257`.","meta":{"database_host":"beta-ocelot-6815.6xw.aws-ap-southeast-1.cockroachlabs.cloud","database_port":26257,"modelName":"Banner"},"name":"PrismaClientKnownRequestError","stack":"PrismaClientKnownRequestError: \nInvalid `prisma.banner.findMany()` invocation:\n\n\nCan't reach database server at `beta-ocelot-6815.6xw.aws-ap-southeast-1.cockroachlabs.cloud`:`26257`\n\nPlease make sure your database server is running at `beta-ocelot-6815.6xw.aws-ap-southeast-1.cockroachlabs.cloud`:`26257`.\n    at In.handleRequestError (/home/cuong/Documents/trovn/server/node_modules/@prisma/client/runtime/library.js:122:6854)\n    at In.handleAndLogRequestError (/home/cuong/Documents/trovn/server/node_modules/@prisma/client/runtime/library.js:122:6188)\n    at In.request (/home/cuong/Documents/trovn/server/node_modules/@prisma/client/runtime/library.js:122:5896)\n    at async l (/home/cuong/Documents/trovn/server/node_modules/@prisma/client/runtime/library.js:127:11167)\n    at async Object.getBannersActive (file:///home/cuong/Documents/trovn/server/models/banner.model.js:32:28)\n    at async Object.getBannersActive (file:///home/cuong/Documents/trovn/server/services/banner.service.js:66:14)\n    at async getBannersActive (file:///home/cuong/Documents/trovn/server/controllers/banner.controller.js:21:23)"}
+{"level":"info","message":"4/5/2024 - 12:16:24 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 12:25:27 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 12:25:37 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/5/2024 - 12:44:28 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 12:49:02 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 12:49:07 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 12:49:24 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/5/2024 - 13:34:56 - ::1 - POST /user/login - {\"email\":\"user02\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/5/2024 - 13:49:33 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 13:56:34 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/5/2024 - 14:08:17 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/5/2024 - 14:09:53 - ::1 - POST /user/login - {\"email\":\"user03\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/5/2024 - 14:21:50 - ::1 - POST /user/login - {\"email\":\"user03\",\"password\":\"12345678\"}"}
+{"level":"info","message":"0/5/2024 - 00:50:30 - ::1 - POST /user/login - {\"email\":\"user03\",\"password\":\"12345678\"}"}
+{"level":"info","message":"0/5/2024 - 00:50:43 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}

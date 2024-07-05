@@ -13,7 +13,7 @@ const CustomFooter = () => {
     const { pathname } = useLocation();
     return (
         <>
-            <footer className="bg-slate-50 mt-10">
+            <footer className="bg-[#F7F7F7] mt-10">
                 <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-16">
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                         <div>
@@ -22,9 +22,9 @@ const CustomFooter = () => {
                             </div>
 
                             <p className="mt-6 max-w-md text-center leading-relaxed text-gray-500 sm:max-w-xs sm:text-left">
-                                Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. Incidunt consequuntur amet
-                                culpa cum itaque neque.
+                                Chúng tôi luôn mong muốn đem lại trải nghiệm tốt
+                                hơn, hoàn hảo hơn cho quý khách hàng trong suốt
+                                thời gian gắn bó
                             </p>
 
                             <ul className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
@@ -147,10 +147,10 @@ const CustomFooter = () => {
                             </ul>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4 lg:col-span-2">
+                        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:col-span-2">
                             <div className="text-center sm:text-left">
                                 <p className="text-lg font-medium text-gray-900">
-                                    About Us
+                                    Về chúng tôi
                                 </p>
 
                                 <ul className="mt-8 space-y-4 text-sm">
@@ -159,7 +159,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            Company History
+                                            Lịch sử công ty
                                         </a>
                                     </li>
 
@@ -168,7 +168,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            Meet the Team
+                                            Trung tâm trợ giúp
                                         </a>
                                     </li>
 
@@ -177,7 +177,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            Employee Handbook
+                                            Yêu cầu trợ giúp về vấn đề an toàn
                                         </a>
                                     </li>
 
@@ -186,8 +186,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            {" "}
-                                            Careers{" "}
+                                            Báo cáo lo ngại của khu dân cư
                                         </a>
                                     </li>
                                 </ul>
@@ -195,7 +194,7 @@ const CustomFooter = () => {
 
                             <div className="text-center sm:text-left">
                                 <p className="text-lg font-medium text-gray-900">
-                                    Our Services
+                                    Đón tiếp khách
                                 </p>
 
                                 <ul className="mt-8 space-y-4 text-sm">
@@ -204,7 +203,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            Web Development
+                                            Cho thuê nhà trên TroVN
                                         </a>
                                     </li>
 
@@ -213,8 +212,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            {" "}
-                                            Web Design{" "}
+                                            Tài nguyên về đón tiếp khách
                                         </a>
                                     </li>
 
@@ -223,8 +221,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            {" "}
-                                            Marketing{" "}
+                                            Diễn đàn cộng đồng
                                         </a>
                                     </li>
 
@@ -233,16 +230,15 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            {" "}
-                                            Google Ads{" "}
+                                            Đón tiếp khách có trách nhiệm
                                         </a>
                                     </li>
                                 </ul>
                             </div>
 
-                            <div className="text-center sm:text-left">
+                            {/* <div className="text-center sm:text-left">
                                 <p className="text-lg font-medium text-gray-900">
-                                    Helpful Links
+                                    TROVN
                                 </p>
 
                                 <ul className="mt-8 space-y-4 text-sm">
@@ -251,8 +247,7 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            {" "}
-                                            FAQs{" "}
+                                            Trang tin tức
                                         </a>
                                     </li>
 
@@ -261,12 +256,11 @@ const CustomFooter = () => {
                                             className="text-gray-700 transition hover:text-gray-700/75"
                                             href="#"
                                         >
-                                            {" "}
-                                            Support{" "}
+                                            Tính năng mới
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> */}
 
                             <div className="text-center sm:text-left">
                                 <p className="text-lg font-medium text-gray-900">

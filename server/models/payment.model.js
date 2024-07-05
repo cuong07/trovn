@@ -8,6 +8,24 @@ const PaymentModel = {
             });
         },
 
+        async findByUser(id) {
+            return await db.payment.findMany({
+                where: {
+                    userId: id,
+                },
+                include: {
+                    orderItems: {
+                        include: {
+                            advertisingPackage: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            });
+        },
+
         async getPaymentById(id) {
             return await db.payment.findUnique({
                 where: {

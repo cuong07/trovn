@@ -206,7 +206,7 @@ const Index = ({ listings }) => {
             <ScaleControl />
             {mapBounds && (
                 <>
-                    <Marker
+                    {/* <Marker
                         latitude={mapInfo?.center.lat + 0.00027}
                         longitude={mapInfo?.center.lng + 0.00027}
                     >
@@ -253,7 +253,7 @@ const Index = ({ listings }) => {
                                 </Marker>
                             ))}
                         </>
-                    )}
+                    )} */}
                 </>
             )}
             {listings?.map((item) => (

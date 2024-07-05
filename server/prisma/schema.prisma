@@ -60,6 +60,7 @@ model User {
   isVerify        Boolean @default(false)
   fullName        String  @default("")
   googleAccountId String  @default("")
+  description     String  @default("")
 
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt
@@ -223,8 +224,11 @@ model Favorite {
 }
 
 model Report {
-  id           String @id @default(uuid())
-  content      String
+  id        String  @id @default(uuid())
+  content   String
+  isActive  Boolean @default(true)
+  isProcess Boolean @default(false)
+
   reporterId   String
   reporterUser User   @relation("reporterUser", fields: [reporterId], references: [id], onDelete: Cascade)
 

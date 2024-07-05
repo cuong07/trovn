@@ -74,19 +74,21 @@ const Index = () => {
             ...prev,
             text: value,
         }));
-        if (!isTyping) {
-            setIsTyping(true);
-            socketConnection.emit("typing", id);
-        }
+        if (socketConnection) {
+            if (!isTyping) {
+                setIsTyping(true);
+                socketConnection.emit("typing", id);
+            }
 
-        if (typingTimeoutRef.current) {
-            clearTimeout(typingTimeoutRef.current);
-        }
+            if (typingTimeoutRef.current) {
+                clearTimeout(typingTimeoutRef.current);
+            }
 
-        typingTimeoutRef.current = setTimeout(() => {
-            setIsTyping(false);
-            socketConnection.emit("stopTyping", id);
-        }, 2000);
+            typingTimeoutRef.current = setTimeout(() => {
+                setIsTyping(false);
+                socketConnection.emit("stopTyping", id);
+            }, 2000);
+        }
     };
 
     const handleSendMessage = (e) => {
