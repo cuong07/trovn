@@ -8,6 +8,11 @@ import {
 const router = express.Router();
 
 router.get(
+    "/payment/user",
+    verifyTokenAllRole,
+    PaymentController.getPaymentsByUser
+);
+router.get(
     "/payment/momo",
     verifyTokenAllRole,
     PaymentController.createMomoPayment
@@ -40,6 +45,6 @@ router.get(
     verifyTokenAllRole,
     PaymentController.createVNPayPayment
 );
-router.get("/payment/vnpay/callback", PaymentController.callbackVNPayIPN);
 
+router.get("/payment/vnpay/callback", PaymentController.callbackVNPayIPN);
 export default router;

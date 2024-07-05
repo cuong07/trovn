@@ -12,6 +12,15 @@ const PaymentService = {
         }
     },
 
+    async findByUser(id) {
+        try {
+            return await PaymentModel.methods.findByUser(id);
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+
     async getPaymentById(id) {
         try {
             return await PaymentModel.methods.getPaymentById(id);

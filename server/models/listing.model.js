@@ -266,7 +266,7 @@ const ListingModel = {
                     take,
                     skip,
                     orderBy: {
-                        createdAt: "asc",
+                        createdAt: "desc",
                     },
                     where: {
                         ...filters,

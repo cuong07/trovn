@@ -1,21 +1,41 @@
-import { MomoConfig } from "../config/momo.config.js";
 import qs from "query-string";
-import PaymentService from "../services/payment.service.js";
-import { BaseResponse } from "../responses/BaseResponse.js";
 import axios from "axios";
+import crypto from "crypto";
+import moment from "moment";
+import CryptoJS from "crypto-js";
+import queryString from "query-string";
+
+import { MomoConfig } from "../config/momo.config.js";
+import { BaseResponse } from "../responses/BaseResponse.js";
+import PaymentService from "../services/payment.service.js";
 import { orderIdGenerator } from "../utils/otp.utils.js";
 import { statusCode } from "../config/statusCode.js";
-import crypto from "crypto";
 import { sendMail } from "../utils/mailer.utils.js";
 import { orderTemplate } from "../utils/order.template.utils.js";
 import { ZaloPayConfig } from "../config/zalo.config.js";
 import { VNPayConfig } from "../config/vnpay.config.js";
-import moment from "moment";
-import CryptoJS from "crypto-js";
 import { sortObject } from "../utils/sort.object.utils.js";
-import queryString from "query-string";
 
 const PaymentController = {
+    async getPaymentsByUser(req, res) {
+        const { id } = req.user;
+        try {
+            if (!id) {
+                return res
+                    .status(statusCode.BAD_REQUEST)
+                    .json(BaseResponse.error("Vui lòng đăng nhập", error));
+            }
+            const data = await PaymentService.findByUser(id);
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", data));
+        } catch (error) {
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
     /***
      * MOMO
      */
