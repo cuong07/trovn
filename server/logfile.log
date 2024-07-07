@@ -84,3 +84,4 @@
 {"level":"info","message":"4/5/2024 - 14:21:50 - ::1 - POST /user/login - {\"email\":\"user03\",\"password\":\"12345678\"}"}
 {"level":"info","message":"0/5/2024 - 00:50:30 - ::1 - POST /user/login - {\"email\":\"user03\",\"password\":\"12345678\"}"}
 {"level":"info","message":"0/5/2024 - 00:50:43 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"0/6/2024 - 02:48:16 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}

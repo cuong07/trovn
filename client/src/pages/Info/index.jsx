@@ -6,7 +6,7 @@ import {
     updateUser,
 } from "@/apis/user";
 import { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import useUserStore from "@/hooks/userStore";
 import { useParams } from "react-router-dom";
 import { Image, Modal, Tabs, Upload, message } from "antd";
@@ -20,6 +20,8 @@ import {
     AiOutlineEnvironment,
 } from "react-icons/ai";
 import ImgCrop from "antd-img-crop";
+import { ROLE } from "@/constants/role";
+import { BiCheckShield } from "react-icons/bi";
 
 function Info() {
     const { id } = useParams();
@@ -189,14 +191,22 @@ function Info() {
                     <div className="md:w-8/12 w-full mr-5">
                         <div className="flex flex-col justify-between ">
                             <div className=" mb-10">
-                                <div className="flex">
+                                <div className="flex items-center gap-2">
                                     <span className="text-3xl font-bold">
                                         {user?.fullName || user?.username}
                                     </span>
-                                    <span className="flex items-center ml-10 pt-2 text-slate-500">
+                                    {/* <span className="flex items-center ml-10 pt-2 text-slate-500">
                                         <AiOutlineEnvironment className="mr-1" />
                                         {user.address}
-                                    </span>
+                                    </span> */}
+                                    <Tooltip arrow title="Người quản trị">
+                                        {user?.role === ROLE.ADMIN && (
+                                            <BiCheckShield
+                                                size={26}
+                                                color="#0866FF"
+                                            />
+                                        )}
+                                    </Tooltip>
                                 </div>
                                 <div className="mt-4 flex flex-col  gap-2 \">
                                     <div className="text-base">
