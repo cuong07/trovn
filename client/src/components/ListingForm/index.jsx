@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import FroalaEditor from "react-froala-wysiwyg";
-import { Select, Tour } from "antd";
+import { Button, Select, Tour } from "antd";
 import { FcAdvertising } from "react-icons/fc";
 
 import { Input } from "..";
@@ -11,9 +11,11 @@ import "froala-editor/css/froala_style.min.css";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import { useEffect, useRef, useState } from "react";
 import { json } from "react-router-dom";
+import { generateDescription } from "@/utils/generateDescription";
 
 const Index = ({ amenities, locations, tags }) => {
     const { updateListing, newListing } = useListingStore();
+    const [isLoading, setIsLoading] = useState(false);
     const isTour = JSON.parse(localStorage.getItem("isTour"));
 
     const [open, setOpen] = useState(false);
@@ -98,6 +100,18 @@ const Index = ({ amenities, locations, tags }) => {
         updateListing(name, value);
     };
 
+    const handleGenerate = async () => {
+        try {
+            setIsLoading(true);
+            const data = await generateDescription();
+            updateListing("description", data);
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+        }
+    };
+
     return (
         <>
             <div className="grid grid-cols-5 gap-4 h-full w-full ">
@@ -125,9 +139,16 @@ const Index = ({ amenities, locations, tags }) => {
                                     required
                                 />
                             </div>
-                            <div className="grid gap-3  " ref={ref2}>
-                                <div className="text-sm leading-[14px]font-medium">
+                            <div className="grid gap-3" ref={ref2}>
+                                <div className="text-sm flex justify-between items-center leading-[14px]font-medium">
                                     Mô tả
+                                    <Button
+                                        loading={isLoading}
+                                        onClick={handleGenerate}
+                                        type="dashed"
+                                    >
+                                        Tạo nhanh
+                                    </Button>
                                 </div>
                                 <FroalaEditor
                                     description

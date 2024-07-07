@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { BsEmojiGrin } from "react-icons/bs";
-import { Popover } from "antd";
+import { Button, Popover } from "antd";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 
@@ -20,7 +20,7 @@ const Index = ({
 
     return (
         <form
-            className=" h-20 flex px-4 gap-2"
+            className="h-16 border flex px-4 bg-white gap-2 m-4 rounded-lg"
             onSubmit={handleSendMessage}
         >
             <input
@@ -55,9 +55,15 @@ const Index = ({
                 </div>
             </Popover>
 
-            <button className="text-primary hover:text-secondary">
-                <IoMdSend size={28} />
-            </button>
+            <div className="h-full flex items-center">
+                <Button
+                    type="primary"
+                    className="text-primary flex h-12 items-center gap-2 text-lg hover:text-secondary"
+                >
+                    Gửi
+                    <IoMdSend size={28} />
+                </Button>
+            </div>
         </form>
     );
 };
