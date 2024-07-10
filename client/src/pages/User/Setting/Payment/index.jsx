@@ -1,5 +1,6 @@
 import { getPaymentByUser } from "@/apis/payment";
-import { Breadcrumb, Table, Tag } from "antd";
+import { exportToExcel } from "@/utils/exportToExcel";
+import { Breadcrumb, Button, Table, Tag } from "antd";
 import React, { useEffect, useState } from "react";
 import { GoDotFill } from "react-icons/go";
 const Index = () => {
@@ -54,16 +55,23 @@ const Index = () => {
         },
     ];
 
+    const handleExport = () => {
+        exportToExcel(payments, "payment_list");
+    };
+
     return (
         <div className="container md:px-20 px-4 mx-auto mt-8">
             <Breadcrumb separator=">">
                 <Breadcrumb.Item>Tài khoản</Breadcrumb.Item>
                 <Breadcrumb.Item>Thanh toán và chi trả</Breadcrumb.Item>
             </Breadcrumb>
-            <div className="mt-2">
+            <div className="mt-2 ">
                 <h1 className="text-[32px] font-semibold leading-9">
                     Thanh toán & chi trả
                 </h1>
+                <Button type="dashed" onClick={handleExport}>
+                    Xuất Execl
+                </Button>
             </div>
             <div className="mt-10 grid grid-cols-3 gap-8">
                 <div className="col-span-2">

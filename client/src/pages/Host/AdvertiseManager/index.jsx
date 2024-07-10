@@ -15,6 +15,7 @@ import { InputField, ModalCreate } from "@/components";
 import { createBanner } from "@/apis/banner";
 
 import dayjs from "dayjs";
+import ImgCrop from "antd-img-crop";
 
 const schema = yup
     .object({
@@ -254,62 +255,75 @@ const Index = () => {
                             }
                             className="m-2"
                         >
-                            <Dragger
-                                name="file"
-                                multiple={false}
-                                onChange={(info) => {
-                                    const file = info.file;
-                                    const img = new Image();
-                                    img.src = URL.createObjectURL(file);
-
-                                    function isAspectRatioValid(image) {
-                                        const aspectRatioThreshold = 3.5;
-                                        const aspectRatio =
-                                            image.width / image.height;
-
-                                        if (
-                                            Math.abs(
-                                                aspectRatio -
-                                                    aspectRatioThreshold
-                                            ) < 0.5
-                                        ) {
-                                            return true;
-                                        } else {
-                                            return false;
-                                        }
-                                    }
-
-                                    img.onload = function () {
-                                        if (!isAspectRatioValid(img)) {
-                                            message.warning(
-                                                "Tỷ lệ hình không đúng như mong đợi 3.5:1"
-                                            );
-                                            return message.error(
-                                                "Vui lòng chọn hình khác để đảm bảo hình được sắc nét nhất"
-                                            );
-                                        }
-                                    };
-                                    setValue("file", info.file);
-                                }}
-                                onDrop={(e) => {
-                                    console.log(
-                                        "Dropped files",
-                                        e.dataTransfer.files
-                                    );
-                                }}
-                                beforeUpload={() => {
-                                    return false;
-                                }}
+                            <ImgCrop
+                                rotationSlider
+                                fillColor="#ccc"
+                                zoomSlider
+                                showReset
+                                showGrid
+                                modalTitle="Chỉnh sửa hình ảnh"
+                                modalOk="Xác nhận"
+                                modalCancel="Thoát"
+                                aspect={3.5}
                             >
-                                <p className="ant-upload-text">
-                                    Click or drag file to this area to upload
-                                </p>
-                                <p className="ant-upload-hint">
-                                    Support for a single or bulk upload.
-                                    Strictly prohibited from uploading company
-                                    data or other banned files.
-                                </p>
-                            </Dragger>
+                                <Dragger
+                                    name="file"
+                                    multiple={false}
+                                    onChange={(info) => {
+                                        const file = info.file;
+                                        const img = new Image();
+                                        img.src = URL.createObjectURL(file);
+
+                                        function isAspectRatioValid(image) {
+                                            const aspectRatioThreshold = 3.5;
+                                            const aspectRatio =
+                                                image.width / image.height;
+
+                                            if (
+                                                Math.abs(
+                                                    aspectRatio -
+                                                        aspectRatioThreshold
+                                                ) < 0.5
+                                            ) {
+                                                return true;
+                                            } else {
+                                                return false;
+                                            }
+                                        }
+
+                                        img.onload = function () {
+                                            if (!isAspectRatioValid(img)) {
+                                                message.warning(
+                                                    "Tỷ lệ hình không đúng như mong đợi 3.5:1"
+                                                );
+                                                return message.error(
+                                                    "Vui lòng chọn hình khác để đảm bảo hình được sắc nét nhất"
+                                                );
+                                            }
+                                        };
+                                        setValue("file", info.file);
+                                    }}
+                                    onDrop={(e) => {
+                                        console.log(
+                                            "Dropped files",
+                                            e.dataTransfer.files
+                                        );
+                                    }}
+                                    beforeUpload={() => {
+                                        return false;
+                                    }}
+                                >
+                                    <p className="ant-upload-text">
+                                        Click or drag file to this area to
+                                        upload
+                                    </p>
+                                    <p className="ant-upload-hint">
+                                        Support for a single or bulk upload.
+                                        Strictly prohibited from uploading
+                                        company data or other banned files.
+                                    </p>
+                                </Dragger>
+                            </ImgCrop>
                         </Form.Item>
                     </Form>
                 </div>

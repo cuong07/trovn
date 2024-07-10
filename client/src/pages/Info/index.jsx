@@ -22,6 +22,7 @@ import {
 import ImgCrop from "antd-img-crop";
 import { ROLE } from "@/constants/role";
 import { BiCheckShield } from "react-icons/bi";
+import { createReport } from "@/apis/report";
 
 function Info() {
     const { id } = useParams();
@@ -58,14 +59,14 @@ function Info() {
     };
     const items = [
         {
-            key: "1",
-            label: "Chung",
-            children: <InfoTab user={user} />,
-        },
-        {
             key: "3",
             label: "Phòng hiện có",
             children: <ProductList data={listings} column={2} />,
+        },
+        {
+            key: "1",
+            label: "Chung",
+            children: <InfoTab user={user} />,
         },
     ];
 
@@ -126,6 +127,29 @@ function Info() {
             }
         } catch (error) {
             message.error(error.message);
+            console.log(error);
+        }
+    };
+
+    const handleReport = async () => {
+        try {
+            if (!reportContent.length) {
+                message.info("Vui lòng nhập nội dung báo cáo!");
+                return;
+            }
+            const report = {
+                content: reportContent,
+                reportedId: id,
+            };
+            const { data, success } = await createReport(report);
+            if (success) {
+                message.success("Gửi báo cáo thành công");
+                setIsOpenReport(false);
+                return;
+            }
+            message.error("Có lỗi khi gửi báo cáo vui lòng thư lại");
+        } catch (error) {
+            message.error(error.response.data.message);
             console.log(error);
         }
     };
@@ -266,7 +290,7 @@ function Info() {
 
                         <div className="mt-10">
                             <Tabs
-                                defaultActiveKey="1"
+                                defaultActiveKey="2"
                                 items={items}
                                 onChange={onChangeTabs}
                             />
@@ -344,7 +368,7 @@ function Info() {
                 okText="Xác nhận"
                 cancelText="Thoát"
                 mask
-                // onOk={handleUpdateDescription}
+                onOk={handleReport}
                 onCancel={() => setIsOpenReport(false)}
             >
                 <div className="mt-4">

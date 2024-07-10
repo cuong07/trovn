@@ -254,5 +254,29 @@ const ListingService = {
             throw error;
         }
     },
+
+    async listingsToGeoJSON() {
+        const listings = await ListingModel.methods.listingsToGeo();
+        return ListingService.copyTo(listings);
+    },
+
+    copyTo(listings) {
+        return {
+            type: "FeatureCollection",
+            features: listings.map((listing) => ({
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [listing.longitude, listing.latitude],
+                },
+                properties: {
+                    id: listing.id,
+                    title: listing.title,
+                    address: listing.address,
+                    price: listing.price,
+                },
+            })),
+        };
+    },
 };
 export default ListingService;

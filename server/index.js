@@ -20,6 +20,7 @@ import {
     ConversationRoutes,
     AnalyticsRoutes,
     GoogleAuthRoutes,
+    ReportRoutes,
 } from "./routes/index.js";
 import "./config/passport.config.js";
 import session from "express-session";
@@ -86,6 +87,7 @@ app.use("/api/v1", OrderRoutes);
 app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", AnalyticsRoutes);
 app.use("/api/v1", GoogleAuthRoutes);
+app.use("/api/v1", ReportRoutes);
 
 // TODO: relative path
 app.use(express.static("./public"));

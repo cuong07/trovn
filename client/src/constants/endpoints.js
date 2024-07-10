@@ -74,3 +74,10 @@ export const AnalyticsV1 = {
     GET_ANALYTICS_TOP_10_USER_WITH_MOST_LISTING:
         "/analytics/top-user-with-most-listing",
 };
+
+export const ReportV1 = {
+    CREATE_REPORTS: "/reports",
+    GET_REPORTS: "/reports",
+    UPDATE_REPORTS: "/reports/",
+    DELETE_REPORTS: "/reports/",
+};

@@ -18,6 +18,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@/apis/user";
 import useUserStore from "@/hooks/userStore";
 import { BiLogOut } from "react-icons/bi";
+import { GoReport } from "react-icons/go";
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
@@ -89,6 +90,14 @@ const App = () => {
             label: "Messages",
             onClick: () => {
                 navigate("chat");
+            },
+        },
+        {
+            key: "9",
+            icon: <GoReport size={20} />,
+            label: "Reports",
+            onClick: () => {
+                navigate("reports");
             },
         },
     ];

@@ -148,6 +148,21 @@ const ListingController = {
                 .json(BaseResponse.error(error.message, error));
         }
     },
+
+    async getListingsToGeoJSON(req, res) {
+        try {
+            const listings = await ListingService.listingsToGeoJSON();
+            return res.status(statusCode.OK).json(listings);
+            // return res
+            // .status(statusCode.OK)
+            // .json(BaseResponse.success("Thành công", listings));
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
 };
 
 export default ListingController;
