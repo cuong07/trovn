@@ -235,6 +235,9 @@ model Report {
   reportedId   String
   reportedUser User   @relation("reportedUser", fields: [reportedId], references: [id], onDelete: Cascade)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([reporterId, reportedId])
 }
 

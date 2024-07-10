@@ -6,6 +6,7 @@ import {
     getAnalyticsNewUserRegister,
 } from "@/apis/analytics";
 import { LineChartCustom, Statistic } from "@/components";
+import MapClusters from "@/components/MapClusters";
 import PieChart from "@/components/PieChart";
 import useAnalyticsStore from "@/hooks/useAnalyticsStore";
 import { formatCurrency } from "@/utils/helpers";
@@ -155,6 +156,12 @@ const Index = () => {
                         pagination="false"
                     />
                 </div>
+            </div>
+            <div className=" ">
+                <h2 className="text-3xl font-semibold text-center my-4">
+                    Mật độ phòng
+                </h2>
+                <MapClusters />
             </div>
         </div>
     );

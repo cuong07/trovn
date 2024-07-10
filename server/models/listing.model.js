@@ -1,3 +1,4 @@
+import prisma from "../lib/db.js";
 import db from "../lib/db.js";
 import { removeAccents } from "../utils/removeAccents.js";
 
@@ -452,6 +453,19 @@ const ListingModel = {
                 console.error("Error fetching nearby listings:", error);
                 throw new Error("Could not fetch nearby listings");
             }
+        },
+
+        async listingsToGeo() {
+            return await prisma.listing.findMany({
+                select: {
+                    longitude: true,
+                    latitude: true,
+                    title: true,
+                    address: true,
+                    price: true,
+                    id: true,
+                },
+            });
         },
     },
 };

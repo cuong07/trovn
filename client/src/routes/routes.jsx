@@ -34,6 +34,7 @@ import {
     PersonalInfo,
     Payment,
     Security,
+    Reports,
 } from "@/pages";
 import { ListingCreate, ListingList } from "@/pages/Host";
 import {
@@ -173,6 +174,10 @@ export const router = createBrowserRouter([
             {
                 path: "payments",
                 element: <Payments />,
+            },
+            {
+                path: "reports",
+                element: <Reports />,
             },
             {
                 path: "chat",
