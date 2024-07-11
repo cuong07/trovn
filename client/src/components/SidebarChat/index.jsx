@@ -20,7 +20,7 @@ const Index = ({ isLoading, handleClickChat }) => {
     }, [setConversations, socketConnection, user]);
 
     return (
-        <div className="w-full h-full  ">
+        <div className="w-full h-full overflow-y-auto  ">
             <div className="w-full">
                 <div className="h-16 flex items-center">
                     <h2 className="text-xl font-bold p-4 text-slate-800">
@@ -29,7 +29,7 @@ const Index = ({ isLoading, handleClickChat }) => {
                 </div>
                 <div className="bg-slate-200 p-[0.5px]"></div>
 
-                <div className=" h-full w-full overflow-x-hidden overflow-y-auto scrollbar">
+                <div className=" h-full w-full overflow-x-hidden overflow-y-auto scrollbar px-6">
                     {!isLoading && conversations.length === 0 && (
                         <div className="mt-12">
                             <div className="flex justify-center items-center my-4 text-slate-500">
@@ -48,10 +48,6 @@ const Index = ({ isLoading, handleClickChat }) => {
                             key={conv?.id}
                         />
                     ))}
-                    {/* 
-          {isLoading && <div>
-            {n}
-            </div>} */}
                 </div>
             </div>
         </div>

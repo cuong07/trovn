@@ -156,17 +156,17 @@ const Index = () => {
                             ))}
                         </div>
                     )}
-                    <Pagination
+                    {/* <Pagination
                         defaultCurrent={1}
                         total={totalPage}
                         pageSize={limit}
                         current={currentPage}
                         onChange={(page) => setCurrentPageSearchListing(page)}
-                    />
+                    /> */}
                 </div>
                 <div className="col-span-2 relative flex-1 ">
                     <div className="sticky top-48 ">
-                        <div className=" rounded-lg overflow-hidden h-[800px] ">
+                        <div className=" rounded-lg overflow-hidden h-[700px] ">
                             <MapSearch listings={contents} />
                         </div>
                     </div>

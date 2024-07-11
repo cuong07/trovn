@@ -1,39 +1,31 @@
 import { Link } from "react-router-dom";
 import { LogoSvg } from "@/components/Icons";
 import { FaUser } from "react-icons/fa";
-import { CiHeart, CiMail, CiUser } from "react-icons/ci";
+import { CiUser } from "react-icons/ci";
 import { Avatar, Flex, Menu, Popover } from "antd";
 import { useState } from "react";
-import { RiAdvertisementLine } from "react-icons/ri";
-import { IoIosNotificationsOutline } from "react-icons/io";
+import { TbPackages } from "react-icons/tb";
 import useUserStore from "@/hooks/userStore";
 import { BiLogOut } from "react-icons/bi";
+import { BsHouseAdd, BsHouses } from "react-icons/bs";
 const Index = () => {
     const { user } = useUserStore();
 
     const items = [
         {
-            label: "Phòng cho thuê",
-            key: "1",
-            icon: <CiMail />,
-            children: [
-                {
-                    key: "1.1",
-                    label: <Link to="listing/list">Danh sách phòng</Link>,
-                },
-                {
-                    key: "1.2",
-                    label: <Link to="listing/create">Thêm phòng</Link>,
-                },
-            ],
+            key: 1,
+            label: <Link to="listing/list">Danh sách phòng</Link>,
+            icon: <BsHouses />,
         },
         {
             key: 2,
-            label: "Quảng bá",
-            icon: <RiAdvertisementLine />,
-            children: [
-                { key: 2.1, label: <Link to="ads-package">Gói quảng bá</Link> },
-            ],
+            label: <Link to="listing/create">Thêm phòng</Link>,
+            icon: <BsHouseAdd />,
+        },
+        {
+            key: 3,
+            label: <Link to="ads-package">Gói quảng bá</Link>,
+            icon: <TbPackages />,
         },
     ];
 
@@ -76,7 +68,7 @@ const Index = () => {
                     </Link>
                 </div>
             </Flex>
-            <div className="">
+            <div className="w-[450px]">
                 <Menu
                     className="bg-transparent h-full  text-center bottom-0"
                     onClick={onClick}
@@ -86,12 +78,6 @@ const Index = () => {
                 />
             </div>
             <Flex gap={24} align="center" justify="center">
-                {/* <div>
-          <CiHeart size={24} />
-        </div>
-        <div>
-          <IoIosNotificationsOutline size={24} />
-        </div> */}
                 <div className="text-base flex gap-2">
                     Hi!
                     <h2 className="font-semibold">{user?.username}</h2>

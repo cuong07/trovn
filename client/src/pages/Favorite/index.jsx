@@ -13,8 +13,8 @@ const Index = () => {
         })();
     }, []);
     return (
-        <div className="container mx-auto my-10 md:px-10 px-4">
-            <div className="md:px-20 px-6 mb-6">
+        <div className="container mx-auto my-10 md:px-20 px-4">
+            <div className=" mb-6">
                 <h1 className="text-2xl font-semibold">Danh sách yêu thích</h1>
             </div>
 

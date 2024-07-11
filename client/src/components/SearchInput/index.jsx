@@ -1,6 +1,6 @@
 import { AutoComplete } from "antd";
 import { CiLocationOn, CiSearch } from "react-icons/ci";
-import { useEffect, useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import qs from "query-string";
 import { useDebounce } from "use-debounce";
@@ -16,7 +16,7 @@ import { getLocations } from "@/apis/location";
 const Index = () => {
     const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
-    const [value] = useDebounce(keyword, 500);
+    const [debouncedKeyword] = useDebounce(keyword, 500);
     const { locations } = useLocationStore();
     const [searchLocation, setSearchLocation] = useState(locations);
     const navigate = useNavigate();
@@ -25,8 +25,8 @@ const Index = () => {
     const { setSearchLatLng } = useMapStore();
 
     const handleSearch = () => {
-        const queryParams = qs.stringify({ keyword: value });
-        setSearchListingKeyword(value);
+        const queryParams = qs.stringify({ keyword: debouncedKeyword });
+        setSearchListingKeyword(debouncedKeyword);
         navigate(`/search?${queryParams}`);
     };
 
@@ -37,36 +37,32 @@ const Index = () => {
         navigate(`/search?${location.name} - ${location.city}`);
     };
 
-    const handleChangeQuery = async (e) => {
+    const handleChangeQuery = (e) => {
         setKeyword(e.target.value);
-        if (e.key === "Enter") {
-            const { data } = await getLocations(1, 10, value);
-            setSearchLocation(data?.contents);
-        }
     };
 
     useEffect(() => {
-        (async () => {
-            const { data } = await getLocations(1, 10, value);
-            console.log(data);
-            setSearchLocation(data?.contents);
-        })();
-    }, [value]);
+        if (debouncedKeyword) {
+            const fetchLocations = async () => {
+                const { data } = await getLocations(1, 10, debouncedKeyword);
+                setSearchLocation(data?.contents);
+            };
+            fetchLocations();
+        } else {
+            setSearchLocation(locations);
+        }
+    }, [debouncedKeyword, locations]);
 
-    const items = useMemo(
-        () =>
-            searchLocation?.map((item) => ({
-                label: (
-                    <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2">
-                        <CiLocationOn size={22} />
-                        {`${item.name} - ${item.city}`}
-                    </div>
-                ),
-                value: item.id,
-                native: item,
-            })),
-        [searchLocation]
-    );
+    const items = searchLocation?.map((item) => ({
+        label: (
+            <div className="flex gap-2 items-center cursor-pointer hover:bg-slate-100 p-2">
+                <CiLocationOn size={22} />
+                {`${item.name} - ${item.city}`}
+            </div>
+        ),
+        value: item.id,
+        native: item,
+    }));
 
     return (
         <AutoComplete
@@ -76,9 +72,9 @@ const Index = () => {
             onSearch={handleChangeQuery}
             size="middle"
         >
-            <div className="flex bg-white items-center gap-4 group rounded-[999px]  overflow-hidden h-10 pl-4 w-full border">
+            <div className="flex bg-white items-center gap-4 group rounded-[999px] overflow-hidden h-10 pl-4 w-full border">
                 <input
-                    className="bg-transparent h-full w-full  focus-within:outline-none text-base group-focus:border"
+                    className="bg-transparent h-full w-full focus-within:outline-none text-base group-focus:border"
                     onChange={handleChangeQuery}
                     placeholder="Tìm kiếm địa chỉ, khu vực..."
                 />

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoCallOutline, IoTimeOutline } from "react-icons/io5";
-import { FaChartArea, FaStar } from "react-icons/fa";
+import { FaChartArea, FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import useMessage from "antd/es/message/useMessage";
 import { Avatar, Empty, message } from "antd";
 import { CiChat1, CiMail } from "react-icons/ci";
@@ -16,12 +16,16 @@ import Loading from "./Loading";
 import "moment/locale/vi";
 import useUserStore from "@/hooks/userStore";
 import BuyBox from "./BuyBox";
+import { BiHeart, BiHeartCircle, BiShare } from "react-icons/bi";
+import { createFavorite } from "@/apis/favorite";
+import useFavoriteStore from "@/hooks/useFavoriteStore";
 
 const Index = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [listing, setListing] = useState({});
     const { user } = useUserStore();
     const [messageApi, contextHolder] = useMessage();
+    const { favorites } = useFavoriteStore();
 
     const { id } = useParams();
 
@@ -49,12 +53,58 @@ const Index = () => {
         })();
     }, [id, messageApi]);
 
+    const [toggleHeart, setToggleHeart] = useState(
+        favorites?.find((i) => i.listingId === id)
+    );
+
+    const handleToggleFavorite = async () => {
+        if (!user) {
+            return message.warning("Vui lòng đăng nhập!");
+        }
+        try {
+            const { success } = await createFavorite(listing?.id);
+            if (success) {
+                setToggleHeart(!toggleHeart);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <>
             {contextHolder}
-            <div className="container h-full mx-auto lg:px-40 px-4 py-10">
+            <div className="container h-full mx-auto lg:px-40 px-4 ">
                 {!isLoading && (
                     <>
+                        <div className="py-4 flex justify-between">
+                            <div className="font-semibold text-xl">
+                                {listing.title}
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="flex gap-2 items-center cursor-pointer">
+                                    <BiShare size={20} />
+                                    <span className="font-semibold underline">
+                                        Chia sẻ
+                                    </span>
+                                </div>
+                                <div
+                                    className="flex gap-2 items-center cursor-pointer "
+                                    onClick={handleToggleFavorite}
+                                >
+                                    <div className="group-hover:block   ">
+                                        {toggleHeart ? (
+                                            <FaHeart size={20} color={"red"} />
+                                        ) : (
+                                            <FaRegHeart size={20} />
+                                        )}
+                                    </div>
+                                    <span className="font-semibold underline">
+                                        Lưu
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
                         <div className="md:h-[560px] h-auto">
                             <ImagePreview images={listing?.images} />
                         </div>
@@ -103,7 +153,9 @@ const Index = () => {
                                     </Link>
                                     <div>
                                         <h2 className="font-semibold text-base leading-5 mb-1">
-                                            Chủ nhà {listing?.user?.username}
+                                            Chủ nhà{" "}
+                                            {listing?.user?.fullName ||
+                                                listing?.user?.username}
                                         </h2>
                                         <p className="text-[#717171]">
                                             {moment(

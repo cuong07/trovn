@@ -14,6 +14,7 @@ import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { cn } from "@/utils/helpers";
 import { useParams, useSearchParams } from "react-router-dom";
 import useUserStore from "@/hooks/userStore";
+import { getCurrentUser } from "@/apis/user";
 
 const TOKEN = JSON.parse(localStorage.getItem("token"));
 
@@ -51,18 +52,22 @@ const Index = () => {
         if (token) {
             setToken(token);
         }
+        (async () => {
+            await getCurrentUser();
+        })();
     }, [searchParams]);
 
     useEffect(() => {
         (async () => {
-            console.log(user);
-            if ((user && user?.latitude) || user?.longitude) {
-                const { success } = await getListingsForMe();
-            } else {
-                const { success } = await getListings();
-            }
+            // console.log(user);
+            // if ((user && user?.latitude) || user?.longitude) {
+            //     const { success } = await getListingsForMe();
+            // } else {
+            //     const { success } = await getListings();
+            // }
+            await getListings();
         })();
-    }, [page, user]);
+    }, [page]);
 
     // useEffect(() => {
     //     (async () => {
@@ -112,7 +117,7 @@ const Index = () => {
             <div className="mt-20 md:px-20 px-6">
                 {!isLoading && <ProductList data={contents} />}
                 {isLoading && (
-                    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1 md:px-20 px-6 gap-6">
+                    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-1  gap-6">
                         {new Array(20).fill(0).map((_, index) => (
                             <div key={index}>
                                 <div className="w-full mb-2 rounded-xl animate-pulse aspect-square bg-[#F0F0F0]"></div>
@@ -127,26 +132,25 @@ const Index = () => {
             {contents.length < totalElement && (
                 <div
                     className={cn(
-                        "flex   mt-20 mx-20",
-                        contents.length !== 0 ? "justify-end" : "justify-start"
+                        "flex   mt-20 mx-20 justify-between",
+                        currentPage === 1 && "justify-end"
                     )}
                 >
-                    {contents.length !== 0 && (
-                        <button
-                            className="w-[300px] hover:bg-slate-100 transition-all  flex h-12 border rounded-md shadow-sm  items-center justify-center text-base gap-2"
-                            onClick={handleLoadMore}
-                        >
-                            Trang tiếp <BiArrowToRight size={24} />
-                        </button>
-                    )}
-
-                    {contents.length === 0 && (
+                    {currentPage !== 1 && (
                         <button
                             className="w-[300px] hover:bg-slate-100 transition-all flex h-12 border rounded-md shadow-sm  items-center justify-center text-base gap-2"
                             onClick={handlePrev}
                         >
                             <BiArrowToLeft size={24} />
                             Trang trước
+                        </button>
+                    )}
+                    {contents.length !== 0 && contents.length === limit && (
+                        <button
+                            className="w-[300px] hover:bg-slate-100 transition-all  flex h-12 border rounded-md shadow-sm  items-center justify-center text-base gap-2"
+                            onClick={handleLoadMore}
+                        >
+                            Trang tiếp <BiArrowToRight size={24} />
                         </button>
                     )}
                 </div>

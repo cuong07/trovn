@@ -3,9 +3,10 @@ import {
     getListingByUserId,
     getFavoriteListing,
     updateUserAvatar,
+    updateUser,
 } from "@/apis/user";
 import { useEffect, useState } from "react";
-import { Button } from "@/components";
+import { Button, Tooltip } from "antd";
 import useUserStore from "@/hooks/userStore";
 import { useParams } from "react-router-dom";
 import { Image, Modal, Tabs, Upload, message } from "antd";
@@ -19,14 +20,22 @@ import {
     AiOutlineEnvironment,
 } from "react-icons/ai";
 import ImgCrop from "antd-img-crop";
+import { ROLE } from "@/constants/role";
+import { BiCheckShield } from "react-icons/bi";
+import { createReport } from "@/apis/report";
 
 function Info() {
     const { id } = useParams();
+    const currentUser = useUserStore().user;
     const [listings, setListing] = useState([]);
     const [user, setUser] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+    const [isOpenReport, setIsOpenReport] = useState(false);
     const [fileImage, setFileImage] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [description, setDescription] = useState("");
+    const [reportContent, setReportContent] = useState("");
 
     useEffect(() => {
         const getInforUser = async () => {
@@ -50,14 +59,14 @@ function Info() {
     };
     const items = [
         {
-            key: "1",
-            label: "Chung",
-            children: <InfoTab user={user} />,
-        },
-        {
             key: "3",
             label: "Phòng hiện có",
             children: <ProductList data={listings} column={2} />,
+        },
+        {
+            key: "1",
+            label: "Chung",
+            children: <InfoTab user={user} />,
         },
     ];
 
@@ -109,6 +118,42 @@ function Info() {
         imgWindow?.document.write(image.outerHTML);
     };
 
+    const handleUpdateDescription = async () => {
+        try {
+            const { success, data } = await updateUser({ description });
+            if (success) {
+                message.success("Thành công");
+                setUser(data);
+            }
+        } catch (error) {
+            message.error(error.message);
+            console.log(error);
+        }
+    };
+
+    const handleReport = async () => {
+        try {
+            if (!reportContent.length) {
+                message.info("Vui lòng nhập nội dung báo cáo!");
+                return;
+            }
+            const report = {
+                content: reportContent,
+                reportedId: id,
+            };
+            const { data, success } = await createReport(report);
+            if (success) {
+                message.success("Gửi báo cáo thành công");
+                setIsOpenReport(false);
+                return;
+            }
+            message.error("Có lỗi khi gửi báo cáo vui lòng thư lại");
+        } catch (error) {
+            message.error(error.response.data.message);
+            console.log(error);
+        }
+    };
+
     return (
         <div className="bg-slate-200 pt-5 pb-20">
             <div className="max-w-[1280px] mx-auto md:px-10 px-4 pd-10 bg-white pb-3">
@@ -155,24 +200,54 @@ function Info() {
                                         Thẻ
                                     </span>
                                 </div> */}
-                            <span className="underline font-semibold text-xs my-4 items-center cursor-pointer justify-center flex ml-3 ">
-                                <AiOutlineWarning className="mr-1 my-auto" />
-                                Khiếu nại người dùng
-                            </span>
+                            {currentUser?.id !== id && (
+                                <span
+                                    onClick={() => setIsOpenReport(true)}
+                                    className="underline font-semibold text-xs my-4 items-center cursor-pointer justify-center flex ml-3 "
+                                >
+                                    <AiOutlineWarning className="mr-1 my-auto" />
+                                    Khiếu nại người dùng
+                                </span>
+                            )}
                         </div>
                     </div>
                     {/* right side */}
                     <div className="md:w-8/12 w-full mr-5">
                         <div className="flex flex-col justify-between ">
                             <div className=" mb-10">
-                                <div className="flex">
+                                <div className="flex items-center gap-2">
                                     <span className="text-3xl font-bold">
                                         {user?.fullName || user?.username}
                                     </span>
-                                    <span className="flex items-center ml-10 pt-2 text-slate-500">
+                                    {/* <span className="flex items-center ml-10 pt-2 text-slate-500">
                                         <AiOutlineEnvironment className="mr-1" />
                                         {user.address}
-                                    </span>
+                                    </span> */}
+                                    <Tooltip arrow title="Người quản trị">
+                                        {user?.role === ROLE.ADMIN && (
+                                            <BiCheckShield
+                                                size={26}
+                                                color="#0866FF"
+                                            />
+                                        )}
+                                    </Tooltip>
+                                </div>
+                                <div className="mt-4 flex flex-col  gap-2 \">
+                                    <div className="text-base">
+                                        {user?.description
+                                            ? user?.description
+                                            : currentUser?.id === id
+                                            ? "Thêm mô tả bản thân"
+                                            : "Người dùng chưa có mô tả"}
+                                    </div>
+                                    {currentUser?.id === id && (
+                                        <Button
+                                            className="text-xs font-semibold w-fit"
+                                            onClick={() => setIsEdit(true)}
+                                        >
+                                            Chỉnh sửa
+                                        </Button>
+                                    )}
                                 </div>
                                 {/* 
                                     <span className="text-xs ">Vai trò:</span>
@@ -215,7 +290,7 @@ function Info() {
 
                         <div className="mt-10">
                             <Tabs
-                                defaultActiveKey="1"
+                                defaultActiveKey="2"
                                 items={items}
                                 onChange={onChangeTabs}
                             />
@@ -259,6 +334,59 @@ function Info() {
                         Tải lên
                     </Upload>
                 </ImgCrop>
+            </Modal>
+            <Modal
+                visible={isEdit}
+                // title="Cập nhật hình đại diện"
+                okText="Xác nhận"
+                cancelText="Thoát"
+                mask
+                onOk={handleUpdateDescription}
+                onCancel={() => setIsEdit(false)}
+            >
+                <div className="mt-4">
+                    <div className="font-semibold text-2xl">
+                        Giới thiệu về bạn
+                    </div>
+                    <p className="mt-2 text-[#717171] leading-4">
+                        Hãy chia sẻ đôi chút về bản thân để các Chủ nhà/Người tổ
+                        chức hoặc khách sau này có thể biết thêm về bạn.
+                    </p>
+                </div>
+                <textarea
+                    name=""
+                    id=""
+                    className="w-full p-2 border rounded-lg mt-4"
+                    rows="6"
+                    onChange={(e) => setDescription(e.target.value)}
+                    value={description}
+                ></textarea>
+            </Modal>
+            <Modal
+                visible={isOpenReport}
+                // title="Cập nhật hình đại diện"
+                okText="Xác nhận"
+                cancelText="Thoát"
+                mask
+                onOk={handleReport}
+                onCancel={() => setIsOpenReport(false)}
+            >
+                <div className="mt-4">
+                    <div className="font-semibold text-2xl">
+                        Có chuyện gì vậy?
+                    </div>
+                    <p className="mt-2 text-[#717171] leading-4">
+                        Thông tin này sẽ chỉ được chia sẻ với TroVN
+                    </p>
+                </div>
+                <textarea
+                    name=""
+                    id=""
+                    className="w-full p-2 border rounded-lg mt-4"
+                    rows="6"
+                    onChange={(e) => setReportContent(e.target.value)}
+                    value={reportContent}
+                ></textarea>
             </Modal>
         </div>
     );

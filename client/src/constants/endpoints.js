@@ -38,6 +38,7 @@ export const PaymentV1 = {
     GET_MOMO_PAYMENT: "/payment/momo",
     GET_VNPAY_PAYMENT: "/payment/vnpay",
     GET_PAYMENTS_BY_STATUS: "/payments",
+    GET_PAYMENT_USER: "/payment/user",
     DELETE_PAYMENT: "/payment/",
 };
 
@@ -72,4 +73,11 @@ export const AnalyticsV1 = {
     GET_ANALYTICS_LOCATION_COUNT_LISTING: "/analytics/location-count-listing",
     GET_ANALYTICS_TOP_10_USER_WITH_MOST_LISTING:
         "/analytics/top-user-with-most-listing",
+};
+
+export const ReportV1 = {
+    CREATE_REPORTS: "/reports",
+    GET_REPORTS: "/reports",
+    UPDATE_REPORTS: "/reports/",
+    DELETE_REPORTS: "/reports/",
 };

@@ -38,7 +38,8 @@ const Index = () => {
                 setUser(data);
             }
         } catch (error) {
-            message.error(error.message);
+            console.log(error);
+            message.error(error.response.data.message);
             console.log(error);
         }
     };

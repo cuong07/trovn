@@ -33,6 +33,7 @@ const Index = ({ banners }) => {
                     <SwiperSlide className="bg-zinc-500" key={item.id}>
                         <Link to={`/user/info/${item?.userId}`}>
                             <img
+                                loading="lazy"
                                 src={item.imageUrl}
                                 alt={item.title}
                                 className="w-full h-full object-cover"

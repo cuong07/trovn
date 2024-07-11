@@ -32,6 +32,9 @@ import {
     ChatPageMobile,
     Setting,
     PersonalInfo,
+    Payment,
+    Security,
+    Reports,
 } from "@/pages";
 import { ListingCreate, ListingList } from "@/pages/Host";
 import {
@@ -119,6 +122,14 @@ export const router = createBrowserRouter([
                         path: "/account-settings/personal-info",
                         element: <PersonalInfo />,
                     },
+                    {
+                        path: "/account-settings/payment",
+                        element: <Payment />,
+                    },
+                    {
+                        path: "/account-settings/login-and-security",
+                        element: <Security />,
+                    },
                     { path: "/favorite", element: <Favorite /> },
                     { path: "logout", element: <Logout /> },
                     { path: "/payment/vnpay", element: <VNPay /> },
@@ -163,6 +174,10 @@ export const router = createBrowserRouter([
             {
                 path: "payments",
                 element: <Payments />,
+            },
+            {
+                path: "reports",
+                element: <Reports />,
             },
             {
                 path: "chat",

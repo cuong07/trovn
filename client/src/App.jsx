@@ -22,8 +22,9 @@ function App() {
         latitude: null,
         longitude: null,
     });
+
     const [error, setError] = useState(null);
-    console.log(TOKEN);
+
     useEffect(() => {
         if (!TOKEN) return;
 

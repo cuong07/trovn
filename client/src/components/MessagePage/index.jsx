@@ -41,6 +41,7 @@ const Index = () => {
 
             const handleMessage = (data) => {
                 if (data.conversationId === id) {
+                    console.log(data);
                     setAllMessages(data.messages);
                     socketConnection.emit("seen", id);
                 }
@@ -74,19 +75,21 @@ const Index = () => {
             ...prev,
             text: value,
         }));
-        if (!isTyping) {
-            setIsTyping(true);
-            socketConnection.emit("typing", id);
-        }
+        if (socketConnection) {
+            if (!isTyping) {
+                setIsTyping(true);
+                socketConnection.emit("typing", id);
+            }
 
-        if (typingTimeoutRef.current) {
-            clearTimeout(typingTimeoutRef.current);
-        }
+            if (typingTimeoutRef.current) {
+                clearTimeout(typingTimeoutRef.current);
+            }
 
-        typingTimeoutRef.current = setTimeout(() => {
-            setIsTyping(false);
-            socketConnection.emit("stopTyping", id);
-        }, 2000);
+            typingTimeoutRef.current = setTimeout(() => {
+                setIsTyping(false);
+                socketConnection.emit("stopTyping", id);
+            }, 2000);
+        }
     };
 
     const handleSendMessage = (e) => {
@@ -129,11 +132,13 @@ const Index = () => {
     return (
         <div
             className={
-                cn(" h-full flex flex-col", pathname.includes("admin")) &&
-                "border-t h-[200px] "
+                cn(
+                    " h-full flex flex-col border-l ",
+                    pathname.includes("admin")
+                ) && "border-t h-[200px] "
             }
         >
-            <header className="h-16 sticky top-0 bg-white flex justify-between shadow-sm items-center px-4">
+            <header className="h-16 sticky top-0 bg-white flex justify-between border-b items-center px-4">
                 <div className="flex items-center gap-4">
                     <Link to={"/chat"} className="lg:hidden">
                         <FaAngleLeft size={25} />
@@ -164,7 +169,7 @@ const Index = () => {
                 </div>
             </header>
             <div
-                className={`flex flex-col gap-2 px-4 overflow-scroll  flex-grow  ${
+                className={`flex flex-col gap-2 px-8 overflow-scroll  flex-grow  ${
                     pathname.includes("admin")
                         ? "md:h-[690px] h-[620px]"
                         : "md:h-[770px] h-[700px]"
@@ -185,7 +190,7 @@ const Index = () => {
                 )}
                 <div ref={bottomRef}></div>
             </div>
-            <div className="sticky h-20 bg-white bottom-0 w-full border-t">
+            <div className="sticky h-20  bottom-0 w-full ">
                 <InputChat
                     message={message}
                     handleOnChange={handleOnChange}
