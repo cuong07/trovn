@@ -33,6 +33,16 @@ export const verifyTokenAllRole = async (req, res, next) => {
     const { authorization } = req.headers;
     try {
         const user = await verifyToken(authorization);
+        if (user.isLooked) {
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(
+                    BaseResponse.error(
+                        "Tài khoản của bạn đã bị vô hiệu hóa",
+                        null
+                    )
+                );
+        }
         req.user = user;
         next();
     } catch (error) {
@@ -77,7 +87,16 @@ export const verifyTokenWithUserPremium = async (req, res, next) => {
     const { authorization } = req.headers;
     try {
         const user = await verifyToken(authorization);
-        console.log(user);
+        if (user.isLooked) {
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(
+                    BaseResponse.error(
+                        "Tài khoản của bạn đã bị vô hiệu hóa",
+                        null
+                    )
+                );
+        }
         if (user.isPremium) {
             req.user = user;
             next();

@@ -2,6 +2,7 @@
 import FroalaEditor from "react-froala-wysiwyg";
 import { Button, Select, Tour } from "antd";
 import { FcAdvertising } from "react-icons/fc";
+import ReactQuill from "react-quill";
 
 import { Input } from "..";
 import useListingStore from "@/hooks/useListingStore";
@@ -12,7 +13,7 @@ import "froala-editor/css/froala_editor.pkgd.min.css";
 import { useEffect, useRef, useState } from "react";
 import { json } from "react-router-dom";
 import { generateDescription } from "@/utils/generateDescription";
-
+import "react-quill/dist/quill.snow.css";
 const Index = ({ amenities, locations, tags }) => {
     const { updateListing, newListing } = useListingStore();
     const [isLoading, setIsLoading] = useState(false);
@@ -139,8 +140,11 @@ const Index = ({ amenities, locations, tags }) => {
                                     required
                                 />
                             </div>
-                            <div className="grid gap-3" ref={ref2}>
-                                <div className="text-sm flex justify-between items-center leading-[14px]font-medium">
+                            <div
+                                className="grid gap-3 overflow-hidden pb-14"
+                                ref={ref2}
+                            >
+                                <div className="text-sm  flex justify-between items-center leading-[14px]font-medium">
                                     Mô tả
                                     <Button
                                         loading={isLoading}
@@ -150,7 +154,16 @@ const Index = ({ amenities, locations, tags }) => {
                                         Tạo nhanh
                                     </Button>
                                 </div>
-                                <FroalaEditor
+                                <ReactQuill
+                                    value={newListing.description}
+                                    onChange={(
+                                        content,
+                                        delta,
+                                        source,
+                                        editor
+                                    ) => updateListing("description", content)}
+                                />
+                                {/* <FroalaEditor
                                     description
                                     tag="textarea"
                                     // model={content}
@@ -159,7 +172,7 @@ const Index = ({ amenities, locations, tags }) => {
                                     onModelChange={(value) =>
                                         updateListing("description", value)
                                     }
-                                />
+                                /> */}
                             </div>
                         </div>
                     </div>

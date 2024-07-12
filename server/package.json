@@ -13,6 +13,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@azure/cognitiveservices-computervision": "^8.2.0",
+        "@azure/ms-rest-js": "^2.7.0",
         "@prisma/client": "^5.12.1",
         "axios": "^1.6.8",
         "bcrypt": "^5.1.1",
@@ -24,7 +26,6 @@
         "express": "^4.19.2",
         "express-rate-limit": "^7.3.1",
         "express-session": "^1.18.0",
-        "jade": "^1.11.0",
         "jsonwebtoken": "^9.0.2",
         "lodash": "^4.17.21",
         "moment": "^2.30.1",

@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+import dayjs from "dayjs";
+
+export const bannedTemplate = (to) => {
+    const date = dayjs().format("HH:mm:ss DD:MM:YYYY");
+    return `
+    <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8" />
@@ -11,10 +16,10 @@
                 padding: 0;
             }
             .container {
-                width: 80%;
+                width: 94%;
                 margin: 0 auto;
                 background-color: #ffffff;
-                padding: 20px;
+                padding: 10px;
                 border-radius: 10px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
@@ -56,18 +61,18 @@
                 <h1>Cảnh Báo: Việc Đăng Hình Ảnh Nhạy Cảm</h1>
             </div>
             <div class="content">
-                <p>Kính gửi <strong>{`${to} ,`}</strong></p>
+                <p>Kính gửi <strong>${to} ,</strong></p>
                 <p>
                     Chúng tôi viết thư này để cảnh báo và nhắc nhở bạn về việc
                     đăng hình ảnh nhạy cảm trên nền tảng của chúng tôi.
                 </p>
                 <p>
-                    {` Vào ngày ${date}, chúng tôi phát hiện rằng tài khoản của
+                   Vào ngày ${date}, chúng tôi phát hiện rằng tài khoản của
                     bạn đã đăng tải một hình ảnh có nội dung nhạy cảm. Hành động
                     này vi phạm các điều khoản và quy định sử dụng dịch vụ của
                     chúng tôi. Nội dung nhạy cảm bao gồm, nhưng không giới hạn
                     ở, hình ảnh có nội dung người lớn, bạo lực, hoặc những nội
-                    dung không phù hợp với chính sách của chúng tôi.`}
+                    dung không phù hợp với chính sách của chúng tôi.
                 </p>
                 <p>
                     Chúng tôi yêu cầu bạn ngay lập tức gỡ bỏ hình ảnh vi phạm
@@ -84,8 +89,8 @@
                 </p>
                 <p>
                     Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ thêm, vui lòng
-                    liên hệ với chúng tôi qua địa chỉ email [Email Hỗ Trợ] hoặc
-                    số điện thoại [Số Điện Thoại Hỗ Trợ].
+                    liên hệ với chúng tôi qua địa chỉ email trovn.sender@gmail.com hoặc
+                    số điện thoại 0327427732.
                 </p>
                 <p>
                     Chúng tôi rất cảm ơn sự hợp tác của bạn và hy vọng bạn sẽ
@@ -103,3 +108,6 @@
         </div>
     </body>
 </html>
+
+    `;
+};

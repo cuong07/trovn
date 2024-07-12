@@ -61,6 +61,8 @@ model User {
   fullName        String  @default("")
   googleAccountId String  @default("")
   description     String  @default("")
+  violationCount  Int     @default(0)
+  isLooked        Boolean @default(false)
 
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt

@@ -48,6 +48,8 @@ const User = {
                     isVerify: true,
                     latitude: true,
                     longitude: true,
+                    isLooked: true,
+                    violationCount: true,
                 },
             });
         },
@@ -74,6 +76,8 @@ const User = {
                     isVerify: true,
                     latitude: true,
                     longitude: true,
+                    isLooked: true,
+                    violationCount: true,
                 },
             });
         },

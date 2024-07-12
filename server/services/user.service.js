@@ -9,6 +9,9 @@ import UserOtpModel from "../models/user.otp.config.js";
 import { otpTemplate } from "../utils/otp.template.utils.js";
 import { verifyToken } from "../middlewares/auth.middleware.js";
 import { uploader } from "../utils/uploader.js";
+import { analyzeImage } from "../core/analyze.image.js";
+import { bannedTemplate } from "../utils/banned.template.js";
+import { deleteImage } from "../config/cloundinary.js";
 
 const UserService = {
     async getUserById(userId) {
@@ -33,8 +36,12 @@ const UserService = {
         try {
             console.log(password);
             const existingUser = await UserModel.methods.getUserByEmail(email);
+
             if (!existingUser) {
                 throw new Error("Không tìm thấy người dùng có email: ", email);
+            }
+            if (existingUser.isLooked) {
+                throw new Error("Tài khoản của bạn đã bị vô hiệu hóa");
             }
             const isMatch = await bcrypt.compare(
                 password,
@@ -43,6 +50,7 @@ const UserService = {
             if (!isMatch) {
                 throw new Error("Mật khẩu không chính xác");
             }
+
             const token = generateToken(existingUser);
             const refreshToken = generateRefreshToken(existingUser);
             return { token, refreshToken };
@@ -83,9 +91,53 @@ const UserService = {
             const { path } = file;
             const newPath = await uploader(path);
             fs.unlinkSync(path);
+            if (!newPath) {
+                return new Error("Image error");
+            }
+            const user = await UserModel.methods.getUserById(userId);
+
+            const validImage = await analyzeImage(newPath?.url);
+            console.log("AVATAR: ", JSON.stringify(validImage));
+            if (validImage?.isAdultContent) {
+                await deleteImage(newPath.url);
+                await this.checkBanned(userId);
+                throw new Error("Hình ảnh chứa nội dung phản cảm");
+            }
+            if (validImage?.isRacyContent) {
+                await deleteImage(newPath.url);
+                await this.checkBanned(userId);
+                throw new Error("Hình ảnh chứa nội dung không phù hợp");
+            }
+
+            await deleteImage(user.avatarUrl);
+
             return await UserModel.methods.updateUser(userId, {
                 avatarUrl: newPath?.url,
             });
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
+
+    async checkBanned(userId) {
+        try {
+            let subject = "";
+            const user = await UserModel.methods.getUserById(userId);
+            if (!user) {
+                throw new Error("Không tìm thấy người dùng");
+            }
+            if (user.violationCount >= 3) {
+                subject = "Tài khoản của bạn đã bị vô hiệu hóa";
+                await UserModel.methods.updateUser(user.id, { isLooked: true });
+            } else {
+                subject = "Cảnh báo hành vi";
+                await UserModel.methods.updateUser(user.id, {
+                    violationCount: user.violationCount + 1,
+                });
+            }
+            let template = bannedTemplate(user.email);
+            sendMail(user.email, subject, template);
         } catch (error) {
             console.log(error);
             throw error;

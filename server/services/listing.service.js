@@ -5,6 +5,8 @@ import ListingModel from "../models/listing.model.js";
 import ImageService from "./image.service.js";
 import { uploader } from "../utils/uploader.js";
 import redisClient from "../config/redis.client.config.js";
+import { analyzeImage } from "../core/analyze.image.js";
+import { deleteImage } from "../config/cloundinary.js";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 const CACHE_EXPIRATION = process.env.REDIS_CACHE_EXPIRATION;
@@ -41,6 +43,24 @@ const ListingService = {
             for (const file of files) {
                 const { path } = file;
                 const newPath = await uploader(path);
+                const analyze = await analyzeImage(newPath?.url);
+                if (analyze?.isAdultContent) {
+                    imageUrls.forEach(
+                        async (item) => await deleteImage(item.url)
+                    );
+
+                    await UserService.checkBanned(listingData.userId);
+                    await this.deleteListing(listing.id);
+                    throw new Error("Hình ảnh chứa nội dung người lớn");
+                }
+                if (analyze?.isRacyContent) {
+                    imageUrls.forEach(
+                        async (item) => await deleteImage(item.url)
+                    );
+                    await UserService.checkBanned(listingData.userId);
+                    await this.deleteListing(listing.id);
+                    throw new Error("Hình ảnh chứa nội dung không phù hợp");
+                }
                 imageUrls.push({
                     url: newPath?.url,
                     caption: listing.title,
