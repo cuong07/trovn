@@ -23,8 +23,6 @@ function App() {
         longitude: null,
     });
 
-    const [error, setError] = useState(null);
-
     useEffect(() => {
         if (!TOKEN) return;
 
@@ -74,6 +72,7 @@ function App() {
         return () => {
             socketInstance.disconnect();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         TOKEN,
         api,
@@ -110,14 +109,13 @@ function App() {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                     });
-                    setError(null);
                 },
                 (err) => {
-                    setError(err.message);
+                    console.log(err);
                 }
             );
         } else {
-            setError("Geolocation is not supported by this browser.");
+            console.log("Geolocation is not supported by this browser.");
         }
     }, []);
 

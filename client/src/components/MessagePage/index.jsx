@@ -176,7 +176,7 @@ const Index = () => {
                 }`}
                 ref={currentMessage}
             >
-                {allMessages.map((msg, index) => (
+                {allMessages.map((msg) => (
                     <MessageItem message={msg} meId={user?.id} key={msg?.id} />
                 ))}
                 {otherUserTyping && (

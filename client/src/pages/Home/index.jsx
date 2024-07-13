@@ -1,26 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Banner, SliderFilter } from "@/components";
-import { getAllAmenity } from "@/apis/amenities";
-import { getListings, getListingsForMe } from "@/apis/listing";
+import { getListings } from "@/apis/listing";
 import useListingStore from "@/hooks/useListingStore";
 import ProductList from "./ProductList";
 
 import useAmenityStore from "@/hooks/useAmenityStore";
 import { getBannerActive } from "@/apis/banner";
-import { Empty, Skeleton, Button } from "antd";
+import { Empty, Skeleton } from "antd";
 import { getFavorites } from "@/apis/favorite";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { cn } from "@/utils/helpers";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import useUserStore from "@/hooks/userStore";
 import { getCurrentUser } from "@/apis/user";
 
-const TOKEN = JSON.parse(localStorage.getItem("token"));
-
 const Index = () => {
     const [banners, setBanners] = useState([]);
-    let [searchParams, setSearchParams] = useSearchParams();
+    let [searchParams] = useSearchParams();
     const { user } = useUserStore();
 
     const {
@@ -41,7 +38,7 @@ const Index = () => {
     const handleClickItem = async (id) => {
         try {
             setListingAmenitiesId(id);
-            const { data } = await getListings();
+            await getListings();
         } catch (error) {
             console.log(error);
         }

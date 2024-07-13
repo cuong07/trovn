@@ -1,7 +1,6 @@
 import {
     getUser,
     getListingByUserId,
-    getFavoriteListing,
     updateUserAvatar,
     updateUser,
 } from "@/apis/user";
@@ -17,7 +16,6 @@ import {
     AiOutlineSend,
     AiFillPhone,
     AiOutlineWarning,
-    AiOutlineEnvironment,
 } from "react-icons/ai";
 import ImgCrop from "antd-img-crop";
 import { ROLE } from "@/constants/role";
@@ -40,7 +38,7 @@ function Info() {
     useEffect(() => {
         const getInforUser = async () => {
             const u = await getUser(id);
-            setUser((pre) => ({ ...u }));
+            setUser(() => ({ ...u }));
 
             const {
                 data: { contents },
@@ -48,7 +46,7 @@ function Info() {
             } = await getListingByUserId(id);
 
             if (success) {
-                setListing((prev) => [...contents]);
+                setListing(() => [...contents]);
             }
         };
         getInforUser();
@@ -141,7 +139,7 @@ function Info() {
                 content: reportContent,
                 reportedId: id,
             };
-            const { data, success } = await createReport(report);
+            const { success } = await createReport(report);
             if (success) {
                 message.success("Gửi báo cáo thành công");
                 setIsOpenReport(false);

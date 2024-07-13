@@ -10,9 +10,8 @@ import MapClusters from "@/components/MapClusters";
 import PieChart from "@/components/PieChart";
 import useAnalyticsStore from "@/hooks/useAnalyticsStore";
 import { formatCurrency } from "@/utils/helpers";
-import { Avatar, Space, Table, Tag, message } from "antd";
-import React, { useEffect } from "react";
-import { BsArrowDown } from "react-icons/bs";
+import { Avatar, Table, Tag, message } from "antd";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -66,7 +65,7 @@ const Index = () => {
             title: "Hình",
             dataIndex: "avatarUrl",
             key: "avatar",
-            render: (avatarUrl, record) => <Avatar src={avatarUrl} />,
+            render: (avatarUrl) => <Avatar src={avatarUrl} />,
         },
         {
             title: "Email",

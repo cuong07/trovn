@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { IoCallOutline, IoTimeOutline } from "react-icons/io5";
+import { Link, useParams } from "react-router-dom";
+import { IoTimeOutline } from "react-icons/io5";
 import { FaChartArea, FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import useMessage from "antd/es/message/useMessage";
 import { Avatar, Empty, message } from "antd";
-import { CiChat1, CiMail } from "react-icons/ci";
 import moment from "moment";
 import { LuDot } from "react-icons/lu";
 
 import { getListing } from "@/apis/listing";
-import { AmenitiesList, Button, ImagePreview, MapListing } from "@/components";
-import { formatMoney, getTerm } from "@/utils/helpers";
+import { AmenitiesList, ImagePreview, MapListing } from "@/components";
+import { getTerm } from "@/utils/helpers";
 import Loading from "./Loading";
 
 import "moment/locale/vi";
 import useUserStore from "@/hooks/userStore";
 import BuyBox from "./BuyBox";
-import { BiHeart, BiHeartCircle, BiShare } from "react-icons/bi";
+import { BiShare } from "react-icons/bi";
 import { createFavorite } from "@/apis/favorite";
 import useFavoriteStore from "@/hooks/useFavoriteStore";
 

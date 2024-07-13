@@ -8,32 +8,31 @@ import {
     message,
     notification,
 } from "antd";
-import { Button, SearchInput } from "@/components";
 import { CiUser } from "react-icons/ci";
+import { BiMenu } from "react-icons/bi";
 import { RiAdminLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import { LogoSvg } from "@/components/Icons";
-import useUserStore from "@/hooks/userStore";
-import { useEffect, useState } from "react";
-import { getEmailOtp, getVerifyEmailOtp } from "@/apis/user";
-import { ROLE } from "@/constants/role";
+import { useState } from "react";
 import { FiBell, FiHeart, FiLogIn, FiMessageCircle } from "react-icons/fi";
 import { IoLogOutOutline } from "react-icons/io5";
-import useConversationStore from "@/hooks/useConversationStore";
 import { FcSettings } from "react-icons/fc";
-import { BiMenu } from "react-icons/bi";
+
+import { LogoSvg } from "@/components/Icons";
+import { getEmailOtp, getVerifyEmailOtp } from "@/apis/user";
+import { ROLE } from "@/constants/role";
+import useConversationStore from "@/hooks/useConversationStore";
+import useUserStore from "@/hooks/userStore";
+import { Button, SearchInput } from "@/components";
 
 const Index = () => {
-    const naviagate = useNavigate();
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
-    const { unreadMessagesCount, setUnreadMessagesCount } =
-        useConversationStore();
-    const navigate = useNavigate();
-    // * Custom hooks
-    const { user, otp, setOtp, socketConnection } = useUserStore();
+    const { unreadMessagesCount } = useConversationStore();
+
+    const { user, otp, setOtp } = useUserStore();
 
     const contents = (
         <div className="flex flex-col p-2 md:w-[300px] text-lg  ">
@@ -115,7 +114,7 @@ const Index = () => {
         }
 
         if (user.isVerify) {
-            naviagate("/host");
+            navigate("/host");
         }
 
         if (!user.isVerify) {
@@ -134,7 +133,7 @@ const Index = () => {
             if (success) {
                 message.success("Xác minh thành công");
                 setConfirmLoading(false);
-                naviagate("/host");
+                navigate("/host");
                 return;
             }
             setConfirmLoading(false);
@@ -148,7 +147,7 @@ const Index = () => {
 
     const handleSendEmailOtp = async () => {
         try {
-            const { data, success } = await getEmailOtp();
+            const { success } = await getEmailOtp();
             if (success) {
                 message.success("Đã gửi mail thành công");
                 return;
@@ -159,20 +158,6 @@ const Index = () => {
             message.error(error.message);
         }
     };
-
-    // useEffect(() => {
-    //     if (!socketConnection) {
-    //         return;
-    //     }
-    //     if (user && user.id) {
-    //         socketConnection.emit("unreadMessagesCount", user.id);
-    //     }
-
-    //     socketConnection.on("unreadMessagesCount", (count) => {
-    //         console.log("Unread messages:", count);
-    //         setUnreadMessagesCount(count);
-    //     });
-    // }, [setUnreadMessagesCount, socketConnection, user]);
 
     const handleNavigate = (url) => {
         navigate(url);

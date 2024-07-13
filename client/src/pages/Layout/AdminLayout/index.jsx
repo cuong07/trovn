@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 const { Header, Sider, Content } = Layout;
@@ -17,7 +17,6 @@ import { LuMessagesSquare } from "react-icons/lu";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@/apis/user";
 import useUserStore from "@/hooks/userStore";
-import { BiLogOut } from "react-icons/bi";
 import { GoReport } from "react-icons/go";
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);

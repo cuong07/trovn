@@ -32,7 +32,6 @@ const Index = () => {
     const [orders, setOrders] = useState([]);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState("Content of the modal");
     const [adsPackageSelect, setAdsPackageSelect] = useState(null);
 
     const showModal = (record) => {
@@ -46,7 +45,7 @@ const Index = () => {
         try {
             const value = getValues();
             setConfirmLoading(true);
-            const { data, success } = await createBanner(value);
+            const { success } = await createBanner(value);
             setConfirmLoading(false);
             if (success) {
                 message.success("Thành công");
@@ -146,9 +145,7 @@ const Index = () => {
     }, []);
 
     const {
-        handleSubmit,
-        formState: { errors, isSubmitting },
-        reset,
+        formState: { errors },
         getValues,
         setValue,
         control,
@@ -179,14 +176,9 @@ const Index = () => {
         return false;
     };
 
-    // isPremium === false
     {
         !user?.isPremium && <Services />;
     }
-
-    const onSumit = () => {
-        const data = getValues();
-    };
 
     return (
         <div className="rounded-lg bg-white p-4 h-full">
@@ -194,7 +186,6 @@ const Index = () => {
             <ModalCreate
                 open={open}
                 handleOk={handleOk}
-                // handleOk={onSumit}
                 confirmLoading={confirmLoading}
                 handleCancel={handleCancel}
                 width={800}

@@ -1,10 +1,10 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { InputField } from "@/components";
-import { Button, Form, message } from "antd";
+import { Button } from "antd";
 
 const schema = yup
     .object({
@@ -12,7 +12,7 @@ const schema = yup
     })
     .required();
 
-const EditFullName = ({ user, onSubmit }) => {
+const EditFullName = ({ onSubmit }) => {
     const {
         handleSubmit,
         formState: { errors, isSubmitting },

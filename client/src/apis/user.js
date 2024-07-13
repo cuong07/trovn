@@ -54,7 +54,6 @@ export const login = async (data) => {
     }
 
     // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    return user.data;
 };
 
 export const getListingByUserId = async (userId) => {
@@ -115,7 +114,7 @@ export const getVerifyEmailOtp = async () => {
     const url = qs.stringifyUrl({
         url: UserV1.GET_VERIFY_EMAIL_OTP,
     });
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const value = {
         email: useUserStore.getState().user.email,
@@ -133,7 +132,7 @@ export const sendEmail = async (data) => {
             "Content-Type": "application/x-www-form-urlencoded",
         },
     });
-    return data;
+    return dt;
 };
 
 export const changePassword = async (id, password) => {
@@ -207,14 +206,3 @@ export const updateUserAvatar = async (file) => {
         throw error;
     }
 };
-
-// export const getCurrentUser = async ()=>{
-//     const url = '/user';
-//     const token = localStorage.getItem('authToken');
-//     const user = await apiClient.get(url, {
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     });
-//     return user;
-// }

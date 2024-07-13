@@ -1,10 +1,9 @@
-import React from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { InputField } from "@/components";
-import { Button, Form } from "antd";
+import { Button } from "antd";
 
 const schema = yup
     .object({
@@ -17,7 +16,8 @@ const schema = yup
     })
     .required();
 
-const EditPhoneNumber = ({ user, onSubmit }) => {
+// eslint-disable-next-line react/prop-types
+const EditPhoneNumber = ({ onSubmit }) => {
     const {
         handleSubmit,
         formState: { errors, isSubmitting },

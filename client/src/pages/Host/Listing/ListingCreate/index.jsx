@@ -87,7 +87,7 @@ const Index = () => {
     const handleSubmit = async () => {
         try {
             setIsLoading(true);
-            const { data, success } = await createListing(newListing);
+            const { success } = await createListing(newListing);
             setIsLoading(false);
             setIsSuccess(success);
             if (success) {

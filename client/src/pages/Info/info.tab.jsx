@@ -1,6 +1,5 @@
-import { Form, Input } from "antd";
-import { Link } from "react-router-dom";
-import { Button } from "@/components";
+/* eslint-disable react/prop-types */
+import { Form } from "antd";
 import moment from "moment";
 
 function InfoTab({ user }) {

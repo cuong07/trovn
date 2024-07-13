@@ -1,7 +1,6 @@
-import { Avatar, Button, Divider, List, message, Skeleton } from "antd";
-import React, { useEffect } from "react";
+import { Avatar, Button, Divider, List, message } from "antd";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import { getReports, loadMoreReport } from "@/apis/report";
 import useReportStore from "@/hooks/useReportStore";
@@ -10,7 +9,7 @@ const Index = () => {
     const {
         setReport,
         reports: { contents, currentPage, totalElement },
-        filters: { page, limit, isActive, reporterId, reportedId },
+        filters: { limit, isActive, reporterId, reportedId },
         updatePagination,
         updateLoadMoreReport,
     } = useReportStore();

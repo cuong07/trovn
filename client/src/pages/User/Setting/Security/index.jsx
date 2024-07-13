@@ -1,6 +1,5 @@
 import useUserStore from "@/hooks/userStore";
 import { Breadcrumb } from "antd";
-import React from "react";
 
 const Index = () => {
     const { user } = useUserStore();

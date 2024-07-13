@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import FroalaEditor from "react-froala-wysiwyg";
 import { Button, Select, Tour } from "antd";
 import { FcAdvertising } from "react-icons/fc";
 import ReactQuill from "react-quill";
@@ -7,11 +6,7 @@ import ReactQuill from "react-quill";
 import { Input } from "..";
 import useListingStore from "@/hooks/useListingStore";
 
-import "froala-editor/js/froala_editor.pkgd.min.js";
-import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
 import { useEffect, useRef, useState } from "react";
-import { json } from "react-router-dom";
 import { generateDescription } from "@/utils/generateDescription";
 import "react-quill/dist/quill.snow.css";
 const Index = ({ amenities, locations, tags }) => {
@@ -76,10 +71,10 @@ const Index = ({ amenities, locations, tags }) => {
     ];
 
     useEffect(() => {
-        if (!Boolean(isTour)) {
+        if (!isTour) {
             setOpen(true);
         }
-    }, []);
+    }, [isTour]);
 
     const amenityOptions = amenities.map((item) => ({
         label: (
@@ -156,23 +151,10 @@ const Index = ({ amenities, locations, tags }) => {
                                 </div>
                                 <ReactQuill
                                     value={newListing.description}
-                                    onChange={(
-                                        content,
-                                        delta,
-                                        source,
-                                        editor
-                                    ) => updateListing("description", content)}
-                                />
-                                {/* <FroalaEditor
-                                    description
-                                    tag="textarea"
-                                    // model={content}
-                                    skipReset
-                                    model={newListing.description}
-                                    onModelChange={(value) =>
-                                        updateListing("description", value)
+                                    onChange={(content) =>
+                                        updateListing("description", content)
                                     }
-                                /> */}
+                                />
                             </div>
                         </div>
                     </div>

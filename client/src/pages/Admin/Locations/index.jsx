@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import GeocoderControl from "@/components/MapLocation/GeocoderControl";
 import { Map, Marker } from "react-map-gl";
 import { Button } from "@/components";
 import { Spin, Tooltip, message } from "antd";
 import { isEmpty } from "lodash";
 import { createLocation, getLocations } from "@/apis/location";
-import { LiaMapMarkerAltSolid } from "react-icons/lia";
 import { GiPositionMarker } from "react-icons/gi";
 const MAPBOX_TOKEN = import.meta.env.VITE_APP_MAPBOX_TOKEN;
 
@@ -60,7 +59,7 @@ const Index = () => {
         }
         try {
             setLoading(true);
-            const { success, data } = await createLocation(locationData);
+            const { success } = await createLocation(locationData);
             setLoading(false);
             if (success) {
                 message.success("Thêm thành công");

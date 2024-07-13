@@ -1,12 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Outlet, useLocation } from "react-router-dom";
 import { MainFooter, MainHeader, MenuMobile } from "@/commons";
 import { Chatbot } from "@/pages";
 import { Layout } from "antd";
-import useMessage from "antd/es/message/useMessage";
-import useLocationStore from "@/hooks/useLocationStore";
 import useAmenityStore from "@/hooks/useAmenityStore";
 import { getAllAmenity } from "@/apis/amenities";
-import { getLocations } from "@/apis/location";
 import { useEffect } from "react";
 import { getCurrentUser } from "@/apis/user";
 const { Header, Content, Footer } = Layout;
@@ -14,8 +12,7 @@ const { Header, Content, Footer } = Layout;
 const TOKEN = JSON.parse(localStorage.getItem("token"));
 
 const Index = () => {
-    const { setLocations } = useLocationStore();
-    const { amenities, setAmenities } = useAmenityStore();
+    const { setAmenities } = useAmenityStore();
     const location = useLocation();
 
     const isChatPage = location.pathname.includes("/chat");

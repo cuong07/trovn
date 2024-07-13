@@ -8,7 +8,7 @@ export const getListings = async () => {
     try {
         const {
             pagination: { page, limit },
-            filter: { keyword, amenityIds },
+            filter: { amenityIds },
         } = useListingStore.getState().listings;
 
         const url = qs.stringifyUrl({
@@ -105,7 +105,7 @@ export const getListingsForMe = async () => {
 export const getListingsForUser = async () => {
     const {
         pagination: { page, limit },
-        filter: { keyword, amenityIds },
+        filter: { amenityIds },
     } = useListingStore.getState().listings;
 
     const url = qs.stringifyUrl({
@@ -255,7 +255,7 @@ export const getFilterListing = async () => {
             isLoading: true,
         },
     }));
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const { data } = await apiClient.get(url);
 

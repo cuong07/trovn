@@ -40,7 +40,7 @@ const Index = ({ isLoading, handleClickChat }) => {
                             </p>
                         </div>
                     )}
-                    {conversations.map((conv, index) => (
+                    {conversations.map((conv) => (
                         <ChatUser
                             handleClickChat={handleClickChat}
                             conversation={conv}

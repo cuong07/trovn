@@ -1,5 +1,4 @@
 import { MessagePage } from "@/components";
-import React from "react";
 
 const Index = () => {
     return (
