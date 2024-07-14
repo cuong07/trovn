@@ -1,3 +1,4 @@
+import { logger } from "../config/winston.js";
 import PaymentModel from "../models/payment.model.js";
 import OrderService from "./order.service.js";
 import UserService from "./user.service.js";
@@ -7,7 +8,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.createPayment(data);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -16,7 +17,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.findByUser(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -25,7 +26,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.getPaymentById(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -34,7 +35,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.getPaymentActiveByUser(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -43,7 +44,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.getPaymentsByUser(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -52,7 +53,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.getPaymentStatus(status);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -61,7 +62,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.getUserForTransactionId(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -70,7 +71,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.deletePayment(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -101,7 +102,7 @@ const PaymentService = {
 
             return order;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -110,7 +111,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.updatePayment(id, data);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -119,7 +120,7 @@ const PaymentService = {
         try {
             return await PaymentModel.methods.getPaymentByTransactionId(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },

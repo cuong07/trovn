@@ -1,7 +1,7 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import UserService from "../services/user.service.js";
-import { generateToken } from "../utils/tokenUtils.js";
+import { generateToken } from "../utils/token.utils.js";
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -31,7 +31,7 @@ passport.use(
                     });
                 }
                 const token = generateToken(user);
-                console.log("data >>>>>>>>", user, token);
+                logger.info("token", token);
                 return done(null, { user, token });
             } catch (err) {
                 return done(err, null);

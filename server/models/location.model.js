@@ -1,3 +1,4 @@
+import { logger } from "../config/winston.js";
 import db from "../lib/db.js";
 
 const LocationModel = {
@@ -8,7 +9,7 @@ const LocationModel = {
             const skip = take ? Math.max(0, (currentPage - 1) * take) : 0;
 
             const filters = {};
-            console.log(keyword);
+            logger.info(keyword);
             if (keyword) {
                 filters.OR = [
                     { name: { contains: keyword, mode: "insensitive" } },

@@ -20,6 +20,7 @@
         "bcrypt": "^5.1.1",
         "body-parser": "^1.20.2",
         "cloudinary": "^2.1.0",
+        "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "crypto-js": "^4.2.0",
         "dayjs": "^1.11.11",
@@ -40,7 +41,7 @@
         "socket.io": "^4.7.5",
         "textflow.js": "^0.1.4",
         "twilio": "^5.2.0",
-        "winston": "^3.13.0"
+        "winston": "^3.13.1"
     },
     "devDependencies": {
         "prisma": "^5.12.1"

@@ -57,7 +57,6 @@ const Forgot = () => {
     const handleSubmitEmail = async (evt) => {
         evt.preventDefault();
         const u = await getUserByEmail(data.email);
-        console.log("User index:", u);
         if (!u) {
             return alert("Không tìm thấy email, vui lòng thử lại");
         }

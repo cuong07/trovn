@@ -47,10 +47,8 @@ const Index = () => {
 
     const onSubmit = async () => {
         const value = getValues();
-        console.log(value);
         try {
             const { data, success } = await register(value);
-            console.log(data);
             if (success) {
                 // setToken(data);
                 message.success("Đăng ký thành công");

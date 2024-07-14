@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import useUserStore from "./hooks/userStore";
+import useUserStore from "./hooks/useUserStore";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/routes";
 import useConversationStore from "./hooks/useConversationStore";
@@ -10,13 +10,12 @@ import { updateLatLngUser } from "./apis/user";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-const TOKEN = JSON.parse(localStorage.getItem("token"));
-
 function App() {
     const { user, setOnlineUser, setSocketConnection, setUser } =
         useUserStore();
     const { setUnreadMessagesCount } = useConversationStore();
     const [api, contextHolder] = notification.useNotification();
+    const TOKEN = JSON.parse(localStorage.getItem("token"));
 
     const [location, setLocation] = useState({
         latitude: null,
@@ -30,6 +29,7 @@ function App() {
             auth: {
                 token: `Bearer ${TOKEN}`,
             },
+            withCredentials: true,
             timeout: 16000,
         });
 
@@ -48,7 +48,6 @@ function App() {
         }
 
         socketInstance.on("unreadMessagesCount", (count) => {
-            console.log("Unread messages:", count);
             setUnreadMessagesCount(count);
         });
 
@@ -63,9 +62,7 @@ function App() {
                 ),
                 description: text,
                 icon: <BiMessageAltDetail />,
-                onClick: () => {
-                    console.log("Notification Clicked!");
-                },
+                onClick: () => {},
             });
         });
 

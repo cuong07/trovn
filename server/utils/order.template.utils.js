@@ -1,8 +1,6 @@
 import { formatCurrency } from "./format.currency.utils.js";
 
 export const orderTemplate = (to, data) => {
-    console.log(data);
-
     const content = data
         .map(({ name, value }) => {
             return `

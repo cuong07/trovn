@@ -9,6 +9,7 @@ export const UserV1 = {
     USER_LOGIN: "/user/login",
     GET_USER_OTP: "/user/otp",
     GET_VERIFY_EMAIL_OTP: "/user/verify",
+    GET_REFRESH_TOKEN: "/user/refresh-token",
 };
 
 export const AmenityV1 = {

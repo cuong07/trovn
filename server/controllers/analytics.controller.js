@@ -1,4 +1,5 @@
 import { statusCode } from "../config/statusCode.js";
+import { logger } from "../config/winston.js";
 import { BaseResponse } from "../responses/BaseResponse.js";
 import AnalyticsService from "../services/analytics.service.js";
 
@@ -10,7 +11,7 @@ const AnalyticsController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -24,7 +25,7 @@ const AnalyticsController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -38,7 +39,7 @@ const AnalyticsController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -52,7 +53,7 @@ const AnalyticsController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -67,7 +68,7 @@ const AnalyticsController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));

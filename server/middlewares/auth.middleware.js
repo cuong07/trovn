@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { BaseResponse } from "../responses/BaseResponse.js";
 import { statusCode } from "../config/statusCode.js";
+import { logger } from "../config/winston.js";
 
 const errorMessage = {
     EXPIRED_TOKEN: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại",
@@ -9,24 +10,27 @@ const errorMessage = {
 };
 
 export const verifyToken = (authorization) => {
-    try {
-        return new Promise((resolve, reject) => {
-            if (authorization) {
-                const accessToken = authorization.split(" ")[1];
-                jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) => {
-                    if (err) {
-                        reject(err);
+    return new Promise((resolve, reject) => {
+        if (authorization) {
+            const accessToken = authorization.split(" ")[1];
+            jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) => {
+                if (err) {
+                    if (err.name === "TokenExpiredError") {
+                        reject({
+                            name: "TokenExpiredError",
+                            message: "Token has expired",
+                        });
                     } else {
-                        resolve(user);
+                        reject(err);
                     }
-                });
-            } else {
-                reject(new Error("Authorization header is missing"));
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
+                } else {
+                    resolve(user);
+                }
+            });
+        } else {
+            reject(new Error("Authorization header is missing"));
+        }
+    });
 };
 
 export const verifyTokenAllRole = async (req, res, next) => {
@@ -116,5 +120,15 @@ export const verifyTokenWithUserPremium = async (req, res, next) => {
         return res
             .status(statusCode.UNAUTHORIZED)
             .json(BaseResponse.error(errorMessage.UNAUTHORIZED_ACCESS, null));
+    }
+};
+
+export const verifyRefreshToken = async (token) => {
+    try {
+        const user = jwt.verify(token, process.env.SECRET_REFRESH_TOKEN_KEY);
+        return user;
+    } catch (error) {
+        logger.error(error);
+        throw error;
     }
 };

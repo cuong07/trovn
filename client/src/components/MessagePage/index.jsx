@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { FaAngleLeft, FaDotCircle } from "react-icons/fa";
 import { Avatar } from "antd";
@@ -41,7 +41,6 @@ const Index = () => {
 
             const handleMessage = (data) => {
                 if (data.conversationId === id) {
-                    console.log(data);
                     setAllMessages(data.messages);
                     socketConnection.emit("seen", id);
                 }

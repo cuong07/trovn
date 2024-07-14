@@ -16,7 +16,6 @@ const Index = () => {
 
         setUrlParams(paramsObject);
     }, [location.search]);
-    console.log(urlParams["vnp_ResponseCode"]);
 
     return (
         <div className="h-screen flex items-center mt-20 flex-col gap-8">

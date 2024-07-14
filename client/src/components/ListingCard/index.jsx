@@ -12,7 +12,7 @@ import { IoClose } from "react-icons/io5";
 import { FaHeart } from "react-icons/fa";
 import { createFavorite } from "@/apis/favorite";
 import useFavoriteStore from "@/hooks/useFavoriteStore";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { message } from "antd";
 
 const Index = ({ listing, onClose }) => {

@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { CheckoutAds } from "@/components";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { useNavigate } from "react-router-dom";
 import { getPaymentMomo, getPaymentVNPay } from "@/apis/payment";
 import { Modal, Select, message } from "antd";
@@ -92,7 +92,6 @@ const Index = () => {
     ];
 
     const handleChange = (type) => {
-        console.log(type);
         setPaymentTypeMoMo(type);
     };
 

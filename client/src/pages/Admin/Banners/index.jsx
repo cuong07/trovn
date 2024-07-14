@@ -14,7 +14,6 @@ const BannerList = () => {
     const loadData = async () => {
         try {
             const response = await getAllBanners();
-            console.log("Banner data:", response);
             if (response.success && Array.isArray(response.data)) {
                 const bannersWithUser = await Promise.all(
                     response.data.map(async (banner) => {

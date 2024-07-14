@@ -2,7 +2,7 @@ import { ListingV1 } from "@/constants/endpoints";
 import useListingStore from "@/hooks/useListingStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 
 export const getListings = async () => {
     try {

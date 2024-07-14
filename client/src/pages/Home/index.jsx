@@ -12,7 +12,7 @@ import { getFavorites } from "@/apis/favorite";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { cn } from "@/utils/helpers";
 import { useSearchParams } from "react-router-dom";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { getCurrentUser } from "@/apis/user";
 
 const Index = () => {
@@ -56,25 +56,10 @@ const Index = () => {
 
     useEffect(() => {
         (async () => {
-            // console.log(user);
-            // if ((user && user?.latitude) || user?.longitude) {
-            //     const { success } = await getListingsForMe();
-            // } else {
-            //     const { success } = await getListings();
-            // }
             await getListings();
         })();
     }, [page]);
 
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const { success } = await getListings();
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     })();
-    // }, [page, user]);
 
     useEffect(() => {
         try {

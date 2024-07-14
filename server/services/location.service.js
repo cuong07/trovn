@@ -1,4 +1,5 @@
 import redisClient from "../config/redis.client.config.js";
+import { logger } from "../config/winston.js";
 import LocationModel from "../models/location.model.js";
 
 const USE_REDIS_CACHE = process.env.USE_REDIS_CACHE;
@@ -9,7 +10,7 @@ const LocationService = {
         try {
             return await LocationModel.methods.insertLocation(locationData);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -22,7 +23,7 @@ const LocationService = {
                 keyword
             );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -34,7 +35,7 @@ const LocationService = {
                     `location:${locationId}`
                 );
                 if (cachedLocation) {
-                    console.log("cache-location-id");
+                    logger.info("CACHE LOCATION ID");
                     return JSON.parse(cachedLocation);
                 }
             }
@@ -50,7 +51,7 @@ const LocationService = {
             }
             return location;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -62,7 +63,7 @@ const LocationService = {
                 locationData
             );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -74,7 +75,7 @@ const LocationService = {
             }
             return await LocationModel.methods.deleteLocation(locationId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },

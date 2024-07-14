@@ -16,7 +16,7 @@ import {
 import { LuMessagesSquare } from "react-icons/lu";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { getCurrentUser } from "@/apis/user";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { GoReport } from "react-icons/go";
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);

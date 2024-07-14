@@ -13,7 +13,7 @@ import { getTerm } from "@/utils/helpers";
 import Loading from "./Loading";
 
 import "moment/locale/vi";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import BuyBox from "./BuyBox";
 import { BiShare } from "react-icons/bi";
 import { createFavorite } from "@/apis/favorite";

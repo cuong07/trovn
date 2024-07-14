@@ -1,5 +1,6 @@
 import cloudinary from "cloudinary";
 import { extractPublicId } from "../utils/extract.publish.id.js";
+import { logger } from "./winston.js";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_NAME,
@@ -34,8 +35,8 @@ export const deleteImage = async (url) => {
         }
 
         const result = await cloudinary.v2.uploader.destroy(publicId);
-        console.log("Image deleted successfully:", result);
+        logger.info("Image deleted successfully:", result);
     } catch (error) {
-        console.error("Error deleting image:", error);
+        logger.error("Error deleting image:", error);
     }
 };

@@ -45,11 +45,6 @@ const Index = () => {
     }, []);
 
     const handleCreateLocation = async () => {
-        console.log(
-            isEmpty(locationData.name) &&
-                isEmpty(locationData.city) &&
-                isEmpty(locationData.country)
-        );
         if (
             isEmpty(locationData.name) &&
             isEmpty(locationData.city) &&

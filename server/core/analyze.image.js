@@ -1,5 +1,6 @@
 import { ApiKeyCredentials } from "@azure/ms-rest-js";
 import { ComputerVisionClient } from "@azure/cognitiveservices-computervision";
+import { logger } from "../config/winston.js";
 
 const computerVisionClient = new ComputerVisionClient(
     new ApiKeyCredentials({
@@ -13,17 +14,17 @@ const computerVisionClient = new ComputerVisionClient(
 
 export async function analyzeImage(imageUrl) {
     try {
-        console.log("IMAGE: ", imageUrl);
+        logger.info("IMAGE: ", imageUrl);
         const result = await computerVisionClient.analyzeImage(imageUrl, {
             visualFeatures: ["Adult"],
         });
-        console.log("Adult content: ");
-        console.log(`Is adult content: ${result.adult.isAdultContent}`);
-        console.log(`Adult score: ${result.adult.adultScore}`);
-        console.log(`Is racy content: ${result.adult.isRacyContent}`);
-        console.log(`Racy score: ${result.adult.racyScore}`);
+        logger.info("Adult content: ");
+        logger.info(`Is adult content: ${result.adult.isAdultContent}`);
+        logger.info(`Adult score: ${result.adult.adultScore}`);
+        logger.info(`Is racy content: ${result.adult.isRacyContent}`);
+        logger.info(`Racy score: ${result.adult.racyScore}`);
         return result.adult;
     } catch (error) {
-        console.log("An error occurred:", error);
+        logger.error("An error occurred:", error);
     }
 }

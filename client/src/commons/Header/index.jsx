@@ -22,7 +22,7 @@ import { LogoSvg } from "@/components/Icons";
 import { getEmailOtp, getVerifyEmailOtp } from "@/apis/user";
 import { ROLE } from "@/constants/role";
 import useConversationStore from "@/hooks/useConversationStore";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { Button, SearchInput } from "@/components";
 
 const Index = () => {

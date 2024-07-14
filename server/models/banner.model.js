@@ -47,7 +47,7 @@ const BannerModel = {
 
         async updateExpiredBanners() {
             const now = dayjs().toISOString();
-            console.log(now);
+            logger.info(now);
             const updatedBanners = await db.banner.updateMany({
                 where: {
                     toDate: {
@@ -60,7 +60,7 @@ const BannerModel = {
                 },
             });
 
-            console.log(updatedBanners);
+            logger.info(updatedBanners);
 
             return updatedBanners;
         },

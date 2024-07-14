@@ -141,7 +141,6 @@ const Index = ({ listings }) => {
         const relativePosition = getRelativePosition(position, width, height);
 
         setPlacement(relativePosition);
-        console.log(placement);
     };
 
     const getRelativePosition = (position, width, height) => {
@@ -155,7 +154,6 @@ const Index = ({ listings }) => {
             verticalPosition = "top";
         }
 
-        console.log(horizontalPosition, verticalPosition);
         return `${verticalPosition}${
             horizontalPosition.charAt(0).toUpperCase() +
             horizontalPosition.slice(1)

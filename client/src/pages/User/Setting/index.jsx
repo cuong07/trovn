@@ -1,4 +1,4 @@
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { AiOutlineNotification } from "react-icons/ai";
 import { CiCreditCard1 } from "react-icons/ci";
 import { FaRegAddressCard } from "react-icons/fa";

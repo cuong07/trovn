@@ -1,4 +1,4 @@
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { Breadcrumb } from "antd";
 
 const Index = () => {

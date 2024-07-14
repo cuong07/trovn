@@ -1,4 +1,4 @@
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { Breadcrumb, message } from "antd";
 import { useState } from "react";
 import EditFullName from "./EditFullName";

@@ -6,7 +6,7 @@ import {
 } from "@/apis/user";
 import { useEffect, useState } from "react";
 import { Button, Tooltip } from "antd";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { useParams } from "react-router-dom";
 import { Image, Modal, Tabs, Upload, message } from "antd";
 import InfoTab from "./info.tab";
@@ -52,9 +52,8 @@ function Info() {
         getInforUser();
     }, [id]);
 
-    const onChangeTabs = (key) => {
-        console.log(key);
-    };
+    const onChangeTabs = () => {};
+
     const items = [
         {
             key: "3",
@@ -70,7 +69,6 @@ function Info() {
 
     const handleOk = async () => {
         try {
-            console.log(fileImage);
             if (fileImage) {
                 setLoading(true);
                 const { data, success } = await updateUserAvatar(fileImage);
@@ -92,7 +90,6 @@ function Info() {
     };
 
     const handleCancel = () => {
-        console.log("Cancel");
         setIsModalOpen(false);
     };
 
@@ -102,7 +99,6 @@ function Info() {
 
     const onPreview = async (file) => {
         let src = file.url;
-        console.log(file);
         if (!src) {
             src = await new Promise((resolve) => {
                 const reader = new FileReader();

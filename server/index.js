@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cron from "node-cron";
+import cookieParser from "cookie-parser";
 
 import BannerModel from "./models/banner.model.js";
 import { app, server } from "./socket/index.js";
@@ -29,6 +30,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import redisClient from "./config/redis.client.config.js";
 import rateLimit from "express-rate-limit";
+import { logger } from "./config/winston.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,10 +41,11 @@ const PORT = process.env.PORT || 8888;
 app.use(express.json({ limit: "30mb" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(
     cors({
-        origin: "*",
-        // credentials: true,
+        origin: true,
+        credentials: true,
     })
 );
 app.use(
@@ -94,7 +97,7 @@ app.use(express.static("./public"));
 
 // TODO: run update banner 00h00
 cron.schedule("0 0 * * *", async () => {
-    console.log(
+    logger.info(
         "Chạy công việc theo lịch trình để cập nhật các banner đã hết hạn."
     );
     await BannerModel.methods.updateExpiredBanners();
@@ -107,8 +110,8 @@ app.get("*", (req, res) => {
 });
 
 server.listen(PORT, () => {
-    console.log("----------SERVER RUNNING----------");
-    console.log(`-> http://localhost:${PORT}`);
+    logger.info("----------SERVER RUNNING----------");
+    logger.info(`-> http://localhost:${PORT}`);
 });
 
 // redisClient
@@ -124,5 +127,5 @@ server.listen(PORT, () => {
 //   })
 //   .catch((error) => {
 //     console.log("----------REDIS CONNECT ERROR----------");
-//     console.log(error);
+//     logger.error(error);
 //   });

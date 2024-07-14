@@ -8,7 +8,7 @@ import { FaArrowRight } from "react-icons/fa";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Services } from "../..";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { getOrdersByCurrentUser } from "@/apis/order";
 import { formatCurrency } from "@/utils/helpers";
 import { InputField, ModalCreate } from "@/components";

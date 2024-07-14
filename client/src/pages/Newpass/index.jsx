@@ -34,9 +34,7 @@ const Newpass = () => {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
+    const onSubmit = () => {};
 
     return (
         <div className="w-full h-screen flex items-center justify-center py-12">

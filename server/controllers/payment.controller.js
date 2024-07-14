@@ -15,6 +15,7 @@ import { orderTemplate } from "../utils/order.template.utils.js";
 import { ZaloPayConfig } from "../config/zalo.config.js";
 import { VNPayConfig } from "../config/vnpay.config.js";
 import { sortObject } from "../utils/sort.object.utils.js";
+import { logger } from "../config/winston.js";
 
 const PaymentController = {
     async getPaymentsByUser(req, res) {
@@ -124,7 +125,7 @@ const PaymentController = {
                 userId: id,
             };
 
-            console.log(options);
+            logger.info("Momo options: ", options);
 
             const { data } = await axios(options);
             await PaymentService.createPayment(newMomoPayment);
@@ -288,7 +289,7 @@ const PaymentController = {
 
     async callBackZaloPay(req, res) {
         let result = {};
-        console.log(req.body);
+        logger.info(req.body);
         try {
             let dataStr = req.body.data;
             let reqMac = req.body.mac;
@@ -298,7 +299,6 @@ const PaymentController = {
                 ZaloPayConfig.key2
             ).toString();
 
-            console.log("mac =", mac);
             let dataJson = JSON.parse(dataStr, ZaloPayConfig.key2);
             const orderId = dataJson["app_trans_id"];
             const { email } = user;
@@ -308,9 +308,7 @@ const PaymentController = {
                 value,
             }));
             const template = orderTemplate(email, list);
-            // kiểm tra callback hợp lệ (đến từ ZaloPay server)
             if (reqMac !== mac) {
-                // callback không hợp lệ
                 const subject = "THANH TOÁN KHÔNG THÀNH CÔNG";
                 sendMail(email, subject, template);
                 result.return_code = -1;
@@ -334,12 +332,11 @@ const PaymentController = {
                 return payment;
             }
         } catch (ex) {
-            console.log("lỗi:::" + ex.message);
-            result.return_code = 0; // ZaloPay server sẽ callback lại (tối đa 3 lần)
+            logger.error(ex);
+            result.return_code = 0;
             result.return_message = ex.message;
         }
 
-        // thông báo kết quả cho ZaloPay server
         res.json(result);
     },
 
@@ -351,7 +348,7 @@ const PaymentController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -366,7 +363,7 @@ const PaymentController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", data));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -412,7 +409,6 @@ const PaymentController = {
         vnp_Params["vnp_ReturnUrl"] = returnUrl;
         vnp_Params["vnp_IpAddr"] = ipAddr;
         vnp_Params["vnp_CreateDate"] = createDate;
-        console.log(bankCode);
         if (bankCode !== undefined && bankCode !== "") {
             vnp_Params["vnp_BankCode"] = bankCode;
         }
@@ -443,7 +439,7 @@ const PaymentController = {
                 })
             );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -465,8 +461,6 @@ const PaymentController = {
         let signData = queryString.stringify(vnp_Params, { encode: false });
         let hmac = crypto.createHmac("sha512", secretKey);
         let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
-        console.log(signData);
-        console.log(secureHash + "===" + signed);
         if (secureHash === signed) {
             //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
             res.json({ code: vnp_Params["vnp_ResponseCode"], success: true });
@@ -493,7 +487,6 @@ const PaymentController = {
             let signed = hmac
                 .update(new Buffer(signData, "utf-8"))
                 .digest("hex");
-            console.log(vnp_Params);
             const amount = parseFloat(vnp_Params["vnp_Amount"]) / 100;
 
             const payment = await PaymentService.getPaymentByTransactionId(
@@ -508,7 +501,7 @@ const PaymentController = {
             // TODO: Check order and amount
             let checkOrderId = payment.transactionId === orderId; // Mã đơn hàng "giá trị của vnp_TxnRef" VNPAY phản hồi tồn tại trong CSDL của bạn
             let checkAmount = payment.amount === amount; // Kiểm tra số tiền "giá trị của vnp_Amout/100" trùng khớp với số tiền của đơn hàng trong CSDL của bạn
-            console.log(payment.amount, amount);
+            logger.info("amount: ", amount);
             /**
              * EMAIL
              */
@@ -533,12 +526,12 @@ const PaymentController = {
                                 orderId,
                                 extraData: orderInfo,
                             };
-                            console.log(data);
+                            logger.info(data);
                             if (rspCode == "00") {
                                 //thanh cong
                                 subject = "THANH TOÁN THÀNH CÔNG";
                                 //paymentStatus = '1'
-                                console.log(user, data);
+                                logger.info(user, data);
                                 // Ở đây cập nhật trạng thái giao dịch thanh toán thành công vào CSDL của bạn
                                 const payment =
                                     await PaymentService.updatePaymentActive(
@@ -547,7 +540,7 @@ const PaymentController = {
                                         data
                                     );
 
-                                console.log(subject);
+                                logger.info(subject);
                                 res.status(statusCode.OK).json(
                                     BaseResponse.success("Thành công", {
                                         code: "00",
@@ -566,7 +559,7 @@ const PaymentController = {
                                         data
                                     );
 
-                                console.log(subject);
+                                logger.info(subject);
                                 res.status(statusCode.OK).json(
                                     BaseResponse.success(
                                         "Giao dịch không thành công",
@@ -580,7 +573,7 @@ const PaymentController = {
                         } else {
                             subject =
                                 "Đơn hàng này đã được cập nhật trạng thái thanh toán";
-                            console.log(subject);
+                            logger.info(subject);
                             res.status(statusCode.OK).json(
                                 BaseResponse.success(
                                     "Đơn hàng này đã được cập nhật trạng thái thanh toán",
@@ -590,7 +583,7 @@ const PaymentController = {
                         }
                     } else {
                         subject = "Số tiền không hợp lệ";
-                        console.log(subject);
+                        logger.info(subject);
 
                         res.status(statusCode.OK).json(
                             BaseResponse.success("Số tiền không hợp lệ", {
@@ -600,7 +593,7 @@ const PaymentController = {
                     }
                 } else {
                     subject = "Không tìm thấy đơn hàng";
-                    console.log(subject);
+                    logger.info(subject);
 
                     res.status(statusCode.OK).json(
                         BaseResponse.success("Không tìm thấy đơn hàng", {
@@ -610,7 +603,7 @@ const PaymentController = {
                 }
             } else {
                 subject = "Tổng kiểm tra không thành công";
-                console.log(subject);
+                logger.info(subject);
 
                 res.status(statusCode.OK).json(
                     BaseResponse.success("Tổng kiểm tra không thành công", {
@@ -620,7 +613,7 @@ const PaymentController = {
             }
             sendMail(email, subject, template);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             res.status(statusCode.BAD_REQUEST).json(
                 BaseResponse.success(error.message, {
                     code: "97",

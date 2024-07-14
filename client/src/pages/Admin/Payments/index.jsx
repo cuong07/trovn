@@ -13,7 +13,6 @@ const Index = () => {
         (async () => {
             try {
                 const { data, success } = await getPaymentsByStatus(status);
-                console.log(data);
                 if (success) {
                     setPayments(data);
                     message.success("Thành công");

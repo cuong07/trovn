@@ -16,7 +16,7 @@ const Index = () => {
 
         setUrlParams(paramsObject);
     }, [location.search]);
-    console.log(urlParams["resultCode"]);
+
     return (
         <div className="h-screen flex items-center mt-20 flex-col gap-4">
             <h2 className="text-4xl text-slate-700 font-medium uppercase tracking-tighter">
