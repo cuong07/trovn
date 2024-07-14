@@ -134,11 +134,7 @@ const User = {
 
         async getAllUsers() {
             return await db.user.findMany();
-<<<<<<< HEAD
-        }
-=======
         },
->>>>>>> 52323eefec827cef94da5789a8ed35c1a868a261
     },
 }
 
