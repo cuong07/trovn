@@ -5,7 +5,7 @@ import { CiUser } from "react-icons/ci";
 import { Avatar, Flex, Menu, Popover } from "antd";
 import { useState } from "react";
 import { TbPackages } from "react-icons/tb";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { BiLogOut } from "react-icons/bi";
 import { BsHouseAdd, BsHouses } from "react-icons/bs";
 const Index = () => {

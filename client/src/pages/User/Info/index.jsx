@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getListingByUserId, getUser } from "@/apis/user";
-import { Grid } from "antd";
 import { BiCamera, BiCheck } from "react-icons/bi";
 
 const Index = () => {
     const { id } = useParams();
     const [user, setUser] = useState();
-    const [listings, setListings] = useState();
+    const [setListings] = useState();
 
     useEffect(() => {
         (async () => {
@@ -19,6 +18,7 @@ const Index = () => {
             setUser(res1);
             setListings(res2.data);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
     return (

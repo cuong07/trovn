@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import useUserStore from "./userStore";
+import useUserStore from "./useUserStore";
 
 const useConversationStore = create((set) => ({
     conversations: [],

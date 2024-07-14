@@ -1,48 +1,49 @@
-import TagModel from '../models/tag.model.js';
+import { logger } from "../config/winston.js";
+import TagModel from "../models/tag.model.js";
 
 const TagService = {
-    async getTags(){
+    async getTags() {
         try {
             return await TagModel.methods.getTags();
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
-    async getTagByName(tagName){
+    async getTagByName(tagName) {
         try {
             return await TagModel.methods.getTagByName(tagName);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
-    async createTag(tagData){
+    async createTag(tagData) {
         try {
-            const existingTag = await TagModel.methods.getTagByName(tagData.name);
-            if(!existingTag){
+            const existingTag = await TagModel.methods.getTagByName(
+                tagData.name
+            );
+            if (!existingTag) {
                 await TagModel.methods.createTag(tagData);
-            }else
-                throw "Name existed, please choose a other tag name";
+            } else throw "Name existed, please choose a other tag name";
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
-    async deleteTag(tagId){
+    async deleteTag(tagId) {
         try {
             const existingTag = await TagModel.methods.getTagById(tagId);
-            if(existingTag){
+            if (existingTag) {
                 await TagModel.methods.deleteTag(tagId);
-            }else
-                throw `Tag with id: ${tagId} does not exist`;
+            } else throw `Tag with id: ${tagId} does not exist`;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
-    }
-}
+    },
+};
 
 export default TagService;

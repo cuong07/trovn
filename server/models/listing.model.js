@@ -98,7 +98,6 @@ const ListingModel = {
         },
 
         async getListingByIdAndUserId(listingId, userId) {
-            console.log(listingId, userId);
             return await db.listing.findFirst({
                 where: {
                     userId,
@@ -349,7 +348,6 @@ const ListingModel = {
         },
 
         async updateListing(listingId, listingUpdate) {
-            console.log(listingUpdate);
             return await db.listing.update({
                 where: {
                     id: listingId,

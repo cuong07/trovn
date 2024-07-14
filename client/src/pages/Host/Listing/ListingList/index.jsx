@@ -5,7 +5,7 @@ import { getHostListings, updateListing } from "@/apis/listing";
 import useListingStore from "@/hooks/useListingStore";
 import { Button, ListingDrawer } from "@/components";
 import { formatCurrency, getTerm } from "@/utils/helpers";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 
 const Index = () => {
     const [isLoading, setIsLoading] = useState(false);

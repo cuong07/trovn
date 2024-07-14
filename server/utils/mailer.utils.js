@@ -1,5 +1,6 @@
 import nodeMailer from "nodemailer";
 import { mailConfig } from "../config/mail.config.js";
+import { logger } from "../config/winston.js";
 
 export const sendMail = (to, subject, template) => {
     const transport = nodeMailer.createTransport({
@@ -20,9 +21,9 @@ export const sendMail = (to, subject, template) => {
     };
     return transport.sendMail(options, (error, info) => {
         if (error) {
-            console.log(error);
+            logger.error(error);
         } else {
-            console.log("Email xác minh đã được gửi:", info.response);
+            logger.info("Email xác minh đã được gửi:", info.response);
         }
     });
 };

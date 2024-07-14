@@ -1,14 +1,14 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { CheckoutAds } from "@/components";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { useNavigate } from "react-router-dom";
 import { getPaymentMomo, getPaymentVNPay } from "@/apis/payment";
 import { Modal, Select, message } from "antd";
 import { MoMoPaymentType } from "@/constants/payment";
 import { BsQrCode, BsWallet } from "react-icons/bs";
-import { GrVisa } from "react-icons/gr";
 import { SiVisa } from "react-icons/si";
-import { BiCard } from "react-icons/bi";
 import { IoCardOutline } from "react-icons/io5";
 import { isEmpty } from "lodash";
 
@@ -92,7 +92,6 @@ const Index = () => {
     ];
 
     const handleChange = (type) => {
-        console.log(type);
         setPaymentTypeMoMo(type);
     };
 

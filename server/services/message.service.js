@@ -1,3 +1,4 @@
+import { logger } from "../config/winston.js";
 import MessageModel from "../models/message.model.js";
 import ConversationService from "./conversation.service.js";
 
@@ -11,7 +12,7 @@ const MessageService = {
                 conversationId
             );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -19,7 +20,7 @@ const MessageService = {
         try {
             return MessageModel.methods.updateMessage(id, userId, data);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -27,7 +28,7 @@ const MessageService = {
         try {
             return MessageModel.methods.findAllMessageNotSeenByUser(userId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },

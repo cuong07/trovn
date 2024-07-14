@@ -1,62 +1,74 @@
+import { logger } from "../config/winston.js";
 import ListingTagModel from "../models/listingTag.model.js";
 import TagModel from "../models/tag.model.js";
 
 const ListingTagService = {
-    async getListingTagByListingId(listingId){
+    async getListingTagByListingId(listingId) {
         try {
-            const listingTag = await ListingTagModel.methods.getListingTagByListingId(listingId);
+            const listingTag =
+                await ListingTagModel.methods.getListingTagByListingId(
+                    listingId
+                );
             const tag = await TagModel.methods.getTagById(listingTag.tagId);
-            const fullListingTag = {...listingTag, name: tag.name, description: tag.description};
+            const fullListingTag = {
+                ...listingTag,
+                name: tag.name,
+                description: tag.description,
+            };
             return fullListingTag;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
-        
     },
 
-
-    async getListingTagsByListingId(listingId){
+    async getListingTagsByListingId(listingId) {
         try {
-            const listingTags = await ListingTagModel.methods.getListingTagsByListingId(listingId);
-            const fullListingTags = listingTags.map( async (t) => { 
+            const listingTags =
+                await ListingTagModel.methods.getListingTagsByListingId(
+                    listingId
+                );
+            const fullListingTags = listingTags.map(async (t) => {
                 const tag = await TagModel.methods.getTagById(t.id);
-                return {...t, name: tag.name, description: tag.description};
-            })
+                return { ...t, name: tag.name, description: tag.description };
+            });
             return fullListingTags;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
-    async createListingTag(listingTagData){
+    async createListingTag(listingTagData) {
         try {
-            return await ListingTagModel.methods.createListingTag(listingTagData);
+            return await ListingTagModel.methods.createListingTag(
+                listingTagData
+            );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
-    async deleteListingTagById(listingTagId){
+    async deleteListingTagById(listingTagId) {
         try {
-            return await ListingTagModel.methods.deleteListingTagById(listingTagId);
+            return await ListingTagModel.methods.deleteListingTagById(
+                listingTagId
+            );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
-    async deleteListingTagByTagId(tagId){
+    async deleteListingTagByTagId(tagId) {
         try {
             return await ListingTagModel.methods.deleteListingTagByTagId(tagId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
-    }
-
-}
+    },
+};
 
 export default ListingTagService;

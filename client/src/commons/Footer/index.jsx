@@ -1,14 +1,10 @@
-import React from "react";
-import { Layout } from "antd";
 import {
     TwitterOutlined,
     FacebookOutlined,
     InstagramOutlined,
 } from "@ant-design/icons";
 import { Link, useLocation } from "react-router-dom";
-import { cn } from "@/utils/helpers";
 
-const { Footer } = Layout;
 const CustomFooter = () => {
     const { pathname } = useLocation();
     return (

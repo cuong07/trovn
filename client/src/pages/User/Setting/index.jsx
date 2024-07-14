@@ -1,10 +1,8 @@
-import useUserStore from "@/hooks/userStore";
-import React from "react";
+import useUserStore from "@/hooks/useUserStore";
 import { AiOutlineNotification } from "react-icons/ai";
 import { CiCreditCard1 } from "react-icons/ci";
 import { FaRegAddressCard } from "react-icons/fa";
 import { FiEye } from "react-icons/fi";
-import { GrContactInfo } from "react-icons/gr";
 import { IoShieldOutline } from "react-icons/io5";
 import { LuStickyNote } from "react-icons/lu";
 import { Link } from "react-router-dom";

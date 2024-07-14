@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import useUserStore from "./hooks/userStore";
+import useUserStore from "./hooks/useUserStore";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./routes/routes";
 import useConversationStore from "./hooks/useConversationStore";
@@ -10,20 +10,17 @@ import { updateLatLngUser } from "./apis/user";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
 
-const TOKEN = JSON.parse(localStorage.getItem("token"));
-
 function App() {
     const { user, setOnlineUser, setSocketConnection, setUser } =
         useUserStore();
     const { setUnreadMessagesCount } = useConversationStore();
     const [api, contextHolder] = notification.useNotification();
+    const TOKEN = JSON.parse(localStorage.getItem("token"));
 
     const [location, setLocation] = useState({
         latitude: null,
         longitude: null,
     });
-
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!TOKEN) return;
@@ -32,6 +29,7 @@ function App() {
             auth: {
                 token: `Bearer ${TOKEN}`,
             },
+            withCredentials: true,
             timeout: 16000,
         });
 
@@ -50,7 +48,6 @@ function App() {
         }
 
         socketInstance.on("unreadMessagesCount", (count) => {
-            console.log("Unread messages:", count);
             setUnreadMessagesCount(count);
         });
 
@@ -65,15 +62,14 @@ function App() {
                 ),
                 description: text,
                 icon: <BiMessageAltDetail />,
-                onClick: () => {
-                    console.log("Notification Clicked!");
-                },
+                onClick: () => {},
             });
         });
 
         return () => {
             socketInstance.disconnect();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [
         TOKEN,
         api,
@@ -110,14 +106,13 @@ function App() {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                     });
-                    setError(null);
                 },
                 (err) => {
-                    setError(err.message);
+                    console.log(err);
                 }
             );
         } else {
-            setError("Geolocation is not supported by this browser.");
+            console.log("Geolocation is not supported by this browser.");
         }
     }, []);
 

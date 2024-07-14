@@ -1,4 +1,5 @@
 import { statusCode } from "../config/statusCode.js";
+import { logger } from "../config/winston.js";
 import { BaseResponse } from "../responses/BaseResponse.js";
 import ListingService from "../services/listing.service.js";
 
@@ -26,7 +27,6 @@ const ListingController = {
                     newListingData,
                     files
                 );
-                console.log(listing);
                 return res
                     .status(statusCode.CREATED)
                     .json(BaseResponse.success("Thành công", listing));
@@ -106,7 +106,7 @@ const ListingController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", listings));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -126,7 +126,7 @@ const ListingController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", listings));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -142,7 +142,7 @@ const ListingController = {
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", listings));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));
@@ -157,7 +157,7 @@ const ListingController = {
             // .status(statusCode.OK)
             // .json(BaseResponse.success("Thành công", listings));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.BAD_REQUEST)
                 .json(BaseResponse.error(error.message, error));

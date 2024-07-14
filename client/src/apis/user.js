@@ -1,7 +1,9 @@
+import useUserStore from "@/hooks/useUserStore";
 import { UserV1 } from "@/constants/endpoints";
-import useUserStore from "@/hooks/userStore";
-import { apiClient } from "./apiClient";
+import { apiClient } from "@/apis/apiClient";
+
 import qs from "query-string";
+import axios from "axios";
 
 export const register = async (data) => {
     const url = qs.stringifyUrl({
@@ -40,21 +42,19 @@ export const login = async (data) => {
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
+            withCredentials: true,
         });
         useUserStore.setState((prev) => ({
             ...prev,
             token: user.data.data,
         }));
-        localStorage.setItem("token", JSON.stringify(user.data.data));
-        console.log("APIS user: ", user);
+        localStorage.setItem("token", JSON.stringify(user?.data?.data));
         return user.data;
     } catch (error) {
-        console.log("APIS error", error.response.data);
-        return error.response.data;
+        console.log("APIS error", error);
+        return error;
     }
-
     // await new Promise((resolve, reject) => setTimeout(resolve, 1000));
-    return user.data;
 };
 
 export const getListingByUserId = async (userId) => {
@@ -115,7 +115,7 @@ export const getVerifyEmailOtp = async () => {
     const url = qs.stringifyUrl({
         url: UserV1.GET_VERIFY_EMAIL_OTP,
     });
-    await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const value = {
         email: useUserStore.getState().user.email,
@@ -133,11 +133,10 @@ export const sendEmail = async (data) => {
             "Content-Type": "application/x-www-form-urlencoded",
         },
     });
-    return data;
+    return dt;
 };
 
 export const changePassword = async (id, password) => {
-    console.log("APIS changepasss data:", id, password);
     const url = `/user/${id}/forgot`;
     const dt = await apiClient.put(
         url,
@@ -185,7 +184,6 @@ export const updateUser = async (userData) => {
 };
 
 export const updateUserAvatar = async (file) => {
-    console.log(file);
     try {
         const { user } = useUserStore.getState();
         const url = qs.stringifyUrl({
@@ -208,13 +206,20 @@ export const updateUserAvatar = async (file) => {
     }
 };
 
-// export const getCurrentUser = async ()=>{
-//     const url = '/user';
-//     const token = localStorage.getItem('authToken');
-//     const user = await apiClient.get(url, {
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         }
-//     });
-//     return user;
-// }
+export const refreshToken = async () => {
+    try {
+        const url = qs.stringifyUrl({
+            url:
+                import.meta.env.VITE_APP_BACKEND_URL +
+                "/api/v1" +
+                UserV1.GET_REFRESH_TOKEN,
+        });
+        const { data } = await axios.get(url, {
+            withCredentials: true,
+        });
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};

@@ -1,7 +1,6 @@
-import { Avatar, Divider, List, message, Skeleton } from "antd";
-import React, { useEffect } from "react";
+import { Avatar, Button, Divider, List, message } from "antd";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 import { getReports, loadMoreReport } from "@/apis/report";
 import useReportStore from "@/hooks/useReportStore";
@@ -10,7 +9,7 @@ const Index = () => {
     const {
         setReport,
         reports: { contents, currentPage, totalElement },
-        filters: { page, limit, isActive, reporterId, reportedId },
+        filters: { limit, isActive, reporterId, reportedId },
         updatePagination,
         updateLoadMoreReport,
     } = useReportStore();
@@ -55,50 +54,81 @@ const Index = () => {
     };
 
     return (
-        <div id="scrollableDiv" style={{ height: 800, overflow: "auto" }}>
-            <InfiniteScroll
-                dataLength={contents?.length || 0}
-                next={handleLoadMoreReport}
-                hasMore={contents?.length < totalElement}
-                loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-                endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-                scrollableTarget="scrollableDiv"
-            >
-                <List
-                    className="demo-loadmore-list"
-                    itemLayout="horizontal"
-                    dataSource={contents}
-                    renderItem={(item) => (
-                        <List.Item
-                            actions={[
-                                <a key="list-loadmore-edit">edit</a>,
-                                <a key="list-loadmore-more">more</a>,
-                            ]}
-                        >
-                            <List.Item.Meta
-                                className="w-1/3"
-                                avatar={
-                                    <Avatar
-                                        className="w-16 h-16"
-                                        shape="square"
-                                        src={item.reporterUser.avatarUrl}
-                                    />
-                                }
-                                title={
+        <div>
+            <h2 className="font-semibold text-2xl mb-8">Báo cáo</h2>
+            <List
+                className="demo-loadmore-list"
+                itemLayout="horizontal"
+                header={
+                    <div className="grid grid-cols-7 gap-4">
+                        <div className="col-span-2 text-base font-medium">
+                            Người báo cáo
+                        </div>
+                        <div className="col-span-2 text-base font-medium">
+                            Người bị báo cáo
+                        </div>
+                        <div className="col-span-2 text-base font-medium">
+                            Nội dung
+                        </div>
+                        <div className="col-span-1 text-base font-medium">
+                            Xử lý
+                        </div>
+                    </div>
+                }
+                dataSource={contents}
+                renderItem={(item) => (
+                    <>
+                        <div className="grid grid-cols-7 gap-4">
+                            <div className="flex gap-4 items-center col-span-2">
+                                <Avatar
+                                    className="w-16 h-16"
+                                    shape="square"
+                                    src={item.reporterUser.avatarUrl}
+                                />
+                                <div>
                                     <Link
                                         to={`/user/info/${item.reporterUser?.id}`}
-                                        className="text-xl"
+                                        className="text-lg font-medium"
                                     >
                                         {item.reporterUser?.fullName ||
                                             item.reporterUser?.username}
                                     </Link>
-                                }
-                                description={item?.content}
-                            />
-                        </List.Item>
-                    )}
-                />
-            </InfiniteScroll>
+                                    <div>{item.reporterUser?.email}</div>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 items-center col-span-2">
+                                <Avatar
+                                    className="w-16 h-16"
+                                    shape="square"
+                                    src={item.reportedUser.avatarUrl}
+                                />
+                                <div>
+                                    <Link
+                                        to={`/user/info/${item.reportedUser?.id}`}
+                                        className="text-lg font-medium"
+                                    >
+                                        {item.reportedUser?.fullName ||
+                                            item.reportedUser?.username}
+                                    </Link>
+                                    <div>{item.reportedUser?.email}</div>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 col-span-2 ">
+                                {item.content}
+                            </div>
+                            <div className="flex gap-4 items-center col-span-1"></div>
+                        </div>
+                        <Divider type="horizontal" />
+                    </>
+                )}
+            />
+            {contents?.length < totalElement && (
+                <div className="flex items-center justify-center">
+                    <Button type="default" onClick={handleLoadMoreReport}>
+                        Xem thêm
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

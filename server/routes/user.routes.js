@@ -5,6 +5,7 @@ import { accessLogger } from "../middlewares/logger.middleware.js";
 import { upload } from "../config/multer.js";
 const router = express.Router();
 
+router.get("/user/refresh-token", UserController.refreshToken);
 router.get("/user/otp", verifyTokenAllRole, UserController.getUserOtp);
 router.post("/user/verify", UserController.verifyEmail);
 router.get("/user/:id", UserController.getUser);

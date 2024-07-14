@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { getFavorites } from "@/apis/favorite";
 import useFavoriteStore from "@/hooks/useFavoriteStore";
 import ProductList from "../Home/ProductList";

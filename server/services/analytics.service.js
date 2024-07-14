@@ -1,3 +1,4 @@
+import { logger } from "../config/winston.js";
 import ListingModel from "../models/listing.model.js";
 import LocationModel from "../models/location.model.js";
 import PaymentModel from "../models/payment.model.js";
@@ -104,7 +105,7 @@ const AnalyticsService = {
                 percent,
             };
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -156,7 +157,7 @@ const AnalyticsService = {
                 percent,
             };
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -167,7 +168,7 @@ const AnalyticsService = {
                 await ListingModel.methods.findTop10UsersWithMostListings();
             return data;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -194,7 +195,7 @@ const AnalyticsService = {
             };
             return dataForChart;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },

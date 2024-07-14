@@ -1,11 +1,10 @@
 import { PaymentV1 } from "@/constants/endpoints";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { apiClient } from "./apiClient";
 import qs from "query-string";
 
 export const getPaymentMomo = async (requestType) => {
     const adsPackage = useUserStore.getState().adsPackage;
-    console.log(requestType);
     if (adsPackage) {
         const url = qs.stringifyUrl({
             url: PaymentV1.GET_MOMO_PAYMENT,

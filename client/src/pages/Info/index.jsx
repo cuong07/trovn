@@ -1,13 +1,12 @@
 import {
     getUser,
     getListingByUserId,
-    getFavoriteListing,
     updateUserAvatar,
     updateUser,
 } from "@/apis/user";
 import { useEffect, useState } from "react";
 import { Button, Tooltip } from "antd";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { useParams } from "react-router-dom";
 import { Image, Modal, Tabs, Upload, message } from "antd";
 import InfoTab from "./info.tab";
@@ -17,7 +16,6 @@ import {
     AiOutlineSend,
     AiFillPhone,
     AiOutlineWarning,
-    AiOutlineEnvironment,
 } from "react-icons/ai";
 import ImgCrop from "antd-img-crop";
 import { ROLE } from "@/constants/role";
@@ -40,7 +38,7 @@ function Info() {
     useEffect(() => {
         const getInforUser = async () => {
             const u = await getUser(id);
-            setUser((pre) => ({ ...u }));
+            setUser(() => ({ ...u }));
 
             const {
                 data: { contents },
@@ -48,15 +46,14 @@ function Info() {
             } = await getListingByUserId(id);
 
             if (success) {
-                setListing((prev) => [...contents]);
+                setListing(() => [...contents]);
             }
         };
         getInforUser();
     }, [id]);
 
-    const onChangeTabs = (key) => {
-        console.log(key);
-    };
+    const onChangeTabs = () => {};
+
     const items = [
         {
             key: "3",
@@ -72,7 +69,6 @@ function Info() {
 
     const handleOk = async () => {
         try {
-            console.log(fileImage);
             if (fileImage) {
                 setLoading(true);
                 const { data, success } = await updateUserAvatar(fileImage);
@@ -94,7 +90,6 @@ function Info() {
     };
 
     const handleCancel = () => {
-        console.log("Cancel");
         setIsModalOpen(false);
     };
 
@@ -104,7 +99,6 @@ function Info() {
 
     const onPreview = async (file) => {
         let src = file.url;
-        console.log(file);
         if (!src) {
             src = await new Promise((resolve) => {
                 const reader = new FileReader();
@@ -141,7 +135,7 @@ function Info() {
                 content: reportContent,
                 reportedId: id,
             };
-            const { data, success } = await createReport(report);
+            const { success } = await createReport(report);
             if (success) {
                 message.success("Gửi báo cáo thành công");
                 setIsOpenReport(false);

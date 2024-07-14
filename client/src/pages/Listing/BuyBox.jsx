@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import { formatMoney } from "@/utils/helpers";
 import { Button } from "@/components";
 import { Link, useNavigate } from "react-router-dom";

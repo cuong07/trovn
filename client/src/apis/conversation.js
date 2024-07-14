@@ -1,12 +1,11 @@
 import { ConversationV1 } from "@/constants/endpoints";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import qs from "query-string";
 import { apiClient } from "./apiClient";
 import useConversationStore from "@/hooks/useConversationStore";
 
 export const getConversations = async () => {
     const userId = useUserStore.getState().user?.id;
-    console.log(userId);
     if (!userId) {
         return { success: false, message: "Vui lòng đăng nhập" };
     }
