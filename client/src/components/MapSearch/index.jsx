@@ -25,15 +25,6 @@ const Index = ({ listings }) => {
     const [openCardId, setOpenCardId] = useState(null);
     const [mapBounds, setMapBounds] = useState(null);
     const [placement, setPlacement] = useState("topLeft");
-    const [mapInfo, setMapInfo] = useState({
-        center: { lat: 10.79744042085094, lng: 106.66571997369292 },
-        corners: {
-            topLeft: { lat: 0, lng: 0 },
-            topRight: { lat: 0, lng: 0 },
-            bottomLeft: { lat: 0, lng: 0 },
-            bottomRight: { lat: 0, lng: 0 },
-        },
-    });
 
     const {
         searchMap: { latitude, longitude },
@@ -54,16 +45,6 @@ const Index = ({ listings }) => {
             });
         }
     }, [latitude, longitude]);
-
-    // useEffect(() => {
-    //   if (mapRef.current && listings?.length > 0) {
-    //     mapRef.current.flyTo({
-    //       center: [listings[0]?.longitude, listings[0]?.latitude],
-    //       zoom: 9,
-    //       essential: true,
-    //     });
-    //   }
-    // }, [listings]);
 
     useEffect(() => {
         if (!mapRef.current || listings.length === 0) return;
@@ -99,31 +80,30 @@ const Index = ({ listings }) => {
     };
 
     const handleMove = async (evt) => {
-        const { viewState } = evt;
+        // const { viewState } = evt;
         const map = evt.target;
         const bounds = map.getBounds();
-        const newMapInfo = {
-            center: { lat: viewState.latitude, lng: viewState.longitude },
-            corners: {
-                topLeft: {
-                    lat: bounds.getNorthWest().lat,
-                    lng: bounds.getNorthWest().lng,
-                },
-                topRight: {
-                    lat: bounds.getNorthEast().lat,
-                    lng: bounds.getNorthEast().lng,
-                },
-                bottomLeft: {
-                    lat: bounds.getSouthWest().lat,
-                    lng: bounds.getSouthWest().lng,
-                },
-                bottomRight: {
-                    lat: bounds.getSouthEast().lat,
-                    lng: bounds.getSouthEast().lng,
-                },
-            },
-        };
-        setMapInfo(newMapInfo);
+        // const newMapInfo = {
+        //     center: { lat: viewState.latitude, lng: viewState.longitude },
+        //     corners: {
+        //         topLeft: {
+        //             lat: bounds.getNorthWest().lat,
+        //             lng: bounds.getNorthWest().lng,
+        //         },
+        //         topRight: {
+        //             lat: bounds.getNorthEast().lat,
+        //             lng: bounds.getNorthEast().lng,
+        //         },
+        //         bottomLeft: {
+        //             lat: bounds.getSouthWest().lat,
+        //             lng: bounds.getSouthWest().lng,
+        //         },
+        //         bottomRight: {
+        //             lat: bounds.getSouthEast().lat,
+        //             lng: bounds.getSouthEast().lng,
+        //         },
+        //     },
+        // };
 
         let latCoords = [
             bounds.getNorthWest().lat,
@@ -140,7 +120,6 @@ const Index = ({ listings }) => {
         try {
             updateSearchListings("latCoords", latCoords);
             updateSearchListings("lngCoords", lngCoords);
-            // const { data, success } = await getFilterListing();
         } catch (error) {
             console.log(error);
         }
@@ -162,7 +141,6 @@ const Index = ({ listings }) => {
         const relativePosition = getRelativePosition(position, width, height);
 
         setPlacement(relativePosition);
-        console.log(placement);
     };
 
     const getRelativePosition = (position, width, height) => {
@@ -176,7 +154,6 @@ const Index = ({ listings }) => {
             verticalPosition = "top";
         }
 
-        console.log(horizontalPosition, verticalPosition);
         return `${verticalPosition}${
             horizontalPosition.charAt(0).toUpperCase() +
             horizontalPosition.slice(1)
@@ -276,9 +253,6 @@ const Index = ({ listings }) => {
                         }
                         open={openCardId === item.id}
                         arrow={false}
-                        // onOpenChange={(visible) =>
-                        //     visible ? onOpen(item.id) : onClose()
-                        // }
                         overlayInnerStyle={{ padding: 0 }}
                         placement={placement}
                     >

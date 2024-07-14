@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from "react";
-import useUserStore from "@/hooks/userStore";
+import useUserStore from "@/hooks/useUserStore";
 import { FiArrowUpLeft } from "react-icons/fi";
 
 import { ChatUser } from "..";
@@ -40,7 +40,7 @@ const Index = ({ isLoading, handleClickChat }) => {
                             </p>
                         </div>
                     )}
-                    {conversations.map((conv, index) => (
+                    {conversations.map((conv) => (
                         <ChatUser
                             handleClickChat={handleClickChat}
                             conversation={conv}

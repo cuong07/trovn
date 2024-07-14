@@ -9,7 +9,7 @@ const OrderModel = {
         },
 
         async getOrdersByUserId(userId) {
-            console.log(userId);
+            logger.info(userId);
             return db.orderItem.findMany({
                 where: {
                     userId: userId,

@@ -361,6 +361,26 @@ const useListingStore = create((set, get) => ({
             },
         }));
     },
+
+    resetNewListing: () => {
+        set((state) => ({
+            ...state,
+            newListing: {
+                title: "",
+                description: "",
+                address: "",
+                longitude: "",
+                latitude: "",
+                price: 0,
+                area: "",
+                term: "",
+                locationId: "",
+                files: null,
+                amenityConnections: [],
+                tags: "",
+            },
+        }));
+    },
 }));
 
 export default useListingStore;

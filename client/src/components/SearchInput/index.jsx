@@ -14,7 +14,6 @@ import useMapStore from "@/hooks/useMapStore";
 import { getLocations } from "@/apis/location";
 
 const Index = () => {
-    const [isFocus, setIsFocus] = useState(false);
     const [keyword, setKeyword] = useState("");
     const [debouncedKeyword] = useDebounce(keyword, 500);
     const { locations } = useLocationStore();

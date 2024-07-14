@@ -34,11 +34,11 @@ const Index = () => {
         },
     ];
     useEffect(() => {
-        if (!Boolean(isTour)) {
+        if (!isTour) {
             setOpen(true);
             localStorage.setItem("isTour", JSON.stringify("true"));
         }
-    }, []);
+    }, [isTour]);
 
     const updateLatLng = useCallback(
         (lat, lng) => {

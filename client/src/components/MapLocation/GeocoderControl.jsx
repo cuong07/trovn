@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
 import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { useControl, Marker } from "react-map-gl";

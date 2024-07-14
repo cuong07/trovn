@@ -1,13 +1,11 @@
-import React from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Form, message } from "antd";
 import { Button, InputField } from "@/components";
-import useUserStore from "@/hooks/userStore";
 import { register } from "@/apis/user";
 import { BiPhone, BiUser } from "react-icons/bi";
-import { BsGoogle, BsMailbox } from "react-icons/bs";
+import { BsGoogle } from "react-icons/bs";
 import { CiMail } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -29,12 +27,9 @@ const schema = yup
     .required();
 
 const Index = () => {
-    const { setToken } = useUserStore();
     const navigate = useNavigate();
     const {
-        handleSubmit,
         formState: { errors, isSubmitting },
-        reset,
         getValues,
         control,
     } = useForm({
@@ -52,10 +47,8 @@ const Index = () => {
 
     const onSubmit = async () => {
         const value = getValues();
-        console.log(value);
         try {
             const { data, success } = await register(value);
-            console.log(data);
             if (success) {
                 // setToken(data);
                 message.success("Đăng ký thành công");

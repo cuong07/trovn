@@ -1,15 +1,8 @@
-import React, { useState } from "react";
 import { MessageOutlined } from "@ant-design/icons";
 import { FloatButton } from "antd";
-import { BsChatLeftTextFill } from "react-icons/bs";
 import { useLocation } from "react-router-dom";
 const Chatbot = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const { pathname } = useLocation();
-
-    const toggleChatbot = () => {
-        setIsOpen(!isOpen);
-    };
 
     return (
         <div

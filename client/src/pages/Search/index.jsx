@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { CiFilter, CiSquareRemove } from "react-icons/ci";
-import { Modal, Pagination, Skeleton, Slider } from "antd";
+import { Modal, Skeleton, Slider } from "antd";
 
 import useListingStore from "@/hooks/useListingStore";
 import { useDebounce } from "use-debounce";
@@ -27,12 +27,10 @@ const Index = () => {
     const {
         searchListings: {
             contents,
-            currentPage,
             filter,
             isLoading,
             totalElement,
-            totalPage,
-            pagination: { page, limit },
+            pagination: { page },
         },
         setSearchListings,
         setSearchListingLoading,
@@ -40,7 +38,6 @@ const Index = () => {
         setSearchListingAmenitiesId,
         clearSearchFilter,
         countSearchListingFilters,
-        setCurrentPageSearchListing,
     } = useListingStore();
 
     const {
@@ -82,8 +79,7 @@ const Index = () => {
     const handleClickItem = async (id) => {
         try {
             setSearchListingAmenitiesId(id);
-
-            const { data } = await getFilterListing();
+            await getFilterListing();
         } catch (error) {
             console.log(error);
         }

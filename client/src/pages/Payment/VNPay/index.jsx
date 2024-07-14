@@ -1,6 +1,6 @@
 import { Button } from "@/components";
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const Index = () => {
     const location = useLocation();
@@ -16,7 +16,6 @@ const Index = () => {
 
         setUrlParams(paramsObject);
     }, [location.search]);
-    console.log(urlParams["vnp_ResponseCode"]);
 
     return (
         <div className="h-screen flex items-center mt-20 flex-col gap-8">

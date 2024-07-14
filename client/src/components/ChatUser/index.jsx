@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Avatar, Flex } from "antd";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { cn } from "@/utils/helpers";
 import moment from "moment";
 

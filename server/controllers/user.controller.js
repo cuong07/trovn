@@ -1,4 +1,5 @@
 import { statusCode } from "../config/statusCode.js";
+import { logger } from "../config/winston.js";
 import { BaseResponse } from "../responses/BaseResponse.js";
 import UserService from "../services/user.service.js";
 import { sendMail } from "../utils/mailer.utils.js";
@@ -54,10 +55,9 @@ const UserController = {
                 email,
                 password
             );
-            console.log(token, refreshToken);
             res.cookie("refreshToken", refreshToken, {
                 httpOnly: true,
-                scure: true,
+                secure: true,
                 path: "/",
                 sameSite: "strict",
             });
@@ -101,7 +101,7 @@ const UserController = {
                 .status(statusCode.CREATED)
                 .json(BaseResponse.success("Thành công", newUser));
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             return res
                 .status(statusCode.INTERNAL_SERVER_ERROR)
                 .json(BaseResponse.error(error.message, error));
@@ -231,12 +231,38 @@ const UserController = {
     },
 
     async getAllUsers(req, res) {
-        // Thêm hàm này
         try {
             const users = await UserService.getAllUsers();
             return res
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", users));
+        } catch (error) {
+            return res
+                .status(statusCode.INTERNAL_SERVER_ERROR)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    async refreshToken(req, res) {
+        try {
+            const { refreshToken } = req.cookies;
+            logger.info("refreshToken: ", refreshToken);
+
+            const { newToken, newRefreshToken } =
+                await UserService.refreshToken(refreshToken);
+            logger.info(newRefreshToken);
+            if (newRefreshToken) {
+                res.cookie("refreshToken", newRefreshToken, {
+                    httpOnly: true,
+                    secure: true,
+                    path: "/",
+                    sameSite: "strict",
+                });
+            }
+
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", newToken));
         } catch (error) {
             return res
                 .status(statusCode.INTERNAL_SERVER_ERROR)

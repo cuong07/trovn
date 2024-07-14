@@ -1,4 +1,3 @@
-import React from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -12,7 +11,8 @@ const schema = yup
     })
     .required();
 
-const EditUsername = ({ user, onSubmit }) => {
+// eslint-disable-next-line react/prop-types
+const EditUsername = ({ onSubmit }) => {
     const {
         handleSubmit,
         formState: { errors, isSubmitting },

@@ -1,3 +1,4 @@
+import { logger } from "../config/winston.js";
 import ReportModel from "../models/report.model.js";
 
 const ReportService = {
@@ -5,7 +6,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.createReport(data);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -14,7 +15,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.findAllReportActive();
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -23,7 +24,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.findAllReportInProcess();
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -32,7 +33,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.findAllReportByReporterId(userId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -41,7 +42,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.findAllReportByReportedId(userId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -50,7 +51,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.updateReport(id, data);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -59,7 +60,7 @@ const ReportService = {
         try {
             return await ReportModel.methods.deleteReport(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -74,7 +75,7 @@ const ReportService = {
                 limit
             );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },

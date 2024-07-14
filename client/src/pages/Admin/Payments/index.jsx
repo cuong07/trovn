@@ -3,7 +3,7 @@ import { Button } from "@/components";
 import { formatCurrency } from "@/utils/helpers";
 import { Popconfirm, Table, Tabs, Tag, message } from "antd";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { LuBadgeCheck } from "react-icons/lu";
 
 const Index = () => {
@@ -13,7 +13,6 @@ const Index = () => {
         (async () => {
             try {
                 const { data, success } = await getPaymentsByStatus(status);
-                console.log(data);
                 if (success) {
                     setPayments(data);
                     message.success("Thành công");
@@ -106,9 +105,9 @@ const Index = () => {
             key: "action",
             render: (_, record) => {
                 const { id } = record;
-                const confirm = async (e) => {
+                const confirm = async () => {
                     try {
-                        const { data, success } = await deletePayment(id);
+                        const { success } = await deletePayment(id);
                         if (success) {
                             setStatus(!status);
                             return message.success("Thành công");

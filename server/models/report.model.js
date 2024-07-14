@@ -3,7 +3,6 @@ import db from "../lib/db.js";
 const ReportModel = {
     methods: {
         async createReport(data) {
-            console.log(data);
             return db.report.create({
                 data,
             });

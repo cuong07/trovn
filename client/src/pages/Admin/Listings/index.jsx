@@ -1,4 +1,3 @@
-import { Tabs } from "antd";
 import { useEffect, useState } from "react";
 import { SearchTable } from "@/components";
 import { adminGetListings } from "@/apis/listing";
@@ -13,7 +12,6 @@ const Index = () => {
     const {
         adminListings: { contents },
         setSearchAdminListingKeyword,
-        isLoading,
     } = useListingStore();
 
     useEffect(() => {

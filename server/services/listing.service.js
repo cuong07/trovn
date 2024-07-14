@@ -5,6 +5,9 @@ import ListingModel from "../models/listing.model.js";
 import ImageService from "./image.service.js";
 import { uploader } from "../utils/uploader.js";
 import redisClient from "../config/redis.client.config.js";
+import { analyzeImage } from "../core/analyze.image.js";
+import { deleteImage } from "../config/cloundinary.js";
+import { logger } from "../config/winston.js";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 const CACHE_EXPIRATION = process.env.REDIS_CACHE_EXPIRATION;
@@ -41,6 +44,24 @@ const ListingService = {
             for (const file of files) {
                 const { path } = file;
                 const newPath = await uploader(path);
+                const analyze = await analyzeImage(newPath?.url);
+                if (analyze?.isAdultContent) {
+                    imageUrls.forEach(
+                        async (item) => await deleteImage(item.url)
+                    );
+
+                    await UserService.checkBanned(listingData.userId);
+                    await this.deleteListing(listing.id);
+                    throw new Error("Hình ảnh chứa nội dung người lớn");
+                }
+                if (analyze?.isRacyContent) {
+                    imageUrls.forEach(
+                        async (item) => await deleteImage(item.url)
+                    );
+                    await UserService.checkBanned(listingData.userId);
+                    await this.deleteListing(listing.id);
+                    throw new Error("Hình ảnh chứa nội dung không phù hợp");
+                }
                 imageUrls.push({
                     url: newPath?.url,
                     caption: listing.title,
@@ -54,7 +75,7 @@ const ListingService = {
                 images,
             };
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -66,7 +87,7 @@ const ListingService = {
                     `listing:${listingId}`
                 );
                 if (cachedListing) {
-                    console.log("cache");
+                    logger.info("GET LISTING BY ID CACHE");
                     return JSON.parse(cachedListing);
                 }
             }
@@ -74,7 +95,7 @@ const ListingService = {
             const listing = await ListingModel.methods.getListingById(
                 listingId
             );
-            console.log("no-cache");
+            logger.info("GET LISTING BY ID NO CACHE");
 
             if (!listing) {
                 throw new Error("Listing not found");
@@ -90,7 +111,7 @@ const ListingService = {
 
             return listing;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -133,46 +154,26 @@ const ListingService = {
 
             return listingUpdate;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
     async getListingByUserId(userId, page, limit) {
         try {
-            // if (USE_REDIS_CACHE) {
-            //     const cachedListingByUser = await redisClient.get(
-            //         `listing:user:${userId}:page:${page}:limit:${limit}`
-            //     );
-
-            //     if (cachedListingByUser) {
-            //         console.log("cache");
-            //         return JSON.parse(cachedListingByUser);
-            //     }
-            // }
-
             const listings = await ListingModel.methods.getListingByUserId(
                 userId,
                 page,
                 limit
             );
-            // console.log("no-cache");
 
             if (!listings) {
                 throw new Error("Listing not found");
             }
 
-            // if (USE_REDIS_CACHE) {
-            //     await redisClient.setEx(
-            //         `listing:user:${userId}:page:${page}:limit:${limit}`,
-            //         CACHE_EXPIRATION,
-            //         JSON.stringify(listings)
-            //     );
-            // }
-
             return listings;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -185,7 +186,7 @@ const ListingService = {
 
             return result;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -203,15 +204,6 @@ const ListingService = {
         tagId
     ) {
         try {
-            // const cacheKey = `listings:${page}:${limit}:${keyword}:${latCoords}:${lngCoords}:${amenityIds}:${minPrice}:${maxPrice}:${locationId}:${tagId}`;
-            // if (USE_REDIS_CACHE) {
-            //     const cachedListings = await redisClient.get(cacheKey);
-            //     if (cachedListings) {
-            //         console.log(cacheKey);
-            //         return JSON.parse(cachedListings);
-            //     }
-            // }
-
             const listings = await ListingModel.methods.getListings(
                 page,
                 limit,
@@ -224,19 +216,9 @@ const ListingService = {
                 locationId,
                 tagId
             );
-            // console.log("no-cache");
-
-            // if (USE_REDIS_CACHE) {
-            //     await redisClient.setEx(
-            //         cacheKey,
-            //         CACHE_EXPIRATION,
-            //         JSON.stringify(listings)
-            //     );
-            // }
-
             return listings;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -250,7 +232,7 @@ const ListingService = {
                 limit
             );
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },

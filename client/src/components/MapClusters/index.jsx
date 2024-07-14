@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useRef } from "react";
 import { Map, Source, Layer } from "react-map-gl";
 
