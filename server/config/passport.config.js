@@ -2,6 +2,7 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import UserService from "../services/user.service.js";
 import { generateToken } from "../utils/token.utils.js";
+import { logger } from "./winston.js";
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
