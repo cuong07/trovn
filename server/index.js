@@ -36,7 +36,7 @@ import { logger } from "./config/winston.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 8888;
+const PORT = process.env.PORT || 8891;
 
 // TODO: server config
 app.use(express.json({ limit: "30mb" }));

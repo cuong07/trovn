@@ -41,12 +41,12 @@ const Index = ({ data, count, handleClickItem, amenityIds }) => {
                 {data?.map((item) => (
                     <SwiperSlide
                         key={item.id}
-                        className="flex items-center w-auto h-fulljustify-center cursor-pointer"
+                        className="flex items-center w-auto h-full pb-1 justify-center cursor-pointer"
                         onClick={() => handleClickItem(item.id)}
                     >
                         <div
                             className={cn(
-                                "gap-2 hover:border-b-2 w-full border-black h-full flex flex-col items-center text-sm justify-center hover:font-medium transition-all",
+                                "gap-2 hover:border-b-2 min-w-max transition-all mx-2 border-black h-full flex flex-col items-center text-sm justify-center hover:font-medium transition-all",
                                 amenityIds?.includes(item.id) &&
                                     "border-b-2 font-semibold"
                             )}

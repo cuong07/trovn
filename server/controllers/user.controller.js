@@ -246,11 +246,8 @@ const UserController = {
     async refreshToken(req, res) {
         try {
             const { refreshToken } = req.cookies;
-            logger.info("refreshToken: ", refreshToken);
-
             const { newToken, newRefreshToken } =
                 await UserService.refreshToken(refreshToken);
-            logger.info(newRefreshToken);
             if (newRefreshToken) {
                 res.cookie("refreshToken", newRefreshToken, {
                     httpOnly: true,
@@ -259,7 +256,6 @@ const UserController = {
                     sameSite: "strict",
                 });
             }
-
             return res
                 .status(statusCode.OK)
                 .json(BaseResponse.success("Thành công", newToken));

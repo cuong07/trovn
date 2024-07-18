@@ -24,7 +24,6 @@ io.use((socket, next) => {
         const actualToken = token.startsWith("Bearer ")
             ? token.slice(7)
             : token;
-        logger.info("SOCKET TOKEN: ", actualToken);
         try {
             const decoded = jwt.verify(actualToken, process.env.SECRET_KEY);
             socket.user = decoded;
@@ -66,6 +65,8 @@ io.on("connection", async (socket) => {
                 id: userDetails?.id,
                 username: userDetails?.username,
                 email: userDetails?.email,
+                fullName: userDetails?.fullName,
+                role: userDetails?.role,
                 avatarUrl: userDetails?.avatarUrl,
                 online: onlineUser.has(userId),
             };

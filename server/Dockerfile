@@ -11,6 +11,6 @@ COPY . .
 
 RUN npx prisma generate
 
-EXPOSE 8888
+EXPOSE 8891
 
 CMD ["npm", "start"]

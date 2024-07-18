@@ -21,6 +21,7 @@ import useFavoriteStore from "@/hooks/useFavoriteStore";
 import { createReview, deleteReview, getReviews } from "@/apis/reviews";
 import useReviewStore from "@/hooks/useReviewStore";
 import { BsThreeDots } from "react-icons/bs";
+import styles from "./Listing.module.css";
 moment.locale("vi");
 
 const Index = () => {
@@ -92,7 +93,7 @@ const Index = () => {
                 listingId: id,
             };
             setReviewLoading(true);
-            const { data, success } = await createReview(newReview);
+            const { success } = await createReview(newReview);
 
             if (!success) {
                 message.error("Có lỗi khi thêm đánh giá");
