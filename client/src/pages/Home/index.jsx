@@ -48,10 +48,10 @@ const Index = () => {
         const token = searchParams.get("token");
         if (token) {
             setToken(token);
+            (async () => {
+                await getCurrentUser();
+            })();
         }
-        (async () => {
-            await getCurrentUser();
-        })();
     }, [searchParams]);
 
     useEffect(() => {
@@ -59,7 +59,6 @@ const Index = () => {
             await getListings();
         })();
     }, [page]);
-
 
     useEffect(() => {
         try {

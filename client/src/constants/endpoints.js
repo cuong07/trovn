@@ -82,3 +82,9 @@ export const ReportV1 = {
     UPDATE_REPORTS: "/reports/",
     DELETE_REPORTS: "/reports/",
 };
+export const ReviewV1 = {
+    CREATE_REVIEWS: "/reviews",
+    GET_REVIEWS: "/reviews",
+    UPDATE_REVIEWS: "/reviews/",
+    DELETE_REVIEWS: "/reviews/",
+};

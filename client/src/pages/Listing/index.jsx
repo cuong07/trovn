@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { IoTimeOutline } from "react-icons/io5";
 import { FaChartArea, FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import useMessage from "antd/es/message/useMessage";
-import { Avatar, Empty, message } from "antd";
+import { Avatar, Button, Empty, message, Rate, Tooltip } from "antd";
 import moment from "moment";
 import { LuDot } from "react-icons/lu";
 
@@ -18,29 +18,46 @@ import BuyBox from "./BuyBox";
 import { BiShare } from "react-icons/bi";
 import { createFavorite } from "@/apis/favorite";
 import useFavoriteStore from "@/hooks/useFavoriteStore";
+import { createReview, deleteReview, getReviews } from "@/apis/reviews";
+import useReviewStore from "@/hooks/useReviewStore";
+import { BsThreeDots } from "react-icons/bs";
+moment.locale("vi");
 
 const Index = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const [reviewLoading, setReviewLoading] = useState(false);
     const [listing, setListing] = useState({});
+    const {
+        reviews: { contents },
+        setReviews,
+        removeReview,
+    } = useReviewStore();
     const { user } = useUserStore();
     const [messageApi, contextHolder] = useMessage();
     const { favorites } = useFavoriteStore();
-
+    const [reviewContent, setReviewContent] = useState();
+    const [rating, setRating] = useState(0);
     const { id } = useParams();
+    const [toggleHeart, setToggleHeart] = useState(
+        favorites?.find((i) => i.listingId === id)
+    );
 
     useEffect(() => {
-        moment.locale("vi");
-
         (async () => {
             try {
                 setIsLoading(true);
-                const res = await getListing(id);
-                setListing(res.data);
+                const [res1, res2] = await Promise.all([
+                    getListing(id),
+                    getReviews(id),
+                ]);
+                setListing(res1.data);
+                setReviews(res2.data);
+                console.log(res2.data);
                 setIsLoading(false);
-                if (res.success) {
+                if (res1.success) {
                     messageApi.open({
                         type: "success",
-                        content: res.message,
+                        content: res1.message,
                     });
                 }
             } catch (error) {
@@ -48,13 +65,10 @@ const Index = () => {
                     type: "error",
                     content: "This is an error message",
                 });
+                console.log(error);
             }
         })();
-    }, [id, messageApi]);
-
-    const [toggleHeart, setToggleHeart] = useState(
-        favorites?.find((i) => i.listingId === id)
-    );
+    }, [id, messageApi, setReviews]);
 
     const handleToggleFavorite = async () => {
         if (!user) {
@@ -69,6 +83,50 @@ const Index = () => {
             console.log(error);
         }
     };
+
+    const handleSendReview = async () => {
+        try {
+            const newReview = {
+                rating,
+                content: reviewContent,
+                listingId: id,
+            };
+            setReviewLoading(true);
+            const { data, success } = await createReview(newReview);
+
+            if (!success) {
+                message.error("Có lỗi khi thêm đánh giá");
+            }
+            const res = await getReviews(id);
+            setReviews(res.data);
+            setReviewContent("");
+            setRating(0);
+            setReviewLoading(false);
+        } catch (error) {
+            setReviewLoading(false);
+            message.error(error.response.data.message);
+            console.log(error);
+        }
+    };
+
+    const handleRemoveReview = async (id) => {
+        try {
+            setReviewLoading(true);
+            await deleteReview(id);
+            removeReview(id);
+            setReviewLoading(false);
+        } catch (error) {
+            setReviewLoading(false);
+            console.log(error);
+            message.error(error.message);
+        }
+    };
+
+    const handleChangeReview = (e) => {
+        setReviewContent(e.target.value);
+    };
+
+    console.log(contents);
 
     return (
         <>
@@ -207,8 +265,124 @@ const Index = () => {
                                     <h2 className="text-[22px] font-semibold leading-[26px] mb-6">
                                         Đánh giá
                                     </h2>
-                                    {listing?.reviews?.length === 0 && (
-                                        <Empty />
+                                    <div className="flex flex-col gap-8">
+                                        <div>
+                                            <textarea
+                                                name=""
+                                                id=""
+                                                className="w-full rounded-md border p-2 text-base"
+                                                cols="30"
+                                                rows="4"
+                                                placeholder="Thêm đánh giá..."
+                                                value={reviewContent}
+                                                onChange={handleChangeReview}
+                                            ></textarea>
+                                            <Rate
+                                                allowHalf
+                                                defaultValue={rating}
+                                                onChange={(value) =>
+                                                    setRating(value)
+                                                }
+                                            />
+                                        </div>
+                                        <Button
+                                            loading={reviewLoading}
+                                            type="primary"
+                                            className="h-12 w-fit"
+                                            onClick={handleSendReview}
+                                        >
+                                            Gửi đánh giá
+                                        </Button>
+                                    </div>
+                                    {contents?.length === 0 && <Empty />}
+                                    {contents?.length > 0 && (
+                                        <div className="px-4 mt-4">
+                                            {contents.map((item) => (
+                                                <div
+                                                    key={item.id}
+                                                    className="py-4 group"
+                                                >
+                                                    <div className="transition-all flex justify-between">
+                                                        <Link
+                                                            to={`/user/info/${item.user.id}`}
+                                                            className="flex gap-3"
+                                                        >
+                                                            <div className="w-12 h-12 rounded-full overflow-hidden">
+                                                                <img
+                                                                    className="w-full h-full aspect-square object-cover "
+                                                                    src={
+                                                                        item
+                                                                            .user
+                                                                            .avatarUrl
+                                                                    }
+                                                                    alt={
+                                                                        item
+                                                                            .user
+                                                                            .fullName
+                                                                    }
+                                                                />
+                                                            </div>
+                                                            <div>
+                                                                <h2 className="font-semibold text-lg">
+                                                                    {item.user
+                                                                        .fullName ||
+                                                                        "No name"}
+                                                                </h2>
+                                                                <p className="text-xs">
+                                                                    {moment(
+                                                                        item.createdAt
+                                                                    )
+                                                                        .endOf(
+                                                                            "day"
+                                                                        )
+                                                                        .fromNow()}
+                                                                </p>
+                                                            </div>
+                                                        </Link>
+                                                        {item.user?.id ===
+                                                            user?.id && (
+                                                            <div className="group-hover:block transition-all hidden cursor-pointer text-lg hover:color-[#50C878]">
+                                                                <Tooltip
+                                                                    placement="bottomRight"
+                                                                    title={
+                                                                        <div className="p-2 text-black">
+                                                                            <Button
+                                                                                type="text"
+                                                                                className=""
+                                                                                loading={
+                                                                                    reviewLoading
+                                                                                }
+                                                                                onClick={() =>
+                                                                                    handleRemoveReview(
+                                                                                        item.id
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Xóa
+                                                                            </Button>
+                                                                        </div>
+                                                                    }
+                                                                    arrow
+                                                                    rootClassName="p-0"
+                                                                    overlayClassName="p-0 bg-white"
+                                                                    color="#fff"
+                                                                >
+                                                                    <BsThreeDots />
+                                                                </Tooltip>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="mt-2">
+                                                        <Rate
+                                                            value={item.rating}
+                                                            disabled
+                                                            className="text-sm"
+                                                        />
+                                                        <p>{`" ${item.content}`}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
                                     )}
                                 </div>
                             </div>

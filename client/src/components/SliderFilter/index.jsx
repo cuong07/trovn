@@ -46,7 +46,7 @@ const Index = ({ data, count, handleClickItem, amenityIds }) => {
                     >
                         <div
                             className={cn(
-                                "gap-2 hover:border-b-2 border-black h-full flex flex-col items-center text-sm justify-center hover:font-medium transition-all",
+                                "gap-2 hover:border-b-2 w-full border-black h-full flex flex-col items-center text-sm justify-center hover:font-medium transition-all",
                                 amenityIds?.includes(item.id) &&
                                     "border-b-2 font-semibold"
                             )}

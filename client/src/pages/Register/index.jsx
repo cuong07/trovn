@@ -64,7 +64,7 @@ const Index = () => {
 
     const loginWithGoogle = () => {
         window.open(
-            "http://localhost:8888/api/v1/auth/google/callback",
+            "http://localhost:8891/api/v1/auth/google/callback",
             "_self"
         );
     };

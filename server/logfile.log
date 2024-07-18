@@ -56,3 +56,15 @@
 {"level":"info","message":"1/6/2024 - 02:07:13 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
 {"level":"info","message":"1/6/2024 - 02:18:10 - ::1 - POST /user/login - {\"email\":\"vocuong\",\"password\":\"123456789\"}"}
 {"level":"info","message":"1/6/2024 - 02:29:24 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"1/6/2024 - 23:01:50 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 17:08:38 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 23:33:07 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 23:33:09 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 23:34:04 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/6/2024 - 00:01:09 - ::1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"4/6/2024 - 00:07:46 - ::1 - POST /user/login - {\"email\":\"botcuong06\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/6/2024 - 00:20:36 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/6/2024 - 00:38:09 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/6/2024 - 01:11:18 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/6/2024 - 01:18:44 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/6/2024 - 09:35:42 - ::1 - POST /user/login - {\"email\":\"user01\",\"password\":\"12345678\"}"}

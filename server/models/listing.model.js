@@ -274,7 +274,6 @@ const ListingModel = {
                     include: {
                         images: true,
                         user: true,
-                        reviews: true,
                         listingTags: {
                             include: {
                                 tag: true,

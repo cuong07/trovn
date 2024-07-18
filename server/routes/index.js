@@ -13,3 +13,4 @@ export { default as ConversationRoutes } from "./conversation.routes.js";
 export { default as AnalyticsRoutes } from "./analytics.routes.js";
 export { default as GoogleAuthRoutes } from "./google.auth.routes.js";
 export { default as ReportRoutes } from "./report.routes.js";
+export { default as ReviewRoutes } from "./review.routes.js";
