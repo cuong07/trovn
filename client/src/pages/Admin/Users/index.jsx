@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Index = () => {
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5;
+    const pageSize = 10;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const Index = () => {
     };
 
     const handleMessageClick = (userId) => {
-        navigate(`/admin/messages/${userId}`);
+        navigate(`/chat/${userId}`);
     };
 
     const renderUsers = () => {

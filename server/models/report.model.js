@@ -29,7 +29,7 @@ const ReportModel = {
 
             const filters = {};
             if (isActive) {
-                filters.isActive = isActive;
+                filters.isActive = Boolean(isActive);
             }
             if (isProcess) {
                 filters.isProcess = isProcess;
@@ -107,7 +107,7 @@ const ReportModel = {
         },
 
         async updateReport(id, data) {
-            return db.report.findMany({
+            return db.report.update({
                 where: {
                     id,
                 },

@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import useUserStore from "./hooks/useUserStore";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./routes/routes";
 import useConversationStore from "./hooks/useConversationStore";
 import { notification } from "antd";
 import { BiMessageAltDetail } from "react-icons/bi";
+import { router } from "./routes/routes";
+import useUserStore from "./hooks/useUserStore";
 import { updateLatLngUser } from "./apis/user";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_URL;
@@ -123,7 +123,7 @@ function App() {
     }, [user, handleGetLocation]);
 
     const playNotificationSound = () => {
-        const audio = new Audio("/message.mp3");
+        const audio = new Audio("/message2.mp3");
         audio.play();
     };
 

@@ -52,7 +52,7 @@ export default function MapClusters() {
                 <Source
                     id="earthquakes"
                     type="geojson"
-                    data="http://localhost:8888/api/v1/listings/get/json"
+                    data="http://localhost:8891/api/v1/listings/get/json"
                     cluster={true}
                     clusterMaxZoom={14}
                     clusterRadius={50}

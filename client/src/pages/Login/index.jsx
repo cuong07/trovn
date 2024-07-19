@@ -44,18 +44,18 @@ function Login() {
 
     const loginWithGoogle = useCallback(() => {
         window.open(
-            "http://localhost:8888/api/v1/auth/google/callback",
+            "http://localhost:8891/api/v1/auth/google/callback",
             "_self"
         );
     }, []);
 
     return (
         <>
-            <div className="w-full h-screen overflow-hidden flex">
-                <div className="flex items-center justify-center w-1/2 flex-col">
+            <div className="w-full h-svh overflow-hidden flex">
+                <div className="flex items-center justify-center md:w-1/2 w-full  flex-col">
                     <h1 className="font-[600] mb-3 text-2xl">Đăng nhập</h1>
                     <Form
-                        className="w-1/2"
+                        className="md:w-1/2 w-full px-10 md:px-0"
                         layout="vertical"
                         form={form}
                         initialValues={{ layout: "vertical" }}
@@ -73,7 +73,7 @@ function Login() {
                             <Input
                                 name="email"
                                 onChange={handleChange}
-                                className="mr-9"
+                                className="mr-9 h-10"
                                 placeholder="Email hoạc username"
                             />
                         </Form.Item>
@@ -90,6 +90,7 @@ function Login() {
                         >
                             <Input.Password
                                 name="password"
+                                className="mr-9 h-10"
                                 placeholder="Mật khẩu"
                                 onChange={handleChange}
                             />
@@ -119,7 +120,7 @@ function Login() {
                         </div>
                     </Form>
                 </div>
-                <div className="flex justify-center flex-1">
+                <div className="md:flex hidden justify-center flex-1">
                     <img
                         className="object-cover"
                         src="https://static.vecteezy.com/system/resources/previews/005/879/539/non_2x/cloud-computing-modern-flat-concept-for-web-banner-design-man-enters-password-and-login-to-access-cloud-storage-for-uploading-and-processing-files-illustration-with-isolated-people-scene-free-vector.jpg"

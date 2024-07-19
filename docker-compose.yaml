@@ -5,7 +5,7 @@ services:
             context: ./server
             dockerfile: Dockerfile
         ports:
-            - "8888:8888"
+            - "8891:8891"
         networks:
             - trovn-network
 

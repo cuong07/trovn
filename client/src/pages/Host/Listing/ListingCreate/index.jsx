@@ -166,14 +166,14 @@ const Index = () => {
                                 extra={
                                     <div className="flex justify-center gap-4">
                                         <div key="console">
-                                            <Link to="/host/list">
+                                            <Link to="/host/listing/list">
                                                 <Button type="primary">
                                                     Quay trở lại trang quản trị
                                                 </Button>
                                             </Link>
                                         </div>
                                         <div key="buy">
-                                            <Link to="/host/create">
+                                            <Link to="/host/listing/create">
                                                 <Button>Tạo Thêm</Button>
                                             </Link>
                                         </div>

@@ -10,6 +10,17 @@ const router = express.Router();
 router.post("/reports", verifyTokenAllRole, ReportController.create);
 router.get("/reports", ReportController.findAll);
 
+router.put(
+    "/reports/accept/:id",
+    verifyTokenWithAdmin,
+    ReportController.accept
+);
+router.put(
+    "/reports/refuse/:id",
+    verifyTokenWithAdmin,
+    ReportController.refuse
+);
+
 router.put("/reports/:id", verifyTokenWithAdmin, ReportController.update);
 router.delete("/reports/:id", verifyTokenWithAdmin, ReportController.delete);
 

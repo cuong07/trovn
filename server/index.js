@@ -22,6 +22,7 @@ import {
     AnalyticsRoutes,
     GoogleAuthRoutes,
     ReportRoutes,
+    ReviewRoutes,
 } from "./routes/index.js";
 import "./config/passport.config.js";
 import session from "express-session";
@@ -35,7 +36,7 @@ import { logger } from "./config/winston.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT = process.env.PORT || 8888;
+const PORT = process.env.PORT || 8891;
 
 // TODO: server config
 app.use(express.json({ limit: "30mb" }));
@@ -64,16 +65,17 @@ app.set("view engine", "jade");
 app.use(passport.initialize());
 app.use(passport.session());
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-    standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-    // store: ... , // Redis, Memcached, etc. See below.
-});
+// const limiter = rateLimit({
+//     skip: (req, res) => req.isLoggedIn,
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     limit: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+//     standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+//     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+//     // store: ... , // Redis, Memcached, etc. See below.
+// });
 
 // Apply the rate limiting middleware to all requests.
-app.use(limiter);
+// app.use(limiter);
 
 // TODO: Routes
 app.use("/api/v1", UserRoutes);
@@ -91,6 +93,7 @@ app.use("/api/v1", ConversationRoutes);
 app.use("/api/v1", AnalyticsRoutes);
 app.use("/api/v1", GoogleAuthRoutes);
 app.use("/api/v1", ReportRoutes);
+app.use("/api/v1", ReviewRoutes);
 
 // TODO: relative path
 app.use(express.static("./public"));
@@ -109,7 +112,7 @@ app.get("*", (req, res) => {
     res.status(404).send("Sorry, resource not found");
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
     logger.info("----------SERVER RUNNING----------");
     logger.info(`-> http://localhost:${PORT}`);
 });

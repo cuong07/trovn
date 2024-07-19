@@ -59,6 +59,7 @@ const Index = ({
                 <Button
                     type="primary"
                     className="text-primary flex h-12 items-center gap-2 text-lg hover:text-secondary"
+                    onClick={handleSendMessage}
                 >
                     Gửi
                     <IoMdSend size={28} />

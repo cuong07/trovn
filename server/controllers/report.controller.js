@@ -82,6 +82,35 @@ const ReportController = {
                 .json(BaseResponse.error(error.message, error));
         }
     },
+
+    async accept(req, res) {
+        try {
+            const { userId } = req.body;
+            const { id } = req.params;
+            const report = await ReportService.accept(id, userId);
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", report));
+        } catch (error) {
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
+
+    async refuse(req, res) {
+        try {
+            const { id } = req.params;
+            const report = await ReportService.refuse(id);
+            return res
+                .status(statusCode.OK)
+                .json(BaseResponse.success("Thành công", report));
+        } catch (error) {
+            return res
+                .status(statusCode.BAD_REQUEST)
+                .json(BaseResponse.error(error.message, error));
+        }
+    },
 };
 
 export default ReportController;

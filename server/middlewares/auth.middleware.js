@@ -5,7 +5,7 @@ import { logger } from "../config/winston.js";
 
 const errorMessage = {
     EXPIRED_TOKEN: "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại",
-    UNAUTHORIZED_ACCESS: "Không có quyền truy cập",
+    UNAUTHORIZED_ACCESS: "Vui lòng đăng nhập để sử dụng tính năng này",
     PLEASE_LOGIN: "Vui lòng đăng nhập để truy cập",
 };
 
