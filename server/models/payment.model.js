@@ -39,6 +39,9 @@ const PaymentModel = {
                 where: {
                     userId: userId,
                 },
+                orderBy: {
+                    createdAt: "desc",
+                },
             });
         },
 

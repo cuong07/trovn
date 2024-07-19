@@ -132,7 +132,7 @@ const Index = () => {
                 <div className="md:col-span-3 grid-cols-5 md:px-20 px-6">
                     {!isLoading && <ProductList data={contents} column={3} />}
                     {contents?.length === 0 && !isLoading && (
-                        <div className="px-20">
+                        <div className="">
                             <h1 className="font-semibold leading-7 text-2xl ">
                                 Không có kết quả tìm kiếm phù hợp
                             </h1>

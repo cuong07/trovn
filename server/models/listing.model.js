@@ -146,6 +146,9 @@ const ListingModel = {
                     where: {
                         userId: userId,
                     },
+                    orderBy: {
+                        createdAt: "desc",
+                    },
                     include: {
                         images: true,
                         location: true,

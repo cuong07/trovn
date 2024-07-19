@@ -75,6 +75,9 @@ const ReportModel = {
                             },
                         },
                     },
+                    orderBy: {
+                        createdAt: "desc",
+                    },
                 }),
             ]);
 
