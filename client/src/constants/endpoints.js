@@ -81,6 +81,8 @@ export const ReportV1 = {
     GET_REPORTS: "/reports",
     UPDATE_REPORTS: "/reports/",
     DELETE_REPORTS: "/reports/",
+    UPDATE_REPORTS_ACCEPT: "/reports/accept/",
+    UPDATE_REPORTS_REFUSE: "/reports/refuse/",
 };
 export const ReviewV1 = {
     CREATE_REVIEWS: "/reviews",

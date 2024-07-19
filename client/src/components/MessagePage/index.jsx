@@ -174,8 +174,8 @@ const Index = () => {
             <div
                 className={`flex flex-col gap-2 px-8 overflow-scroll mb-10 flex-grow  ${
                     pathname.includes("admin")
-                        ? "md:h-[690px] h-[620px]"
-                        : "md:h-[700px] h-[700px]"
+                        ? "md:h-[690px] h-[400px]"
+                        : "md:h-[700px] h-[400px]"
                 }`}
                 ref={currentMessage}
             >

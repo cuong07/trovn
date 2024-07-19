@@ -23,9 +23,9 @@ const Index = () => {
                 const { data } = await getAllAmenity();
                 // const res = await getLocations(1, 10);
                 setAmenities(data);
-                if (TOKEN) {
-                    await getCurrentUser();
-                }
+                // if (TOKEN) {
+                await getCurrentUser();
+                // }
                 // setLocations(res?.data?.contents);
             } catch (error) {
                 console.log(error);

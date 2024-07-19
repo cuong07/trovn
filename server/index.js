@@ -65,16 +65,17 @@ app.set("view engine", "jade");
 app.use(passport.initialize());
 app.use(passport.session());
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    limit: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-    standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-    // store: ... , // Redis, Memcached, etc. See below.
-});
+// const limiter = rateLimit({
+//     skip: (req, res) => req.isLoggedIn,
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     limit: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+//     standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+//     legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+//     // store: ... , // Redis, Memcached, etc. See below.
+// });
 
 // Apply the rate limiting middleware to all requests.
-app.use(limiter);
+// app.use(limiter);
 
 // TODO: Routes
 app.use("/api/v1", UserRoutes);
@@ -111,7 +112,7 @@ app.get("*", (req, res) => {
     res.status(404).send("Sorry, resource not found");
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
     logger.info("----------SERVER RUNNING----------");
     logger.info(`-> http://localhost:${PORT}`);
 });

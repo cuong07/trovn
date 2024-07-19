@@ -3,8 +3,8 @@ import { create } from "zustand";
 const useReportStore = create((set) => ({
     filters: {
         page: 1,
-        limit: 1, // Updated the limit to a more reasonable number
-        isActive: null,
+        limit: 20,
+        isActive: true,
         reporterId: null,
         reportedId: null,
     },
@@ -58,6 +58,21 @@ const useReportStore = create((set) => ({
                 contents: [...state.reports.contents, ...data.contents],
             },
         }));
+    },
+
+    removeReport: (id) => {
+        set((state) => {
+            const newReports = state.reports.contents.filter(
+                (item) => item.id !== id
+            );
+            return {
+                ...state,
+                reports: {
+                    ...state.reports,
+                    contents: newReports,
+                },
+            };
+        });
     },
 }));
 

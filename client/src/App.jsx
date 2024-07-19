@@ -123,7 +123,7 @@ function App() {
     }, [user, handleGetLocation]);
 
     const playNotificationSound = () => {
-        const audio = new Audio("/message.mp3");
+        const audio = new Audio("/message2.mp3");
         audio.play();
     };
 

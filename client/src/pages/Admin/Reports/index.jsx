@@ -2,7 +2,12 @@ import { Avatar, Button, Divider, List, message } from "antd";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { getReports, loadMoreReport } from "@/apis/report";
+import {
+    acceptReport,
+    getReports,
+    loadMoreReport,
+    refuseReport,
+} from "@/apis/report";
 import useReportStore from "@/hooks/useReportStore";
 
 const Index = () => {
@@ -12,6 +17,7 @@ const Index = () => {
         filters: { limit, isActive, reporterId, reportedId },
         updatePagination,
         updateLoadMoreReport,
+        removeReport,
     } = useReportStore();
 
     useEffect(() => {
@@ -53,6 +59,32 @@ const Index = () => {
         }
     };
 
+    const handleAccept = async (id, userId) => {
+        try {
+            const { success } = await acceptReport(id, userId);
+            if (success) {
+                removeReport(id);
+                return message.success("Cập nhật thành công");
+            }
+            return message.info("Có lỗi khi cập nhât");
+        } catch (error) {
+            message.error(error.response.data.message);
+            console.log(error);
+        }
+    };
+    const handleRefuse = async (id) => {
+        try {
+            const { success } = await refuseReport(id);
+            if (success) {
+                removeReport(id);
+                return message.success("Cập nhật thành công");
+            }
+            return message.info("Có lỗi khi cập nhât");
+        } catch (error) {
+            message.error(error.response.data.message);
+            console.log(error);
+        }
+    };
     return (
         <div>
             <h2 className="font-semibold text-2xl mb-8">Báo cáo</h2>
@@ -113,10 +145,25 @@ const Index = () => {
                                     <div>{item.reportedUser?.email}</div>
                                 </div>
                             </div>
-                            <div className="flex gap-4 col-span-2 ">
+                            <div className="flex gap-4 col-span-2 text-base items-center ">
                                 {item.content}
                             </div>
-                            <div className="flex gap-4 items-center col-span-1"></div>
+                            <div className="flex gap-4 items-center col-span-1">
+                                <Button
+                                    type="primary"
+                                    onClick={() =>
+                                        handleAccept(
+                                            item.id,
+                                            item.reportedUser?.id
+                                        )
+                                    }
+                                >
+                                    Chấp nhận
+                                </Button>
+                                <Button onClick={() => handleRefuse(item.id)}>
+                                    Từ chối
+                                </Button>
+                            </div>
                         </div>
                         <Divider type="horizontal" />
                     </>
