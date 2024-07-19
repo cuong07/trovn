@@ -9,7 +9,6 @@ const OrderModel = {
         },
 
         async getOrdersByUserId(userId) {
-            logger.info(userId);
             return db.orderItem.findMany({
                 where: {
                     userId: userId,
@@ -32,6 +31,9 @@ const OrderModel = {
                             role: true,
                         },
                     },
+                },
+                orderBy: {
+                    createdAt: "desc",
                 },
             });
         },

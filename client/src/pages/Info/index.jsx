@@ -314,9 +314,7 @@ function Info() {
                     modalCancel="Thoát"
                 >
                     <Upload
-                        // action="https://localhost:8888/api/v1/user/avatar"
                         listType="picture-circle"
-                        // fileList={fileList}
                         onChange={onChange}
                         onPreview={onPreview}
                         multiple={false}
@@ -324,7 +322,6 @@ function Info() {
                             return false;
                         }}
                     >
-                        {/* {fileList.length < 1 && "+ Upload"} */}
                         Tải lên
                     </Upload>
                 </ImgCrop>
