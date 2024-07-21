@@ -26,6 +26,15 @@ import {
     Favorite,
     NewInfo,
     Logout,
+    NotFound,
+    VNPay,
+    Momo,
+    ChatPageMobile,
+    Setting,
+    PersonalInfo,
+    Payment,
+    Security,
+    Reports,
 } from "@/pages";
 import { ListingCreate, ListingList } from "@/pages/Host";
 import {
@@ -82,17 +91,58 @@ export const router = createBrowserRouter([
                                 path: "",
                                 element: <Welcome />,
                             },
+
                             { path: ":id", element: <MessagePage /> },
                         ],
                     },
-                    { path: "/user/info/:id", element: <Info /> },
-                    { path: "/user/new-info/:id", element: <NewInfo /> },
+                    {
+                        path: "/message/:id",
+                        element: <ChatPageMobile />,
+                    },
+                    {
+                        path: "/user",
+                        element: <EmptyLayout />,
+                        children: [
+                            { path: "info/:id", element: <Info /> },
+                            { path: "new-info/:id", element: <NewInfo /> },
+                        ],
+                    },
+
+                    {
+                        path: "/account-settings",
+                        element: <Setting />,
+                        // children: [
+                        //     {
+                        //         path: "personal-info",
+                        //         element: <PersonalInfo />,
+                        //     },
+                        // ],
+                    },
+                    {
+                        path: "/account-settings/personal-info",
+                        element: <PersonalInfo />,
+                    },
+                    {
+                        path: "/account-settings/payment",
+                        element: <Payment />,
+                    },
+                    {
+                        path: "/account-settings/login-and-security",
+                        element: <Security />,
+                    },
                     { path: "/favorite", element: <Favorite /> },
                     { path: "logout", element: <Logout /> },
+                    { path: "/payment/vnpay", element: <VNPay /> },
+                    { path: "/payment/momo", element: <Momo /> },
+                    {
+                        path: "*",
+                        element: <NotFound />,
+                    },
                 ],
             },
         ],
     },
+
     {
         path: "/admin",
         element: <AdminLayout />,
@@ -126,7 +176,11 @@ export const router = createBrowserRouter([
                 element: <Payments />,
             },
             {
-                path: "messages",
+                path: "reports",
+                element: <Reports />,
+            },
+            {
+                path: "chat",
                 element: <Chat />,
                 children: [
                     {

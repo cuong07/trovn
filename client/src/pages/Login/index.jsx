@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
-import React from "react";
 import { Form, Input, message } from "antd";
 import { Button } from "@/components";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/apis/user";
-import { getCurrentUser } from "@/apis/user";
+import { BsGoogle } from "react-icons/bs";
+import { LuLogIn } from "react-icons/lu";
 
 function Login() {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -20,29 +20,42 @@ function Login() {
         });
     };
     // ? update handle error
+    // const handleSubmit = async (evt) => {
+    //     evt.preventDefault();
+    //     const { data, success } = await login(formData);
+    //     if (success) {
+    //         return navigate("/");
+    //     }
+    //     return message.error("Sai tài khoản hoặc mật khẩu");
+    // };
+
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        const { data, success } = await login(formData);
-        if (success) {
-            return navigate("/");
+        try {
+            const user = await login(formData);
+            if (user.success) {
+                return navigate("/");
+            }
+            return message.error(user.message);
+        } catch (error) {
+            return console.log("Login error", error);
         }
-        return message.error("Sai tài khoản hoặc mật khẩu");
     };
 
     const loginWithGoogle = useCallback(() => {
         window.open(
-            "http://localhost:8888/api/v1/auth/google/callback",
+            "http://localhost:8891/api/v1/auth/google/callback",
             "_self"
         );
     }, []);
 
     return (
         <>
-            <div className="w-full h-screen overflow-hidden flex">
-                <div className="flex items-center justify-center w-1/2 flex-col">
+            <div className="w-full h-svh overflow-hidden flex">
+                <div className="flex items-center justify-center md:w-1/2 w-full  flex-col">
                     <h1 className="font-[600] mb-3 text-2xl">Đăng nhập</h1>
                     <Form
-                        className="w-1/2"
+                        className="md:w-1/2 w-full px-10 md:px-0"
                         layout="vertical"
                         form={form}
                         initialValues={{ layout: "vertical" }}
@@ -60,7 +73,7 @@ function Login() {
                             <Input
                                 name="email"
                                 onChange={handleChange}
-                                className="mr-9"
+                                className="mr-9 h-10"
                                 placeholder="Email hoạc username"
                             />
                         </Form.Item>
@@ -77,6 +90,7 @@ function Login() {
                         >
                             <Input.Password
                                 name="password"
+                                className="mr-9 h-10"
                                 placeholder="Mật khẩu"
                                 onChange={handleChange}
                             />
@@ -85,20 +99,19 @@ function Login() {
                         <Form.Item className="">
                             <Button
                                 type="primary"
-                                htmlType="submit"
                                 onClick={handleSubmit}
-                                className="w-full h-10"
+                                // loading={isSubmitting}
                             >
-                                Đăng nhập
+                                <LuLogIn className="mr-2" size={18} /> Đăng nhập
                             </Button>
 
                             <Button
                                 type="default"
-                                htmlType="submit"
+                                className="mt-2 h-12 font-semibold flex gap-2 items-center w-full justify-center"
                                 onClick={loginWithGoogle}
-                                className="w-full h-10 mt-4"
                             >
-                                Đăng nhập bằng google
+                                <BsGoogle className="mr-2" size={18} /> Đăng
+                                nhập với Google
                             </Button>
                         </Form.Item>
                         <div className="flex justify-between">
@@ -107,7 +120,7 @@ function Login() {
                         </div>
                     </Form>
                 </div>
-                <div className="flex justify-center flex-1">
+                <div className="md:flex hidden justify-center flex-1">
                     <img
                         className="object-cover"
                         src="https://static.vecteezy.com/system/resources/previews/005/879/539/non_2x/cloud-computing-modern-flat-concept-for-web-banner-design-man-enters-password-and-login-to-access-cloud-storage-for-uploading-and-processing-files-illustration-with-isolated-people-scene-free-vector.jpg"

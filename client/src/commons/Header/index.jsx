@@ -1,74 +1,22 @@
-import {
-    Avatar,
-    Flex,
-    Input,
-    Modal,
-    Popover,
-    Tooltip,
-    message,
-    notification,
-} from "antd";
-import { Button, SearchInput } from "@/components";
-import { CiUser } from "react-icons/ci";
-import { RiAdminLine } from "react-icons/ri";
+import { Flex, Input, Modal, Tooltip, message, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
-import { LogoSvg } from "@/components/Icons";
-import useUserStore from "@/hooks/userStore";
 import { useState } from "react";
+import { FiBell, FiHeart, FiMessageCircle } from "react-icons/fi";
+
+import { LogoSvg } from "@/components/Icons";
 import { getEmailOtp, getVerifyEmailOtp } from "@/apis/user";
-import { ROLE } from "@/constants/role";
-import { FiBell, FiHeart, FiLogIn, FiMessageCircle } from "react-icons/fi";
-import { IoLogOutOutline } from "react-icons/io5";
+import useConversationStore from "@/hooks/useConversationStore";
+import useUserStore from "@/hooks/useUserStore";
+import { Button, SearchInput, UserMenu } from "@/components";
 
 const Index = () => {
-    const naviagate = useNavigate();
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [api, contextHolder] = notification.useNotification();
-    const navigate = useNavigate();
-    // * Custom hooks
-    const { user, otp, setOtp } = useUserStore();
+    const { unreadMessagesCount } = useConversationStore();
 
-    const contents = (
-        <div className="flex flex-col gap-2 p-2 ">
-            <Link
-                to={`/user/info/${user?.id}`}
-                className="flex gap-2 items-center"
-            >
-                <div>
-                    <FaUser />
-                </div>
-                Thông tin cá nhân
-            </Link>
-            {user?.role === ROLE.ADMIN && (
-                <Link to="/admin" className="flex gap-2 items-center">
-                    <div>
-                        <RiAdminLine />
-                    </div>
-                    Trang quản lý
-                </Link>
-            )}
-            {user && (
-                <Link to="/logout" className="flex gap-2 items-center">
-                    <div>
-                        <IoLogOutOutline />
-                    </div>
-                    Đăng xuất
-                </Link>
-            )}
-            {!user && (
-                <>
-                    <Link to="/login" className="flex gap-2 items-center">
-                        <div>
-                            <FiLogIn />
-                        </div>
-                        Đăng ký / Đăng nhập
-                    </Link>
-                </>
-            )}
-        </div>
-    );
+    const { user, otp, setOtp } = useUserStore();
 
     const handleClickHosting = () => {
         const placement = "topLeft";
@@ -87,7 +35,7 @@ const Index = () => {
         }
 
         if (user.isVerify) {
-            naviagate("/host");
+            navigate("/host");
         }
 
         if (!user.isVerify) {
@@ -106,7 +54,7 @@ const Index = () => {
             if (success) {
                 message.success("Xác minh thành công");
                 setConfirmLoading(false);
-                naviagate("/host");
+                navigate("/host");
                 return;
             }
             setConfirmLoading(false);
@@ -120,7 +68,7 @@ const Index = () => {
 
     const handleSendEmailOtp = async () => {
         try {
-            const { data, success } = await getEmailOtp();
+            const { success } = await getEmailOtp();
             if (success) {
                 message.success("Đã gửi mail thành công");
                 return;
@@ -180,11 +128,18 @@ const Index = () => {
                             />
                         </Tooltip>
                         <Tooltip placement="bottom" title="Trò chuyện">
-                            <FiMessageCircle
-                                size={20}
-                                className="cursor-pointer"
-                                onClick={() => handleNavigate("chat")}
-                            />
+                            <div className="relative">
+                                <FiMessageCircle
+                                    size={20}
+                                    className="cursor-pointer"
+                                    onClick={() => handleNavigate("chat")}
+                                />
+                                {unreadMessagesCount > 0 && (
+                                    <div className="absolute -top-2 bg-red-600 w-4 h-4 flex items-center justify-center text-white font-semibold -right-2 text-[10px] rounded-full">
+                                        {unreadMessagesCount}
+                                    </div>
+                                )}
+                            </div>
                         </Tooltip>
                         <Tooltip placement="bottom" title="Thông báo">
                             <FiBell
@@ -194,32 +149,20 @@ const Index = () => {
                             />
                         </Tooltip>
                     </Flex>
-                    <Popover
-                        placement="bottomRight"
-                        content={contents}
-                        arrow={false}
-                    >
-                        <Avatar
-                            size={32}
-                            src={user?.avatarUrl}
-                            icon={<CiUser />}
-                        />
-                    </Popover>
+                    <UserMenu />
                 </Flex>
             </div>
             <Modal
                 open={isOpen}
                 width={600}
-                title={
-                    <div className="text-xl">
-                        Vui lòng xác minh email trước khi đăng bài
-                    </div>
-                }
                 onCancel={onClose}
                 onOk={handleOk}
                 confirmLoading={confirmLoading}
                 closable
             >
+                <div className="text-2xl font-semibold my-8">
+                    Vui lòng xác minh email trước khi đăng bài
+                </div>
                 <div className="grid gap-2">
                     <label className="font-semibold text-lg">OTP</label>
                     <Input.OTP
@@ -229,7 +172,7 @@ const Index = () => {
                         onChange={(val) => setOtp(val)}
                     />
                 </div>
-                <div className="mt-1">
+                <div className="mt-2">
                     Gửi mã về email của bạn <strong>{user?.email}</strong>{" "}
                     <span
                         className="text-blue-500 cursor-pointer"

@@ -1,19 +1,18 @@
 import { formatCurrency } from "./format.currency.utils.js";
 
 export const orderTemplate = (to, data) => {
-  console.log(data);
-  const content = data
-    .map(({ name, value }) => {
-      return `
+    const content = data
+        .map(({ name, value }) => {
+            return `
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px; gap: 20px;">
           <strong>${name}:</strong>
           <span>${decodeURIComponent(value)}</span>
         </div>
       `;
-    })
-    .join("");
+        })
+        .join("");
 
-  return `
+    return `
     <!DOCTYPE html>
     <html lang="en">
       <head>

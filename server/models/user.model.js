@@ -36,13 +36,20 @@ const User = {
                     username: true,
                     email: true,
                     phoneNumber: true,
+                    description: true,
                     address: true,
                     avatarUrl: true,
                     role: true,
                     isPremium: true,
                     createdAt: true,
+                    fullName: true,
                     updatedAt: true,
+                    googleAccountId: true,
                     isVerify: true,
+                    latitude: true,
+                    longitude: true,
+                    isLooked: true,
+                    violationCount: true,
                 },
             });
         },
@@ -55,22 +62,35 @@ const User = {
                 select: {
                     id: true,
                     username: true,
+                    description: true,
                     email: true,
                     phoneNumber: true,
                     address: true,
                     avatarUrl: true,
                     role: true,
+                    googleAccountId: true,
                     isPremium: true,
                     createdAt: true,
                     updatedAt: true,
+                    fullName: true,
                     isVerify: true,
+                    latitude: true,
+                    longitude: true,
+                    isLooked: true,
+                    violationCount: true,
                 },
             });
         },
 
         async getUserByEmail(email) {
             const user = await db.user.findFirst({
-                where: { email: email },
+                where: {
+                    OR: [
+                        { email: email },
+                        { username: email },
+                        { phoneNumber: email },
+                    ],
+                },
             });
             return user;
         },
@@ -114,6 +134,10 @@ const User = {
                     },
                 },
             });
+        },
+
+        async getAllUsers() {
+            return await db.user.findMany();
         },
     },
 };

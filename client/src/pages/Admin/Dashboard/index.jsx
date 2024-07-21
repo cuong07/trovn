@@ -6,12 +6,13 @@ import {
     getAnalyticsNewUserRegister,
 } from "@/apis/analytics";
 import { LineChartCustom, Statistic } from "@/components";
+import MapClusters from "@/components/MapClusters";
 import PieChart from "@/components/PieChart";
 import useAnalyticsStore from "@/hooks/useAnalyticsStore";
 import { formatCurrency } from "@/utils/helpers";
-import { Avatar, Space, Table, Tag, message } from "antd";
-import React, { useEffect } from "react";
-import { BsArrowDown } from "react-icons/bs";
+import { Avatar, Table, Tag, message } from "antd";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
     const {
@@ -70,7 +71,9 @@ const Index = () => {
             title: "Email",
             dataIndex: "email",
             key: "email",
-            render: (text) => <a>{text}</a>,
+            render: (text, record) => (
+                <Link to={`/user/info/${record.id}`}>{text}</Link>
+            ),
         },
 
         {
@@ -137,7 +140,7 @@ const Index = () => {
                             label="Số lượng: "
                         />
                     </div>
-                    <div className="h-1/2">
+                    <div className="h-1/2 w-full">
                         <PieChart
                             labels={location.labels}
                             data={location.data}
@@ -152,6 +155,12 @@ const Index = () => {
                         pagination="false"
                     />
                 </div>
+            </div>
+            <div className=" ">
+                <h2 className="text-3xl font-semibold text-center my-4">
+                    Mật độ phòng
+                </h2>
+                <MapClusters />
             </div>
         </div>
     );

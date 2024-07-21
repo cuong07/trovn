@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { optionsPieChart } from "@/configs/chart";
@@ -31,7 +30,7 @@ function PieChart({ labels, data, label }) {
             },
         ],
     };
-    return <Pie data={dataValues} options={optionsPieChart} />;
+    return <Pie data={dataValues} width={"100%"} options={optionsPieChart} />;
 }
 
 export default PieChart;

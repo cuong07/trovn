@@ -1,15 +1,14 @@
 import { create } from "zustand";
-import { createFavorite } from "../apis/favorite";
 
-const useFavoriteStore = create((set, get) => ({
-  favorites: [],
+const useFavoriteStore = create((set) => ({
+    favorites: [],
 
-  setFavorites: async (data) => {
-    set((state) => ({
-      ...state,
-      favorites: data,
-    }));
-  },
+    setFavorites: async (data) => {
+        set((state) => ({
+            ...state,
+            favorites: data,
+        }));
+    },
 }));
 
 export default useFavoriteStore;

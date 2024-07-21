@@ -1,3 +1,4 @@
+import prisma from "../lib/db.js";
 import db from "../lib/db.js";
 import { removeAccents } from "../utils/removeAccents.js";
 
@@ -96,6 +97,15 @@ const ListingModel = {
             return newListing;
         },
 
+        async getListingByIdAndUserId(listingId, userId) {
+            return await db.listing.findFirst({
+                where: {
+                    userId,
+                    id: listingId,
+                },
+            });
+        },
+
         async getListingById(listingId) {
             return await db.listing.findUnique({
                 where: {
@@ -121,32 +131,46 @@ const ListingModel = {
             });
         },
 
-        async getListingByUserId(userId) {
-            return await db.listing.findMany({
-                where: {
-                    userId: userId,
-                },
-                include: {
-                    images: true,
-                    location: true,
-                    reviews: true,
-                },
-            });
+        async getListingByUserId(userId, page, limit) {
+            const skip = Math.max(0, (page - 1) * limit) || 0;
+            const currentPage = +page || 1;
+            const take = +limit || 10;
+
+            const [totalElement, contents] = await db.$transaction([
+                db.listing.count({
+                    where: {
+                        userId: userId,
+                    },
+                }),
+                db.listing.findMany({
+                    where: {
+                        userId: userId,
+                    },
+                    orderBy: {
+                        createdAt: "desc",
+                    },
+                    include: {
+                        images: true,
+                        location: true,
+                        reviews: true,
+                        listingAmenities: {
+                            include: {
+                                amenity: true,
+                            },
+                        },
+                    },
+                    skip,
+                    take,
+                }),
+            ]);
+            const totalPage = Math.ceil(totalElement / take);
+            return { totalElement, currentPage, totalPage, contents };
         },
 
-        async updateListing(listingId, listingUpdate) {
-            return await db.listing.update({
+        async getCountListingByLocationId(locationId) {
+            return db.listing.count({
                 where: {
-                    id: listingId,
-                },
-                data: listingUpdate,
-            });
-        },
-
-        async deleteListing(listingId) {
-            return await db.listing.delete({
-                where: {
-                    id: listingId,
+                    locationId,
                 },
             });
         },
@@ -166,10 +190,9 @@ const ListingModel = {
             const skip = Math.max(0, (page - 1) * limit);
             const currentPage = +page || 1;
             const take = +limit || 10;
-            const searchTerm = removeAccents(keyword ?? "");
 
             const filters = {
-                NOT: [{ isPublish: true }],
+                AND: [{ isPublish: true }],
             };
 
             if (keyword) {
@@ -246,13 +269,14 @@ const ListingModel = {
                     take,
                     skip,
                     orderBy: {
-                        createdAt: "asc",
+                        createdAt: "desc",
                     },
-                    where: filters,
+                    where: {
+                        ...filters,
+                    },
                     include: {
                         images: true,
                         user: true,
-                        reviews: true,
                         listingTags: {
                             include: {
                                 tag: true,
@@ -315,6 +339,9 @@ const ListingModel = {
                             },
                         },
                     },
+                    orderBy: {
+                        listings: { _count: "desc" },
+                    },
                 });
 
                 return users;
@@ -322,10 +349,121 @@ const ListingModel = {
             return result;
         },
 
-        async getCountListingByLocationId(locationId) {
-            return db.listing.count({
+        async updateListing(listingId, listingUpdate) {
+            return await db.listing.update({
                 where: {
-                    locationId,
+                    id: listingId,
+                },
+                data: listingUpdate,
+                include: {
+                    images: true,
+                    location: true,
+                    listingAmenities: {
+                        include: { amenity: true },
+                    },
+                    user: true,
+                },
+            });
+        },
+
+        async deleteListing(listingId) {
+            return await db.listing.delete({
+                where: {
+                    id: listingId,
+                },
+            });
+        },
+
+        async getNearbyListings(lat, lng, page = 1, limit = 10) {
+            // Sanitize and validate parameters
+            const currentPage = Math.max(1, parseInt(page, 10));
+            const take = Math.max(1, parseInt(limit, 10));
+            const skip = (currentPage - 1) * take;
+
+            try {
+                const listingsResult = await db.$queryRaw`
+                    WITH distance_data AS (
+                        SELECT
+                            id,
+                            ST_Distance(
+                                ST_MakePoint(${lat}, ${lng})::GEOGRAPHY,
+                                ST_MakePoint(latitude, longitude)::GEOGRAPHY
+                            ) AS distance
+                        FROM "Listing"
+                        WHERE ST_Distance(
+                            ST_MakePoint(${lat}, ${lng})::GEOGRAPHY,
+                            ST_MakePoint(latitude, longitude)::GEOGRAPHY
+                        ) < 1000000
+                    ),
+                    total_count AS (
+                        SELECT COUNT(*) as total
+                        FROM distance_data
+                    )
+                    SELECT id, distance, total
+                    FROM distance_data, total_count
+                    ORDER BY distance
+                    LIMIT ${take}
+                    OFFSET ${skip};
+                `;
+
+                const count =
+                    listingsResult.length > 0
+                        ? Number(listingsResult[0].total)
+                        : 0;
+
+                const listingIds = listingsResult.map((item) => item.id);
+                const distances = listingsResult.map((item) => item.distance);
+
+                // Fetch listings data
+                const listings = await db.listing.findMany({
+                    where: {
+                        id: {
+                            in: listingIds,
+                        },
+                    },
+                    include: {
+                        images: true,
+                        user: {
+                            select: {
+                                fullName: true,
+                                email: true,
+                                username: true,
+                                avatarUrl: true,
+                                createdAt: true,
+                                isVerify: true,
+                            },
+                        },
+                    },
+                });
+
+                const listingsWithDistance = listings.map((item, index) => ({
+                    ...item,
+                    distance: distances[index],
+                }));
+
+                const totalPage = Math.ceil(count / take);
+
+                return {
+                    totalElement: count,
+                    currentPage,
+                    totalPage,
+                    contents: listingsWithDistance,
+                };
+            } catch (error) {
+                console.error("Error fetching nearby listings:", error);
+                throw new Error("Could not fetch nearby listings");
+            }
+        },
+
+        async listingsToGeo() {
+            return await prisma.listing.findMany({
+                select: {
+                    longitude: true,
+                    latitude: true,
+                    title: true,
+                    address: true,
+                    price: true,
+                    id: true,
                 },
             });
         },

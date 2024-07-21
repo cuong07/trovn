@@ -1,18 +1,28 @@
-import UserModel from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import { generateRefreshToken, generateToken } from "../utils/tokenUtils.js";
+import fs from "fs";
+
+import UserModel from "../models/user.model.js";
+import { generateRefreshToken, generateToken } from "../utils/token.utils.js";
 import { sendMail } from "../utils/mailer.utils.js";
 import { otpGenerator } from "../utils/otp.utils.js";
 import UserOtpModel from "../models/user.otp.config.js";
 import { otpTemplate } from "../utils/otp.template.utils.js";
-import { verifyToken } from "../middlewares/auth.middleware.js";
+import {
+    verifyRefreshToken,
+    verifyToken,
+} from "../middlewares/auth.middleware.js";
+import { uploader } from "../utils/uploader.js";
+import { analyzeImage } from "../core/analyze.image.js";
+import { bannedTemplate } from "../utils/banned.template.js";
+import { deleteImage } from "../config/cloundinary.js";
+import { logger } from "../config/winston.js";
 
 const UserService = {
     async getUserById(userId) {
         try {
             return await UserModel.methods.getUserById(userId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -21,7 +31,7 @@ const UserService = {
         try {
             return await UserModel.methods.getUserByEmail(email);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -29,8 +39,12 @@ const UserService = {
     async login(email, password) {
         try {
             const existingUser = await UserModel.methods.getUserByEmail(email);
+
             if (!existingUser) {
                 throw new Error("Không tìm thấy người dùng có email: ", email);
+            }
+            if (existingUser.isLooked) {
+                throw new Error("Tài khoản của bạn đã bị vô hiệu hóa");
             }
             const isMatch = await bcrypt.compare(
                 password,
@@ -39,17 +53,19 @@ const UserService = {
             if (!isMatch) {
                 throw new Error("Mật khẩu không chính xác");
             }
+
             const token = generateToken(existingUser);
             const refreshToken = generateRefreshToken(existingUser);
             return { token, refreshToken };
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
     async createUser(userData) {
         try {
+            logger.info("Password: ", userData?.password);
             const hashedPassword = await bcrypt.hash(userData?.password, 8);
             const newUser = {
                 ...userData,
@@ -59,7 +75,7 @@ const UserService = {
 
             return user;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -68,7 +84,66 @@ const UserService = {
         try {
             return await UserModel.methods.updateUser(userId, updatedData);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
+            throw error;
+        }
+    },
+
+    async updateUserAvatar(userId, file) {
+        try {
+            const { path } = file;
+            const newPath = await uploader(path);
+            fs.unlinkSync(path);
+            if (!newPath) {
+                return new Error("Image error");
+            }
+            const user = await UserModel.methods.getUserById(userId);
+
+            const validImage = await analyzeImage(newPath?.url);
+            logger.info("AVATAR: ", JSON.stringify(validImage));
+
+            if (validImage?.isAdultContent) {
+                await deleteImage(newPath.url);
+                await this.checkBanned(userId);
+                throw new Error("Hình ảnh chứa nội dung phản cảm");
+            }
+            if (validImage?.isRacyContent) {
+                await deleteImage(newPath.url);
+                await this.checkBanned(userId);
+                throw new Error("Hình ảnh chứa nội dung không phù hợp");
+            }
+
+            await deleteImage(user.avatarUrl);
+
+            return await UserModel.methods.updateUser(userId, {
+                avatarUrl: newPath?.url,
+            });
+        } catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    },
+
+    async checkBanned(userId) {
+        try {
+            let subject = "";
+            const user = await UserModel.methods.getUserById(userId);
+            if (!user) {
+                throw new Error("Không tìm thấy người dùng");
+            }
+            if (user.violationCount >= 3) {
+                subject = "Tài khoản của bạn đã bị vô hiệu hóa";
+                await UserModel.methods.updateUser(user.id, { isLooked: true });
+            } else {
+                subject = "Cảnh báo hành vi";
+                await UserModel.methods.updateUser(user.id, {
+                    violationCount: user.violationCount + 1,
+                });
+            }
+            let template = bannedTemplate(user.email);
+            sendMail(user.email, subject, template);
+        } catch (error) {
+            logger.error(error);
             throw error;
         }
     },
@@ -77,7 +152,7 @@ const UserService = {
         try {
             return await UserModel.methods.deleteUser(userId);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -101,7 +176,7 @@ const UserService = {
             }
             throw new Error("Otp không chính xác vui lòng nhập lại");
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -119,7 +194,7 @@ const UserService = {
             await UserOtpModel.methods.createUserOtp(newUserOpt);
             sendMail(email, subject, template);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
@@ -136,27 +211,79 @@ const UserService = {
             const token = generateToken(update);
             return token;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
             throw error;
         }
     },
 
     async getUserDetailsFromToken(token) {
-        if (!token) {
-            return {
-                message: "session out",
-                logout: true,
-            };
+        try {
+            if (!token) {
+                return {
+                    message: "session out",
+                    logout: true,
+                };
+            }
+            const user = await verifyToken(token);
+            return await UserModel.methods.getUserById(user.id);
+        } catch (error) {
+            if (error.name === "TokenExpiredError") {
+                logger.warning("Token has expired");
+            } else {
+                logger.error("Token verification failed:", error.message);
+            }
         }
-        const user = await verifyToken(token);
-        return await UserModel.methods.getUserById(user.id);
     },
 
     async getUserByGoogleAccountId(id) {
         try {
             return UserModel.methods.getUserByGoogleAccountId(id);
         } catch (error) {
-            console.log(error);
+            logger.error(error);
+            throw error;
+        }
+    },
+
+    async getUserDetailsFromToken(token) {
+        try {
+            if (!token) {
+                return {
+                    message: "session out",
+                    logout: true,
+                };
+            }
+            const user = await verifyToken(token);
+            return await UserModel.methods.getUserById(user.id);
+        } catch (error) {
+            if (error.name === "TokenExpiredError") {
+                logger.error("Token has expired");
+                // Add logic to refresh token or prompt user to log in again
+            } else {
+                logger.error("Token verification failed:", error.message);
+                // Handle other errors
+            }
+        }
+    },
+
+    async getAllUsers() {
+        try {
+            return await UserModel.methods.getAllUsers();
+        } catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    },
+
+    async refreshToken(token) {
+        try {
+            if (!token) return new Error("Bạn chưa được xác thực");
+            const user = await verifyRefreshToken(token);
+            const existingUser = await this.getUserById(user.id);
+            const newToken = generateToken(existingUser);
+            const newRefreshToken = generateRefreshToken(existingUser);
+            return { newToken, newRefreshToken };
+        } catch (error) {
+            logger.error(error);
             throw error;
         }
     },

@@ -55,11 +55,14 @@ model User {
   address         String  @default("")
   role            Role    @default(USER)
   isPremium       Boolean @default(false)
-  latitude        String? @default("")
-  longitude       String? @default("")
+  latitude        Float?
+  longitude       Float?
   isVerify        Boolean @default(false)
   fullName        String  @default("")
   googleAccountId String  @default("")
+  description     String  @default("")
+  violationCount  Int     @default(0)
+  isLooked        Boolean @default(false)
 
   createdAt              DateTime            @default(now())
   updatedAt              DateTime            @updatedAt
@@ -223,13 +226,19 @@ model Favorite {
 }
 
 model Report {
-  id           String @id @default(uuid())
-  content      String
+  id        String  @id @default(uuid())
+  content   String
+  isActive  Boolean @default(true)
+  isProcess Boolean @default(false)
+
   reporterId   String
   reporterUser User   @relation("reporterUser", fields: [reporterId], references: [id], onDelete: Cascade)
 
   reportedId   String
   reportedUser User   @relation("reportedUser", fields: [reportedId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([reporterId, reportedId])
 }

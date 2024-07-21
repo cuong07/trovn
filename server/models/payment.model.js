@@ -1,103 +1,138 @@
 import db from "../lib/db.js";
 
 const PaymentModel = {
-  methods: {
-    async createPayment(data) {
-      return await db.payment.create({
-        data: data,
-      });
-    },
+    methods: {
+        async createPayment(data) {
+            return await db.payment.create({
+                data: data,
+            });
+        },
 
-    async getPaymentById(id) {
-      return await db.payment.findUnique({
-        where: {
-          id: id,
+        async findByUser(id) {
+            return await db.payment.findMany({
+                where: {
+                    userId: id,
+                },
+                include: {
+                    orderItems: {
+                        include: {
+                            advertisingPackage: true,
+                        },
+                    },
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            });
         },
-      });
-    },
 
-    async getPaymentsByUser(userId) {
-      return await db.payment.findMany({
-        where: {
-          userId: userId,
+        async getPaymentById(id) {
+            return await db.payment.findUnique({
+                where: {
+                    id: id,
+                },
+            });
         },
-      });
-    },
 
-    async getPaymentActiveByUser(userId) {
-      return await db.payment.findFirst({
-        where: {
-          userId: userId,
-          status: true,
-          isActive: true,
+        async getPaymentsByUser(userId) {
+            return await db.payment.findMany({
+                where: {
+                    userId: userId,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            });
         },
-      });
-    },
 
-    async getPaymentStatus(status) {
-      return await db.payment.findMany({
-        where: {
-          status: status,
+        async getPaymentActiveByUser(userId) {
+            return await db.payment.findFirst({
+                where: {
+                    userId: userId,
+                    status: true,
+                    isActive: true,
+                },
+            });
         },
-      });
-    },
 
-    async getUserForTransactionId(transactionId) {
-      const user = await db.payment.findUnique({
-        where: {
-          transactionId: transactionId,
+        async getPaymentStatus(status) {
+            return await db.payment.findMany({
+                where: {
+                    status: status === "true", // Chuyển đổi chuỗi thành boolean
+                },
+                include: {
+                    user: true,
+                },
+                orderBy: {
+                    createdAt: "desc",
+                },
+            });
         },
-        select: {
-          user: true,
-        },
-      });
-      return user;
-    },
 
-    async updatePaymentActive(orderId, status, isActive) {
-      return await db.payment.update({
-        where: {
-          transactionId: orderId,
+        async getUserForTransactionId(transactionId) {
+            const user = await db.payment.findUnique({
+                where: {
+                    transactionId: transactionId,
+                },
+                select: {
+                    user: true,
+                },
+            });
+            return user;
         },
-        data: {
-          status: status,
-          isActive: status,
-        },
-      });
-    },
 
-    async updatePayment(id, data) {
-      return await db.payment.update({
-        where: {
-          id,
+        async updatePaymentActive(orderId, status, isActive) {
+            return await db.payment.update({
+                where: {
+                    transactionId: orderId,
+                },
+                data: {
+                    status: status,
+                    isActive: status,
+                },
+            });
         },
-        data: data,
-      });
-    },
 
-    async deletePayment(paymentId) {
-      return await db.payment.delete({
-        where: {
-          id: paymentId,
+        async updatePayment(id, data) {
+            return await db.payment.update({
+                where: {
+                    id,
+                },
+                data: data,
+            });
         },
-      });
-    },
 
-    async findManyPaymentByDate(startOfDay, endOfDay) {
-      return await db.payment.findMany({
-        where: {
-          createdAt: {
-            gte: startOfDay,
-            lte: endOfDay,
-          },
-          status: true,
+        async deletePayment(paymentId) {
+            return await db.payment.delete({
+                where: {
+                    id: paymentId,
+                },
+            });
         },
-        select: {
-          amount: true,
+
+        async findManyPaymentByDate(startOfDay, endOfDay) {
+            return await db.payment.findMany({
+                where: {
+                    createdAt: {
+                        gte: startOfDay,
+                        lte: endOfDay,
+                    },
+                    status: true,
+                },
+                select: {
+                    amount: true,
+                },
+            });
         },
-      });
+
+        async getPaymentByTransactionId(id) {
+            return await db.payment.findFirst({
+                where: {
+                    transactionId: id,
+                },
+            });
+        },
     },
-  },
 };
 
 export default PaymentModel;

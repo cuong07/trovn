@@ -1,116 +1,184 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      rel="shortcut icon"
-      href="/server/public/logo.svg"
-      type="image/x-icon"
-    />
-    <title>Document</title>
-  </head>
-  <style>
-    body {
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-      justify-content: center;
-      align-items: center;
-    }
-    .containers {
-      padding: 80px;
-      border-radius: 24px;
-      display: flex;
-      width: 50%;
-      flex-direction: column;
-      overflow: hidden;
-      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-      gap: 8px;
-    }
-  </style>
-  <body>
-    <div class="containers">
-      <h1
-        class="text-4xl flex gap-2 justify-center items-center border-b-[2px] mb-8 pb-8 border-[#333]"
-        id="header"
-      >
-        THANH TOÁN THÀNH CÔNG
-        <img
-          src="../images/success.gif"
-          alt="Success"
-          class="rounded-full scale-[1.05] w-[48px] h-[48px]"
-        />
-      </h1>
-      <div class="">
-        <h2 class="text-xl mb-4">Chi tiết đơn hàng</h2>
-        <div id="list" class="flex flex-col gap-2"></div>
-      </div>
-      <div class="flex justify-end mt-8">
-        <a href="http://localhost:5173/host/ads-package" target="_blank">
-          <button
-            class="group p-5 cursor-pointer relative text-xl font-normal border-0 flex items-center justify-center bg-transparent text-red-500 h-auto w-[250px] overflow-hidden transition-all duration-100"
-          >
-            <span
-              class="group-hover:w-full absolute left-0 h-full w-5 border-y border-l border-red-500 transition-all duration-500"
-            >
-            </span>
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Cảnh Báo: Việc Đăng Hình Ảnh Nhạy Cảm</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                width: 80%;
+                margin: 0 auto;
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                background-color: #d9534f;
+                color: #ffffff;
+                padding: 10px 0;
+                text-align: center;
+                border-radius: 10px 10px 0 0;
+            }
+            .content {
+                margin: 20px 0;
+            }
+            .content p {
+                line-height: 1.6;
+            }
+            .footer {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 12px;
+                color: #888888;
+            }
+            .button {
+                background-color: #d9534f;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                display: inline-block;
+            }
+            .button:hover {
+                background-color: #c9302c;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Cảnh Báo: Việc Đăng Hình Ảnh Nhạy Cảm</h1>
+            </div>
+            <div class="content">
+                <p>Kính gửi <strong>{`${to} ,`}</strong></p>
+                <p>
+                    Chúng tôi viết thư này để cảnh báo và nhắc nhở bạn về việc
+                    đăng hình ảnh nhạy cảm trên nền tảng của chúng tôi.
+                </p>
+                <p>
+                    {` Vào ngày ${date}, chúng tôi phát hiện rằng tài khoản của
+                    bạn đã đăng tải một hình ảnh có nội dung nhạy cảm. Hành động
+                    này vi phạm các điều khoản và quy định sử dụng dịch vụ của
+                    chúng tôi. Nội dung nhạy cảm bao gồm, nhưng không giới hạn
+                    ở, hình ảnh có nội dung người lớn, bạo lực, hoặc những nội
+                    dung không phù hợp với chính sách của chúng tôi.`}
+                </p>
+                <p>
+                    Chúng tôi yêu cầu bạn ngay lập tức gỡ bỏ hình ảnh vi phạm
+                    này và kiểm tra lại tất cả các nội dung đã đăng tải để đảm
+                    bảo không có vi phạm tương tự xảy ra trong tương lai. Nếu
+                    bạn không tuân thủ yêu cầu này, tài khoản của bạn có thể bị
+                    tạm ngừng hoặc vô hiệu hóa.
+                </p>
+                <p>
+                    Chúng tôi luôn mong muốn tạo ra một môi trường trực tuyến an
+                    toàn và thân thiện cho tất cả người dùng. Vì vậy, chúng tôi
+                    rất mong nhận được sự hợp tác của bạn trong việc tuân thủ
+                    các quy định và chính sách của chúng tôi.
+                </p>
+                <p>
+                    Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ thêm, vui lòng
+                    liên hệ với chúng tôi qua địa chỉ email [Email Hỗ Trợ] hoặc
+                    số điện thoại [Số Điện Thoại Hỗ Trợ].
+                </p>
+                <p>
+                    Chúng tôi rất cảm ơn sự hợp tác của bạn và hy vọng bạn sẽ
+                    tiếp tục sử dụng dịch vụ của chúng tôi một cách hợp lý và an
+                    toàn.
+                </p>
+                <p>Trân trọng,</p>
+                <p>
+                    Cường <br />Quản trị viên<br />trovn.sender@gmail.com<br />TROVN
+                </p>
+            </div>
+            <div class="footer">
+                <p>© 2024 TROVN. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+</html> -->
 
-            <p
-              class="group-hover:opacity-0 group-hover:translate-x-[-100%] absolute translate-x-0 transition-all duration-200"
-            >
-              Quay lại trang chủ
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cảnh báo Vi phạm</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .header {
+                background-color: #ff4d4d;
+                color: white;
+                text-align: center;
+                padding: 10px;
+                font-size: 24px;
+                font-weight: bold;
+            }
+            .content {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                padding: 20px;
+                margin-top: 20px;
+            }
+            .warning {
+                color: #ff4d4d;
+                font-weight: bold;
+            }
+            .footer {
+                margin-top: 20px;
+                font-size: 12px;
+                color: #777;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">Cảnh báo Vi phạm</div>
+        <div class="content">
+            <p>Kính gửi [Tên người nhận],</p>
+
+            <p>
+                Chúng tôi viết thư này để thông báo rằng chúng tôi đã phát hiện
+                một vi phạm đối với chính sách của chúng tôi từ tài khoản của
+                bạn.
             </p>
 
-            <span
-              class="group-hover:translate-x-0 group-hover:opacity-100 absolute translate-x-full opacity-0 transition-all duration-200"
-              >Cảm ơn!
-            </span>
+            <p class="warning">Chi tiết vi phạm:</p>
+            <ul>
+                <li>Loại vi phạm: [Mô tả loại vi phạm]</li>
+                <li>Thời gian xảy ra: [Ngày và giờ]</li>
+                <li>Địa chỉ IP: [Địa chỉ IP]</li>
+            </ul>
 
-            <span
-              class="group-hover:w-full absolute right-0 h-full w-5 border-y border-r border-red-500 transition-all duration-500"
-            >
-            </span>
-          </button>
-        </a>
-      </div>
-    </div>
-  </body>
-  <script>
-    const header = document.getElementById("header");
-    const list = document.getElementById("list");
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const paramArray = Array.from(urlParams.entries()).map(([name, value]) => ({
-      name,
-      value,
-    }));
-    const resultCodeObject = paramArray.find(
-      (obj) => obj.name === "resultCode"
-    );
-    const resultCodeValue = resultCodeObject
-      ? resultCodeObject.value
-      : "Not found";
+            <p>
+                Chúng tôi yêu cầu bạn xem xét lại các hành động của mình và đảm
+                bảo tuân thủ các điều khoản sử dụng của chúng tôi. Việc tiếp tục
+                vi phạm có thể dẫn đến việc tạm ngưng hoặc chấm dứt tài khoản
+                của bạn.
+            </p>
 
-    if (resultCodeValue != 0) {
-      header.innerText = "THANH TOÁN KHÔNG THÀNH CÔNG";
-    }
+            <p>
+                Nếu bạn tin rằng đây là một sự nhầm lẫn hoặc cần thêm thông tin,
+                vui lòng liên hệ với chúng tôi ngay lập tức.
+            </p>
 
-    let html = "";
-
-    paramArray.forEach((item) => {
-      return (html += `
-        <div class="flex justify-between text-lg">
-          <div class="font-bold">${item.name}</div>  
-          <div class="text-center text-wrap">${item.value}</div>  
+            <p>Trân trọng,<br />[Tên của bạn]<br />[Tên công ty]</p>
         </div>
-      `);
-    });
-
-    list.innerHTML = html;
-
-    console.log(paramArray);
-  </script>
+        <div class="footer">
+            Đây là email tự động. Vui lòng không trả lời email này.
+        </div>
+    </body>
 </html>
