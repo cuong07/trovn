@@ -48,10 +48,10 @@ const Index = () => {
         const token = searchParams.get("token");
         if (token) {
             setToken(token);
+            (async () => {
+                await getCurrentUser();
+            })();
         }
-        (async () => {
-            await getCurrentUser();
-        })();
     }, [searchParams]);
 
     useEffect(() => {
@@ -59,7 +59,6 @@ const Index = () => {
             await getListings();
         })();
     }, [page]);
-
 
     useEffect(() => {
         try {
@@ -108,7 +107,9 @@ const Index = () => {
                         ))}
                     </div>
                 )}
-                {contents.length === 0 && !isLoading && <Empty />}
+                {contents.length === 0 && !isLoading && (
+                    <Empty description="Không tìm thấy phòng nào có các tiện ích trên!" />
+                )}
             </div>
 
             {contents.length < totalElement && (

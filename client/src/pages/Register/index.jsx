@@ -13,16 +13,27 @@ import { LuLogIn } from "react-icons/lu";
 
 const schema = yup
     .object({
-        username: yup.string().min(6).required(),
-        // fullName: yup.string().min(6).required(),
-        email: yup.string().email().required(),
-        password: yup.string().min(8).max(16).required(),
+        username: yup
+            .string()
+            .required("Tên đăng nhập là bắt buộc")
+            .min(6, "Tên đăng nhập tối thiểu 6 ký tự"),
+        email: yup
+            .string()
+            .required("Email là bắt buộc")
+            .email("Email không hợp lệ")
+            .required("Email không hợp lệ"),
+        password: yup
+            .string()
+            .required("Mật khẩu là bắt buộc")
+            .min(8, "Mật khẩu tối thiểu 8 ký tự")
+            .max(16, "Mật khẩu tối đa 16 ký tự"),
         phoneNumber: yup
             .string()
+            .required("Số diện thoại là bắt buộc")
             .matches(
-                /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/
-            )
-            .required("Số diện thoại không hợp lệ"),
+                /^(0|\+84)(\s|\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\d)(\s|\.)?(\d{3})(\s|\.)?(\d{3})$/,
+                "Số điện thoại không hợp lệ"
+            ),
     })
     .required();
 
@@ -40,8 +51,8 @@ const Index = () => {
             username: "",
             // fullName: "",
         },
-        reValidateMode: "onBlur",
-        mode: "onBlur",
+        reValidateMode: "onChange",
+        mode: "onChange",
         resolver: yupResolver(schema),
     });
 
@@ -64,13 +75,13 @@ const Index = () => {
 
     const loginWithGoogle = () => {
         window.open(
-            "http://localhost:8888/api/v1/auth/google/callback",
+            "http://localhost:8891/api/v1/auth/google/callback",
             "_self"
         );
     };
     return (
-        <div className="w-full h-screen lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
-            <div className="flex items-center justify-center py-12">
+        <div className="w-full h-svh lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+            <div className="flex items-center justify-center md:px-0 px-8 py-12">
                 <div className="mx-auto grid w-[400px] gap-6">
                     <div className="grid gap-2 text-center">
                         <h1 className="text-3xl font-bold">Đăng ký</h1>
@@ -85,13 +96,6 @@ const Index = () => {
                             spellCheck
                             className="flex flex-col gap-2"
                         >
-                            {/* <InputField
-                                control={control}
-                                errors={errors.fullName}
-                                label="Họ tên"
-                                name="fullName"
-                                icon={<BiUser size={18} />}
-                            /> */}
                             <InputField
                                 control={control}
                                 errors={errors.username}
@@ -147,7 +151,7 @@ const Index = () => {
                     </div>
                 </div>
             </div>
-            <div className="flex justify-center items-center">
+            <div className="md:flex hidden justify-center items-center">
                 <img src="/login.svg" alt="" className="" />
             </div>
         </div>

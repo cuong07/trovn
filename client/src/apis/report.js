@@ -68,3 +68,19 @@ export const updateReport = async (id, value) => {
     const { data } = await apiClient.put(url, value);
     return data;
 };
+
+export const acceptReport = async (id, userId) => {
+    const url = qs.stringifyUrl({
+        url: ReportV1.UPDATE_REPORTS_ACCEPT + id,
+    });
+    const { data } = await apiClient.put(url, { userId });
+    return data;
+};
+
+export const refuseReport = async (id) => {
+    const url = qs.stringifyUrl({
+        url: ReportV1.UPDATE_REPORTS_REFUSE + id,
+    });
+    const { data } = await apiClient.put(url);
+    return data;
+};

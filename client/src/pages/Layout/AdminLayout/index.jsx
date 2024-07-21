@@ -156,8 +156,11 @@ const App = () => {
                             height: 64,
                         }}
                     />
-                    <div className="mr-4">
-                        Hi <strong>{user?.fullName || user?.username}</strong>
+                    <div className="mr-8 text-xl flex gap-2 items-center">
+                        Hi!
+                        <strong className="">
+                            {user?.fullName || user?.username}
+                        </strong>
                     </div>
                 </Header>
                 <Content

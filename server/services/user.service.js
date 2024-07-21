@@ -17,8 +17,6 @@ import { bannedTemplate } from "../utils/banned.template.js";
 import { deleteImage } from "../config/cloundinary.js";
 import { logger } from "../config/winston.js";
 
-let refreshTokens = [];
-
 const UserService = {
     async getUserById(userId) {
         try {
@@ -58,7 +56,6 @@ const UserService = {
 
             const token = generateToken(existingUser);
             const refreshToken = generateRefreshToken(existingUser);
-            refreshTokens.push(refreshToken);
             return { token, refreshToken };
         } catch (error) {
             logger.error(error);
@@ -279,18 +276,11 @@ const UserService = {
 
     async refreshToken(token) {
         try {
-            logger.info("Refresh service");
-            logger.info("token: ", token);
             if (!token) return new Error("Bạn chưa được xác thực");
-            if (!refreshTokens.includes(token))
-                return new Error("Token không hợp lệ");
-
             const user = await verifyRefreshToken(token);
             const existingUser = await this.getUserById(user.id);
-            refreshTokens = refreshTokens.filter((tk) => tk !== token);
             const newToken = generateToken(existingUser);
             const newRefreshToken = generateRefreshToken(existingUser);
-            refreshTokens.push(newRefreshToken);
             return { newToken, newRefreshToken };
         } catch (error) {
             logger.error(error);

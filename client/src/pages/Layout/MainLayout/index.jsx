@@ -22,10 +22,10 @@ const Index = () => {
             try {
                 const { data } = await getAllAmenity();
                 // const res = await getLocations(1, 10);
-                if (TOKEN) {
-                    await getCurrentUser();
-                }
                 setAmenities(data);
+                // if (TOKEN) {
+                await getCurrentUser();
+                // }
                 // setLocations(res?.data?.contents);
             } catch (error) {
                 console.log(error);

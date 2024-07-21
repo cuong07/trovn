@@ -87,9 +87,9 @@ const Index = () => {
 
     return (
         <div className="">
-            <div className="fixed top-20 bg-white z-50">
-                <div className="grid grid-cols-5">
-                    <div className="ml-20 gap-4 flex  items-center">
+            <div className="fixed top-20 w-full bg-white z-50">
+                <div className="grid grid-cols-5 md:px-0 mx-8">
+                    <div className="md:ml-20 col-span-5 md:col-span-1 gap-4 flex  items-center">
                         <div
                             className="col-span-1 w-fit  relative flex items-center leading-5 gap-2 py-2 px-4 border cursor-pointer hover:bg-slate-50 rounded-lg "
                             onClick={onShow}
@@ -113,7 +113,7 @@ const Index = () => {
                             Xóa bộ lọc
                         </div>
                     </div>
-                    <div className="col-span-4">
+                    <div className="col-span-4 md:block hidden">
                         <SliderFilter
                             data={amenities}
                             count={8}
@@ -122,17 +122,17 @@ const Index = () => {
                         />
                     </div>
                 </div>
-                <div className="mx-20 py-2 text-base font-medium">
+                <div className="md:mx-20 mx-8 py-2 text-base font-medium">
                     {totalElement > 0 &&
                         `Số lượng kết quả cho tìm kiếm ${totalElement} `}
                     {totalElement === 0 && `Không tìm thấy kết quả nào  `}
                 </div>
             </div>
-            <div className="grid mt-36 grid-cols-5 ">
-                <div className="col-span-3 md:px-20 px-6">
+            <div className="md:grid flex mt-36 md:grid-cols-5 grid-cols-1 flex-col-reverse ">
+                <div className="md:col-span-3 grid-cols-5 md:px-20 px-6">
                     {!isLoading && <ProductList data={contents} column={3} />}
                     {contents?.length === 0 && !isLoading && (
-                        <div className="px-20">
+                        <div className="">
                             <h1 className="font-semibold leading-7 text-2xl ">
                                 Không có kết quả tìm kiếm phù hợp
                             </h1>
@@ -143,7 +143,7 @@ const Index = () => {
                         </div>
                     )}
                     {isLoading && (
-                        <div className="grid grid-cols-3 gap-6">
+                        <div className="grid md:grid-cols-3 grid-cols-1  gap-6">
                             {new Array(10).fill(0).map((_, index) => (
                                 <div key={index}>
                                     <div className="w-full mb-2 rounded-xl animate-pulse aspect-square bg-[#F0F0F0]"></div>
@@ -160,7 +160,8 @@ const Index = () => {
                         onChange={(page) => setCurrentPageSearchListing(page)}
                     /> */}
                 </div>
-                <div className="col-span-2 relative flex-1 ">
+
+                <div className="md:col-span-2 grid-cols-5  relative flex-1 ">
                     <div className="sticky top-48 ">
                         <div className=" rounded-lg overflow-hidden h-[700px] ">
                             <MapSearch listings={contents} />

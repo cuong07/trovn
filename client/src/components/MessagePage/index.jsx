@@ -6,6 +6,8 @@ import { Avatar } from "antd";
 import { InputChat, MessageItem } from "..";
 import { LuBadgeCheck } from "react-icons/lu";
 import { cn } from "@/utils/helpers";
+import { ROLE } from "@/constants/role";
+import { BiCheckShield } from "react-icons/bi";
 
 const Index = () => {
     const [allMessages, setAllMessages] = useState([]);
@@ -18,6 +20,8 @@ const Index = () => {
         avatarUrl: "",
         online: false,
         id: "",
+        fullName: "",
+        role: "",
     });
 
     const [message, setMessage] = useState({
@@ -143,21 +147,21 @@ const Index = () => {
                         <FaAngleLeft size={25} />
                     </Link>
                     <div>
-                        <Avatar
-                            width={50}
-                            height={50}
-                            src={dataUser?.avatarUrl}
-                        />
+                        <Avatar size={48} src={dataUser?.avatarUrl} />
                     </div>
-                    <div>
-                        <h3 className="font-semibold text-lg flex items-center gap-1 my-0 text-ellipsis line-clamp-1">
-                            {dataUser?.username}
-                            <LuBadgeCheck className="text-blue-400" size={12} />
-                        </h3>
+                    <div className="flex gap-1 flex-col justify-between">
+                        <Link to={`/user/info/${dataUser?.id}`}>
+                            <h3 className="font-semibold text-xl flex items-center gap-1 my-0 text-ellipsis line-clamp-1">
+                                {dataUser?.fullName || dataUser?.username}
+                                {dataUser?.role === ROLE.ADMIN && (
+                                    <BiCheckShield size={22} color="#0866FF" />
+                                )}
+                            </h3>
+                        </Link>
                         <p className="-my-2 text-sm">
                             {dataUser.online ? (
                                 <div className="text-green-500 flex gap-1 items-center">
-                                    <FaDotCircle size={10} />{" "}
+                                    <FaDotCircle size={10} />
                                     <span>online</span>
                                 </div>
                             ) : (
@@ -168,10 +172,10 @@ const Index = () => {
                 </div>
             </header>
             <div
-                className={`flex flex-col gap-2 px-8 overflow-scroll  flex-grow  ${
+                className={`flex flex-col gap-2 px-8 overflow-scroll mb-10 flex-grow  ${
                     pathname.includes("admin")
-                        ? "md:h-[690px] h-[620px]"
-                        : "md:h-[770px] h-[700px]"
+                        ? "md:h-[690px] h-[400px]"
+                        : "md:h-[700px] h-[400px]"
                 }`}
                 ref={currentMessage}
             >

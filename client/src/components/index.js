@@ -26,3 +26,4 @@ export { default as EmojiPicker } from "./EmojiPicker";
 export { default as LineChartCustom } from "./LineChartCustom";
 export { default as Statistic } from "./Statistic";
 export { default as Counter } from "./Counter";
+export { default as UserMenu } from "./UserMenu";

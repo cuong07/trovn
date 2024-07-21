@@ -146,6 +146,9 @@ const ListingModel = {
                     where: {
                         userId: userId,
                     },
+                    orderBy: {
+                        createdAt: "desc",
+                    },
                     include: {
                         images: true,
                         location: true,
@@ -274,7 +277,6 @@ const ListingModel = {
                     include: {
                         images: true,
                         user: true,
-                        reviews: true,
                         listingTags: {
                             include: {
                                 tag: true,

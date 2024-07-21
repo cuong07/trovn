@@ -26,8 +26,8 @@ const Index = () => {
             locationData.latitude = parseFloat(result.result.center[1]);
             locationData.longitude = parseFloat(result.result.center[0]);
             locationData.name = result.result.text;
-            locationData.city = result.result.context[0].text_vi;
-            locationData.country = result.result.context[1].text_vi;
+            locationData.city = result.result.context[0]?.text_vi;
+            locationData.country = result.result.context[1]?.text_vi;
         }
     }, [result]);
 

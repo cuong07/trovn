@@ -1,5 +1,8 @@
 import { logger } from "../config/winston.js";
 import ReportModel from "../models/report.model.js";
+import { sendMail } from "../utils/mailer.utils.js";
+import { warningTemplate } from "../utils/warning.template.js";
+import UserService from "./user.service.js";
 
 const ReportService = {
     async createReport(data) {
@@ -74,6 +77,39 @@ const ReportService = {
                 page,
                 limit
             );
+        } catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    },
+
+    async accept(id, userId) {
+        try {
+            const user = await UserService.getUserById(userId);
+            if (user) {
+                await UserService.updateUser(userId, {
+                    violationCount: user.violationCount + 1,
+                });
+            }
+            let template = warningTemplate(
+                user.email,
+                `Vi phạm quy tắc cộng đông đây là vi phạm lần thư 0${
+                    user.violationCount + 1
+                } nếu tiếp tục vi phạm 0${
+                    3 - (user.violationCount + 1)
+                } tài khoản của bạn sẽ bị khóa`
+            );
+            sendMail(user.email, "CẢNH BÁO VI PHẠM", template);
+            return await this.updateReport(id, { isActive: false });
+        } catch (error) {
+            logger.error(error);
+            throw error;
+        }
+    },
+
+    async refuse(id) {
+        try {
+            return await this.updateReport(id, { isActive: false });
         } catch (error) {
             logger.error(error);
             throw error;

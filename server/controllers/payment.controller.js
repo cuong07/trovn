@@ -397,6 +397,10 @@ const PaymentController = {
         let currCode = "VND";
         let vnp_Params = {};
 
+        if (locale === null || locale === "") {
+            locale = "vn";
+        }
+
         vnp_Params["vnp_Version"] = "2.1.0";
         vnp_Params["vnp_Command"] = "pay";
         vnp_Params["vnp_TmnCode"] = tmnCode;
@@ -431,7 +435,7 @@ const PaymentController = {
             };
 
             const payment = await PaymentService.createPayment(newPayment);
-
+            logger.info(vnpUrl);
             return res.status(statusCode.OK).json(
                 BaseResponse.success("Thành công", {
                     url: vnpUrl,
