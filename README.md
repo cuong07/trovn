@@ -8,6 +8,7 @@ Welcome to TROVN, a website designed to help you find rental rooms in Vietnam.
 -   **Search Functionality**: Easily find rooms by location, price, and other criteria.
 -   **User Authentication**: Sign up and log in to manage your listings and bookmarks.
 -   **Responsive Design**: Access TROVN from any device with a seamless user experience.
+-   **Detect Iamge**: Detect image
 
 ## Getting Started
 
@@ -61,6 +62,8 @@ Welcome to TROVN, a website designed to help you find rental rooms in Vietnam.
 -   Node.js
 -   Express
 -   Postgres
+-   Socket.io
+-   Redis
 
 ## Contributing
 

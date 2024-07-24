@@ -98,7 +98,7 @@ model Amenity {
   id               String           @id @default(uuid())
   name             String
   description      String           @default("")
-  iconUrl          String
+  iconUrl           String
   listingAmenities ListingAmenity[]
 }
 

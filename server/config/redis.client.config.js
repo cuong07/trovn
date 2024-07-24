@@ -13,7 +13,7 @@ if (process.env.USE_REDIS_CACHE === "true") {
     });
 
     redisClient.on("connect", () => {
-        logger.info("Connected to Redis...");
+        logger.info("Connected Redis Successfully");
     });
 
     redisClient.on("error", (err) => {
