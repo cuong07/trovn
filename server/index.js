@@ -112,8 +112,8 @@ app.get("*", (req, res) => {
 });
 
 server.listen(PORT, "0.0.0.0", () => {
-  logger.info("----------SERVER RUNNING----------");
   logger.info(`-> http://localhost:${PORT}`);
+  logger.info("Start Server Successfully");
 });
 
 // redisClient

@@ -149,3 +149,4 @@
 {"level":"info","message":"6/6/2024 - 08:03:14 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
 {"level":"info","message":"6/6/2024 - 08:03:25 - 127.0.0.1 - POST /user/login - {\"email\":\"user04\",\"password\":\"123456\"}"}
 {"level":"info","message":"6/6/2024 - 08:04:00 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
+{"level":"info","message":"6/6/2024 - 10:27:15 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}

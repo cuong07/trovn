@@ -173,25 +173,6 @@ function Info() {
               <Button onClick={() => setIsModalOpen(true)}>Chọn ảnh</Button>
             </div>
             <div className="mx-16">
-              {/* <div className="border-t-2 mt-10 relative">
-                                    <span className="absolute -top-3 bg-white pr-2 text-slate-400">
-                                        Tổng quan
-                                    </span>
-                                    <p className="my-10">
-                                        Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Ullam itaque,
-                                        molestias dolorem et cum pariatur dolore
-                                        expedita ipsam. Neque recusandae itaque
-                                        nemo aliquam? Cupiditate officia
-                                        officiis distinctio, eius similique
-                                        consequatur.
-                                    </p>
-                                </div> */}
-              {/* <div className="border-t-2 mt-10 relative">
-                                    <span className="absolute -top-3 bg-white pr-2 text-slate-400">
-                                        Thẻ
-                                    </span>
-                                </div> */}
               {currentUser?.id !== id && (
                 <span
                   onClick={() => setIsOpenReport(true)}
@@ -211,10 +192,6 @@ function Info() {
                   <span className="text-3xl font-bold">
                     {user?.fullName || user?.username}
                   </span>
-                  {/* <span className="flex items-center ml-10 pt-2 text-slate-500">
-                                        <AiOutlineEnvironment className="mr-1" />
-                                        {user.address}
-                                    </span> */}
                   <Tooltip arrow title="Người quản trị">
                     {user?.role === ROLE.ADMIN && (
                       <BiCheckShield size={26} color="#0866FF" />
@@ -238,41 +215,19 @@ function Info() {
                     </Button>
                   )}
                 </div>
-                {/*
-                                    <span className="text-xs ">Vai trò:</span>
-                                    <span className="text-xs text-cyan-400">
-                                        {user.role}
-                                    </span>
-                                    {user.role === "HOST" ? (
-                                        <span>
-                                            {user.isPremium
-                                                ? "- Normal"
-                                                : "isPremium"}
-                                        </span>
-                                    ) : (
-                                        ""
-                                    )} */}
               </div>
-              {/* <div>
-                                    <p className="text-xs">
-                                        Xếp loại người dùng
-                                    </p>
-                                    <p className="text-cyan-600 text-base">
-                                        Normal
-                                    </p>
-                                </div> */}
               <div className="flex">
                 <Link
                   to={`/chat/${user.id}`}
-                  className="flex text-base hover:text-sky-600 items-center cursor-pointer mr-3 cursor-default"
+                  className="flex text-base hover:text-sky-600 items-center cursor-pointer mr-3"
                 >
                   <AiFillMessage className="mr-1 my-auto size-6" /> Gửi tin nhắn
                 </Link>
-                <span className="flex text-base hover:text-sky-600 items-center cursor-pointer mx-3 cursor-default">
+                <span className="flex text-base hover:text-sky-600 items-center cursor-pointer mx-3">
                   <AiOutlineSend className="mr-1 my-auto size-6" />
                   Zalo
                 </span>
-                <span className="flex text-base hover:text-sky-600 items-center cursor-pointer mx-3 cursor-default">
+                <span className="flex text-base hover:text-sky-600 items-center cursor-pointer mx-3">
                   <AiFillPhone className="mr-1 my-auto size-6" />
                   Liên hệ qua SĐT
                 </span>
@@ -350,7 +305,6 @@ function Info() {
       </Modal>
       <Modal
         visible={isOpenReport}
-        // title="Cập nhật hình đại diện"
         okText="Xác nhận"
         cancelText="Thoát"
         mask

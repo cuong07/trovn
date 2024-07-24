@@ -98,6 +98,7 @@ const Index = () => {
                 }}
               />
             </Link>
+            {/* <div></div> */}
           </div>
           <div className="md:w-[400px] md:block hidden ">
             <SearchInput />
