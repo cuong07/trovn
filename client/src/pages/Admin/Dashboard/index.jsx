@@ -72,7 +72,7 @@ const Index = () => {
       dataIndex: "email",
       key: "email",
       render: (text, record) => (
-        <Link to={`/user/info/${record.id}`} className="text-base">
+        <Link to={`/user/new-info/${record.id}`} className="text-base">
           {text}
         </Link>
       ),

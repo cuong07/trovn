@@ -127,8 +127,8 @@ const Index = () => {
           {totalElement === 0 && `Không tìm thấy kết quả nào  `}
         </div>
       </div>
-      <div className="md:grid flex mt-36 md:grid-cols-5 grid-cols-1 flex-col-reverse ">
-        <div className="md:col-span-3 grid-cols-5 md:px-6 px-2">
+      <div className="md:grid flex md:mt-36 mt-2 md:grid-cols-5 grid-cols-1 flex-col-reverse ">
+        <div className="md:col-span-3 md:mt-0 mt-8 grid-cols-5 md:px-6 px-2">
           {!isLoading && <ProductList data={contents} column={3} />}
           {contents?.length === 0 && !isLoading && (
             <div className="">
@@ -151,15 +151,7 @@ const Index = () => {
               ))}
             </div>
           )}
-          {/* <Pagination
-                        defaultCurrent={1}
-                        total={totalPage}
-                        pageSize={limit}
-                        current={currentPage}
-                        onChange={(page) => setCurrentPageSearchListing(page)}
-                    /> */}
         </div>
-
         <div className="md:col-span-2 grid-cols-5  relative flex-1 ">
           <div className="sticky top-48 ">
             <div className=" rounded-lg overflow-hidden h-[740px] ">

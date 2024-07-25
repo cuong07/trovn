@@ -10,199 +10,197 @@ import { ROLE } from "@/constants/role";
 import { BiCheckShield } from "react-icons/bi";
 
 const Index = () => {
-    const [allMessages, setAllMessages] = useState([]);
-    const currentMessage = useRef(null);
-    const typingTimeoutRef = useRef(null);
+  const [allMessages, setAllMessages] = useState([]);
+  const currentMessage = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
-    const [dataUser, setDataUser] = useState({
-        username: "",
-        email: "",
-        avatarUrl: "",
-        online: false,
-        id: "",
-        fullName: "",
-        role: "",
-    });
+  const [dataUser, setDataUser] = useState({
+    username: "",
+    email: "",
+    avatarUrl: "",
+    online: false,
+    id: "",
+    fullName: "",
+    role: "",
+  });
 
-    const [message, setMessage] = useState({
-        text: "",
-    });
+  const [message, setMessage] = useState({
+    text: "",
+  });
 
-    const [isTyping, setIsTyping] = useState(false);
-    const [otherUserTyping, setOtherUserTyping] = useState(false);
-    const bottomRef = useRef(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const [otherUserTyping, setOtherUserTyping] = useState(false);
+  const bottomRef = useRef(null);
 
-    const { id } = useParams();
-    const { user, socketConnection } = useUserStore();
+  const { id } = useParams();
+  const { user, socketConnection } = useUserStore();
 
-    useEffect(() => {
-        if (socketConnection) {
-            socketConnection.emit("messagePage", id);
+  useEffect(() => {
+    if (socketConnection) {
+      socketConnection.emit("messagePage", id);
 
-            const handleMessageUser = (data) => {
-                setDataUser(data);
-            };
+      const handleMessageUser = (data) => {
+        setDataUser(data);
+      };
 
-            const handleMessage = (data) => {
-                if (data.conversationId === id) {
-                    setAllMessages(data.messages);
-                    socketConnection.emit("seen", id);
-                }
-            };
-
-            const handleTyping = () => {
-                setOtherUserTyping(true);
-            };
-
-            const handleStopTyping = () => {
-                setOtherUserTyping(false);
-            };
-
-            socketConnection.on("messageUser", handleMessageUser);
-            socketConnection.on("message", handleMessage);
-            socketConnection.on("typing", handleTyping);
-            socketConnection.on("stopTyping", handleStopTyping);
-
-            return () => {
-                socketConnection.off("messageUser", handleMessageUser);
-                socketConnection.off("message", handleMessage);
-                socketConnection.off("typing", handleTyping);
-                socketConnection.off("stopTyping", handleStopTyping);
-            };
+      const handleMessage = (data) => {
+        if (data.conversationId === id) {
+          setAllMessages(data.messages);
+          socketConnection.emit("seen", id);
         }
-    }, [socketConnection, id, user]);
+      };
 
-    const handleOnChange = (e) => {
-        const { value } = e.target;
-        setMessage((prev) => ({
-            ...prev,
-            text: value,
-        }));
-        if (socketConnection) {
-            if (!isTyping) {
-                setIsTyping(true);
-                socketConnection.emit("typing", id);
-            }
+      const handleTyping = () => {
+        setOtherUserTyping(true);
+      };
 
-            if (typingTimeoutRef.current) {
-                clearTimeout(typingTimeoutRef.current);
-            }
+      const handleStopTyping = () => {
+        setOtherUserTyping(false);
+      };
 
-            typingTimeoutRef.current = setTimeout(() => {
-                setIsTyping(false);
-                socketConnection.emit("stopTyping", id);
-            }, 2000);
-        }
-    };
+      socketConnection.on("messageUser", handleMessageUser);
+      socketConnection.on("message", handleMessage);
+      socketConnection.on("typing", handleTyping);
+      socketConnection.on("stopTyping", handleStopTyping);
 
-    const handleSendMessage = (e) => {
-        e.preventDefault();
+      return () => {
+        socketConnection.off("messageUser", handleMessageUser);
+        socketConnection.off("message", handleMessage);
+        socketConnection.off("typing", handleTyping);
+        socketConnection.off("stopTyping", handleStopTyping);
+      };
+    }
+  }, [socketConnection, id, user]);
 
-        if (message.text) {
-            if (socketConnection) {
-                socketConnection.emit("newMessage", {
-                    sender: user?.id,
-                    senderName: user?.fullName ?? user?.username,
-                    receiver: id,
-                    text: message.text,
-                    userId: user?.id,
-                });
-                setMessage({
-                    text: "",
-                });
-                setIsTyping(false);
-                socketConnection.emit("stopTyping", id);
-            }
-        }
-    };
+  const handleOnChange = (e) => {
+    const { value } = e.target;
+    setMessage((prev) => ({
+      ...prev,
+      text: value,
+    }));
+    if (socketConnection) {
+      if (!isTyping) {
+        setIsTyping(true);
+        socketConnection.emit("typing", id);
+      }
 
-    const onEmojiClick = (emojiObject) => {
-        setMessage((prevMessage) => ({
-            text: prevMessage.text + emojiObject,
-        }));
-    };
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
 
-    useEffect(() => {
-        if (bottomRef.current) {
-            bottomRef.current.scrollIntoView({
-                behavior: "smooth",
-                block: "end",
-            });
-        }
-    }, [allMessages, otherUserTyping]);
+      typingTimeoutRef.current = setTimeout(() => {
+        setIsTyping(false);
+        socketConnection.emit("stopTyping", id);
+      }, 2000);
+    }
+  };
 
-    const { pathname } = useLocation();
-    return (
-        <div
-            className={
-                cn(
-                    " h-full flex flex-col border-l ",
-                    pathname.includes("admin")
-                ) && "border-t h-[200px] "
-            }
-        >
-            <header className="h-16 sticky top-0 bg-white flex justify-between border-b items-center px-4">
-                <div className="flex items-center gap-4">
-                    <Link to={"/chat"} className="lg:hidden">
-                        <FaAngleLeft size={25} />
-                    </Link>
-                    <div>
-                        <Avatar size={48} src={dataUser?.avatarUrl} />
-                    </div>
-                    <div className="flex gap-1 flex-col justify-between">
-                        <Link to={`/user/info/${dataUser?.id}`}>
-                            <h3 className="font-semibold text-xl flex items-center gap-1 my-0 text-ellipsis line-clamp-1">
-                                {dataUser?.fullName || dataUser?.username}
-                                {dataUser?.role === ROLE.ADMIN && (
-                                    <BiCheckShield size={22} color="#0866FF" />
-                                )}
-                            </h3>
-                        </Link>
-                        <p className="-my-2 text-sm">
-                            {dataUser.online ? (
-                                <div className="text-green-500 flex gap-1 items-center">
-                                    <FaDotCircle size={10} />
-                                    <span>online</span>
-                                </div>
-                            ) : (
-                                <span className="text-slate-400">offline</span>
-                            )}
-                        </p>
-                    </div>
-                </div>
-            </header>
-            <div
-                className={`flex flex-col gap-2 px-8 overflow-scroll mb-10 flex-grow  ${
-                    pathname.includes("admin")
-                        ? "md:h-[690px] h-[400px]"
-                        : "md:h-[700px] h-[400px]"
-                }`}
-                ref={currentMessage}
-            >
-                {allMessages.map((msg) => (
-                    <MessageItem message={msg} meId={user?.id} key={msg?.id} />
-                ))}
-                {otherUserTyping && (
-                    <div className="">
-                        <img
-                            className=" w-20 h-10 object-cover rounded-t-xl border rounded-br-xl  shadow-lg"
-                            src="https://assets-v2.lottiefiles.com/a/ebd78ab6-1177-11ee-850f-cb40fdafcf3e/PAX68whfkT.gif"
-                            alt="typing..."
-                        />
-                    </div>
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+
+    if (message.text) {
+      if (socketConnection) {
+        socketConnection.emit("newMessage", {
+          sender: user?.id,
+          senderName: user?.fullName ?? user?.username,
+          receiver: id,
+          text: message.text,
+          userId: user?.id,
+        });
+        setMessage({
+          text: "",
+        });
+        setIsTyping(false);
+        socketConnection.emit("stopTyping", id);
+      }
+    }
+  };
+
+  const onEmojiClick = (emojiObject) => {
+    setMessage((prevMessage) => ({
+      text: prevMessage.text + emojiObject,
+    }));
+  };
+
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [allMessages, otherUserTyping]);
+
+  const { pathname } = useLocation();
+  return (
+    <div
+      className={
+        cn(" h-full flex flex-col border-l ", pathname.includes("admin")) &&
+        "border-t h-[200px] "
+      }
+    >
+      <header className="h-16 sticky top-0 bg-white flex justify-between border-b items-center px-4">
+        <div className="flex items-center gap-4">
+          <Link to={"/chat"} className="lg:hidden">
+            <FaAngleLeft size={25} />
+          </Link>
+          <div>
+            <Avatar size={48} src={dataUser?.avatarUrl} />
+          </div>
+          <div className="flex gap-1 flex-col justify-between">
+            <Link to={`/user/new-info/${dataUser?.id}`}>
+              <h3 className="font-semibold text-xl flex items-center gap-1 my-0 text-ellipsis line-clamp-1">
+                {dataUser?.fullName || dataUser?.username}
+                {dataUser?.role === ROLE.ADMIN && (
+                  <BiCheckShield size={22} color="#0866FF" />
                 )}
-                <div ref={bottomRef}></div>
-            </div>
-            <div className="sticky h-20  bottom-0 w-full ">
-                <InputChat
-                    message={message}
-                    handleOnChange={handleOnChange}
-                    handleSendMessage={handleSendMessage}
-                    onEmojiClick={onEmojiClick}
-                />
-            </div>
+              </h3>
+            </Link>
+            <p className="-my-2 text-sm">
+              {dataUser.online ? (
+                <div className="text-green-500 flex gap-1 items-center">
+                  <FaDotCircle size={10} />
+                  <span>online</span>
+                </div>
+              ) : (
+                <span className="text-slate-400">offline</span>
+              )}
+            </p>
+          </div>
         </div>
-    );
+      </header>
+      <div
+        className={`flex flex-col gap-2 px-8 overflow-scroll mb-10 flex-grow  ${
+          pathname.includes("admin")
+            ? "md:h-[690px] h-[400px]"
+            : "md:h-[700px] h-[400px]"
+        }`}
+        ref={currentMessage}
+      >
+        {allMessages.map((msg) => (
+          <MessageItem message={msg} meId={user?.id} key={msg?.id} />
+        ))}
+        {otherUserTyping && (
+          <div className="">
+            <img
+              className=" w-20 h-10 object-cover rounded-t-xl border rounded-br-xl  shadow-lg"
+              src="https://assets-v2.lottiefiles.com/a/ebd78ab6-1177-11ee-850f-cb40fdafcf3e/PAX68whfkT.gif"
+              alt="typing..."
+            />
+          </div>
+        )}
+        <div ref={bottomRef}></div>
+      </div>
+      <div className="sticky h-20  bottom-0 w-full ">
+        <InputChat
+          message={message}
+          handleOnChange={handleOnChange}
+          handleSendMessage={handleSendMessage}
+          onEmojiClick={onEmojiClick}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Index;

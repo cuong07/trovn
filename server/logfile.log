@@ -150,3 +150,12 @@
 {"level":"info","message":"6/6/2024 - 08:03:25 - 127.0.0.1 - POST /user/login - {\"email\":\"user04\",\"password\":\"123456\"}"}
 {"level":"info","message":"6/6/2024 - 08:04:00 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
 {"level":"info","message":"6/6/2024 - 10:27:15 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 21:06:45 - 127.0.0.1 - POST /user/login - {\"email\":\"user03\",\"password\":\"123456\"}"}
+{"level":"info","message":"3/6/2024 - 21:06:58 - 127.0.0.1 - POST /user/login - {\"email\":\"user06\",\"password\":\"12345678\"}"}
+{"level":"info","message":"3/6/2024 - 21:07:01 - 127.0.0.1 - POST /user/login - {\"email\":\"user06\",\"password\":\"123456789\"}"}
+{"level":"info","message":"3/6/2024 - 21:46:55 - 127.0.0.1 - POST /user/login - {\"email\":\"user02\",\"password\":\"123456\"}"}
+{"level":"info","message":"3/6/2024 - 21:46:58 - 127.0.0.1 - POST /user/login - {\"email\":\"user02\",\"password\":\"12345678\"}"}
+{"level":"info","message":"3/6/2024 - 21:55:56 - 127.0.0.1 - POST /user/login - {\"email\":\"user02\",\"password\":\"12345678\"}"}
+{"level":"info","message":"3/6/2024 - 21:58:09 - 127.0.0.1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 22:08:50 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
+{"level":"info","message":"3/6/2024 - 22:12:18 - 127.0.0.1 - POST /user/login - {\"email\":\"botcuong06\",\"password\":\"12345678\"}"}
