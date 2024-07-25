@@ -91,12 +91,7 @@ const Index = () => {
         <div className="flex md:gap-9 gap-2 items-center">
           <div className="font-bold text-2xl tracking-wider">
             <Link to="/">
-              <LogoSvg
-                style={{
-                  width: 80,
-                  height: 80,
-                }}
-              />
+              <LogoSvg className="md:size-20 size-16" />
             </Link>
             {/* <div></div> */}
           </div>

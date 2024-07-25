@@ -15,6 +15,7 @@ const LogoSvg = (props) => {
       style={{
         ...props.style,
       }}
+      {...props}
     >
       <defs>
         <g />

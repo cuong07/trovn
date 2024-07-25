@@ -17,7 +17,7 @@ const BuyBox = ({ listing, user }) => {
   };
   return (
     <div className="relative h-full w-full  ">
-      <div className=" sticky rounded-lg overflow-hidden shadow-lg top-[100px] border-t-4 border-[#A86FF7]">
+      <div className=" sticky rounded-lg overflow-hidden shadow-lg top-[100px] md:border-t-4 border-[#A86FF7]">
         <div className="w-full p-4  shadow-md flex flex-col gap-4 ">
           <div>
             <div className="uppercase tracking-widest mb-2 ">Giá phòng</div>
