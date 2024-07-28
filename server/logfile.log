@@ -159,3 +159,4 @@
 {"level":"info","message":"3/6/2024 - 21:58:09 - 127.0.0.1 - POST /user/login - {\"email\":\"admin\",\"password\":\"admin\"}"}
 {"level":"info","message":"3/6/2024 - 22:08:50 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}
 {"level":"info","message":"3/6/2024 - 22:12:18 - 127.0.0.1 - POST /user/login - {\"email\":\"botcuong06\",\"password\":\"12345678\"}"}
+{"level":"info","message":"4/6/2024 - 21:33:50 - 127.0.0.1 - POST /user/login - {\"email\":\"admin@gmail.com\",\"password\":\"admin\"}"}

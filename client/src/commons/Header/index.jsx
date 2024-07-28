@@ -1,13 +1,14 @@
 import { Flex, Input, Modal, Tooltip, message, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { FiBell, FiHeart, FiMessageCircle } from "react-icons/fi";
+import { FiHeart, FiMessageCircle } from "react-icons/fi";
 
 import { LogoSvg } from "@/components/Icons";
 import { getEmailOtp, getVerifyEmailOtp } from "@/apis/user";
 import useConversationStore from "@/hooks/useConversationStore";
 import useUserStore from "@/hooks/useUserStore";
-import { Button, SearchInput, UserMenu } from "@/components";
+import { SearchInput, UserMenu } from "@/components";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -104,8 +105,9 @@ const Index = () => {
         </div>
         <Flex gap={24} align="center" justify="center">
           <Button
-            type="primary"
-            className="rounded-full h-9 md:block hidden "
+            // type="secondary"
+            variant="outline"
+            // className="rounded-full h-9 md:block hidden "
             onClick={handleClickHosting}
           >
             Trở thành chủ nhà
@@ -137,13 +139,6 @@ const Index = () => {
                 )}
               </div>
             </Tooltip>
-            {/* <Tooltip placement="bottom" title="Thông báo">
-              <FiBell
-                size={20}
-                className="cursor-pointer"
-                onClick={() => handleNavigate("notification")}
-              />
-            </Tooltip> */}
           </Flex>
           <UserMenu />
         </Flex>
