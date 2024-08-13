@@ -65,16 +65,16 @@ app.set("view engine", "jade");
 app.use(passport.initialize());
 app.use(passport.session());
 
-const limiter = rateLimit({
-  skip: (req, res) => req.isLoggedIn,
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-  standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-});
+// const limiter = rateLimit({
+//   skip: (req, res) => req.isLoggedIn,
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   limit: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+//   standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+//   legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+// });
 
-// Apply the rate limiting middleware to all requests.
-app.use(limiter);
+// // Apply the rate limiting middleware to all requests.
+// app.use(limiter);
 
 // TODO: Routes
 app.use("/api/v1", UserRoutes);
