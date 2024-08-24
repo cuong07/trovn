@@ -1,0 +1,15 @@
+config:
+  target: "http://localhost:5173"
+  phases:
+    - duration: 60
+      arrivalRate: 500
+  plugins:
+    socketio: {}
+scenarios:
+  - engine: "socketio"
+    flow:
+      - emit:
+          channel: "newMessage"
+          data:
+            text: "Hello, World!"
+      - wait: 5

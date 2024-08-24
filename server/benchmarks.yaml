@@ -2,7 +2,7 @@ config:
   target: "http://localhost:8891/api/v1/"
   phases:
     - duration: 10 # Kiểm tra trong 60 giây
-      arrivalRate: 100 # Số lượng yêu cầu mỗi giây
+      arrivalRate: 1000 # Số lượng yêu cầu mỗi giây
 scenarios:
   - flow:
       - get:

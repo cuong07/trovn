@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Form, message } from "antd";
+import { message } from "antd";
 import { Button, InputField } from "@/components";
 import { register } from "@/apis/user";
 import { BiPhone, BiUser } from "react-icons/bi";
@@ -10,6 +10,7 @@ import { CiMail } from "react-icons/ci";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { NavLink, useNavigate } from "react-router-dom";
 import { LuLogIn } from "react-icons/lu";
+import { Form } from "@/components/ui/form";
 
 const schema = yup
     .object({
@@ -39,11 +40,7 @@ const schema = yup
 
 const Index = () => {
     const navigate = useNavigate();
-    const {
-        formState: { errors, isSubmitting },
-        getValues,
-        control,
-    } = useForm({
+    const form = useForm({
         defaultValues: {
             email: "",
             password: "",
@@ -57,7 +54,7 @@ const Index = () => {
     });
 
     const onSubmit = async () => {
-        const value = getValues();
+        const value = form.getValues();
         try {
             const { data, success } = await register(value);
             if (success) {
@@ -91,62 +88,60 @@ const Index = () => {
                         </p>
                     </div>
                     <div className="grid gap-4">
-                        <Form
-                            layout="vertical"
-                            spellCheck
-                            className="flex flex-col gap-2"
-                        >
-                            <InputField
-                                control={control}
-                                errors={errors.username}
-                                label="Tên đăng nhập"
-                                name="username"
-                                icon={<BiUser size={18} />}
-                            />
-                            <InputField
-                                control={control}
-                                errors={errors.email}
-                                label="Email"
-                                name="email"
-                                icon={<CiMail size={18} />}
-                            />
-                            <InputField
-                                control={control}
-                                errors={errors.phoneNumber}
-                                label="Số điện thoại"
-                                name="phoneNumber"
-                                icon={<BiPhone size={18} />}
-                            />
-                            <InputField
-                                control={control}
-                                errors={errors.password}
-                                label="Mật khẩu"
-                                name="password"
-                                type="password"
-                                icon={<RiLockPasswordLine size={18} />}
-                            />
-                            <div className="flex justify-end text-sm ">
-                                <NavLink to="/login">
-                                    Bạn đã có tài khản?
-                                </NavLink>
-                            </div>
-                            <div className="mt-8 flex flex-col gap-4">
-                                <Button
-                                    type="primary"
-                                    onClick={onSubmit}
-                                    loading={isSubmitting}
-                                >
-                                    <LuLogIn className="mr-2" size={18} /> Đăng
-                                    ký
-                                </Button>
-                                <Button
-                                    type="default"
-                                    onClick={loginWithGoogle}
-                                >
-                                    <BsGoogle className="mr-2" size={18} /> Đăng
-                                    nhập với Google
-                                </Button>
-                            </div>
+                        <Form {...form}>
+                            <form>
+                                <InputField
+                                    control={form.control}
+                                    errors={form.formState.errors.username}
+                                    label="Tên đăng nhập"
+                                    name="username"
+                                    icon={<BiUser size={18} />}
+                                />
+                                <InputField
+                                    control={form.control}
+                                    errors={form.formState.errors.email}
+                                    label="Email"
+                                    name="email"
+                                    icon={<CiMail size={18} />}
+                                />
+                                <InputField
+                                    control={form.control}
+                                    errors={form.formState.errors.phoneNumber}
+                                    label="Số điện thoại"
+                                    name="phoneNumber"
+                                    icon={<BiPhone size={18} />}
+                                />
+                                <InputField
+                                    control={form.control}
+                                    errors={form.formState.errors.password}
+                                    label="Mật khẩu"
+                                    name="password"
+                                    type="password"
+                                    icon={<RiLockPasswordLine size={18} />}
+                                />
+                                <div className="flex justify-end text-sm ">
+                                    <NavLink to="/login">
+                                        Bạn đã có tài khản?
+                                    </NavLink>
+                                </div>
+                                <div className="mt-8 flex flex-col gap-4">
+                                    <Button
+                                        type="primary"
+                                        onClick={onSubmit}
+                                        loading={form.formState.isSubmitting}
+                                    >
+                                        <LuLogIn className="mr-2" size={18} />{" "}
+                                        Đăng ký
+                                    </Button>
+                                    <Button
+                                        type="default"
+                                        onClick={loginWithGoogle}
+                                    >
+                                        <BsGoogle className="mr-2" size={18} />{" "}
+                                        Đăng nhập với Google
+                                    </Button>
+                                </div>
+                            </form>
                         </Form>
                     </div>
                 </div>

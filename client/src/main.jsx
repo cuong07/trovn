@@ -1,9 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { ConfigProvider } from "antd";
 
-import App from "./App";
-import "./index.css";
-
+import App from "@/App";
+import "@/index.css";
+import { ModalProvider } from "./providers/ModalProvider";
+import { Toaster } from 'sonner'
 ReactDOM.createRoot(document.getElementById("root")).render(
     <ConfigProvider
         theme={{
@@ -16,6 +17,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             },
         }}
     >
+        <Toaster/>
+        <ModalProvider />
         <App />
     </ConfigProvider>
 );

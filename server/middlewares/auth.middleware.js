@@ -14,7 +14,7 @@ export const verifyToken = (authorization) => {
         if (authorization) {
             const accessToken = authorization.split(" ")[1];
             jwt.verify(accessToken, process.env.SECRET_KEY, (err, user) => {
-                if (err) {
+                if (err) {    
                     if (err.name === "TokenExpiredError") {
                         reject({
                             name: "TokenExpiredError",

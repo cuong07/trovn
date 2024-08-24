@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node --watch --trace-warnings index.js",
+    "start": "node --watch index.js",
     "postinstall": "prisma generate",
     "build": "prisma generate && vite build"
   },
@@ -45,6 +45,7 @@
     "winston": "^3.13.1"
   },
   "devDependencies": {
+    "loadtest": "^8.0.9",
     "prisma": "^5.12.1"
   }
 }

@@ -4,7 +4,11 @@ import AdvertisingPackageModel from "../models/advertising.package.model.js";
 const AdvertisingPackageService = {
     async createAdPackage(data) {
         try {
-            return await AdvertisingPackageModel.methods.createAdPackage(data);
+            return await AdvertisingPackageModel.methods.createAdPackage({
+                ...data,
+                duration: parseInt(data.duration),
+                price: parseFloat(data.price),
+            });
         } catch (error) {
             logger.error(error);
             throw error;
