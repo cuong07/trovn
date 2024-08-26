@@ -9,12 +9,12 @@ router.get("/advertising-packages", AdvertisingPackageController.getAdsPack);
 router.post(
   "/advertising-package",
   verifyTokenWithAdmin,
-  AdvertisingPackageController.createAdPackage
+  AdvertisingPackageController.createAdPackage,
 );
 router.delete(
   "/advertising-package/:id",
   verifyTokenWithAdmin,
-  AdvertisingPackageController.deleteAdPackage
+  AdvertisingPackageController.deleteAdPackage,
 );
 
 export default router;
